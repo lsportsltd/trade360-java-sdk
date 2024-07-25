@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.common.keepalive;
+package com.lsports.trade360_java_sdk.common.entities.keepalive;
 
 public class KeepAlive {
 
