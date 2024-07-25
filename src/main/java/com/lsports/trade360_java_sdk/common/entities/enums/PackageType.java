@@ -1,14 +1,12 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
-enum CompetitionTypeEnum {
-    NotSet (0),
-    Track (1),
-    League (3),
-    Season (4);
+public enum PackageType {
+    InPlay (1),
+    PreMatch (2);
 
     private int value;
 
-    private CompetitionTypeEnum(int value) {
+    PackageType(int value) {
         this.value = value;
     }
 
