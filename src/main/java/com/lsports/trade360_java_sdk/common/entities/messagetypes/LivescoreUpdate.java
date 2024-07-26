@@ -4,7 +4,7 @@ import com.lsports.trade360_java_sdk.common.entities.livescore.LivescoreEvent;
 
 public class LivescoreUpdate {
 
-    public final int EntityKey = 2;
+    public final int entityKey = 2;
 
-    public Iterable<LivescoreEvent> Events;
+    public Iterable<LivescoreEvent> events;
 }

@@ -2,11 +2,11 @@ package com.lsports.trade360_java_sdk.common.entities.markets;
 
 public class Market {
 
-    public int Id;
+    public int id;
 
-    public String Name;
+    public String name;
 
-    public Iterable<Bet> Bets;
+    public Iterable<Bet> bets;
 
-    public String MainLine;
+    public String mainLine;
 }

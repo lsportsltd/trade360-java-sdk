@@ -5,7 +5,7 @@ import com.lsports.trade360_java_sdk.common.entities.outright.*;
 
 public class OutrightSettlementsUpdate {
 
-    public final int EntityKey = 42;
+    public final int entityKey = 42;
 
-    public Iterable<OutrightCompetition<MarketEvent>> Competitions;
+    public Iterable<OutrightCompetition<MarketEvent>> competitions;
 }

@@ -2,13 +2,13 @@ package com.lsports.trade360_java_sdk.common.entities.fixtures;
 
 public class Participant {
 
-    public int Id;
+    public int id;
 
-    public String Name;
+    public String name;
 
-    public String Position;
+    public String position;
 
-    public Integer RotationId;
+    public Integer rotationId;
 
-    public int IsActive = -1;
+    public int isActive = -1;
 }

@@ -2,17 +2,17 @@ package com.lsports.trade360_java_sdk.common.entities.livescore;
 
 public class Incident {
 
-    public int Period;
+    public int period;
 
-    public int IncidentType;
+    public int incidentType;
 
-    public int Seconds;
+    public int seconds;
 
-    public String ParticipantPosition;
+    public String participantPosition;
 
-    public String PlayerId;
+    public String playerId;
 
-    public String PlayerName;
+    public String playerName;
 
-    public Iterable<Result> Results;
+    public Iterable<Result> results;
 }

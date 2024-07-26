@@ -4,13 +4,13 @@ import com.lsports.trade360_java_sdk.common.entities.enums.*;
 
 public class Scoreboard {
     
-    public FixtureStatus Status;
+    public FixtureStatus status;
 
-    public StatusDescription Description;
+    public StatusDescription description;
 
-    public int CurrentPeriod;
+    public int currentPeriod;
 
-    public String Time;
+    public String time;
 
-    public Iterable<Result> Results;
+    public Iterable<Result> results;
 }

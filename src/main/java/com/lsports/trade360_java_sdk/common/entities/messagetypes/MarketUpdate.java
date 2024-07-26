@@ -4,7 +4,7 @@ import com.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
 
 public class MarketUpdate {
 
-    public final int EntityKey = 3;
+    public final int entityKey = 3;
 
-    public Iterable<MarketEvent> Events;
+    public Iterable<MarketEvent> events;
 }

@@ -4,17 +4,17 @@ import java.time.LocalDateTime;
 
 public class Provider {
     
-    public int Id;
+    public int id;
 
-    public String Name;
+    public String name;
 
-    public LocalDateTime LastUpdate;
+    public LocalDateTime lastUpdate;
 
-    public String ProviderFixtureId;
+    public String providerfixtureId;
 
-    public String ProviderLeagueId;
+    public String providerLeagueId;
 
-    public String ProviderMarketId;
+    public String providerMarketId;
 
-    public Iterable<Bet> Bets;
+    public Iterable<Bet> bets;
 }

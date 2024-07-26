@@ -4,9 +4,9 @@ import com.lsports.trade360_java_sdk.common.entities.enums.StatisticType;
 
 public class Statistic {
     
-    public StatisticType Type;
+    public StatisticType type;
 
-    public Iterable<Result> Results;
+    public Iterable<Result> results;
 
-    public Iterable<Incident> Incidents;
+    public Iterable<Incident> incidents;
 }

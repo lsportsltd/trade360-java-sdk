@@ -4,7 +4,7 @@ import com.lsports.trade360_java_sdk.common.entities.keepalive.KeepAlive;
 
 public class KeepAliveUpdate {
 
-    public final int EntityKey = 31;
+    public final int entityKey = 31;
 
-    public KeepAlive KeepAlive;
+    public KeepAlive keepAlive;
 }

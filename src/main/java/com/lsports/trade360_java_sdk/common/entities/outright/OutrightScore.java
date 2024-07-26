@@ -4,7 +4,7 @@ import com.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 
 public class OutrightScore {
 
-    public Iterable<OutrightParticipant> ParticipantResults;
+    public Iterable<OutrightParticipant> participantResults;
 
-    public FixtureStatus Status;
+    public FixtureStatus status;
 }

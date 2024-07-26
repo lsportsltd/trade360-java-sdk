@@ -7,19 +7,19 @@ import com.lsports.trade360_java_sdk.common.entities.shared.*;
 
 public class OutrightFixture {
 
-    public Sport Sport;
+    public Sport sport;
 
-    public Location Location;
+    public Location location;
 
-    public LocalDateTime StartDate;
+    public LocalDateTime startDate;
 
-    public LocalDateTime LastUpdate;
+    public LocalDateTime lastUpdate;
 
-    public FixtureStatus Status;
+    public FixtureStatus status;
 
-    public Iterable<Participant> Participants;
+    public Iterable<Participant> participants;
 
-    public Iterable<NameValuePair> FixtureExtraData;
+    public Iterable<NameValuePair> fixtureExtraData;
 
-    public String ExternalFixtureId;
+    public String externalfixtureId;
 }

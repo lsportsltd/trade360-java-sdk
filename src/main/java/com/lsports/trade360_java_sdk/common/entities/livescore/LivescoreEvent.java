@@ -4,9 +4,9 @@ import com.lsports.trade360_java_sdk.common.entities.fixtures.Fixture;
 
 public class LivescoreEvent {
 
-    public int FixtureId;
+    public int fixtureId;
     
-    public Fixture Fixture;
+    public Fixture fixture;
     
-    public Livescore Livescore;
+    public Livescore livescore;
 }

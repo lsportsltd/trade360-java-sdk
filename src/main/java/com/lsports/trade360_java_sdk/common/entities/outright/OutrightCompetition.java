@@ -2,13 +2,13 @@ package com.lsports.trade360_java_sdk.common.entities.outright;
 
 public class OutrightCompetition<TEvent> {
 
-    public int Id;
+    public int id;
     
-    public String Name;
+    public String name;
     
-    public int Type;
+    public int type;
     
-    public Iterable<OutrightCompetition<TEvent>> Competitions;
+    public Iterable<OutrightCompetition<TEvent>> competitions;
     
-    public Iterable<TEvent> Events;
+    public Iterable<TEvent> events;
 }

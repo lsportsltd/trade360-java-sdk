@@ -2,7 +2,7 @@ package com.lsports.trade360_java_sdk.common.entities.markets;
 
 public class MarketEvent {
 
-    public int FixtureId;
+    public int fixtureId;
     
-    public Iterable<Market> Markets;
+    public Iterable<Market> markets;
 }

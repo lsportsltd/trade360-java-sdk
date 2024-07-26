@@ -2,17 +2,17 @@ package com.lsports.trade360_java_sdk.common.entities.livescore;
 
 public class Period {
 
-    public int Type;
+    public int type;
 
-    public boolean IsFinished;
+    public boolean isFinished;
 
-    public boolean IsConfirmed;
+    public boolean isConfirmed;
 
-    public Iterable<Result> Results;
+    public Iterable<Result> results;
 
-    public Iterable<Incident> Incidents;
+    public Iterable<Incident> incidents;
 
-    public Iterable<Period> SubPeriods;
+    public Iterable<Period> subPeriods;
 
-    public int SequenceNumber;
+    public int sequenceNumber;
 }

@@ -2,7 +2,7 @@ package com.lsports.trade360_java_sdk.common.entities.fixtures;
 
 public class FixtureEvent {
 
-    public int FixtureId;
+    public int fixtureId;
 
-    public Fixture Fixture;
+    public Fixture fixture;
 }

@@ -5,43 +5,43 @@ import com.lsports.trade360_java_sdk.common.entities.enums.*;
 
 public class Bet {
 
-    public long Id;
+    public long id;
 
-    public String Name;
+    public String name;
 
-    public String Line;
+    public String line;
 
-    public String BaseLine;
+    public String baseLine;
 
-    public BetStatus Status;
+    public BetStatus status;
 
-    public String StartPrice;
+    public String startPrice;
 
-    public String Price;
+    public String price;
 
-    public String PriceVolume;
+    public String priceVolume;
 
-    public SettlementType Settlement;
+    public SettlementType settlement;
 
-    public String ProviderBetId;
+    public String providerBetId;
 
-    public LocalDateTime LastUpdate;
+    public LocalDateTime lastUpdate;
 
-    public String PriceIN;
+    public String priceIN;
 
-    public String PriceUS;
+    public String priceUS;
 
-    public String PriceUK;
+    public String priceUK;
 
-    public String PriceMA;
+    public String priceMA;
 
-    public String PriceHK;
+    public String priceHK;
 
-    public int IsChanged = -1;
+    public int isChanged = -1;
 
-    public double Probability;
+    public double probability;
 
-    public int ParticipantId;
+    public int participantId;
 
-    public String PlayerName;
+    public String playerName;
 }

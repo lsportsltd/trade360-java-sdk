@@ -4,11 +4,11 @@ import com.lsports.trade360_java_sdk.common.entities.shared.*;
 
 public class Livescore {
     
-    public Scoreboard Scoreboard;
+    public Scoreboard scoreboard;
 
-    public Iterable<Period> Periods;
+    public Iterable<Period> periods;
 
-    public Iterable<Statistic> Statistics;
+    public Iterable<Statistic> statistics;
 
-    public Iterable<NameValuePair> LivescoreExtraData;
+    public Iterable<NameValuePair> livescoreExtraData;
 }
