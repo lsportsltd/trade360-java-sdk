@@ -1,13 +1,13 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
 public enum SettlementType {
-    Cancelled (-1),
-    NotSettled (0),
-    Loser (1),
-    Winner (2),
-    Refund (3),
-    HalfLost (4),
-    HalfWon (5);
+    CANCELLED (-1),
+    NOTSETTLED (0),
+    LOSER (1),
+    WINNER (2),
+    REFUND (3),
+    HALFLOST (4),
+    HALFWON (5);
 
     private int value;
 

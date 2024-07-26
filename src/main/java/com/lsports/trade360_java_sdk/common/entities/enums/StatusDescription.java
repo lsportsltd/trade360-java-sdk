@@ -1,18 +1,18 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
 public enum StatusDescription {
-    None (0),
+    NONE (0),
     HT (1),
     OTHT (2),
-    HomeRetired (3),
-    AwayRetired (4),
-    LostCoverage (5),
-    MedicalTimeout (6),
-    TimeoutHomeTeam (7),
-    TimeoutAwayTeam (8),
-    Timeout (9),
-    HomeWalkover (10),
-    AwayWalkover (11);
+    HOMERETIRED (3),
+    AWAYRETIRED (4),
+    LOSTCOVERAGE (5),
+    MEDICALTIMEOUT (6),
+    TIMEOUTHOMETEAM (7),
+    TIMEOUTAWAYTEAM (8),
+    TIMEOUT (9),
+    HOMEWALKOVER (10),
+    AWAYWALKOVER (11);
 
     private int value;
 

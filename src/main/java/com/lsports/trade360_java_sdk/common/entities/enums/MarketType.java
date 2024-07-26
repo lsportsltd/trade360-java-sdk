@@ -1,9 +1,9 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
 public enum MarketType {
-    All(0),
-    Standard(1),
-    Outright(2);
+    ALL(0),
+    STANDARD(1),
+    OUTRIGHT(2);
 
     private int value;
 

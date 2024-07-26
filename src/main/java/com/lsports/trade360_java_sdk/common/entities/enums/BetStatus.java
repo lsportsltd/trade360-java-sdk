@@ -1,10 +1,10 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
 public enum BetStatus {
-    NotSet(1),
-    Open(2),
-    Suspended(3),
-    Settled(4);
+    NOTSET(1),
+    OPEN(2),
+    SUSPENDED(3),
+    SETTLED(4);
 
     private int value;
 
