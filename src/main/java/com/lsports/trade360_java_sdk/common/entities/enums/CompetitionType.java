@@ -1,7 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
 public enum CompetitionType {
-    NOTSET (0),
+    NO_TSET (0),
     TRACK (1),
     LEAGUE (3),
     SEASON (4);

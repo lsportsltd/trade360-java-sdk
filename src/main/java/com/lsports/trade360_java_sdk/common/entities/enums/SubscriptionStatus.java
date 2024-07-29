@@ -2,7 +2,7 @@ package com.lsports.trade360_java_sdk.common.entities.enums;
 
 public enum SubscriptionStatus {
 
-    NOTSET (0),
+    NOT_SET (0),
     SUBSCRIBED (1),
     PENDING (2),
     UNSUBSCRIBED (3),

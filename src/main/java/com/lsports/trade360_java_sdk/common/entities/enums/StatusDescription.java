@@ -4,15 +4,15 @@ public enum StatusDescription {
     NONE (0),
     HT (1),
     OTHT (2),
-    HOMERETIRED (3),
-    AWAYRETIRED (4),
-    LOSTCOVERAGE (5),
-    MEDICALTIMEOUT (6),
-    TIMEOUTHOMETEAM (7),
-    TIMEOUTAWAYTEAM (8),
+    HOME_RETIRED (3),
+    AWAY_RETIRED (4),
+    LOST_COVERAGE (5),
+    MEDICAL_TIMEOUT (6),
+    TIMEOUT_HOME_TEAM (7),
+    TIMEOUT_AWAY_TEAM (8),
     TIMEOUT (9),
-    HOMEWALKOVER (10),
-    AWAYWALKOVER (11);
+    HOME_WALKOVER (10),
+    AWAY_WALKOVER (11);
 
     private int value;
 
