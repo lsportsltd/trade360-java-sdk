@@ -1,7 +1,7 @@
 package com.lsports.trade360_java_sdk.feed.configuration;
 
 public class RmqConnectionSettings
-    {
+{
         public String host;
         public int port;
         public String VirtualHost;
@@ -15,5 +15,4 @@ public class RmqConnectionSettings
         public int requestedHeartbeatSeconds = 30; // Default 30 seconds
         public int networkRecoveryInterval = 30; // Default 30 seconds
         public String baseCustomersApi = "https://stm-api.lsports.eu";
-    }
 }
