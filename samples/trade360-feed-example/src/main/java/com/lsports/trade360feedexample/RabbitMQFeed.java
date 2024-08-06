@@ -29,17 +29,18 @@ public class RabbitMQFeed {
     }
 
     @RabbitHandler
-    public void processOrder(MarketUpdate message)  {
+    public void processOrder(@Payload MarketUpdate message)  {
         log.info("Message Type: " + message.getClass() + " Received message [{}]", message);
     }
 
     @RabbitHandler()
-    public void processOrder(TestClass message) {
+    public void processOrder(@Payload TestClass message) {
         log.info("Message Type: " + message.getClass() + " Received message [{}]", message);
     }
 
     @RabbitHandler(isDefault = true)
-     public void processOrder(String message) {
+     public void processOrder(@Payload String message, @Header("amqp_receivedRoutingKey") String header) {
         log.info("Default RabbitHandler! : Received message [{}]", message);
+        log.info("Default RabbitHandler! : Received header [{}]", header);
     }
 }

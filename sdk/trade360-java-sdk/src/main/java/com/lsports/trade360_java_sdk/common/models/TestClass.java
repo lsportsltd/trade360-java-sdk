@@ -1,14 +1,12 @@
 package com.lsports.trade360_java_sdk.common.models;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class TestClass {
     int id;
 }
