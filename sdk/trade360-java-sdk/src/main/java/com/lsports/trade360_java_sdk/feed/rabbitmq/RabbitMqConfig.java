@@ -20,29 +20,11 @@ import java.util.Map;
 @Configuration
 public class RabbitMqConfig {
 
-//    public static final String QUEUE_NAME = "_99_";
-//    public static final String EXCHANGE_NAME = "Push";
-
     private final CachingConnectionFactory connectionFactory;
 
     public RabbitMqConfig(CachingConnectionFactory cachingConnectionFactory) {
         this.connectionFactory = cachingConnectionFactory;
     }
-
-//    @Bean
-//    public Queue queue() {
-//        return new Queue(QUEUE_NAME, true);
-//    }
-//    @Bean
-//    public DirectExchange exchange() {
-//        return new DirectExchange(EXCHANGE_NAME, true, false);
-//    }
-//
-//    @Bean
-//    Binding binding(Queue queue, DirectExchange exchange) {
-//        return BindingBuilder.bind(queue).to(exchange).withQueueName();
-//    }
-
 
     @Bean
     public Jackson2JsonMessageConverter converterWithMapper() {
@@ -61,7 +43,6 @@ public class RabbitMqConfig {
         DefaultClassMapper classMapper = new DefaultClassMapper();
         Map<String, Class<?>> idClassMapping = new HashMap<>();
        idClassMapping.put("TestClass", TestClass.class);
-    //    idClassMapping.put("thing2", Thing2.class);
         classMapper.setIdClassMapping(idClassMapping);
         return classMapper;
     }

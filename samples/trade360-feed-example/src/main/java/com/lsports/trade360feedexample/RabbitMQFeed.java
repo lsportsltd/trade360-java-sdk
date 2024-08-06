@@ -19,13 +19,9 @@ public class RabbitMQFeed {
     private String packageId = "_${packageId}_";
 
     @RabbitHandler
-   // @RabbitListener(queues =  "_${rabbitmq.inplay.package_id}_")
-   // public void processOrder(String message) {
     public void processOrder(@Header("amqp_receivedRoutingKey") String header, @Payload MarketUpdate message) {
-    //public void processOrder(    @Payload String message, @Header("amqp_consumerQueue") String queue,  @Header("TypeId") String typeId)  {
         log.info("Received message [{}]", message);
         log.info("header: " +  header );
-        //log.info("Queue: " +  queue + " TypeId: " + typeId);
     }
 
     @RabbitHandler
@@ -39,8 +35,7 @@ public class RabbitMQFeed {
     }
 
     @RabbitHandler(isDefault = true)
-     public void processOrder(@Payload String message, @Header("amqp_receivedRoutingKey") String header) {
-        log.info("Default RabbitHandler! : Received message [{}]", message);
-        log.info("Default RabbitHandler! : Received header [{}]", header);
+     public void processOrder(@Payload String message, @Header("amqp_consumerQueue") String queue,  @Header("TypeId") String typeId) {
+        log.info("Default RabbitHandler! : Received message queue [{0}],  typeId: [{1}],  message: [{2}] ",queue, typeId,  message);
     }
 }
