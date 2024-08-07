@@ -1,12 +1,20 @@
 package com.lsports.trade360_java_sdk.common.models;
 
-import lombok.*;
-
-@Getter
-@Setter
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class TestClass {
-    int id;
+    public int id;
+
+    public TestClass() {
+    }
+
+    public TestClass(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

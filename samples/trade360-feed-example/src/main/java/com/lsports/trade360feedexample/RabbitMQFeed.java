@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 @Slf4j
 @Service
@@ -19,7 +20,7 @@ public class RabbitMQFeed {
     private String packageId = "_${packageId}_";
 
     @RabbitHandler
-    public void processOrder(@Header("amqp_receivedRoutingKey") String header, @Payload MarketUpdate message) {
+    public void processOrder(@Header("amqp_receivedRoutingKey") String header, @Payload MarketUpdate message, RestClient.Builder client) {
         log.info("Received message [{}]", message);
         log.info("header: " +  header );
     }
@@ -29,13 +30,15 @@ public class RabbitMQFeed {
         log.info("Message Type: " + message.getClass() + " Received message [{}]", message);
     }
 
+
     @RabbitHandler()
-    public void processOrder(@Payload TestClass message) {
+    public void processOrder(TestClass message) {
         log.info("Message Type: " + message.getClass() + " Received message [{}]", message);
     }
 
     @RabbitHandler(isDefault = true)
      public void processOrder(@Payload String message, @Header("amqp_consumerQueue") String queue,  @Header("TypeId") String typeId) {
-        log.info("Default RabbitHandler! : Received message queue [{0}],  typeId: [{1}],  message: [{2}] ",queue, typeId,  message);
+        log.info("Default RabbitHandler! : Received message queue [{}],  typeId: [{}], message: [{}] ",queue, typeId,   message);
+        log.info("Message is of type: " + message.getClass().getName());
     }
 }

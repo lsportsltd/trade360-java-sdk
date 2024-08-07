@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.retry.RejectAndDontRequeueRecoverer;
 import org.springframework.amqp.support.converter.DefaultClassMapper;
+import org.springframework.amqp.support.converter.Jackson2JavaTypeMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -26,31 +27,32 @@ public class RabbitMqConfig {
         this.connectionFactory = cachingConnectionFactory;
     }
 
-    @Bean
-    public Jackson2JsonMessageConverter converterWithMapper() {
-        Jackson2JsonMessageConverter jsonConverter = new Jackson2JsonMessageConverter();
-        jsonConverter.setClassMapper(classMapper());
-        return jsonConverter;
-    }
+//    @Bean
+//    public Jackson2JsonMessageConverter converterWithMapper() {
+//        Jackson2JsonMessageConverter jsonConverter = new Jackson2JsonMessageConverter();
+//        jsonConverter.setClassMapper(new DefaultJackson2JavaTypeMapperExtension());
+//        jsonConverter.setTypePrecedence(Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID);
+//        return jsonConverter;
+//    }
 
     @Bean
     public Jackson2JsonMessageConverter convertert() {
         return new Jackson2JsonMessageConverter();
     }
 
-    @Bean
-    public DefaultClassMapper classMapper() {
-        DefaultClassMapper classMapper = new DefaultClassMapper();
-        Map<String, Class<?>> idClassMapping = new HashMap<>();
-       idClassMapping.put("TestClass", TestClass.class);
-        classMapper.setIdClassMapping(idClassMapping);
-        return classMapper;
-    }
+//    @Bean
+//    public DefaultClassMapper classMapper() {
+//        DefaultClassMapper classMapper = new DefaultClassMapper();
+//        Map<String, Class<?>> idClassMapping = new HashMap<>();
+//        idClassMapping.put("3", TestClass.class);
+//        classMapper.setIdClassMapping(idClassMapping);
+//        return classMapper;
+//    }
 
     @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(converterWithMapper());
+        rabbitTemplate.setMessageConverter(convertert());
         return rabbitTemplate;
     }
 
