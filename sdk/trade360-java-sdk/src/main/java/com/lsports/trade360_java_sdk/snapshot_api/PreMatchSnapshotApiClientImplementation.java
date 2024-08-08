@@ -18,8 +18,7 @@ class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshotApiClie
         SnapshotApiRestClientFactory clientFactory,
         RestClient.Builder restBuilder,
         @Qualifier(SnapshotApiBeanNames.PREMATCH_API_SETTINGS) SnapshotApiSettings settings) {
-        this.client = clientFactory.getService(restBuilder);
-        this.client.configure(settings);
+        this.client = clientFactory.getService(restBuilder, settings);
     }
     
     @Override

@@ -18,8 +18,7 @@ class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiClient {
         SnapshotApiRestClientFactory clientFactory,
         RestClient.Builder restBuilder,
         @Qualifier(SnapshotApiBeanNames.INPLAY_API_SETTINGS) SnapshotApiSettings settings) {
-        this.client = clientFactory.getService(restBuilder);
-        this.client.configure(settings);
+        this.client = clientFactory.getService(restBuilder, settings);
     }
     
     @Override
