@@ -44,13 +44,14 @@ class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiClient {
             })
             .defaultHeaders(t -> {
                 t.setContentType(MediaType.APPLICATION_JSON);
+                t.setAccept(List.of(MediaType.APPLICATION_JSON));
             })
             .build();
     }
 
     @Override
-    public Collection<FixtureEvent> getFixtures(GetFixturesRequestDto requestDto) throws Trade360Exception {
-        ObjectNode jsonObject = this.jsonMapper.valueToTree(requestDto);
+    public Collection<FixtureEvent> getFixtures(GetFixturesRequestDto getFixturesRequest) throws Trade360Exception {
+        ObjectNode jsonObject = this.jsonMapper.valueToTree(getFixturesRequest);
         jsonObject.put("PackageId", this.settings.packageId());
         jsonObject.put("UserName", this.settings.userName());
         jsonObject.put("Password", this.settings.password());
@@ -59,8 +60,6 @@ class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiClient {
             .post()
             .uri("/Inplay/GetFixtures")
             .body(jsonObject)
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .onStatus(HttpStatusCode::isError, (req, res) -> {
                 throw new Trade360Exception("Request failed because of " + res.getStatusCode());
