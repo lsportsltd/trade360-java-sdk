@@ -6,5 +6,5 @@ import com.lsports.trade360_java_sdk.common.entities.fixtures.FixtureEvent;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
 
 public interface PreMatchSnapshotApiClient {
-    Collection<FixtureEvent> getFixtures(GetFixturesRequestDto getFixturesRequest);
+    Collection<FixtureEvent> getFixtures(GetFixturesRequestDto getFixturesRequest) throws Trade360Exception;
 }
