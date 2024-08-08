@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiBeanNames;
 import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
 
 @SpringBootApplication
@@ -17,8 +18,13 @@ public class SnapshotApiExampleApplication {
         SpringApplication.run(SnapshotApiExampleApplication.class, args);
     }
 
-    @Bean
-    public SnapshotApiSettings configureApiSettings() {
-        return new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "<your username>", "<your password>");
+    @Bean(SnapshotApiBeanNames.INPLAY_API_SETTINGS)
+    public SnapshotApiSettings configureInPlayApiSettings() {
+        return new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 2, "1", "Tests1234");
+    }
+
+    @Bean(SnapshotApiBeanNames.PREMATCH_API_SETTINGS)
+    public SnapshotApiSettings configurePreMatchApiSettings() {
+        return new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 4, "1", "Tests1234");
     }
 }

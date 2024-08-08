@@ -11,19 +11,19 @@ import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSetti
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
 
 @Service
-class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiClient {
+class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshotApiClient {
     private final SnapshotApiRestClient client;
 
-    public InPlaySnapshotApiClientImplementation(
+    public PreMatchSnapshotApiClientImplementation(
         SnapshotApiRestClientFactory clientFactory,
         RestClient.Builder restBuilder,
-        @Qualifier(SnapshotApiBeanNames.INPLAY_API_SETTINGS) SnapshotApiSettings settings) {
+        @Qualifier(SnapshotApiBeanNames.PREMATCH_API_SETTINGS) SnapshotApiSettings settings) {
         this.client = clientFactory.getService(restBuilder);
         this.client.configure(settings);
     }
     
     @Override
     public Collection<FixtureEvent> getFixtures(GetFixturesRequestDto getFixturesRequest) throws Trade360Exception {
-        return this.client.postRequest(getFixturesRequest, "/Inplay/GetFixtures");
+        return this.client.postRequest(getFixturesRequest, "/Prematch/GetFixtures");
     }
 }

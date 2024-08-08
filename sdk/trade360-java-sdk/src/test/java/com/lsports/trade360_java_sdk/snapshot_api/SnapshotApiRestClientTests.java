@@ -17,7 +17,7 @@ import org.springframework.web.client.RestClient;
 import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
 
-public class Trade360JavaSdkApplicationTests {
+public class SnapshotApiRestClientTests {
     private final SnapshotApiSettings apiSettings = new SnapshotApiSettings(
         URI.create("testhost"),
         1234,
@@ -25,50 +25,56 @@ public class Trade360JavaSdkApplicationTests {
         "testPassword");
 
     @Test
-    public void getFixtures_allParametersProvided_areIncludedInRequest() {
+    public void postRequest_allParametersProvided_allNecessaryPropertiesAreIncludedInRequest() {
         // Arrange
         final var expectedBody = "{\"FromDate\":1722470400000,\"ToDate\":1722988800000,\"Sports\":[1,2,3],\"Locations\":[4,5,6],\"Fixtures\":[7,8,9],\"Leagues\":[10,11,12],\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\"}";
         final var rawResponse = "{\"Header\":{},\"Body\":[]}";
 
         var restClientBuilder = RestClient.builder();
         var mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
-        mockServer.expect(requestTo("testhost/Inplay/GetFixtures"))
+        mockServer.expect(requestTo("testhost/"))
             .andExpect(content().json(expectedBody))
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andRespond(withSuccess().contentType(MediaType.APPLICATION_OCTET_STREAM).body(rawResponse));;
+            .andRespond(withSuccess().contentType(MediaType.APPLICATION_OCTET_STREAM).body(rawResponse));
 
-        var client = new InPlaySnapshotApiClientImplementation(restClientBuilder, apiSettings);
+        var client = new SnapshotApiRestClient(restClientBuilder);
+        client.configure(apiSettings);
+
         // Act
-        client.getFixtures(new GetFixturesRequestDto(
+        client.postRequest(new GetFixturesRequestDto(
             ZonedDateTime.of(LocalDateTime.of(2024, 8, 1, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
             ZonedDateTime.of(LocalDateTime.of(2024, 8, 7, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
             List.of(1, 2, 3),
             List.of(4, 5, 6),
             List.of(7, 8, 9),
             List.of(10, 11, 12)
-        ));
+        ), "/");
 
         // Assert
         mockServer.verify();
     }
 
     @Test
-    public void getFixtures_optionalPropertiesNotProvided_areOmittedInRequest() {
+    public void postRequest_optionalPropertiesNotProvided_nullsAreNotIncludedInRequest() {
         // Arrange
         final var expectedBody = "{\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\"}";
         final var rawResponse = "{\"Header\":{},\"Body\":[]}";
 
         var restClientBuilder = RestClient.builder();
         var mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
-        mockServer.expect(requestTo("testhost/Inplay/GetFixtures"))
+        mockServer.expect(requestTo("testhost/"))
             .andExpect(content().json(expectedBody))
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andRespond(withSuccess().contentType(MediaType.APPLICATION_OCTET_STREAM).body(rawResponse));
 
 
-        var client = new InPlaySnapshotApiClientImplementation(restClientBuilder, apiSettings);
+        var client = new SnapshotApiRestClient(restClientBuilder);
+        client.configure(apiSettings);
+        
         // Act
-        client.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null));
+        client.postRequest(
+            new GetFixturesRequestDto(null, null, null, null, null, null),
+            "/");
 
         // Assert
         mockServer.verify();
