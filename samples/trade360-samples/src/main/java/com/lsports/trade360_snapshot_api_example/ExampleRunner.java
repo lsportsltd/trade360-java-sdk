@@ -33,6 +33,7 @@ public class ExampleRunner {
     }
 
     private void inPlayApi(){
+        System.out.println();
         System.out.println("================================");
         System.out.println("===== INPLAY API EXAMPLES: =====");
         this.execute("Get Fixtures", () -> this.inPlayClient.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null)));
