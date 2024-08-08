@@ -5,7 +5,7 @@ import org.springframework.amqp.support.converter.DefaultJackson2JavaTypeMapper;
 
 public class DefaultJackson2JavaTypeMapperExtension extends DefaultJackson2JavaTypeMapper {
 
-    public String getClassIdFieldName() {
-        return "type";
-    }
+//    public String getClassIdFieldName() {
+//        return "type";
+//    }
 }

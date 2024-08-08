@@ -4,7 +4,5 @@ import com.lsports.trade360_java_sdk.common.entities.fixtures.FixtureEvent;
 
 public class FixtureMetadataUpdate {
 
-    public final int entityKey = 1;
-
-    public Iterable<FixtureEvent> events;
+   public Iterable<FixtureEvent> events;
 }

@@ -1,7 +1,8 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.lsports.trade360_java_sdk.common.entities.messagetypes.MarketUpdate;
 import com.lsports.trade360_java_sdk.common.models.TestClass;
-import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -14,7 +15,7 @@ import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
-
+import org.springframework.amqp.core.AcknowledgeMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,32 +28,28 @@ public class RabbitMqConfig {
         this.connectionFactory = cachingConnectionFactory;
     }
 
-//    @Bean
-//    public Jackson2JsonMessageConverter converterWithMapper() {
-//        Jackson2JsonMessageConverter jsonConverter = new Jackson2JsonMessageConverter();
-//        jsonConverter.setClassMapper(new DefaultJackson2JavaTypeMapperExtension());
-//        jsonConverter.setTypePrecedence(Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID);
-//        return jsonConverter;
-//    }
-
     @Bean
-    public Jackson2JsonMessageConverter convertert() {
-        return new Jackson2JsonMessageConverter();
+    public Jackson2JsonMessageConverter converterWithMapper() {
+        Jackson2JsonMessageConverter jsonConverter = new Jackson2JsonMessageConverter();
+        jsonConverter.setClassMapper(classMapper());
+        jsonConverter.setTypePrecedence(Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID);
+        return jsonConverter;
     }
 
-//    @Bean
-//    public DefaultClassMapper classMapper() {
-//        DefaultClassMapper classMapper = new DefaultClassMapper();
-//        Map<String, Class<?>> idClassMapping = new HashMap<>();
-//        idClassMapping.put("3", TestClass.class);
-//        classMapper.setIdClassMapping(idClassMapping);
-//        return classMapper;
-//    }
+    @Bean
+    public DefaultClassMapper classMapper() {
+        DefaultClassMapper classMapper = new DefaultClassMapper();
+        Map<String, Class<?>> idClassMapping = new HashMap<>();
+        idClassMapping.put("TestClass", TestClass.class);
+        idClassMapping.put("MarketUpdate", MarketUpdate.class);
+        classMapper.setIdClassMapping(idClassMapping);
+        return classMapper;
+    }
 
     @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(convertert());
+        rabbitTemplate.setMessageConverter(converterWithMapper());
         return rabbitTemplate;
     }
 
@@ -71,7 +68,7 @@ public class RabbitMqConfig {
         factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         factory.setAdviceChain(retryInterceptor());
         factory.setDefaultRequeueRejected(false);
+        factory.setMessageConverter(converterWithMapper());
         return factory;
     }
-
 }
