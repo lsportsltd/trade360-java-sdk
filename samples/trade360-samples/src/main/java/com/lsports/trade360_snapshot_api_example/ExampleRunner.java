@@ -35,7 +35,7 @@ public class ExampleRunner {
         System.out.println("================================");
         System.out.println("==== INPLAY API EXAMPLES: ====");
         this.execute("Get Fixtures", () -> this.inPlayClient.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null)));
-        this.execute("Get Livescore",() -> this.inPlayClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null)));
+        this.execute("Get Livescore", () -> this.inPlayClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null)));
     }
 
     private <R> void execute(String exampleName, Func<R> c){
