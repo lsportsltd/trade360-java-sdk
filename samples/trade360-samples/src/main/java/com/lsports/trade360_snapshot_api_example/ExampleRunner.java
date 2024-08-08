@@ -25,6 +25,7 @@ public class ExampleRunner {
     }
 
     private void preMatchApi(){
+        System.out.println();
         System.out.println("================================");
         System.out.println("==== PREMATCH API EXAMPLES: ====");
         this.execute("Get Fixtures", () -> this.preMatchClient.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null)));
@@ -33,12 +34,13 @@ public class ExampleRunner {
 
     private void inPlayApi(){
         System.out.println("================================");
-        System.out.println("==== INPLAY API EXAMPLES: ====");
+        System.out.println("===== INPLAY API EXAMPLES: =====");
         this.execute("Get Fixtures", () -> this.inPlayClient.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null)));
         this.execute("Get Livescore", () -> this.inPlayClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null)));
     }
 
     private <R> void execute(String exampleName, Func<R> c){
+        System.out.println("--------------------------------");
         var response = c.accept();
         System.out.println("[" + exampleName + "]" + " Response received: " + response);
     }
