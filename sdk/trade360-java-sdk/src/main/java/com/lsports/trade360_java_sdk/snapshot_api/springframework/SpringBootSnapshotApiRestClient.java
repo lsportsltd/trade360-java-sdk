@@ -9,10 +9,10 @@ import org.springframework.http.converter.json.AbstractJackson2HttpMessageConver
 import org.springframework.web.client.RestClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.JsonSnapshotApiSerializer;
-import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiRestClient;
 import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
 import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
 import com.lsports.trade360_java_sdk.snapshot_api.http.ApiResponse;
+import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
 
 class SpringBootSnapshotApiRestClient implements SnapshotApiRestClient {
     private final RestClient client;
