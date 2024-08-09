@@ -1,8 +1,10 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
 import com.lsports.trade360_java_sdk.common.entities.fixtures.FixtureEvent;
+import com.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequestDto;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetMarketRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.LivescoreElement;
 
 public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshotApiClient {
@@ -18,8 +20,12 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
     }
 
     @Override
-    public Iterable<LivescoreElement> getLivescore(GetLivescoreRequestDto getLivescoreRequest)
-            throws Trade360Exception {
+    public Iterable<LivescoreElement> getLivescore(GetLivescoreRequestDto getLivescoreRequest) throws Trade360Exception {
         return this.client.postRequest(getLivescoreRequest, "/Prematch/GetScores");
+    }
+
+    @Override
+    public Iterable<MarketEvent> getFixtureMarkets(GetMarketRequestDto getMarketRequest) throws Trade360Exception {
+        return this.client.postRequest(getMarketRequest, "/Prematch/GetFixtureMarkets");
     }
 }
