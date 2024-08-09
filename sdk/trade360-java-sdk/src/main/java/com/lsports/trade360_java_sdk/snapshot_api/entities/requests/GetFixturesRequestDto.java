@@ -2,7 +2,7 @@ package com.lsports.trade360_java_sdk.snapshot_api.entities.requests;
 
 import java.time.ZonedDateTime;
 
-import org.springframework.lang.Nullable;
+import jakarta.annotation.Nullable;
 
 public record GetFixturesRequestDto(
     @Nullable ZonedDateTime fromDate,

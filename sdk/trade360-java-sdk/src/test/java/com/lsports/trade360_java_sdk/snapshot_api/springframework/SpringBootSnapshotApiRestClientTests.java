@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.snapshot_api;
+package com.lsports.trade360_java_sdk.snapshot_api.springframework;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -14,10 +14,11 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 import org.springframework.web.client.RestClient;
 
+import com.lsports.trade360_java_sdk.snapshot_api.JacksonSnapshotApiSerializer;
 import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
 
-public class SnapshotApiRestClientTests {
+public class SpringBootSnapshotApiRestClientTests {
     private final SnapshotApiSettings apiSettings = new SnapshotApiSettings(
         URI.create("testhost"),
         1234,
@@ -37,8 +38,8 @@ public class SnapshotApiRestClientTests {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andRespond(withSuccess().contentType(MediaType.APPLICATION_OCTET_STREAM).body(rawResponse));
 
-        var client = new SnapshotApiRestClient(restClientBuilder);
-        client.configure(apiSettings);
+        var serializer = new JacksonSnapshotApiSerializer(apiSettings);
+        var client = new SpringBootSnapshotApiRestClient(restClientBuilder, serializer, apiSettings);
 
         // Act
         client.postRequest(new GetFixturesRequestDto(
@@ -67,9 +68,8 @@ public class SnapshotApiRestClientTests {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andRespond(withSuccess().contentType(MediaType.APPLICATION_OCTET_STREAM).body(rawResponse));
 
-
-        var client = new SnapshotApiRestClient(restClientBuilder);
-        client.configure(apiSettings);
+        var serializer = new JacksonSnapshotApiSerializer(apiSettings);
+        var client = new SpringBootSnapshotApiRestClient(restClientBuilder, serializer, apiSettings);
         
         // Act
         client.postRequest(
