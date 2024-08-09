@@ -1,6 +1,7 @@
 package com.lsports.trade360_snapshot_api_example;
 
 import java.net.URI;
+import java.util.function.Supplier;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -69,14 +70,9 @@ public class SnapshotApiExampleApplication {
                 () -> inPlayClient.getFixtureMarkets(new GetMarketRequestDto(null, null, null, null, null, null)));
     }
 
-    private <R> void execute(String exampleName, Func<R> c) {
+    private <T> void execute(String exampleName, Supplier<T> c) {
         System.out.println("--------------------------------");
-        var response = c.accept();
+        var response = c.get();
         System.out.println("[" + exampleName + "]" + " Response received: " + response);
-    }
-
-    @FunctionalInterface
-    private interface Func<R> {
-        R accept();
     }
 }
