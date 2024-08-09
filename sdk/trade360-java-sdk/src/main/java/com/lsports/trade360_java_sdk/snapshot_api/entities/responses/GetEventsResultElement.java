@@ -7,10 +7,8 @@ import com.lsports.trade360_java_sdk.common.entities.markets.Market;
 import jakarta.annotation.Nullable;
 
 public final class GetEventsResultElement {
-    public GetEventsResultElement(
-        int fixtureId,
-        @Nullable Fixture fixture,
-        @Nullable Livescore livescore,
-        @Nullable Iterable<Market> markets) {
-    }
+    public int fixtureId;
+    public @Nullable Fixture fixture;
+    public @Nullable Livescore livescore;
+    public @Nullable Iterable<Market> markets;
 }
