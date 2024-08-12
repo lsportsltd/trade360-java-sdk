@@ -24,6 +24,7 @@ public class InPlaySnapshotApiClientImplementationTests {
             null,
             null,
             null,
+            null,
             null
         ));
 
@@ -39,6 +40,7 @@ public class InPlaySnapshotApiClientImplementationTests {
 
         // Act
         client.getLivescore(new GetLivescoreRequestDto(
+            null,
             null,
             null,
             null,
@@ -64,6 +66,7 @@ public class InPlaySnapshotApiClientImplementationTests {
             null,
             null,
             null,
+            null,
             null
         ));
 
@@ -79,6 +82,7 @@ public class InPlaySnapshotApiClientImplementationTests {
 
         // Act
         client.getEvents(new GetEventsRequestDto(
+            null,
             null,
             null,
             null,

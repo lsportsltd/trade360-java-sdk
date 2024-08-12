@@ -10,5 +10,6 @@ public final record GetFixturesRequestDto(
     @Nullable Iterable<Integer> sports,
     @Nullable Iterable<Integer> locations,
     @Nullable Iterable<Integer> fixtures,
-    @Nullable Iterable<Integer> leagues) {
+    @Nullable Iterable<Integer> leagues,
+    @Nullable Iterable<Integer> markets) {
 };

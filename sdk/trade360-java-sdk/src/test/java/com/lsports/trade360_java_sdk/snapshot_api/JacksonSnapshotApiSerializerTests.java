@@ -31,6 +31,7 @@ public class JacksonSnapshotApiSerializerTests {
             null,
             null,
             null,
+            null,
             null
         );
 
@@ -54,7 +55,8 @@ public class JacksonSnapshotApiSerializerTests {
             List.of(1, 2, 3),
             List.of(4, 5, 6),
             List.of(7, 8, 9),
-            List.of(10, 11, 12)
+            List.of(10, 11, 12),
+            List.of(13, 14, 15)
         );
 
         // Act
@@ -62,7 +64,7 @@ public class JacksonSnapshotApiSerializerTests {
 
         // Assert
         assertEquals(
-            "{\"FromDate\":1722470400000,\"ToDate\":1722988800000,\"Sports\":[1,2,3],\"Locations\":[4,5,6],\"Fixtures\":[7,8,9],\"Leagues\":[10,11,12],\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\"}",
+            "{\"FromDate\":1722470400000,\"ToDate\":1722988800000,\"Sports\":[1,2,3],\"Locations\":[4,5,6],\"Fixtures\":[7,8,9],\"Leagues\":[10,11,12],\"Markets\":[13,14,15],\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\"}",
             result.toString()
         );
     }

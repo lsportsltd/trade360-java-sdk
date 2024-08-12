@@ -48,7 +48,8 @@ public class SpringBootSnapshotApiRestClientTests {
             List.of(1, 2, 3),
             List.of(4, 5, 6),
             List.of(7, 8, 9),
-            List.of(10, 11, 12)
+            List.of(10, 11, 12),
+            List.of(14, 14, 15)
         ), "/");
 
         // Assert
@@ -73,7 +74,7 @@ public class SpringBootSnapshotApiRestClientTests {
         
         // Act
         client.postRequest(
-            new GetFixturesRequestDto(null, null, null, null, null, null),
+            new GetFixturesRequestDto(null, null, null, null, null, null, null),
             "/");
 
         // Assert
