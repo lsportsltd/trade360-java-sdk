@@ -14,6 +14,7 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetEventsReq
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetMarketRequestDto;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetOutrightEventsDto;
 import com.lsports.trade360_java_sdk.snapshot_api.springframework.SpringBootSnapshotApiClientFactory;
 
 import jakarta.annotation.PostConstruct;
@@ -49,13 +50,15 @@ public class SnapshotApiExampleApplication {
         System.out.println("================================");
         System.out.println("==== PREMATCH API EXAMPLES: ====");
         this.execute("Get Fixtures",
-                () -> preMatchClient.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null)));
+            () -> preMatchClient.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null, null)));
         this.execute("Get Livescore",
-                () -> preMatchClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null)));
+            () -> preMatchClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null, null)));
         this.execute("Get Fixture Markets",
-                () -> preMatchClient.getFixtureMarkets(new GetMarketRequestDto(null, null, null, null, null, null)));
+            () -> preMatchClient.getFixtureMarkets(new GetMarketRequestDto(null, null, null, null, null, null, null)));
         this.execute("Get Events",
-                () -> preMatchClient.getEvents(new GetEventsRequestDto(null, null, null, null, null, null)));
+            () -> preMatchClient.getEvents(new GetEventsRequestDto(null, null, null, null, null, null, null)));
+        this.execute("Get Outrights Events",
+            () -> preMatchClient.getOutrightEvents(new GetOutrightEventsDto(null, null, null, null, null, null, null)));
     }
 
     private void inPlayApi() {
@@ -66,13 +69,13 @@ public class SnapshotApiExampleApplication {
         System.out.println("================================");
         System.out.println("===== INPLAY API EXAMPLES: =====");
         this.execute("Get Fixtures",
-                () -> inPlayClient.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null)));
+            () -> inPlayClient.getFixtures(new GetFixturesRequestDto(null, null, null, null, null, null, null)));
         this.execute("Get Livescore",
-                () -> inPlayClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null)));
+            () -> inPlayClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null, null)));
         this.execute("Get Fixture Markets",
-                () -> inPlayClient.getFixtureMarkets(new GetMarketRequestDto(null, null, null, null, null, null)));
+            () -> inPlayClient.getFixtureMarkets(new GetMarketRequestDto(null, null, null, null, null, null, null)));
         this.execute("Get Events",
-                () -> inPlayClient.getEvents(new GetEventsRequestDto(null, null, null, null, null, null)));
+            () -> inPlayClient.getEvents(new GetEventsRequestDto(null, null, null, null, null, null, null)));
     }
 
     private <T> void execute(String exampleName, Supplier<T> c) {

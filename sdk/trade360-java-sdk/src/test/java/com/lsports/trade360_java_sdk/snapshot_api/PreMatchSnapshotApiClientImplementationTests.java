@@ -8,6 +8,7 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetEventsReq
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetMarketRequestDto;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetOutrightEventsDto;
 import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
 
 public class PreMatchSnapshotApiClientImplementationTests {
@@ -19,6 +20,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
 
         // Act
         client.getFixtures(new GetFixturesRequestDto(
+            null,
             null,
             null,
             null,
@@ -44,6 +46,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
             null,
             null,
             null,
+            null,
             null
         ));
 
@@ -59,6 +62,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
 
         // Act
         client.getFixtureMarkets(new GetMarketRequestDto(
+            null,
             null,
             null,
             null,
@@ -84,10 +88,32 @@ public class PreMatchSnapshotApiClientImplementationTests {
             null,
             null,
             null,
+            null,
             null
         ));
 
         // Assert
         verify(mockedClient).postRequest(any(), eq("/Prematch/GetEvents"));
+    }
+
+    @Test
+    public void getOutrightsEvents_calledWithCorrectRequest_callsCorrectUrl(){
+        // Arrange
+        var mockedClient = mock(SnapshotApiRestClient.class);
+        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+
+        // Act
+        client.getOutrightEvents(new GetOutrightEventsDto(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ));
+
+        // Assert
+        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightEvents"));
     }
 }

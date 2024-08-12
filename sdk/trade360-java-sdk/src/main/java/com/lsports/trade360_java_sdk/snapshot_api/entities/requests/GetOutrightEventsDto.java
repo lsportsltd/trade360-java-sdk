@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 
 import jakarta.annotation.Nullable;
 
-public final record GetMarketRequestDto(
+public final record GetOutrightEventsDto(
     @Nullable ZonedDateTime fromDate,
     @Nullable ZonedDateTime toDate,
     @Nullable Iterable<Integer> sports,
