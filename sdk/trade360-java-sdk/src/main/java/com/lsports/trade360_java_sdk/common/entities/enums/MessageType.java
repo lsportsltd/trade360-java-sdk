@@ -1,6 +1,6 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
-public enum MessageTypes {
+public enum MessageType {
     FixtureMetadataUpdate(1),
     LivescoreUpdate(2),
     MarketUpdate(3),
@@ -10,15 +10,15 @@ public enum MessageTypes {
 
     private int value;
 
-    MessageTypes(int value) {
+    MessageType(int value) {
         this.value = value;
     }
     public void setValue(int value) { this.value = value;}
 
     public int getValue() { return this.value; }
 
-    public static MessageTypes finMessageType(int typeId){
-        for(MessageTypes v : values()){
+    public static MessageType finMessageType(int typeId) throws ClassNotFoundException {
+        for(MessageType v : values()){
             if( v.value == typeId){
                 return v;
             }

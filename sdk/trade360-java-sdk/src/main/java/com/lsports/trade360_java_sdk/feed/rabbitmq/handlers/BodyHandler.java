@@ -1,4 +1,4 @@
-package com.lsports.trade360feedexample;
+package com.lsports.trade360_java_sdk.feed.rabbitmq.handlers;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,48 +6,52 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lsports.trade360_java_sdk.common.entities.enums.MessageType;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.BodyHandling;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
 import lombok.val;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+
 import java.text.MessageFormat;
 
-@Service
-public class RabbitMQFeed {
-
+@Component
+public class BodyHandler<T> implements BodyHandling {
+    private final EntityHandling<T> entityHandling;
     private final String messageTypePath = "com.lsports.trade360_java_sdk.common.entities.messagetypes.";
     private final String typeIdPropertyHeaderName = "type";
     private final ObjectMapper objectMapper;
-    private final EntityHandling entityHandling;
 
-    public RabbitMQFeed(EntityHandling entityHandling) {
+    public BodyHandler(EntityHandling<T> entityHandler) {
 
-        this.entityHandling = entityHandling;
+        this.entityHandling = entityHandler;
         objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
                 .configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .registerModule(new JavaTimeModule());
     }
 
-    @RabbitListener(queues = "_${rabbitmq.inplay.package_id}_")
-    public void processMessage(final Message message) throws Exception {
+    @Override
+    public void Process(Message message) throws Exception {
 
-        Class<?> msgType = getMsgType(message);
+        Class<T> msgType = getMsgType(message);
         val msg = parseMessage(message,msgType);
         entityHandling.Process(msg);
+
     }
 
-   private Class<?> getMsgType(final Message message) throws ClassNotFoundException, RabbitMQFeedException {
+    private Class<T> getMsgType(final Message message) throws ClassNotFoundException, RabbitMQFeedException {
 
-       val typeId = getTypeIdFromMessage(message);
-       val className = MessageType.finMessageType(typeId);
+        val typeId = getTypeIdFromMessage(message);
+        val className = MessageType.finMessageType(typeId);
 
-       if (className == null)
-         throw new RabbitMQFeedException(MessageFormat.format("Message TypeId: {0} not registered in enum MessageTypes or wrong or not provided in message.", typeId));
-       else
-         return  Class.forName(messageTypePath + className);
-   }
+        if (className == null)
+            throw new RabbitMQFeedException(MessageFormat.format("Message TypeId: {0} not registered in enum MessageTypes or wrong or not provided in message.", typeId));
+        else
+
+           // return  Class.forName(messageTypePath + className);
+            return  Class.forName(messageTypePath + className);
+
+    }
 
     private int getTypeIdFromMessage(final Message message) throws RabbitMQFeedException {
         String typeIdHeaderValue = message.getMessageProperties().getHeader(typeIdPropertyHeaderName);
@@ -58,7 +62,7 @@ public class RabbitMQFeed {
             return Integer.parseInt(typeIdHeaderValue);
     }
 
-    private <T> T parseMessage(final Message message, final Class<T> clazz) throws Exception {
+    private T parseMessage(final Message message, final Class<T> clazz) throws Exception {
         try {
             val value = objectMapper.readValue(message.getBody(), clazz);
             return value;
@@ -67,4 +71,3 @@ public class RabbitMQFeed {
         }
     }
 }
-
