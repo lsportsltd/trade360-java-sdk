@@ -9,26 +9,23 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedExcept
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.BodyHandling;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
 import lombok.val;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.swing.text.html.parser.Entity;
 import java.text.MessageFormat;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 @Component
-public class BodyHandler<T extends EntityHandling> implements BodyHandling {
-    //@Autowired
-   // private final EntityHandling<T> entityHandling;
+public class BodyHandler implements BodyHandling {
+    ConcurrentHashMap<Integer, EntityHandling> entityMap;
     private final String messageTypePath = "com.lsports.trade360_java_sdk.common.entities.messagetypes.";
     private final String typeIdPropertyHeaderName = "type";
     private final ObjectMapper objectMapper;
 
-  //  public BodyHandler(EntityHandling<T> entityHandler) {
       public BodyHandler(){
-
-        //this.entityHandling = entityHandler;
-        objectMapper = new ObjectMapper()
+          entityMap = new ConcurrentHashMap<>();
+          objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
                 .configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .registerModule(new JavaTimeModule());
@@ -38,11 +35,20 @@ public class BodyHandler<T extends EntityHandling> implements BodyHandling {
     public void Process(Message message) throws Exception {
 
         val msgType = getMsgType(message);
+        //msgType.newInstance();
         val msg = parseMessage(message,msgType);
-        msg.Process();
-        ((T)msg).Process();
+        val typeId = getTypeIdFromMessage(message);
+        val handler = entityMap.get(typeId);
+        handler.Process(msg);
+        //val msg = objectMapper.readValue(message.getBody(), msgType);
+        //((T)msg).Process(msg);
+     //   entityHandling.Process(msg);
+     //   val ff4r = ResolvableType.forClass(msgType);
     }
 
+    public void RegisterEntityHandler(EntityHandling entityHandling){
+        entityMap.put(entityHandling.GetEntityKey(),entityHandling);
+    }
     private Class<?> getMsgType(final Message message) throws ClassNotFoundException, RabbitMQFeedException {
 
         val typeId = getTypeIdFromMessage(message);
@@ -54,7 +60,7 @@ public class BodyHandler<T extends EntityHandling> implements BodyHandling {
             return Class.forName(messageTypePath + className);
     }
 
-    private int getTypeIdFromMessage(final Message message) throws RabbitMQFeedException {
+    private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
         String typeIdHeaderValue = message.getMessageProperties().getHeader(typeIdPropertyHeaderName);
 
         if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
@@ -63,10 +69,9 @@ public class BodyHandler<T extends EntityHandling> implements BodyHandling {
             return Integer.parseInt(typeIdHeaderValue);
     }
 
-    private T parseMessage(final Message message, final Class<?> clazz) throws Exception {
+    private Object parseMessage(final Message message, final Class<?> clazz) throws Exception {
         try {
-            val value = objectMapper.readValue(message.getBody(), clazz);
-            return (T)value;
+            return objectMapper.readValue(message.getBody(), clazz);
         } catch (final Exception ex) {
             throw new Exception("Failed to parse event message");
         }

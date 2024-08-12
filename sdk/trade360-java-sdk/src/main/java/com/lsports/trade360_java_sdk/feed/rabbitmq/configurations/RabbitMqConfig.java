@@ -27,8 +27,6 @@ public class RabbitMqConfig {
         this.connectionFactory = cachingConnectionFactory;
     }
 
-
-
     @Bean
     public Jackson2JsonMessageConverter converterWithMapper() {
         Jackson2JsonMessageConverter jsonConverter = new Jackson2JsonMessageConverter();
