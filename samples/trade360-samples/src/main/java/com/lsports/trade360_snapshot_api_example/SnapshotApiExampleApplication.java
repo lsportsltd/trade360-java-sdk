@@ -10,6 +10,7 @@ import org.springframework.web.client.RestClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
 import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetEventsRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequestDto;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetMarketRequestDto;
@@ -53,6 +54,8 @@ public class SnapshotApiExampleApplication {
                 () -> preMatchClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null)));
         this.execute("Get Fixture Markets",
                 () -> preMatchClient.getFixtureMarkets(new GetMarketRequestDto(null, null, null, null, null, null)));
+        this.execute("Get Events",
+                () -> preMatchClient.getEvents(new GetEventsRequestDto(null, null, null, null, null, null)));
     }
 
     private void inPlayApi() {
@@ -68,6 +71,8 @@ public class SnapshotApiExampleApplication {
                 () -> inPlayClient.getLivescore(new GetLivescoreRequestDto(null, null, null, null, null, null)));
         this.execute("Get Fixture Markets",
                 () -> inPlayClient.getFixtureMarkets(new GetMarketRequestDto(null, null, null, null, null, null)));
+        this.execute("Get Events",
+                () -> inPlayClient.getEvents(new GetEventsRequestDto(null, null, null, null, null, null)));
     }
 
     private <T> void execute(String exampleName, Supplier<T> c) {

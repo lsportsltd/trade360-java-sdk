@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 
 import jakarta.annotation.Nullable;
 
-public final record GetLivescoreRequestDto(
+public final record GetEventsRequestDto(
     @Nullable ZonedDateTime fromDate,
     @Nullable ZonedDateTime toDate,
     @Nullable Iterable<Integer> sports,
