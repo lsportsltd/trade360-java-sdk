@@ -1,6 +1,5 @@
-package com.lsports.trade360_java_sdk.feed.rabbitmq;
+package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lsports.trade360_java_sdk.common.entities.messagetypes.MarketUpdate;
 import com.lsports.trade360_java_sdk.common.models.TestClass;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
@@ -27,6 +26,8 @@ public class RabbitMqConfig {
     public RabbitMqConfig(CachingConnectionFactory cachingConnectionFactory) {
         this.connectionFactory = cachingConnectionFactory;
     }
+
+
 
     @Bean
     public Jackson2JsonMessageConverter converterWithMapper() {

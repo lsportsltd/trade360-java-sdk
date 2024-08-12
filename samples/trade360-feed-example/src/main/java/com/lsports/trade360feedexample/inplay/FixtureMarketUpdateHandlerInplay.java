@@ -4,9 +4,9 @@ import com.lsports.trade360_java_sdk.common.entities.messagetypes.LivescoreUpdat
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
 
 
-public class FixtureMarketUpdateHandlerInplay implements EntityHandling<LivescoreUpdate> {
+public class FixtureMarketUpdateHandlerInplay implements EntityHandling {
     @Override
-    public void Process(LivescoreUpdate entity) {
-        System.out.println( "Received: " + entity.getClass().getSimpleName());
+    public void Process() {
+        System.out.println( "Received: " + this.getClass().getSimpleName());
     }
 }
