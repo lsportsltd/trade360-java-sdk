@@ -2,40 +2,41 @@ package com.lsports.trade360_java_sdk.common.entities.markets;
 
 import java.time.LocalDateTime;
 import com.lsports.trade360_java_sdk.common.entities.enums.*;
+import jakarta.annotation.Nullable;
 
 public class Bet {
 
     public long id;
 
-    public String name;
+    @Nullable public String name;
 
-    public String line;
+    @Nullable public String line;
 
-    public String baseLine;
+    @Nullable public String baseLine;
 
     public BetStatus status;
 
-    public String startPrice;
+    @Nullable public String startPrice;
 
-    public String price;
+    @Nullable public String price;
 
-    public String priceVolume;
+    @Nullable public String priceVolume;
 
     public SettlementType settlement;
 
-    public String providerBetId;
+    @Nullable public String providerBetId;
 
     public LocalDateTime lastUpdate;
 
-    public String priceIN;
+    @Nullable public String priceIN;
 
-    public String priceUS;
+    @Nullable public String priceUS;
 
-    public String priceUK;
+    @Nullable public String priceUK;
 
-    public String priceMA;
+    @Nullable public String priceMA;
 
-    public String priceHK;
+    @Nullable public String priceHK;
 
     public int isChanged = -1;
 
@@ -43,5 +44,5 @@ public class Bet {
 
     public int participantId;
 
-    public String playerName;
+    @Nullable public String playerName;
 }

@@ -1,8 +1,9 @@
-package com.lsports.trade360_java_sdk.common.entities.markets;
+package com.lsports.trade360_java_sdk.common.entities.outright_league;
 
+import com.lsports.trade360_java_sdk.common.entities.markets.Bet;
 import jakarta.annotation.Nullable;
 
-public class Market {
+public class MarketLeague {
 
     public int id;
 

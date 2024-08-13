@@ -1,12 +1,13 @@
 package com.lsports.trade360_java_sdk.common.entities.keepalive;
 
 import com.lsports.trade360_java_sdk.common.entities.shared.*;
+import jakarta.annotation.Nullable;
 
 public class KeepAlive {
 
-    public Iterable<Integer> activeEvents;
+    @Nullable public Iterable<Integer> activeEvents;
 
-    public Iterable<NameValuePair> extraData;
+    @Nullable public Iterable<NameValuePair> extraData;
 
-    public Integer providerId;
+    @Nullable public Integer providerId;
 }

@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.livescore;
 
+import jakarta.annotation.Nullable;
+
 public class Incident {
 
     public int period;
@@ -8,11 +10,11 @@ public class Incident {
 
     public int seconds;
 
-    public String participantPosition;
+    @Nullable public String participantPosition;
 
-    public String playerId;
+    @Nullable public String playerId;
 
-    public String playerName;
+    @Nullable public String playerName;
 
-    public Iterable<Result> results;
+    @Nullable public Iterable<Result> results;
 }

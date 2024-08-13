@@ -4,26 +4,27 @@ import com.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 
 import java.time.LocalDateTime;
 import com.lsports.trade360_java_sdk.common.entities.shared.*;
+import jakarta.annotation.Nullable;
 
 public class Fixture {
 
-    public Sport sport;
+    @Nullable public Sport sport;
 
-    public Location location;
+    @Nullable public Location location;
 
-    public League league;
+    @Nullable public League league;
 
-    public LocalDateTime startDate;
+    @Nullable public LocalDateTime startDate;
 
     public LocalDateTime lastUpdate;
 
     public FixtureStatus status;
 
-    public Iterable<Participant> participants;
+    @Nullable public Iterable<Participant> participants;
 
-    public Iterable<NameValuePair> fixtureExtraData;
+    @Nullable public Iterable<NameValuePair> fixtureExtraData;
 
-    public String externalfixtureId;
+    @Nullable public String externalfixtureId;
 
-    public Subscription subscription;
+    @Nullable public Subscription subscription;
 }

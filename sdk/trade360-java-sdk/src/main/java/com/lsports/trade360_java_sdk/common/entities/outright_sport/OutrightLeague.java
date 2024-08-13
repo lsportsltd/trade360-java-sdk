@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.common.entities.outright;
+package com.lsports.trade360_java_sdk.common.entities.outright_sport;
 
 import com.lsports.trade360_java_sdk.common.entities.shared.*;
 

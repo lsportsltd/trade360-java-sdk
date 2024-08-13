@@ -1,7 +1,6 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
 import com.lsports.trade360_java_sdk.common.entities.messagetypes.MarketUpdate;
-import com.lsports.trade360_java_sdk.common.models.TestClass;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -39,7 +38,6 @@ public class RabbitMqConfig {
     public DefaultClassMapper classMapper() {
         DefaultClassMapper classMapper = new DefaultClassMapper();
         Map<String, Class<?>> idClassMapping = new HashMap<>();
-        idClassMapping.put("TestClass", TestClass.class);
         idClassMapping.put("MarketUpdate", MarketUpdate.class);
         classMapper.setIdClassMapping(idClassMapping);
         return classMapper;

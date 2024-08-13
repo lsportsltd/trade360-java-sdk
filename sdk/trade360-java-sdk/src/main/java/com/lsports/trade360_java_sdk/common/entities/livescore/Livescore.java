@@ -1,14 +1,15 @@
 package com.lsports.trade360_java_sdk.common.entities.livescore;
 
 import com.lsports.trade360_java_sdk.common.entities.shared.*;
+import jakarta.annotation.Nullable;
 
 public class Livescore {
-    
-    public Scoreboard scoreboard;
 
-    public Iterable<Period> periods;
+    @Nullable public Scoreboard scoreboard;
 
-    public Iterable<Statistic> statistics;
+    @Nullable public Iterable<Period> periods;
 
-    public Iterable<NameValuePair> livescoreExtraData;
+    @Nullable public Iterable<Statistic> statistics;
+
+    @Nullable public Iterable<NameValuePair> livescoreExtraData;
 }
