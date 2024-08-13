@@ -19,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class BodyHandler implements BodyHandling {
     ConcurrentHashMap<Integer, EntityHandling> entityMap;
-    private final String messageTypePath = "com.lsports.trade360_java_sdk.common.entities.messagetypes.";
-    private final String typeIdPropertyHeaderName = "type";
+    private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.messagetypes.";
+    private final static String typeIdPropertyHeaderName = "type";
     private final ObjectMapper objectMapper;
 
       public BodyHandler(){
@@ -35,15 +35,10 @@ public class BodyHandler implements BodyHandling {
     public void Process(Message message) throws Exception {
 
         val msgType = getMsgType(message);
-        //msgType.newInstance();
         val msg = parseMessage(message,msgType);
         val typeId = getTypeIdFromMessage(message);
         val handler = entityMap.get(typeId);
         handler.Process(msg);
-        //val msg = objectMapper.readValue(message.getBody(), msgType);
-        //((T)msg).Process(msg);
-     //   entityHandling.Process(msg);
-     //   val ff4r = ResolvableType.forClass(msgType);
     }
 
     public void RegisterEntityHandler(EntityHandling entityHandling){
@@ -57,7 +52,7 @@ public class BodyHandler implements BodyHandling {
         if (className == null)
             throw new RabbitMQFeedException(MessageFormat.format("Message TypeId: {0} not registered in enum MessageTypes or wrong or not provided in message.", typeId));
         else
-            return Class.forName(messageTypePath + className);
+            return Class.forName(messageTypeClassPath + className);
     }
 
     private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException {

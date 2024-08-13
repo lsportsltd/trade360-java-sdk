@@ -5,7 +5,7 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.Entity;
 import org.springframework.boot.jackson.JsonComponent;
 
 @JsonComponent
-public class MarketUpdate implements Entity {
+public class MarketUpdate  {
 
     public final static int entityKey = 3;
 

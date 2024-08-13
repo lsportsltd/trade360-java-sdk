@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMQFeed {
 
-    @Autowired
     private final BodyHandling bodyHandling;
 
     public RabbitMQFeed(BodyHandling bodyHandling) {
@@ -19,9 +18,7 @@ public class RabbitMQFeed {
 
     @RabbitListener(queues = "_${rabbitmq.inplay.package_id}_")
     public void processMessage(final Message message) throws Exception {
-
           bodyHandling.Process(message);
-        System.out.println("OK");
     }
 }
 

@@ -19,7 +19,7 @@ public class OutrightFixture {
 
     public Iterable<Participant> participants;
 
-    public Iterable<NameValuePair> fixtureExtraData;
+    public Iterable<NameValuePair> ExtraData;
 
-    public String externalfixtureId;
+    public Subscription Subscription;
 }
