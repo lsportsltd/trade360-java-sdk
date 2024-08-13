@@ -50,7 +50,7 @@ public class BodyHandler implements BodyHandling {
         val className = MessageType.finMessageType(typeId);
 
         if (className == null)
-            throw new RabbitMQFeedException(MessageFormat.format("Message TypeId: {0} not registered in enum MessageTypes or wrong or not provided in message.", typeId));
+            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity",typeId));
         else
             return Class.forName(messageTypeClassPath + className);
     }
@@ -59,7 +59,7 @@ public class BodyHandler implements BodyHandling {
         String typeIdHeaderValue = message.getMessageProperties().getHeader(typeIdPropertyHeaderName);
 
         if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
-            throw new RabbitMQFeedException("Wrong or lack of 'type' property in Rabbit message header.");
+            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity, Due to: Wrong or lack of 'type' property in Rabbit message header.",typeIdHeaderValue));
         else
             return Integer.parseInt(typeIdHeaderValue);
     }
@@ -68,7 +68,7 @@ public class BodyHandler implements BodyHandling {
         try {
             return objectMapper.readValue(message.getBody(), clazz);
         } catch (final Exception ex) {
-            throw new Exception("Failed to parse event message");
+            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity", clazz.getSimpleName()));
         }
     }
 }
