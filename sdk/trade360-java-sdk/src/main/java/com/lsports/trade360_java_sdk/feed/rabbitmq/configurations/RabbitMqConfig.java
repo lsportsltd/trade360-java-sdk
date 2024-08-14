@@ -1,6 +1,10 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
 import com.lsports.trade360_java_sdk.common.entities.messagetypes.MarketUpdate;
+import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -19,13 +23,23 @@ import java.util.Map;
 
 @Configuration
 public class RabbitMqConfig {
+    private final RabbitConfiguration rabbitConfiguration;
 
-    private final CachingConnectionFactory connectionFactory;
-
-    public RabbitMqConfig(CachingConnectionFactory cachingConnectionFactory) {
-        this.connectionFactory = cachingConnectionFactory;
+    public RabbitMqConfig( RabbitConfiguration rabbitConfiguration) {
+        this.rabbitConfiguration = rabbitConfiguration;
+        val host = rabbitConfiguration.host;
     }
 
+    @Bean
+    public CachingConnectionFactory connectionFactory() {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        connectionFactory.setVirtualHost(rabbitConfiguration.virtual_host);
+        connectionFactory.setHost(rabbitConfiguration.host);
+        connectionFactory.setUsername(rabbitConfiguration.user_name);
+        connectionFactory.setPassword(rabbitConfiguration.password);
+
+        return connectionFactory;
+    }
     @Bean
     public Jackson2JsonMessageConverter converterWithMapper() {
         Jackson2JsonMessageConverter jsonConverter = new Jackson2JsonMessageConverter();
@@ -45,7 +59,7 @@ public class RabbitMqConfig {
 
     @Bean
     public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setMessageConverter(converterWithMapper());
         return rabbitTemplate;
     }
@@ -61,7 +75,7 @@ public class RabbitMqConfig {
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(SimpleRabbitListenerContainerFactoryConfigurer configurer) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        configurer.configure(factory, connectionFactory);
+        configurer.configure(factory, connectionFactory());
         factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         factory.setAdviceChain(retryInterceptor());
         factory.setDefaultRequeueRejected(false);
