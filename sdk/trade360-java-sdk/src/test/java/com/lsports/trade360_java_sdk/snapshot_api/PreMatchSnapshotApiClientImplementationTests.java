@@ -4,11 +4,7 @@ import org.junit.Test;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetEventsRequestDto;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixturesRequestDto;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequestDto;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetMarketRequestDto;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetOutrightEventsDto;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
 
 public class PreMatchSnapshotApiClientImplementationTests {
@@ -19,7 +15,9 @@ public class PreMatchSnapshotApiClientImplementationTests {
         var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
 
         // Act
-        client.getFixtures(new GetFixturesRequestDto(
+        client.getFixtures(new GetSnapshotRequest(
+            null,
+            null,
             null,
             null,
             null,
@@ -40,7 +38,9 @@ public class PreMatchSnapshotApiClientImplementationTests {
         var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
 
         // Act
-        client.getLivescore(new GetLivescoreRequestDto(
+        client.getLivescore(new GetSnapshotRequest(
+            null,
+            null,
             null,
             null,
             null,
@@ -61,7 +61,9 @@ public class PreMatchSnapshotApiClientImplementationTests {
         var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
 
         // Act
-        client.getFixtureMarkets(new GetMarketRequestDto(
+        client.getFixtureMarkets(new GetSnapshotRequest(
+            null,
+            null,
             null,
             null,
             null,
@@ -82,7 +84,9 @@ public class PreMatchSnapshotApiClientImplementationTests {
         var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
 
         // Act
-        client.getEvents(new GetEventsRequestDto(
+        client.getEvents(new GetSnapshotRequest(
+            null,
+            null,
             null,
             null,
             null,
@@ -103,7 +107,9 @@ public class PreMatchSnapshotApiClientImplementationTests {
         var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
 
         // Act
-        client.getOutrightEvents(new GetOutrightEventsDto(
+        client.getOutrightEvents(new GetSnapshotRequest(
+            null,
+            null,
             null,
             null,
             null,
