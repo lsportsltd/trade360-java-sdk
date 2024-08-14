@@ -1,10 +1,7 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
 import com.lsports.trade360_java_sdk.common.entities.messagetypes.MarketUpdate;
-import lombok.Value;
-import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -27,7 +24,6 @@ public class RabbitMqConfig {
 
     public RabbitMqConfig( RabbitConfiguration rabbitConfiguration) {
         this.rabbitConfiguration = rabbitConfiguration;
-        val host = rabbitConfiguration.host;
     }
 
     @Bean
@@ -73,9 +69,9 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(SimpleRabbitListenerContainerFactoryConfigurer configurer) {
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(SimpleRabbitListenerContainerFactoryConfigurer rabbitListenerFactoryConfig) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        configurer.configure(factory, connectionFactory());
+        rabbitListenerFactoryConfig.configure(factory, connectionFactory());
         factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         factory.setAdviceChain(retryInterceptor());
         factory.setDefaultRequeueRejected(false);
