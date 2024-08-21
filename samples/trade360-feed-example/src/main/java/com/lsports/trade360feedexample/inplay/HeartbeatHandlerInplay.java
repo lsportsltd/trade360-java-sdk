@@ -11,6 +11,6 @@ public class HeartbeatHandlerInplay implements EntityHandling<HeartbeatUpdate> {
 
     @Override
     public int GetEntityKey() {
-        return 0;
+        return HeartbeatUpdate.entityKey;
     }
 }

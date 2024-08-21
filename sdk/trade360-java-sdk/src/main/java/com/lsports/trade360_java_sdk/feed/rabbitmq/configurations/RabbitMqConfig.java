@@ -20,19 +20,19 @@ import java.util.Map;
 
 @Configuration
 public class RabbitMqConfig {
-    private final RabbitConfiguration rabbitConfiguration;
+    private final RabbitConnectionConfiguration rabbitConnectionConfiguration;
 
-    public RabbitMqConfig( RabbitConfiguration rabbitConfiguration) {
-        this.rabbitConfiguration = rabbitConfiguration;
+    public RabbitMqConfig( RabbitConnectionConfiguration rabbitConnectionConfiguration) {
+        this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
     }
 
     @Bean
     public CachingConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setVirtualHost(rabbitConfiguration.virtual_host);
-        connectionFactory.setHost(rabbitConfiguration.host);
-        connectionFactory.setUsername(rabbitConfiguration.user_name);
-        connectionFactory.setPassword(rabbitConfiguration.password);
+        connectionFactory.setVirtualHost(rabbitConnectionConfiguration.virtual_host);
+        connectionFactory.setHost(rabbitConnectionConfiguration.host);
+        connectionFactory.setUsername(rabbitConnectionConfiguration.user_name);
+        connectionFactory.setPassword(rabbitConnectionConfiguration.password);
         return connectionFactory;
     }
     @Bean

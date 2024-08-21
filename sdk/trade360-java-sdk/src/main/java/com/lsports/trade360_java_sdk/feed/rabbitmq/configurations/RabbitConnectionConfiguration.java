@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties("rabbitmq.inplay")
-public class RabbitConfiguration {
+public class RabbitConnectionConfiguration {
 
     public int package_id;
 

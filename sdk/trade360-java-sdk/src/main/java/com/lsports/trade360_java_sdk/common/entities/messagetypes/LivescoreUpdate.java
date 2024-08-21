@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lsports.trade360_java_sdk.common.entities.livescore.LivescoreEvent;
 import jakarta.annotation.Nullable;
 
-public class LivescoreUpdate  {
+public class LivescoreUpdate {
     @JsonIgnore
     public final static int entityKey = 2;
 

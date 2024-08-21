@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lsports.trade360_java_sdk.common.entities.enums.MessageType;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
-import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.BodyHandling;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandling;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
@@ -19,13 +19,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
-public class BodyHandler implements BodyHandling {
+public class MessageHandler implements MessageHandling {
+    //private final RabbitConnectionConfiguration rabbitConnectionConfiguration;
     ConcurrentHashMap<Integer, EntityHandling> entityMap;
     private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.messagetypes.";
-    private final static String typeIdPropertyHeaderName = "type";
+    private final static String typeIdPropertyHeaderName = "Type";
     private final ObjectMapper objectMapper;
 
-      public BodyHandler(){
+      public MessageHandler(){ //(RabbitConnectionConfiguration rabbitConnectionConfiguration){
+         // this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
           entityMap = new ConcurrentHashMap<>();
           objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
@@ -38,7 +40,8 @@ public class BodyHandler implements BodyHandling {
 
         val typeId = getTypeIdFromMessage(message);
         val msgType = getMsgType(typeId);
-        val msg = parseMessage(message,msgType);
+        val body = getBodyFromMessage(message);
+        val msg = ParseMessage(body,msgType);
         val handler = entityMap.get(typeId);
         handler.Process(msg);
     }
@@ -58,7 +61,7 @@ public class BodyHandler implements BodyHandling {
 
     private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
         val map = objectMapper.readValue(message.getBody(), Map.class);
-        val typeIdHeaderValue =((Map)map.get("Header")).get("Type").toString();
+        val typeIdHeaderValue =((Map)map.get("Header")).get(typeIdPropertyHeaderName).toString();
 
         if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize '{0}' entity, Due to: Wrong or lack of 'type' property in Rabbit message header.",typeIdHeaderValue));
@@ -66,9 +69,14 @@ public class BodyHandler implements BodyHandling {
             return Integer.parseInt(typeIdHeaderValue);
     }
 
-    private Object parseMessage(final Message message, final Class<?> clazz) throws Exception {
+    private String getBodyFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
+        val body = objectMapper.readValue(message.getBody(), Map.class).get("Body");
+        return objectMapper.writeValueAsString(body);
+    }
+
+    private Object ParseMessage(final String json, final Class<?> clazz) throws Exception {
         try {
-            return objectMapper.readValue(message.getBody(), clazz);
+            return objectMapper.readValue(json, clazz);
         } catch (final Exception ex) {
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize '{0}' entity", clazz.getSimpleName()));
         }
