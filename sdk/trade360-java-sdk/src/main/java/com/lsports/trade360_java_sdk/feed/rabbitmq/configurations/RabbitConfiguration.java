@@ -1,10 +1,7 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Configuration;
 
 @Data

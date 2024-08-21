@@ -12,7 +12,9 @@ import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
+import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -34,9 +36,9 @@ public class BodyHandler implements BodyHandling {
     @Override
     public void Process(Message message) throws Exception {
 
-        val msgType = getMsgType(message);
-        val msg = parseMessage(message,msgType);
         val typeId = getTypeIdFromMessage(message);
+        val msgType = getMsgType(typeId);
+        val msg = parseMessage(message,msgType);
         val handler = entityMap.get(typeId);
         handler.Process(msg);
     }
@@ -44,9 +46,8 @@ public class BodyHandler implements BodyHandling {
     public void RegisterEntityHandler(EntityHandling entityHandling){
         entityMap.put(entityHandling.GetEntityKey(),entityHandling);
     }
-    private Class<?> getMsgType(final Message message) throws ClassNotFoundException, RabbitMQFeedException {
 
-        val typeId = getTypeIdFromMessage(message);
+    private Class<?> getMsgType(final int typeId ) throws ClassNotFoundException, RabbitMQFeedException {
         val className = MessageType.finMessageType(typeId);
 
         if (className == null)
@@ -55,8 +56,9 @@ public class BodyHandler implements BodyHandling {
             return Class.forName(messageTypeClassPath + className);
     }
 
-    private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
-        String typeIdHeaderValue = message.getMessageProperties().getHeader(typeIdPropertyHeaderName);
+    private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
+        val map = objectMapper.readValue(message.getBody(), Map.class);
+        val typeIdHeaderValue =((Map)map.get("Header")).get("Type").toString();
 
         if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize '{0}' entity, Due to: Wrong or lack of 'type' property in Rabbit message header.",typeIdHeaderValue));

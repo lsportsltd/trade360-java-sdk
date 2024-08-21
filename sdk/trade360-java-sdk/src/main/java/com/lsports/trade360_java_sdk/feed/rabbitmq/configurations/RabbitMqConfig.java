@@ -1,7 +1,6 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
 import com.lsports.trade360_java_sdk.common.entities.messagetypes.MarketUpdate;
-import lombok.val;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -15,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 import org.springframework.amqp.core.AcknowledgeMode;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +33,6 @@ public class RabbitMqConfig {
         connectionFactory.setHost(rabbitConfiguration.host);
         connectionFactory.setUsername(rabbitConfiguration.user_name);
         connectionFactory.setPassword(rabbitConfiguration.password);
-
         return connectionFactory;
     }
     @Bean

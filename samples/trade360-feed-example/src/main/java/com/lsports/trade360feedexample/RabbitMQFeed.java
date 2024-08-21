@@ -16,7 +16,7 @@ public class RabbitMQFeed {
 
     @RabbitListener(queues = "_${rabbitmq.inplay.package_id}_")
     public void processMessage(final Message message) throws Exception {
-          bodyHandling.Process(message);
+        bodyHandling.Process(message);
     }
 }
 
