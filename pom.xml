@@ -10,6 +10,6 @@
 
 	<modules>
 		<module>sdk/trade360-java-sdk</module>
-		<module>samples/trade360-feed-example</module>
+		<module>samples/trade360-samples</module>
 	</modules>
 </project>
