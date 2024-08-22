@@ -8,9 +8,6 @@ import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 
 public class RabbitMqConfig {
 
-    public RabbitMqConfig( ) {
-    }
-
     @Bean
     public Jackson2JsonMessageConverter converter() {
         return new Jackson2JsonMessageConverter();
