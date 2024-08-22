@@ -18,12 +18,12 @@ public class RabbitMQFeed {
         this.preMatchMessageHandler = preMatchMessageHandler;
     }
 
-    @RabbitListener( containerFactory="rabbitListenerContainerFactory", queues = "_${rabbitmq.inplay.package_id}_")
+    @RabbitListener( containerFactory="InPlayRabbitListenerContainerFactory", queues = "_${rabbitmq.inplay.package_id}_")
     public void inPlayProcessMessage(final Message message) throws Exception {
         inPlayMessageHandling.Process(message);
     }
 
-    @RabbitListener( containerFactory="rabbitListenerContainerFactory", queues = "_${rabbitmq.prematch.package_id}_")
+    @RabbitListener( containerFactory="preMatchRabbitListenerContainerFactory", queues = "_${rabbitmq.prematch.package_id}_")
     public void preMatchProcessMessage(final Message message) throws Exception {
         preMatchMessageHandler.Process(message);
     }

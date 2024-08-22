@@ -26,8 +26,7 @@ public class MessageHandler implements MessageHandling {
     private final static String typeIdPropertyHeaderName = "Type";
     private final ObjectMapper objectMapper;
 
-      public MessageHandler(){ //(RabbitConnectionConfiguration rabbitConnectionConfiguration){
-         // this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
+      public MessageHandler(){
           entityMap = new ConcurrentHashMap<>();
           objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)

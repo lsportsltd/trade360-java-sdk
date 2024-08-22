@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties("rabbitmq.inplay")
 public class RabbitConnectionConfiguration {
 
+    public String name;
+
     public int package_id;
 
     public String host;
