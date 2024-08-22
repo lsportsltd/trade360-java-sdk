@@ -16,7 +16,7 @@ public class PreMatchRabbitMqConfig extends RabbitMqConfig{
     public final String name;
 
     public PreMatchRabbitMqConfig(@Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration rabbitConnectionConfiguration) {
-        super();
+        super(rabbitConnectionConfiguration);
         this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
         this.name = rabbitConnectionConfiguration.name;
     }
@@ -31,24 +31,11 @@ public class PreMatchRabbitMqConfig extends RabbitMqConfig{
         return connectionFactory;
     }
 
-/*    @Bean
-    public Jackson2JsonMessageConverter converter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
-    @Bean
-    public RetryOperationsInterceptor retryInterceptor() {
-        return RetryInterceptorBuilder.stateless().maxAttempts(3)
-                .backOffOptions(2000, 2.0, 100000)
-                .recoverer(new RejectAndDontRequeueRecoverer())
-                .build();
-    }*/
-
     @Bean
     public SimpleRabbitListenerContainerFactory preMatchRabbitListenerContainerFactory(SimpleRabbitListenerContainerFactoryConfigurer rabbitListenerFactoryConfig) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         rabbitListenerFactoryConfig.configure(factory, preMatchConnectionFactory());
-        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        factory.setAcknowledgeMode(rabbitConnectionConfiguration.auto_ack ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
         factory.setAdviceChain(retryInterceptor());
         factory.setDefaultRequeueRejected(false);
         factory.setMessageConverter(converter());

@@ -17,7 +17,7 @@ public class InPlayRabbitMqConfig extends RabbitMqConfig {
     public final String name;
 
     public InPlayRabbitMqConfig(@Qualifier("inPlayRabbitConnectionConfiguration") RabbitConnectionConfiguration rabbitConnectionConfiguration) {
-        super();
+        super(rabbitConnectionConfiguration);
         this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
         this.name = rabbitConnectionConfiguration.name;
     }
@@ -37,7 +37,7 @@ public class InPlayRabbitMqConfig extends RabbitMqConfig {
     public SimpleRabbitListenerContainerFactory inPlayRabbitListenerContainerFactory(SimpleRabbitListenerContainerFactoryConfigurer rabbitListenerFactoryConfig) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         rabbitListenerFactoryConfig.configure(factory, inPlayConnectionFactory());
-        factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        factory.setAcknowledgeMode(rabbitConnectionConfiguration.auto_ack ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
         factory.setAdviceChain(retryInterceptor());
         factory.setDefaultRequeueRejected(false);
         factory.setMessageConverter(converter());
