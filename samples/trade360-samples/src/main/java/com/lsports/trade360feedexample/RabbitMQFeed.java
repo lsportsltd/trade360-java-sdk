@@ -18,7 +18,7 @@ public class RabbitMQFeed {
         this.preMatchMessageHandler = preMatchMessageHandler;
     }
 
-    @RabbitListener( containerFactory="InPlayRabbitListenerContainerFactory", queues = "_${rabbitmq.inplay.package_id}_")
+    @RabbitListener( containerFactory="inPlayRabbitListenerContainerFactory", queues = "_${rabbitmq.inplay.package_id}_")
     public void inPlayProcessMessage(final Message message) throws Exception {
         inPlayMessageHandling.process(message);
     }
