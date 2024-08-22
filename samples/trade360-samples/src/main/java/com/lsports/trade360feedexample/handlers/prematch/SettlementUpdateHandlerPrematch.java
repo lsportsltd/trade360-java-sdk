@@ -1,4 +1,4 @@
-package com.lsports.trade360feedexample.prematch;
+package com.lsports.trade360feedexample.handlers.prematch;
 
 import com.lsports.trade360_java_sdk.common.entities.messagetypes.SettlementUpdate;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;

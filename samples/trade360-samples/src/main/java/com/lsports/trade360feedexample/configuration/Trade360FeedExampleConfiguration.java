@@ -2,11 +2,11 @@ package com.lsports.trade360feedexample.configuration;
 
 import com.lsports.trade360_java_sdk.feed.rabbitmq.configurations.RabbitConnectionConfiguration;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.MessageHandler;
-import com.lsports.trade360feedexample.inplay.FixtureMarketUpdateHandlerInplay;
-import com.lsports.trade360feedexample.inplay.FixtureMetadataUpdateHandlerInplay;
-import com.lsports.trade360feedexample.inplay.HeartbeatHandlerInplay;
-import com.lsports.trade360feedexample.inplay.LivescoreUpdateHandlerInplay;
-import com.lsports.trade360feedexample.prematch.*;
+import com.lsports.trade360feedexample.handlers.inplay.FixtureMarketUpdateHandlerInplay;
+import com.lsports.trade360feedexample.handlers.inplay.FixtureMetadataUpdateHandlerInplay;
+import com.lsports.trade360feedexample.handlers.inplay.HeartbeatHandlerInplay;
+import com.lsports.trade360feedexample.handlers.inplay.LivescoreUpdateHandlerInplay;
+import com.lsports.trade360feedexample.handlers.prematch.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
