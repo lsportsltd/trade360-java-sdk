@@ -20,12 +20,12 @@ public class RabbitMQFeed {
 
     @RabbitListener( containerFactory="InPlayRabbitListenerContainerFactory", queues = "_${rabbitmq.inplay.package_id}_")
     public void inPlayProcessMessage(final Message message) throws Exception {
-        inPlayMessageHandling.Process(message);
+        inPlayMessageHandling.process(message);
     }
 
     @RabbitListener( containerFactory="preMatchRabbitListenerContainerFactory", queues = "_${rabbitmq.prematch.package_id}_")
     public void preMatchProcessMessage(final Message message) throws Exception {
-        preMatchMessageHandler.Process(message);
+        preMatchMessageHandler.process(message);
     }
 }
 

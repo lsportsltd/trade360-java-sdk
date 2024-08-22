@@ -35,18 +35,18 @@ public class MessageHandler implements MessageHandling {
     }
 
     @Override
-    public void Process(Message message) throws Exception {
+    public void process(Message message) throws Exception {
 
         val typeId = getTypeIdFromMessage(message);
         val msgType = getMsgType(typeId);
         val body = getBodyFromMessage(message);
-        val msg = ParseMessage(body,msgType);
+        val msg = parseMessage(body,msgType);
         val handler = entityMap.get(typeId);
-        handler.Process(msg);
+        handler.process(msg);
     }
 
-    public void RegisterEntityHandler(EntityHandling entityHandling){
-        entityMap.put(entityHandling.GetEntityKey(),entityHandling);
+    public void registerEntityHandler(EntityHandling entityHandling){
+        entityMap.put(entityHandling.getEntityKey(),entityHandling);
     }
 
     private Class<?> getMsgType(final int typeId ) throws ClassNotFoundException, RabbitMQFeedException {
@@ -73,7 +73,7 @@ public class MessageHandler implements MessageHandling {
         return objectMapper.writeValueAsString(body);
     }
 
-    private Object ParseMessage(final String json, final Class<?> clazz) throws Exception {
+    private Object parseMessage(final String json, final Class<?> clazz) throws Exception {
         try {
             return objectMapper.readValue(json, clazz);
         } catch (final Exception ex) {

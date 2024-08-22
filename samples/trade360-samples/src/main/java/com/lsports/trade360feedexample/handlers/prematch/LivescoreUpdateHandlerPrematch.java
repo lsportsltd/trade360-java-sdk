@@ -5,12 +5,12 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
 
 public class LivescoreUpdateHandlerPrematch implements EntityHandling<LivescoreUpdate> {
     @Override
-    public void Process(LivescoreUpdate entity) {
+    public void process(LivescoreUpdate entity) {
         System.out.println( "Received: " + this.getClass().getSimpleName());
     }
 
     @Override
-    public int GetEntityKey() {
+    public int getEntityKey() {
         return LivescoreUpdate.entityKey;
     }
 }

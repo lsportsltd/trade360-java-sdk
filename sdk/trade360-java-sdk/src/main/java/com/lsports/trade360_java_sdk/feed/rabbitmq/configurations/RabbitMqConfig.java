@@ -7,13 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 
 public class RabbitMqConfig {
-    private final RabbitConnectionConfiguration rabbitConnectionConfiguration;
 
-    public final String name;
-
-    public RabbitMqConfig( RabbitConnectionConfiguration rabbitConnectionConfiguration) {
-        this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
-        this.name = rabbitConnectionConfiguration.name;
+    public RabbitMqConfig( ) {
     }
 
     @Bean

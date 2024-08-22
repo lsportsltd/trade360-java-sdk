@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface EntityHandling<T> {
-    void Process(T entity);
+    void process(T entity);
 
-    int GetEntityKey();
+    int getEntityKey();
 }

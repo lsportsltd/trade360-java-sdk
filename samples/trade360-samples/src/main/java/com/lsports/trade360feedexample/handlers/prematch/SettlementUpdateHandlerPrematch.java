@@ -5,12 +5,12 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
 
 public class SettlementUpdateHandlerPrematch implements EntityHandling<SettlementUpdate> {
     @Override
-    public void Process(SettlementUpdate entity) {
+    public void process(SettlementUpdate entity) {
 
     }
 
     @Override
-    public int GetEntityKey() {
+    public int getEntityKey() {
         return 0;
     }
 }

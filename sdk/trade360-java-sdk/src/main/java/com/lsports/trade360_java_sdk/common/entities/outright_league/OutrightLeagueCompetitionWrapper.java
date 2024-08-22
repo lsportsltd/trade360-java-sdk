@@ -2,12 +2,12 @@ package com.lsports.trade360_java_sdk.common.entities.outright_league;
 
 import jakarta.annotation.Nullable;
 
-public class OutrightLeagueCompetitionWrapper<TEvent> {
+public class OutrightLeagueCompetitionWrapper<T> {
 
     public int id;
 
     @Nullable public String name;
 
     public int type;
-    @Nullable public Iterable<OutrightLeagueEventsWrapper<TEvent>> competitions;
+    @Nullable public Iterable<OutrightLeagueEventsWrapper<T>> competitions;
 }

@@ -5,12 +5,12 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
 
 public class HeartbeatHandlerInplay implements EntityHandling<HeartbeatUpdate> {
     @Override
-    public void Process(HeartbeatUpdate entity) {
+    public void process(HeartbeatUpdate entity) {
         System.out.println( "Received: " + entity.getClass().getSimpleName());
     }
 
     @Override
-    public int GetEntityKey() {
+    public int getEntityKey() {
         return HeartbeatUpdate.entityKey;
     }
 }

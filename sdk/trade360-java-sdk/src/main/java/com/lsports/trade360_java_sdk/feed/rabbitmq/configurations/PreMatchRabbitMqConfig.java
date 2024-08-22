@@ -16,7 +16,7 @@ public class PreMatchRabbitMqConfig extends RabbitMqConfig{
     public final String name;
 
     public PreMatchRabbitMqConfig(@Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration rabbitConnectionConfiguration) {
-        super(rabbitConnectionConfiguration);
+        super();
         this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
         this.name = rabbitConnectionConfiguration.name;
     }

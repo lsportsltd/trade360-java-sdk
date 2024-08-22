@@ -17,28 +17,28 @@ public class Trade360FeedExampleConfiguration {
     @Bean
     public MessageHandler inPlayMessageHandler() {
         MessageHandler messageHandler =  new MessageHandler();
-        messageHandler.RegisterEntityHandler(new FixtureMarketUpdateHandlerInplay());
-        messageHandler.RegisterEntityHandler(new LivescoreUpdateHandlerInplay());
-        messageHandler.RegisterEntityHandler(new HeartbeatHandlerInplay());
-        messageHandler.RegisterEntityHandler(new FixtureMetadataUpdateHandlerInplay());
+        messageHandler.registerEntityHandler(new FixtureMarketUpdateHandlerInplay());
+        messageHandler.registerEntityHandler(new LivescoreUpdateHandlerInplay());
+        messageHandler.registerEntityHandler(new HeartbeatHandlerInplay());
+        messageHandler.registerEntityHandler(new FixtureMetadataUpdateHandlerInplay());
         return messageHandler;
     }
 
     @Bean
     public MessageHandler preMatchMessageHandler() {
         MessageHandler messageHandler =  new MessageHandler();
-        messageHandler.RegisterEntityHandler(new FixtureMarketUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new FixtureMetadataUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new HeartbeatHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new KeepAliveUpdateHandlerPrematchPrematch());
-        messageHandler.RegisterEntityHandler(new LivescoreUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new OutrightFixtureMarketUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new OutrightFixtureUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new OutrightLeagueMarketsUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new OutrightLeagueUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new OutrightScoreUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new OutrightSettlementsUpdateHandlerPrematch());
-        messageHandler.RegisterEntityHandler(new SettlementUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new FixtureMarketUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new FixtureMetadataUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new HeartbeatHandlerPrematch());
+        messageHandler.registerEntityHandler(new KeepAliveUpdateHandlerPrematchPrematch());
+        messageHandler.registerEntityHandler(new LivescoreUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new OutrightFixtureMarketUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new OutrightFixtureUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new OutrightLeagueMarketsUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new OutrightLeagueUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new OutrightScoreUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new OutrightSettlementsUpdateHandlerPrematch());
+        messageHandler.registerEntityHandler(new SettlementUpdateHandlerPrematch());
 
         return messageHandler;
     }

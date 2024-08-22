@@ -5,12 +5,12 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
 
 public class OutrightScoreUpdateHandlerPrematch implements EntityHandling<OutrightScoreUpdate> {
     @Override
-    public void Process(OutrightScoreUpdate entity) {
+    public void process(OutrightScoreUpdate entity) {
         System.out.println( "Received: " + this.getClass().getSimpleName());
     }
 
     @Override
-    public int GetEntityKey() {
+    public int getEntityKey() {
         return OutrightScoreUpdate.entityKey;
     }
 }
