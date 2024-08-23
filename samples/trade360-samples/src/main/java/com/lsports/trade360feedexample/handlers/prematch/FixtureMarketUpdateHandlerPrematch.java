@@ -1,13 +1,13 @@
 package com.lsports.trade360feedexample.handlers.prematch;
 
-import com.lsports.trade360_java_sdk.common.entities.messagetypes.MarketUpdate;
-import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
+import com.lsports.trade360_java_sdk.common.entities.message_types.MarketUpdate;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 
-public class FixtureMarketUpdateHandlerPrematch implements EntityHandling<MarketUpdate> {
+public class FixtureMarketUpdateHandlerPrematch implements EntityHandler<MarketUpdate> {
 
     @Override
     public void process(MarketUpdate entity) {
-        System.out.println( "Received: " + this.getClass().getSimpleName());
+        System.out.println("Received: " + this.getClass().getSimpleName());
     }
 
     @Override

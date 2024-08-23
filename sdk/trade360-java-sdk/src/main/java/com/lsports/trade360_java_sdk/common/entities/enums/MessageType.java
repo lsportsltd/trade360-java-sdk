@@ -13,13 +13,14 @@ public enum MessageType {
     MessageType(int value) {
         this.value = value;
     }
+
     public void setValue(int value) { this.value = value;}
 
     public int getValue() { return this.value; }
 
-    public static MessageType finMessageType(int typeId) throws ClassNotFoundException {
+    public static MessageType findMessageType(int typeId) throws ClassNotFoundException {
         for(MessageType v : values()){
-            if( v.value == typeId){
+            if(v.value == typeId){
                 return v;
             }
         }

@@ -1,13 +1,15 @@
-package com.lsports.trade360_java_sdk.common.entities.messagetypes;
+package com.lsports.trade360_java_sdk.common.entities.message_types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
 import com.lsports.trade360_java_sdk.common.entities.outright_sport.*;
 import jakarta.annotation.Nullable;
 
-public class OutrightLeagueMarketUpdate {
+public class OutrightSettlementsUpdate {
+
     @JsonIgnore
-    public final static int entityKey = 40;
+    public final static int entityKey = 42;
+
     @Nullable
     public Iterable<OutrightCompetition<MarketEvent>> competitions;
 }

@@ -4,6 +4,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface MessageHandling {
+public interface MessageHandler {
     void process(Message message) throws Exception;
 }

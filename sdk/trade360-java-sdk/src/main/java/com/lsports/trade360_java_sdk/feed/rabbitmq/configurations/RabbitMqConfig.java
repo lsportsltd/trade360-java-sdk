@@ -11,7 +11,7 @@ public class RabbitMqConfig {
 
     public final RabbitConnectionConfiguration rabbitConnectionConfiguration;
 
-    public RabbitMqConfig( RabbitConnectionConfiguration rabbitConnectionConfiguration) {
+    public RabbitMqConfig(RabbitConnectionConfiguration rabbitConnectionConfiguration) {
         this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
     }
 

@@ -1,6 +1,7 @@
 package com.lsports.trade360feedexample.configuration;
 
 import com.lsports.trade360_java_sdk.feed.rabbitmq.configurations.RabbitConnectionConfiguration;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.MessageHandler;
 import com.lsports.trade360feedexample.handlers.inplay.FixtureMarketUpdateHandlerInplay;
 import com.lsports.trade360feedexample.handlers.inplay.FixtureMetadataUpdateHandlerInplay;
@@ -15,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
 public class Trade360FeedExampleConfiguration {
 
     @Bean
-    public MessageHandler inPlayMessageHandler() {
-        MessageHandler messageHandler =  new MessageHandler();
+    public MessageHandler inPlayMessageHandler() throws RabbitMQFeedException {
+        MessageHandler messageHandler = new MessageHandler();
         messageHandler.registerEntityHandler(new FixtureMarketUpdateHandlerInplay());
         messageHandler.registerEntityHandler(new LivescoreUpdateHandlerInplay());
         messageHandler.registerEntityHandler(new HeartbeatHandlerInplay());
@@ -25,8 +26,8 @@ public class Trade360FeedExampleConfiguration {
     }
 
     @Bean
-    public MessageHandler preMatchMessageHandler() {
-        MessageHandler messageHandler =  new MessageHandler();
+    public MessageHandler preMatchMessageHandler() throws RabbitMQFeedException {
+        MessageHandler messageHandler = new MessageHandler();
         messageHandler.registerEntityHandler(new FixtureMarketUpdateHandlerPrematch());
         messageHandler.registerEntityHandler(new FixtureMetadataUpdateHandlerPrematch());
         messageHandler.registerEntityHandler(new HeartbeatHandlerPrematch());
@@ -54,6 +55,4 @@ public class Trade360FeedExampleConfiguration {
     public RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration() {
         return new RabbitConnectionConfiguration();
     }
-
-
 }

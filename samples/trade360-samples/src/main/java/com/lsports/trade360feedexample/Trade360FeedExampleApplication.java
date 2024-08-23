@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan
 @ComponentScan(basePackages = "com.lsports.trade360_java_sdk.feed.rabbitmq.configurations")
-@EnableConfigurationProperties( RabbitConnectionConfiguration.class)
+@EnableConfigurationProperties(RabbitConnectionConfiguration.class)
 public class Trade360FeedExampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(Trade360FeedExampleApplication.class, args);

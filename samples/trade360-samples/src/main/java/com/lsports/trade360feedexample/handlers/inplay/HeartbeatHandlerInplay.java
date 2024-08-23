@@ -1,12 +1,12 @@
 package com.lsports.trade360feedexample.handlers.inplay;
 
-import com.lsports.trade360_java_sdk.common.entities.messagetypes.HeartbeatUpdate;
-import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandling;
+import com.lsports.trade360_java_sdk.common.entities.message_types.HeartbeatUpdate;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 
-public class HeartbeatHandlerInplay implements EntityHandling<HeartbeatUpdate> {
+public class HeartbeatHandlerInplay implements EntityHandler<HeartbeatUpdate> {
     @Override
     public void process(HeartbeatUpdate entity) {
-        System.out.println( "Received: " + entity.getClass().getSimpleName());
+        System.out.println("Received: " + entity.getClass().getSimpleName());
     }
 
     @Override
