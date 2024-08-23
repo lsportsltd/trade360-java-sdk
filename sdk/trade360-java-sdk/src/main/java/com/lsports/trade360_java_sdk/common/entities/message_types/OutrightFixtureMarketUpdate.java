@@ -8,7 +8,7 @@ import jakarta.annotation.Nullable;
 public class OutrightFixtureMarketUpdate {
 
     @JsonIgnore
-    public final static  int entityKey = 3;
+    public final static  int entityKey = 41;
 
     @Nullable
     public Iterable<OutrightCompetition<MarketEvent>> competitions;

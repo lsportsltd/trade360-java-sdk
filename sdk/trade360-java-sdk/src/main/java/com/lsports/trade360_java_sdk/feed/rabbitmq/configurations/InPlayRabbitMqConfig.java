@@ -2,22 +2,25 @@ package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.retry.RejectAndDontRequeueRecoverer;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.retry.interceptor.RetryOperationsInterceptor;
 
 @Configuration
 @EnableRabbit
-public class InPlayRabbitMqConfig extends RabbitMqConfig {
+public class InPlayRabbitMqConfig  {
     private final RabbitConnectionConfiguration rabbitConnectionConfiguration;
     public final String name;
 
     public InPlayRabbitMqConfig(@Qualifier("inPlayRabbitConnectionConfiguration") RabbitConnectionConfiguration rabbitConnectionConfiguration) {
-        super(rabbitConnectionConfiguration);
         this.rabbitConnectionConfiguration = rabbitConnectionConfiguration;
         this.name = rabbitConnectionConfiguration.name;
     }
@@ -34,13 +37,30 @@ public class InPlayRabbitMqConfig extends RabbitMqConfig {
     }
 
     @Bean
+    public RetryOperationsInterceptor inPlayRetryInterceptor(){
+        return RetryInterceptorBuilder.stateless().maxAttempts(rabbitConnectionConfiguration.retry_attempts)
+                .backOffOptions(rabbitConnectionConfiguration.retry_initial_interval,
+                        rabbitConnectionConfiguration.retry_multiple,
+                        rabbitConnectionConfiguration.retry_max_interval)
+                .recoverer(new RejectAndDontRequeueRecoverer())
+                .build();
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter inPlayConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
     public SimpleRabbitListenerContainerFactory inPlayRabbitListenerContainerFactory(SimpleRabbitListenerContainerFactoryConfigurer rabbitListenerFactoryConfig) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         rabbitListenerFactoryConfig.configure(factory, inPlayConnectionFactory());
         factory.setAcknowledgeMode(rabbitConnectionConfiguration.auto_ack ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
-        factory.setAdviceChain(retryInterceptor());
+        factory.setAdviceChain(inPlayRetryInterceptor());
         factory.setDefaultRequeueRejected(false);
-        factory.setMessageConverter(converter());
+        factory.setMessageConverter(inPlayConverter());
+        factory.setConcurrentConsumers(rabbitConnectionConfiguration.concurrent_consumers);
+        factory.setMaxConcurrentConsumers(rabbitConnectionConfiguration.max_concurrent_consumers);
         return factory;
     }
 }

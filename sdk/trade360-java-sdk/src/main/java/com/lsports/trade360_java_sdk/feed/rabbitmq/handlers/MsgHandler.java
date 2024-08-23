@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lsports.trade360_java_sdk.common.entities.enums.MessageType;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
@@ -18,13 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
-public class MessageHandler implements com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler {
+public class MsgHandler implements MessageHandler {
     private ConcurrentHashMap<Integer, EntityHandler> entityMap;
     private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.messagetypes.";
     private final static String typeIdPropertyHeaderName = "Type";
     private final ObjectMapper objectMapper;
 
-      public MessageHandler(){
+      public MsgHandler(){
           entityMap = new ConcurrentHashMap<>();
           objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
@@ -46,7 +47,7 @@ public class MessageHandler implements com.lsports.trade360_java_sdk.feed.rabbit
     public void registerEntityHandler(EntityHandler entityHandler) throws RabbitMQFeedException {
 
         if ( entityMap.containsKey(entityHandler.getEntityKey()))
-            throw new RabbitMQFeedException("Provided EntityHandler already exists!");
+            throw new RabbitMQFeedException(MessageFormat.format("Provided EntityHandler already exists! - {0}", entityHandler.getEntityKey() ));
         else
             entityMap.put(entityHandler.getEntityKey(), entityHandler);
     }
