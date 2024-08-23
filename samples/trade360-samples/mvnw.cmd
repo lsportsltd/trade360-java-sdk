@@ -56,7 +56,7 @@ if (!$distributionUrl) {
   Write-Error "cannot read distributionUrl property in $scriptDir/.mvn/wrapper/maven-wrapper.properties"
 }
 
-switch -wildcard -casesensitive ( $($distributionUrl -replace '^.*/','') ) {
+switch -wildcard -casesensitive ($($distributionUrl -replace '^.*/','') ) {
   "maven-mvnd-*" {
     $USE_MVND = $true
     $distributionUrl = $distributionUrl -replace '-bin\.[^.]*$',"-windows-amd64.zip"

@@ -1,8 +1,10 @@
 package com.lsports.trade360_java_sdk.common.entities.livescore;
 
-public class Result {
-    
-    public String position;
+import jakarta.annotation.Nullable;
 
-    public String value;
+public class Result {
+
+    @Nullable public String position;
+
+    @Nullable public String value;
 }

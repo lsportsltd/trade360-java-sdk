@@ -1,14 +1,16 @@
 package com.lsports.trade360_java_sdk.common.entities.fixtures;
 
+import jakarta.annotation.Nullable;
+
 public class Participant {
 
     public int id;
 
-    public String name;
+    @Nullable public String name;
 
-    public String position;
+    @Nullable public String position;
 
-    public Integer rotationId;
+    @Nullable public Integer rotationId;
 
     public int isActive = -1;
 }

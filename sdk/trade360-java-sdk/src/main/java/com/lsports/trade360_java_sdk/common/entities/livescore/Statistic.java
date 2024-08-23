@@ -1,12 +1,13 @@
 package com.lsports.trade360_java_sdk.common.entities.livescore;
 
 import com.lsports.trade360_java_sdk.common.entities.enums.StatisticType;
+import jakarta.annotation.Nullable;
 
 public class Statistic {
     
-    public StatisticType type;
+    @Nullable public StatisticType type;
 
-    public Iterable<Result> results;
+    @Nullable public Iterable<Result> results;
 
-    public Iterable<Incident> incidents;
+    @Nullable public Iterable<Incident> incidents;
 }

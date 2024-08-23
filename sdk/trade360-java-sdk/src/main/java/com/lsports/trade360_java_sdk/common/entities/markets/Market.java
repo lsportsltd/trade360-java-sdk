@@ -1,12 +1,14 @@
 package com.lsports.trade360_java_sdk.common.entities.markets;
 
+import jakarta.annotation.Nullable;
+
 public class Market {
 
     public int id;
 
-    public String name;
+    @Nullable public String name;
 
-    public Iterable<Bet> bets;
+    @Nullable public Iterable<Bet> bets;
 
-    public String mainLine;
+    @Nullable public String mainLine;
 }
