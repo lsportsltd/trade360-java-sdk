@@ -27,8 +27,9 @@ public class RabbitConnectionConfiguration {
     public int retry_initial_interval = 1000;
     public double retry_multiple = 2;
     public int retry_max_interval = 5000;
-    public int concurrent_consumers = 4;
+    public int concurrent_consumers = 1;
     public int max_concurrent_consumers = 20;
+    public int pre_fetch_count = 250;
 
 
 }

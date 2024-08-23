@@ -59,6 +59,7 @@ public class PreMatchRabbitMqConfig {
         factory.setMessageConverter(preMatchConverter());
         factory.setConcurrentConsumers(rabbitConnectionConfiguration.concurrent_consumers);
         factory.setMaxConcurrentConsumers(rabbitConnectionConfiguration.max_concurrent_consumers);
+        factory.setPrefetchCount(rabbitConnectionConfiguration.prefetch_count);
         return factory;
     }
 }

@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class MsgHandler implements MessageHandler {
     private ConcurrentHashMap<Integer, EntityHandler> entityMap;
-    private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.messagetypes.";
+    private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.message_types.";
     private final static String typeIdPropertyHeaderName = "Type";
     private final ObjectMapper objectMapper;
 
@@ -47,7 +47,7 @@ public class MsgHandler implements MessageHandler {
     public void registerEntityHandler(EntityHandler entityHandler) throws RabbitMQFeedException {
 
         if ( entityMap.containsKey(entityHandler.getEntityKey()))
-            throw new RabbitMQFeedException(MessageFormat.format("Provided EntityHandler already exists! - {0}", entityHandler.getEntityKey() ));
+            throw new RabbitMQFeedException(MessageFormat.format("Provided EntityHandler already exists! - {0} - {1}", entityHandler.getEntityKey(), entityHandler.getClass().toString() ));
         else
             entityMap.put(entityHandler.getEntityKey(), entityHandler);
     }
