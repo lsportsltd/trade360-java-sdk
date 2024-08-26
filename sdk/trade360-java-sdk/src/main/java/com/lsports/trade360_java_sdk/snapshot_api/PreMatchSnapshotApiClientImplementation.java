@@ -6,6 +6,7 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureM
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightEventsResultElement;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightFixtureResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
 
 public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshotApiClient {
@@ -38,5 +39,10 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
     @Override
     public Iterable<GetOutrightEventsResultElement> getOutrightEvents(GetSnapshotRequest getOutrightEventsRequest) throws Trade360Exception {
         return this.client.postRequest(getOutrightEventsRequest, "/Prematch/GetOutrightEvents");
+    }
+
+    @Override
+    public Iterable<GetOutrightFixtureResultElement> getOutrightFixture(GetSnapshotRequest getOutrightFixtureRequest) throws Trade360Exception {
+        return this.client.postRequest(getOutrightFixtureRequest, "/Prematch/GetOutrightFixture");
     }
 }
