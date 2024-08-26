@@ -40,13 +40,13 @@ public class SnapshotApiExampleApplication {
     }
 
     private void preMatchApi() {
-        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 4, "1", "Tests1234");
+        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(preMatchSettings);
 
         System.out.println();
         System.out.println("================================");
         System.out.println("==== PREMATCH API EXAMPLES: ====");
-        this.execute("Get Fixtures", 
+        this.execute("Get Fixtures",
             () -> preMatchClient.getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
         this.execute("Get Livescore",
             () -> preMatchClient.getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
