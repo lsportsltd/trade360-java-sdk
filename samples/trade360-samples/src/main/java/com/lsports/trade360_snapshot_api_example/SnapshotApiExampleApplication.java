@@ -46,18 +46,18 @@ public class SnapshotApiExampleApplication {
         System.out.println();
         System.out.println("================================");
         System.out.println("==== PREMATCH API EXAMPLES: ====");
-        this.execute("Get Fixtures", () -> preMatchClient
-                .getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.execute("Get Livescore", () -> preMatchClient
-                .getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.execute("Get Fixture Markets", () -> preMatchClient
-                .getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.execute("Get Events", () -> preMatchClient
-                .getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.execute("Get Outrights Events", () -> preMatchClient
-                .getOutrightEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.execute("Get Outrights Fixture", () -> preMatchClient
-                .getOutrightFixture(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Fixtures", 
+            () -> preMatchClient.getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Livescore",
+            () -> preMatchClient.getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Fixture Markets",
+            () -> preMatchClient.getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Events",
+            () -> preMatchClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Outrights Events",
+            () -> preMatchClient.getOutrightEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Outrights Fixture",
+            () -> preMatchClient.getOutrightFixture(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
     private void inPlayApi() {
@@ -67,14 +67,14 @@ public class SnapshotApiExampleApplication {
         System.out.println();
         System.out.println("================================");
         System.out.println("===== INPLAY API EXAMPLES: =====");
-        this.execute("Get Fixtures", () -> inPlayClient
-                .getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.execute("Get Livescore", () -> inPlayClient
-                .getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.execute("Get Fixture Markets", () -> inPlayClient
-                .getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.execute("Get Events", () -> inPlayClient
-                .getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Fixtures",
+            () -> inPlayClient.getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Livescore",
+            () -> inPlayClient.getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Fixture Markets",
+            () -> inPlayClient.getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Events",
+            () -> inPlayClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
     private <T> void execute(String exampleName, Supplier<T> c) {
