@@ -6,5 +6,5 @@ import jakarta.annotation.Nullable;
 
 public final class GetLivescoreResultElement {
     public int fixtureId;
-    public @Nullable Livescore livescore;
+    @Nullable public Livescore livescore;
 }

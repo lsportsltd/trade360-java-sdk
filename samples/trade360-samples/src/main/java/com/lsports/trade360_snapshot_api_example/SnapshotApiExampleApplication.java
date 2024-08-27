@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
+import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
 import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.lsports.trade360_java_sdk.snapshot_api.springframework.SpringBootSnapshotApiClientFactory;
@@ -55,6 +56,8 @@ public class SnapshotApiExampleApplication {
             () -> preMatchClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
         this.execute("Get Outrights Events",
             () -> preMatchClient.getOutrightEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Outrights Fixture",
+            () -> preMatchClient.getOutrightFixture(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
     private void inPlayApi() {
@@ -76,7 +79,12 @@ public class SnapshotApiExampleApplication {
 
     private <T> void execute(String exampleName, Supplier<T> c) {
         System.out.println("--------------------------------");
-        var response = c.get();
-        System.out.println("[" + exampleName + "]" + " Response received: " + response);
+        System.out.print("[" + exampleName + "] - ");
+        try {
+            var response = c.get();
+            System.out.println("Response received: " + response);
+        } catch (Trade360Exception ex) {
+            System.err.println("Failed: " + ex.getMessage());
+        }
     }
 }

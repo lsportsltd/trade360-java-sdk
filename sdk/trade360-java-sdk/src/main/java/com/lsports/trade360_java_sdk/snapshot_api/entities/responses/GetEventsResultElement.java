@@ -8,7 +8,7 @@ import jakarta.annotation.Nullable;
 
 public final class GetEventsResultElement {
     public int fixtureId;
-    public @Nullable Fixture fixture;
-    public @Nullable Livescore livescore;
-    public @Nullable Iterable<Market> markets;
+    @Nullable public Fixture fixture;
+    @Nullable public Livescore livescore;
+    @Nullable public Iterable<Market> markets;
 }
