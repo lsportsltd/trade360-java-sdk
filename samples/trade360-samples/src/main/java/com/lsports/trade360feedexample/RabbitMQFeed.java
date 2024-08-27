@@ -28,7 +28,7 @@ public class RabbitMQFeed {
         this.preMatchrabbitConnectionConfiguration = preMatchrabbitConnectionConfiguration;
     }
 
-    @RabbitListener(containerFactory = "inPlayRabbitListenerContainerFactory", queues = "_${rabbitmq.inplay.package_id}_")
+    @RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_")
     public void inPlayProcessMessage(final Message message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         inPlayMessageHandler.process(message);
 
@@ -36,7 +36,7 @@ public class RabbitMQFeed {
             channel.basicAck(tag, false);
     }
 
-    @RabbitListener(containerFactory = "preMatchRabbitListenerContainerFactory", queues = "_${rabbitmq.prematch.package_id}_")
+    @RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_")
     public void preMatchProcessMessage(final Message message, Channel channel,
                                        @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         preMatchMessageHandler.process(message);

@@ -1,5 +1,6 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.handlers;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -11,11 +12,15 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -35,6 +40,10 @@ public class MsgHandler implements MessageHandler {
 
     @Override
     public void process(Message message) throws Exception {
+
+          val pkgName = this.getClass().getPackageName();
+
+          val list = findClasses("com.lsports");
 
         val typeId = getTypeIdFromMessage(message);
         val msgType = getMessageType(typeId);
@@ -82,5 +91,17 @@ public class MsgHandler implements MessageHandler {
         } catch (final Exception ex) {
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize '{0}' entity", clazz.getSimpleName()));
         }
+    }
+
+    public List<Class<?>> findClasses(String basePackage) {
+        ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        provider.addIncludeFilter(new AnnotationTypeFilter(JsonTypeName.class));
+        return provider.findCandidateComponents(basePackage).stream().map(beanDefinition -> {
+            try {
+                return Class.forName(beanDefinition.getBeanClassName());
+            } catch (ClassNotFoundException e) {
+                throw new IllegalStateException("Class not found " + beanDefinition.getBeanClassName(), e);
+            }
+        }).collect(Collectors.toList());
     }
 }
