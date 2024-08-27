@@ -11,11 +11,11 @@ import com.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import jakarta.annotation.Nullable;
 
 public final class OutrightFixtureElement {
-    public @Nullable Sport sport;
-    public @Nullable Location location;
-    public @Nullable LocalDateTime startDate;
+    @Nullable public Sport sport;
+    @Nullable public Location location;
+    @Nullable public LocalDateTime startDate;
     public LocalDateTime lastUpdate;
     public FixtureStatus status;
-    public @Nullable Iterable<Participant> participants;
-    public @Nullable Subscription subscription;
+    @Nullable public Iterable<Participant> participants;
+    @Nullable public Subscription subscription;
 }

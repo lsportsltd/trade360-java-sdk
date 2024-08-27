@@ -4,7 +4,7 @@ import jakarta.annotation.Nullable;
 
 public final class GetOutrightEventsResultElement {
     public int id;
-    public @Nullable String name;
+    @Nullable public String name;
     public int type;
     public Iterable<OutrightEventElement> events;
 }

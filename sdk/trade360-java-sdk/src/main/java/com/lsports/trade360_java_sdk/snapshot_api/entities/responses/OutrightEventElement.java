@@ -4,7 +4,7 @@ import jakarta.annotation.Nullable;
 
 public final class OutrightEventElement {
     public int fixtureId;
-    public @Nullable OutrightFixtureElement outrightFixture;
-    public @Nullable OutrightScoreElement outrightScore;
-    public @Nullable Iterable<FixtureMarketElement> markets;
+    @Nullable public OutrightFixtureElement outrightFixture;
+    @Nullable public OutrightScoreElement outrightScore;
+    @Nullable public Iterable<FixtureMarketElement> markets;
 }

@@ -4,5 +4,5 @@ import jakarta.annotation.Nullable;
 
 public final class OutrightFixtureEventElement {
     public int fixtureId;
-    public @Nullable OutrightFixtureElement outrightFixture;
+    @Nullable public OutrightFixtureElement outrightFixture;
 }

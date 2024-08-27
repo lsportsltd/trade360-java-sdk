@@ -6,6 +6,6 @@ import com.lsports.trade360_java_sdk.common.entities.outright_sport.OutrightPart
 import jakarta.annotation.Nullable;
 
 public final class OutrightScoreElement {
-    public @Nullable Iterable<OutrightParticipant> participantResults;
+    @Nullable public Iterable<OutrightParticipant> participantResults;
     public FixtureStatus status;
 }

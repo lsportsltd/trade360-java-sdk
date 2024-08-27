@@ -7,5 +7,5 @@ import jakarta.annotation.Nullable;
 public final class FixtureMarketElement {
     public int id;
     public String name;
-    public @Nullable Iterable<Bet> bets;
+    @Nullable public Iterable<Bet> bets;
 }

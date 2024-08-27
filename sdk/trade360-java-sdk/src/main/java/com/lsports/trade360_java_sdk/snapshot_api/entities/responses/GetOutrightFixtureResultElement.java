@@ -4,7 +4,7 @@ import jakarta.annotation.Nullable;
 
 public final class GetOutrightFixtureResultElement {
     public int id;
-    public @Nullable String name;
+    @Nullable public String name;
     public int type;
     public Iterable<OutrightFixtureEventElement> events;
 }
