@@ -18,14 +18,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class MsgHandler implements MessageHandler {
-    private ConcurrentHashMap<Integer, EntityHandler> entityMap;
+public class MessageHandlerImplementation implements MessageHandler {
+    private final ConcurrentHashMap<Integer, EntityHandler> entityMap;
     private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.message_types.";
     private final static String typeIdPropertyHeaderName = "Type";
     private final ObjectMapper objectMapper;
 
-      public MsgHandler(){
-          entityMap = new ConcurrentHashMap<>();
+      public MessageHandlerImplementation(EntityRegisterImplementation entityRegisterImplementation){
+          entityMap = entityRegisterImplementation.entityMap;
           objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -43,15 +43,7 @@ public class MsgHandler implements MessageHandler {
         handler.process(msg);
     }
 
-    public void registerEntityHandler(EntityHandler entityHandler) throws RabbitMQFeedException {
-
-        if ( entityMap.containsKey(entityHandler.getEntityKey()))
-            throw new RabbitMQFeedException(MessageFormat.format("Provided EntityHandler already exists! - {0} - {1}", entityHandler.getEntityKey(), entityHandler.getClass().toString() ));
-        else
-            entityMap.put(entityHandler.getEntityKey(), entityHandler);
-    }
-
-    private Class<?> getMessageType(final int typeId ) throws ClassNotFoundException, RabbitMQFeedException {
+    private @NotNull Class<?> getMessageType(final int typeId ) throws ClassNotFoundException, RabbitMQFeedException {
         val className = MessageType.findMessageType(typeId);
 
         if (className == null)

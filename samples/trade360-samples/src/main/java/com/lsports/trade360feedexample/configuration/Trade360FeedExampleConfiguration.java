@@ -2,7 +2,8 @@ package com.lsports.trade360feedexample.configuration;
 
 import com.lsports.trade360_java_sdk.feed.rabbitmq.configurations.RabbitConnectionConfiguration;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
-import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.MsgHandler;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.EntityRegisterImplementation;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.MessageHandlerImplementation;
 import com.lsports.trade360feedexample.handlers.inplay.FixtureMarketUpdateHandlerInplay;
 import com.lsports.trade360feedexample.handlers.inplay.FixtureMetadataUpdateHandlerInplay;
 import com.lsports.trade360feedexample.handlers.inplay.HeartbeatHandlerInplay;
@@ -12,38 +13,47 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-
 @Configuration
 public class Trade360FeedExampleConfiguration {
 
     @Bean
-    public MsgHandler inPlayMessageHandler() throws RabbitMQFeedException {
-        MsgHandler msgHandler = new MsgHandler();
-        msgHandler.registerEntityHandler(new FixtureMarketUpdateHandlerInplay());
-        msgHandler.registerEntityHandler(new LivescoreUpdateHandlerInplay());
-        msgHandler.registerEntityHandler(new HeartbeatHandlerInplay());
-        msgHandler.registerEntityHandler(new FixtureMetadataUpdateHandlerInplay());
-        return msgHandler;
+    public EntityRegisterImplementation inPlayEentityRegister() throws RabbitMQFeedException {
+        EntityRegisterImplementation entityRegisterImplementation = new EntityRegisterImplementation();
+        entityRegisterImplementation.registerEntityHandler(new FixtureMarketUpdateHandlerInplay());
+        entityRegisterImplementation.registerEntityHandler(new LivescoreUpdateHandlerInplay());
+        entityRegisterImplementation.registerEntityHandler(new HeartbeatHandlerInplay());
+        entityRegisterImplementation.registerEntityHandler(new FixtureMetadataUpdateHandlerInplay());
+        return entityRegisterImplementation;
     }
 
     @Bean
-    public MsgHandler preMatchMessageHandler() throws RabbitMQFeedException {
-        MsgHandler msgHandler = new MsgHandler();
-        msgHandler.registerEntityHandler(new FixtureMarketUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new FixtureMetadataUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new HeartbeatHandlerPrematch());
-        msgHandler.registerEntityHandler(new KeepAliveUpdateHandlerPrematchPrematch());
-        msgHandler.registerEntityHandler(new LivescoreUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new OutrightFixtureMarketUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new OutrightFixtureUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new OutrightLeagueMarketsUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new OutrightLeagueUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new OutrightScoreUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new OutrightSettlementsUpdateHandlerPrematch());
-        msgHandler.registerEntityHandler(new SettlementUpdateHandlerPrematch());
+    public EntityRegisterImplementation preMachEentityRegister() throws RabbitMQFeedException {
+        EntityRegisterImplementation entityRegisterImplementation = new EntityRegisterImplementation();
+        entityRegisterImplementation.registerEntityHandler(new FixtureMarketUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new FixtureMetadataUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new HeartbeatHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new KeepAliveUpdateHandlerPrematchPrematch());
+        entityRegisterImplementation.registerEntityHandler(new LivescoreUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new OutrightFixtureMarketUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new OutrightFixtureUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new OutrightLeagueMarketsUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new OutrightLeagueUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new OutrightScoreUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new OutrightSettlementsUpdateHandlerPrematch());
+        entityRegisterImplementation.registerEntityHandler(new SettlementUpdateHandlerPrematch());
+        return entityRegisterImplementation;
+    }
 
-        return msgHandler;
+    @Bean
+    public MessageHandlerImplementation inPlayMessageHandler() throws RabbitMQFeedException {
+        MessageHandlerImplementation messageHandlerImplementation = new MessageHandlerImplementation(inPlayEentityRegister());
+        return messageHandlerImplementation;
+    }
+
+    @Bean
+    public MessageHandlerImplementation preMatchMessageHandler() throws RabbitMQFeedException {
+        MessageHandlerImplementation messageHandlerImplementation = new MessageHandlerImplementation(preMachEentityRegister());
+        return messageHandlerImplementation;
     }
 
     @Bean
