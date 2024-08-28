@@ -20,29 +20,31 @@ public class RabbitMQFeed {
 
     public RabbitMQFeed(@Qualifier("inPlayMessageHandler") MessageHandler inPlayMessageHandler,
                         @Qualifier("preMatchMessageHandler") MessageHandler preMatchMessageHandler,
-                        @Qualifier("inPlayRabbitConnectionConfiguration")RabbitConnectionConfiguration inPlayrabbitConnectionConfiguration,
-                        @Qualifier("preMatchRabbitConnectionConfiguration")RabbitConnectionConfiguration preMatchrabbitConnectionConfiguration) {
+                        @Qualifier("inPlayRabbitConnectionConfiguration") RabbitConnectionConfiguration inPlayrabbitConnectionConfiguration,
+                        @Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration preMatchrabbitConnectionConfiguration) {
         this.inPlayMessageHandler = inPlayMessageHandler;
         this.preMatchMessageHandler = preMatchMessageHandler;
         this.inPlayrabbitConnectionConfiguration = inPlayrabbitConnectionConfiguration;
         this.preMatchrabbitConnectionConfiguration = preMatchrabbitConnectionConfiguration;
     }
 
-    @RabbitListener(containerFactory="inPlayRabbitListenerContainerFactory", queues = "_${rabbitmq.inplay.package_id}_")
-    public void inPlayProcessMessage(final Message message, Channel channel,  @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
+    @RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_")
+    public void inPlayProcessMessage(final Message message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         inPlayMessageHandler.process(message);
-        
+
         if (inPlayrabbitConnectionConfiguration.auto_ack == false)
-            channel.basicAck(tag,false);
+            channel.basicAck(tag, false);
     }
 
-    @RabbitListener(containerFactory="preMatchRabbitListenerContainerFactory", queues = "_${rabbitmq.prematch.package_id}_")
-    public void preMatchProcessMessage(final Message message, Channel channel,  @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
+    @RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_")
+    public void preMatchProcessMessage(final Message message, Channel channel,
+                                       @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         preMatchMessageHandler.process(message);
 
         if (preMatchrabbitConnectionConfiguration.auto_ack == false)
-            channel.basicAck(tag,false);
+            channel.basicAck(tag, false);
 
     }
 }
+
 

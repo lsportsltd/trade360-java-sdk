@@ -1,10 +1,9 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces;
 
-import org.springframework.stereotype.Component;
+import java.util.Map;
 
-@Component
 public interface EntityHandler<T> {
-    void process(T entity);
+    void process(T entity, Map<String, String> messageProperties);
 
     int getEntityKey();
 }

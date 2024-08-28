@@ -7,25 +7,25 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lsports.trade360_java_sdk.common.entities.enums.MessageType;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 
 @Component
-public class MessageHandler implements com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler {
-    private ConcurrentHashMap<Integer, EntityHandler> entityMap;
-    private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.messagetypes.";
+public class MessageHandlerImplementation implements MessageHandler {
+    private final EntityRegistry entityRegister;
+    private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.message_types.";
     private final static String typeIdPropertyHeaderName = "Type";
     private final ObjectMapper objectMapper;
 
-      public MessageHandler(){
-          entityMap = new ConcurrentHashMap<>();
+      public MessageHandlerImplementation(EntityRegistry entityRegistry){
+          entityRegister = entityRegistry;
           objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -35,23 +35,17 @@ public class MessageHandler implements com.lsports.trade360_java_sdk.feed.rabbit
     @Override
     public void process(Message message) throws Exception {
 
-        val typeId = getTypeIdFromMessage(message);
-        val msgType = getMessageType(typeId);
-        val body = getBodyFromMessage(message);
-        val msg = parseMessage(body,msgType);
-        val handler = entityMap.get(typeId);
-        handler.process(msg);
+        int typeId = getTypeIdFromMessage(message);
+        Class<?> msgType = getMessageType(typeId);
+        String body = getBodyFromMessage(message);
+        Object msg = parseMessage(body,msgType);
+        Map<String,String> header = getHeaderFromMessage(message);
+        EntityHandler handler = entityRegister.getEntityByTypeId(typeId);
+        
+        handler.process(msg, header);
     }
 
-    public void registerEntityHandler(EntityHandler entityHandler) throws RabbitMQFeedException {
-
-        if ( entityMap.containsKey(entityHandler.getEntityKey()))
-            throw new RabbitMQFeedException("Provided EntityHandler already exists!");
-        else
-            entityMap.put(entityHandler.getEntityKey(), entityHandler);
-    }
-
-    private Class<?> getMessageType(final int typeId ) throws ClassNotFoundException, RabbitMQFeedException {
+    private @NotNull Class<?> getMessageType(final int typeId ) throws ClassNotFoundException, RabbitMQFeedException {
         val className = MessageType.findMessageType(typeId);
 
         if (className == null)
@@ -73,6 +67,11 @@ public class MessageHandler implements com.lsports.trade360_java_sdk.feed.rabbit
     private String getBodyFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
         val body = objectMapper.readValue(message.getBody(), Map.class).get("Body");
         return objectMapper.writeValueAsString(body);
+    }
+
+    private Map<String,String> getHeaderFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
+        val header = (Map)objectMapper.readValue(message.getBody(), HashMap.class).get("Header");
+        return header;
     }
 
     private Object parseMessage(final String json, final Class<?> clazz) throws Exception {
