@@ -49,6 +49,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                     beanDefinition.setInstanceSupplier(() -> {
                                 SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
 
+                                // Connection configuration
                                 CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
                                 connectionFactory.setVirtualHost(cfg.virtual_host);
                                 connectionFactory.setHost(cfg.host);
@@ -57,10 +58,13 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
 
                                 factory.setConnectionFactory( connectionFactory);
 
+                                // Converter configuration
                                 Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
 
+                                // message recover class
                                 MessageRecoverer messageRecoverer = new ErrorMessageResolver();
 
+                                // Message recoverer configuration
                                 RetryOperationsInterceptor retryInterceptor =
                                         RetryInterceptorBuilder.stateless().maxAttempts(cfg.retry_attempts)
                                                 .backOffOptions(cfg.retry_initial_interval,
@@ -68,7 +72,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                                                         cfg.retry_max_interval)
                                                 .recoverer(messageRecoverer)
                                                 .build();
-
+                                // Configure Rabbit Listener Container Factory
                                 factory.setAcknowledgeMode(cfg.auto_ack ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
                                 factory.setAdviceChain(retryInterceptor);
                                 factory.setDefaultRequeueRejected(false);
@@ -78,6 +82,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                                 factory.setPrefetchCount(cfg.prefetch_count);
                                 return factory;
                             });
+                    // Register Bean for Rabbit Listener Container Factory
                     registry.registerBeanDefinition(cfg.rabbit_listener_container_factory_name, beanDefinition);
                 });
     }
