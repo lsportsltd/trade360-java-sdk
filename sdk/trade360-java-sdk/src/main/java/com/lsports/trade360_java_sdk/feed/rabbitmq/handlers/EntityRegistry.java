@@ -18,7 +18,7 @@ public class EntityRegistry implements EntityRegister {
             entityMap.put(entityHandler.getEntityKey(), entityHandler);
     }
 
-    public EntityHandler getEntityByTypeId(int typeId)
+    public EntityHandler getHandlerByTypeId(int typeId)
     {
         return entityMap.get(typeId);
     }

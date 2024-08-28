@@ -70,7 +70,6 @@ public class MessageHandlerImplementation implements MessageHandler {
     }
 
     private Map<String,String> getHeaderFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        Map<String,String> map = new HashMap<String,String>();
         val header = (Map)objectMapper.readValue(message.getBody(), HashMap.class).get("Header");
         return header;
     }
