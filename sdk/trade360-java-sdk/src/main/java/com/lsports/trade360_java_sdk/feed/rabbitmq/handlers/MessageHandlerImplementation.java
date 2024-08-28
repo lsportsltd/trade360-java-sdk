@@ -14,6 +14,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,12 +36,14 @@ public class MessageHandlerImplementation implements MessageHandler {
     @Override
     public void process(Message message) throws Exception {
 
-        val typeId = getTypeIdFromMessage(message);
-        val msgType = getMessageType(typeId);
-        val body = getBodyFromMessage(message);
-        val msg = parseMessage(body,msgType);
-        val handler = entityMap.get(typeId);
-        handler.process(msg);
+        int typeId = getTypeIdFromMessage(message);
+        Class<?> msgType = getMessageType(typeId);
+        String body = getBodyFromMessage(message);
+        Object msg = parseMessage(body,msgType);
+        Map<String,String> header = getHeaderFromMessage(message);
+        EntityHandler handler = entityMap.get(typeId);
+        
+        handler.process(msg, header);
     }
 
     private @NotNull Class<?> getMessageType(final int typeId ) throws ClassNotFoundException, RabbitMQFeedException {
@@ -65,6 +68,12 @@ public class MessageHandlerImplementation implements MessageHandler {
     private String getBodyFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
         val body = objectMapper.readValue(message.getBody(), Map.class).get("Body");
         return objectMapper.writeValueAsString(body);
+    }
+
+    private Map<String,String> getHeaderFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
+        Map<String,String> map = new HashMap<String,String>();
+        val header = (Map)objectMapper.readValue(message.getBody(), HashMap.class).get("Header");
+        return header;
     }
 
     private Object parseMessage(final String json, final Class<?> clazz) throws Exception {
