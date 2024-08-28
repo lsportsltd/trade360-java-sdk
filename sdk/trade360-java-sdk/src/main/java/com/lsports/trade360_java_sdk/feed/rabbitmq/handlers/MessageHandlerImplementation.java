@@ -16,17 +16,16 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class MessageHandlerImplementation implements MessageHandler {
-    private final ConcurrentHashMap<Integer, EntityHandler> entityMap;
+    private final EntityRegistry entityRegister;
     private final static String messageTypeClassPath = "com.lsports.trade360_java_sdk.common.entities.message_types.";
     private final static String typeIdPropertyHeaderName = "Type";
     private final ObjectMapper objectMapper;
 
-      public MessageHandlerImplementation(EntityRegisterImplementation entityRegisterImplementation){
-          entityMap = entityRegisterImplementation.entityMap;
+      public MessageHandlerImplementation(EntityRegistry entityRegistry){
+          entityRegister = entityRegistry;
           objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -41,7 +40,7 @@ public class MessageHandlerImplementation implements MessageHandler {
         String body = getBodyFromMessage(message);
         Object msg = parseMessage(body,msgType);
         Map<String,String> header = getHeaderFromMessage(message);
-        EntityHandler handler = entityMap.get(typeId);
+        EntityHandler handler = entityRegister.getEntityByTypeId(typeId);
         
         handler.process(msg, header);
     }

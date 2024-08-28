@@ -4,5 +4,5 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedExcept
 import org.jetbrains.annotations.NotNull;
 
 public interface EntityRegister {
-    public void registerEntityHandler(@NotNull EntityHandler entityHandler) throws RabbitMQFeedException;
+    public void setEntityHandler(@NotNull EntityHandler entityHandler) throws RabbitMQFeedException;
 }
