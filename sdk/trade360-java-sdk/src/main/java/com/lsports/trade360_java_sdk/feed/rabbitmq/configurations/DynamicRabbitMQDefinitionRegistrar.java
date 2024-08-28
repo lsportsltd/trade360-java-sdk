@@ -22,18 +22,16 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
 
     public static final String RABBITMQ_INPLAY_PREFIX = "rabbitmq.inplay";
     public static final String RABBITMQ_PREMATCH_PREFIX = "rabbitmq.prematch";
-    private final RabbitConnectionConfiguration inPlayConnectionConfiguration;
-    private final RabbitConnectionConfiguration preMatchConnectionConfiguration;
     private final Iterable<RabbitConnectionConfiguration> connectionConfigurations;
 
     public DynamicRabbitMQDefinitionRegistrar(Environment environment) {
 
-        inPlayConnectionConfiguration =
+        RabbitConnectionConfiguration inPlayConnectionConfiguration =
                 Binder.get(environment)
                         .bind(RABBITMQ_INPLAY_PREFIX, RabbitConnectionConfiguration.class)
                         .orElseThrow(IllegalStateException::new);
 
-        preMatchConnectionConfiguration =
+        RabbitConnectionConfiguration preMatchConnectionConfiguration =
                 Binder.get(environment)
                         .bind(RABBITMQ_PREMATCH_PREFIX, RabbitConnectionConfiguration.class)
                         .orElseThrow(IllegalStateException::new);
