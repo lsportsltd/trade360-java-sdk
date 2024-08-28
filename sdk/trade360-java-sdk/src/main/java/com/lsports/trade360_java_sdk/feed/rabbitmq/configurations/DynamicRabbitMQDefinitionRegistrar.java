@@ -72,6 +72,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                                                         cfg.retry_max_interval)
                                                 .recoverer(messageRecoverer)
                                                 .build();
+
                                 // Configure Rabbit Listener Container Factory
                                 factory.setAcknowledgeMode(cfg.auto_ack ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
                                 factory.setAdviceChain(retryInterceptor);
