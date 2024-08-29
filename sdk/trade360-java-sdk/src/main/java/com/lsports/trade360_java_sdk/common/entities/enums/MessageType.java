@@ -6,7 +6,13 @@ public enum MessageType {
     MarketUpdate(3),
     KeepAliveUpdate(31),
     HeartbeatUpdate(32),
-    SettlementUpdate(35);
+    SettlementUpdate(35),
+    OutrightFixtureMarketUpdate(41),
+    OutrightFixtureUpdate(37),
+    OutrightLeagueMarketUpdate(40),
+    OutrightLeagueUpdate(38),
+    OutrightScoreUpdate(39),
+    OutrightSettlementsUpdate(42);
 
     private int value;
 

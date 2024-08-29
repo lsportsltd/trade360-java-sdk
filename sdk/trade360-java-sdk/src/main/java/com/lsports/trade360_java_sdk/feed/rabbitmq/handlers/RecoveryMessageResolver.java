@@ -5,7 +5,7 @@ import org.springframework.amqp.rabbit.retry.MessageRecoverer;
 
 import java.text.MessageFormat;
 
-public class ErrorMessageResolver implements MessageRecoverer {
+public class RecoveryMessageResolver implements MessageRecoverer {
     @Override
     public void recover(Message message, Throwable cause) {
 

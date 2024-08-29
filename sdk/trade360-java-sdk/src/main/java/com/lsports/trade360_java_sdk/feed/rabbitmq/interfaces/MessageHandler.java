@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface MessageHandler {
-    void process(Message message) throws Exception;
+    void process(Message amqpMessage) throws Exception;
 }

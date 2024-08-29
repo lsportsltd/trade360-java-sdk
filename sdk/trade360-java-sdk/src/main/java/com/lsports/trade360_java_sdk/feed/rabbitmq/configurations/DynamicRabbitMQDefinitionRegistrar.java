@@ -1,6 +1,7 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
-import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.ErrorMessageResolver;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.ErrorMessageHandler;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.RecoveryMessageResolver;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
@@ -62,7 +63,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                                 Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
 
                                 // message recover class
-                                MessageRecoverer messageRecoverer = new ErrorMessageResolver();
+                                MessageRecoverer messageRecoverer = new RecoveryMessageResolver();
 
                                 // Message recoverer configuration
                                 RetryOperationsInterceptor retryInterceptor =
@@ -85,6 +86,16 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                             });
                     // Register Bean for Rabbit Listener Container Factory
                     registry.registerBeanDefinition(cfg.rabbit_listener_container_factory_name, beanDefinition);
+
+
+                    GenericBeanDefinition errorMessageHandlerBeanDefinition = new GenericBeanDefinition();
+                    errorMessageHandlerBeanDefinition.setBeanClass(ErrorMessageHandler.class);
+                    errorMessageHandlerBeanDefinition.setInstanceSupplier(() -> {
+                                ErrorMessageHandler errorMessageHandler = new ErrorMessageHandler();
+                                return errorMessageHandler;
+                            });
+
+                    registry.registerBeanDefinition(cfg.name + ".ErrorMessageHandler", errorMessageHandlerBeanDefinition);
                 });
     }
 

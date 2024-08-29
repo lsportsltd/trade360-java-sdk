@@ -5,7 +5,7 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 
 import java.util.Map;
 
-public class KeepAliveUpdateHandlerPrematchPrematch implements EntityHandler<KeepAliveUpdate> {
+public class KeepAliveUpdateHandlerPrematch implements EntityHandler<KeepAliveUpdate> {
 
     @Override
     public void process(KeepAliveUpdate entity, Map<String, String> messageProperties) {
