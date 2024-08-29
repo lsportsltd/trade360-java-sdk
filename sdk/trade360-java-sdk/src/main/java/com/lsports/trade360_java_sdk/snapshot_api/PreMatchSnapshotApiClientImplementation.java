@@ -49,6 +49,6 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
 
     @Override
     public Iterable<GetOutrightScoresResultElement> getOutrightScores(GetSnapshotRequest getOutrightFixtureRequest) throws Trade360Exception {
-        return this.client.postRequest(getOutrightFixtureRequest, "/Prematch/GetOutrightFixture");
+        return this.client.postRequest(getOutrightFixtureRequest, "/Prematch/GetOutrightScores");
     }
 }
