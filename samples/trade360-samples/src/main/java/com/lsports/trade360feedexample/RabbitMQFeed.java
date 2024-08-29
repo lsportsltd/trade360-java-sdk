@@ -15,24 +15,24 @@ public class RabbitMQFeed {
 
     private final MessageHandler inPlayMessageHandler;
     private final MessageHandler preMatchMessageHandler;
-    private final RabbitConnectionConfiguration inPlayrabbitConnectionConfiguration;
-    private final RabbitConnectionConfiguration preMatchrabbitConnectionConfiguration;
+    private final RabbitConnectionConfiguration inPlayRabbitConnectionConfiguration;
+    private final RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration;
 
     public RabbitMQFeed(@Qualifier("inPlayMessageHandler") MessageHandler inPlayMessageHandler,
                         @Qualifier("preMatchMessageHandler") MessageHandler preMatchMessageHandler,
-                        @Qualifier("inPlayRabbitConnectionConfiguration") RabbitConnectionConfiguration inPlayrabbitConnectionConfiguration,
-                        @Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration preMatchrabbitConnectionConfiguration) {
+                        @Qualifier("inPlayRabbitConnectionConfiguration") RabbitConnectionConfiguration inPlayRabbitConnectionConfiguration,
+                        @Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration) {
         this.inPlayMessageHandler = inPlayMessageHandler;
         this.preMatchMessageHandler = preMatchMessageHandler;
-        this.inPlayrabbitConnectionConfiguration = inPlayrabbitConnectionConfiguration;
-        this.preMatchrabbitConnectionConfiguration = preMatchrabbitConnectionConfiguration;
+        this.inPlayRabbitConnectionConfiguration = inPlayRabbitConnectionConfiguration;
+        this.preMatchRabbitConnectionConfiguration = preMatchRabbitConnectionConfiguration;
     }
 
     @RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_", errorHandler="${rabbitmq.inplay.name}.ErrorMessageHandler")
     public void inPlayProcessMessage(final Message amqpMessage, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         inPlayMessageHandler.process(amqpMessage);
 
-        if (inPlayrabbitConnectionConfiguration.auto_ack)
+        if (!inPlayRabbitConnectionConfiguration.auto_ack)
             channel.basicAck(tag, false);
     }
 
@@ -41,7 +41,7 @@ public class RabbitMQFeed {
                                        @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         preMatchMessageHandler.process(message);
 
-        if (preMatchrabbitConnectionConfiguration.auto_ack)
+        if (!preMatchRabbitConnectionConfiguration.auto_ack)
             channel.basicAck(tag, false);
 
     }
