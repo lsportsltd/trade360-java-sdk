@@ -1,6 +1,7 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
-import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.ErrorMessageResolver;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.ErrorMessageHandler;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.RecoveryMessageResolver;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
@@ -12,37 +13,30 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.context.properties.bind.Binder;
-import org.springframework.core.Ordered;
-import org.springframework.core.PriorityOrdered;
 import org.springframework.core.env.Environment;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistryPostProcessor, PriorityOrdered {
+// Configuration class for dynamic register Rabbit Connection based on application properties
+public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistryPostProcessor {
+    private List<RabbitConnectionConfiguration> connectionConfigurationsList = new ArrayList<RabbitConnectionConfiguration>();
 
-    public static final String RABBITMQ_INPLAY_PREFIX = "rabbitmq.inplay";
-    public static final String RABBITMQ_PREMATCH_PREFIX = "rabbitmq.prematch";
-    private final Iterable<RabbitConnectionConfiguration> connectionConfigurations;
+    public DynamicRabbitMQDefinitionRegistrar(Environment environment, Iterable<String> rabbitPrefixes) {
+        rabbitPrefixes.forEach ( rabbitprefix -> {
+            RabbitConnectionConfiguration ConnectionConfiguration =
+                    Binder.get(environment)
+                            .bind(rabbitprefix, RabbitConnectionConfiguration.class)
+                            .orElseThrow(IllegalStateException::new);
 
-    public DynamicRabbitMQDefinitionRegistrar(Environment environment) {
-
-        RabbitConnectionConfiguration inPlayConnectionConfiguration =
-                Binder.get(environment)
-                        .bind(RABBITMQ_INPLAY_PREFIX, RabbitConnectionConfiguration.class)
-                        .orElseThrow(IllegalStateException::new);
-
-        RabbitConnectionConfiguration preMatchConnectionConfiguration =
-                Binder.get(environment)
-                        .bind(RABBITMQ_PREMATCH_PREFIX, RabbitConnectionConfiguration.class)
-                        .orElseThrow(IllegalStateException::new);
-
-        connectionConfigurations = Arrays.asList(inPlayConnectionConfiguration, preMatchConnectionConfiguration);
+            connectionConfigurationsList.add(ConnectionConfiguration);
+        });
     }
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 
-        connectionConfigurations.forEach(
+        connectionConfigurationsList.forEach(
                 cfg -> {
                     GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
                     beanDefinition.setBeanClass(SimpleRabbitListenerContainerFactory.class);
@@ -62,7 +56,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                                 Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
 
                                 // message recover class
-                                MessageRecoverer messageRecoverer = new ErrorMessageResolver();
+                                MessageRecoverer messageRecoverer = new RecoveryMessageResolver();
 
                                 // Message recoverer configuration
                                 RetryOperationsInterceptor retryInterceptor =
@@ -83,13 +77,20 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                                 factory.setPrefetchCount(cfg.prefetch_count);
                                 return factory;
                             });
-                    // Register Bean for Rabbit Listener Container Factory
-                    registry.registerBeanDefinition(cfg.rabbit_listener_container_factory_name, beanDefinition);
-                });
-    }
 
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+                    // Register Bean for Rabbit Listener Container Factory - Bean name taken from application properties
+                    registry.registerBeanDefinition(cfg.rabbit_listener_container_factory_name, beanDefinition);
+
+                    // Error Handler
+                    GenericBeanDefinition errorMessageHandlerBeanDefinition = new GenericBeanDefinition();
+                    errorMessageHandlerBeanDefinition.setBeanClass(ErrorMessageHandler.class);
+                    errorMessageHandlerBeanDefinition.setInstanceSupplier(() -> {
+                                ErrorMessageHandler errorMessageHandler = new ErrorMessageHandler();
+                                return errorMessageHandler;
+                            });
+
+                    // Register Bean for Rabbit Listener Error Handler - Bean name based on application properties
+                    registry.registerBeanDefinition(cfg.name + ".ErrorMessageHandler", errorMessageHandlerBeanDefinition);
+                });
     }
 }

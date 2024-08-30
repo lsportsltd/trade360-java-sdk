@@ -3,7 +3,7 @@ package com.lsports.trade360feedexample.configuration;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.configurations.RabbitConnectionConfiguration;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.EntityRegistry;
-import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.MessageHandlerImplementation;
+import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.AmqpMessageHandler;
 import com.lsports.trade360feedexample.handlers.inplay.FixtureMarketUpdateHandlerInplay;
 import com.lsports.trade360feedexample.handlers.inplay.FixtureMetadataUpdateHandlerInplay;
 import com.lsports.trade360feedexample.handlers.inplay.HeartbeatHandlerInplay;
@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Trade360FeedExampleConfiguration {
 
+    //Register entity handlers for inPlay
     @Bean
     public EntityRegistry inPlayEentityRegister() throws RabbitMQFeedException {
         EntityRegistry entityRegistry = new EntityRegistry();
@@ -26,6 +27,7 @@ public class Trade360FeedExampleConfiguration {
         return entityRegistry;
     }
 
+    //Register entity handlers for preMatch
     @Bean
     public EntityRegistry preMachEentityRegister() throws RabbitMQFeedException {
         EntityRegistry entityRegistry = new EntityRegistry();
@@ -44,24 +46,28 @@ public class Trade360FeedExampleConfiguration {
         return entityRegistry;
     }
 
+    // Register amqp message handler for Inplay Rabbit
     @Bean
-    public MessageHandlerImplementation inPlayMessageHandler() throws RabbitMQFeedException {
-        MessageHandlerImplementation messageHandlerImplementation = new MessageHandlerImplementation(inPlayEentityRegister());
-        return messageHandlerImplementation;
+    public AmqpMessageHandler inPlayMessageHandler() throws RabbitMQFeedException {
+        AmqpMessageHandler amqpMessageHandler = new AmqpMessageHandler(inPlayEentityRegister());
+        return amqpMessageHandler;
     }
 
+    // Register amqp message handler for Prematch Rabbit
     @Bean
-    public MessageHandlerImplementation preMatchMessageHandler() throws RabbitMQFeedException {
-        MessageHandlerImplementation messageHandlerImplementation = new MessageHandlerImplementation(preMachEentityRegister());
-        return messageHandlerImplementation;
+    public AmqpMessageHandler preMatchMessageHandler() throws RabbitMQFeedException {
+        AmqpMessageHandler amqpMessageHandler = new AmqpMessageHandler(preMachEentityRegister());
+        return amqpMessageHandler;
     }
 
+    // Register properties configuration for InPlay
     @Bean
     @ConfigurationProperties("rabbitmq.inplay")
     public RabbitConnectionConfiguration inPlayRabbitConnectionConfiguration() {
         return new RabbitConnectionConfiguration();
     }
 
+    // Register properties configuration for Prematch
     @Bean
     @ConfigurationProperties("rabbitmq.prematch")
     public RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration() {
