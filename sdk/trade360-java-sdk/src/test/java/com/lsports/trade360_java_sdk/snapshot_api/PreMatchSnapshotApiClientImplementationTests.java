@@ -122,4 +122,73 @@ public class PreMatchSnapshotApiClientImplementationTests {
         // Assert
         verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightEvents"));
     }
+
+    @Test
+    public void getOutrightFixture_calledWithCorrectRequest_callsCorrectUrl(){
+        // Arrange
+        var mockedClient = mock(SnapshotApiRestClient.class);
+        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+
+        // Act
+        client.getOutrightFixture(new GetSnapshotRequest(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ));
+
+        // Assert
+        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightFixture"));
+    }
+
+    @Test
+    public void getOutrightScores_calledWithCorrectRequest_callsCorrectUrl(){
+        // Arrange
+        var mockedClient = mock(SnapshotApiRestClient.class);
+        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+
+        // Act
+        client.getOutrightScores(new GetSnapshotRequest(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ));
+
+        // Assert
+        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightScores"));
+    }
+
+    @Test
+    public void getOutrightFixtureMarkets_calledWithCorrectRequest_callsCorrectUrl(){
+        // Arrange
+        var mockedClient = mock(SnapshotApiRestClient.class);
+        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+
+        // Act
+        client.getOutrightFixtureMarkets(new GetSnapshotRequest(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ));
+
+        // Assert
+        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightFixtureMarkets"));
+    }
 }

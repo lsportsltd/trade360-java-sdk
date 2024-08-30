@@ -6,7 +6,9 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureM
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightEventsResultElement;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightFixtureMarketsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightFixtureResultElement;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightScoresResultElement;
 
 public interface PreMatchSnapshotApiClient {
     Iterable<GetFixturesResultElement> getFixtures(GetSnapshotRequest getFixturesRequest) throws Trade360Exception;
@@ -20,4 +22,8 @@ public interface PreMatchSnapshotApiClient {
     Iterable<GetOutrightEventsResultElement> getOutrightEvents(GetSnapshotRequest getOutrightEventsRequest) throws Trade360Exception;
 
     Iterable<GetOutrightFixtureResultElement> getOutrightFixture(GetSnapshotRequest getOutrightFixtureRequest) throws Trade360Exception;
+
+    Iterable<GetOutrightScoresResultElement> getOutrightScores(GetSnapshotRequest getOutrightScoresRequest) throws Trade360Exception;
+
+    Iterable<GetOutrightFixtureMarketsResultElement> getOutrightFixtureMarkets(GetSnapshotRequest getOutrightFixtureMarketsRequest) throws Trade360Exception;
 }

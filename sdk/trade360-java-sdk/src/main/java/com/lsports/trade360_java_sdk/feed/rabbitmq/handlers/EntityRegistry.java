@@ -13,12 +13,16 @@ public class EntityRegistry implements EntityRegister {
     public void setEntityHandler(@NotNull EntityHandler entityHandler) throws RabbitMQFeedException {
 
         if ( entityMap.containsKey(entityHandler.getEntityKey()))
-            throw new RabbitMQFeedException(MessageFormat.format("Provided EntityHandler already exists! - {0} - {1}", entityHandler.getEntityKey(), entityHandler.getClass().toString() ));
+            throw new RabbitMQFeedException(
+                    MessageFormat.format("Provided EntityHandler already exists! - {0} - {1}",
+                            entityHandler.getEntityKey(),
+                            entityHandler.getClass().toString()
+                    ));
         else
             entityMap.put(entityHandler.getEntityKey(), entityHandler);
     }
 
-    public EntityHandler getHandlerByTypeId(int typeId)
+    public EntityHandler getEntityByTypeId(int typeId)
     {
         return entityMap.get(typeId);
     }

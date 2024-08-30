@@ -8,11 +8,13 @@ import com.lsports.trade360_java_sdk.common.entities.enums.MessageType;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
+import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import java.net.http.WebSocketHandshakeException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,14 +37,14 @@ public class AmqpMessageHandler implements MessageHandler {
     }
 
     @Override
-    public void process(Message message) throws Exception {
+    public void process(Message amqpMessage) throws Exception {
 
-        int typeId = getTypeIdFromMessage(message);
+        int typeId = getTypeIdFromMessage(amqpMessage);
         Class<?> msgType = getMessageType(typeId);
-        String body = getBodyFromMessage(message);
+        String body = getBodyFromMessage(amqpMessage);
         Object msg = parseMessage(body,msgType);
-        Map<String,String> header = getHeaderFromMessage(message);
-        EntityHandler handler = entityRegister.getEntityByTypeId(typeId);
+        Map<String,String> header = getHeaderFromMessage(amqpMessage);
+        EntityHandler handler = getEntityHandler(typeId);
         
         handler.process(msg, header);
     }
@@ -51,7 +53,7 @@ public class AmqpMessageHandler implements MessageHandler {
         val className = MessageType.findMessageType(typeId);
 
         if (className == null)
-            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize '{0}' entity",typeId));
+            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId));
         else
             return Class.forName(messageTypeClassPath + className);
     }
@@ -61,7 +63,7 @@ public class AmqpMessageHandler implements MessageHandler {
         val typeIdHeaderValue =((Map)map.get(headerPropertyName)).get(typeIdPropertyHeaderName).toString();
 
         if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
-            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize '{0}' entity, Due to: Wrong or lack of 'type' property in Rabbit message header.",typeIdHeaderValue));
+            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity, Due to: Wrong or lack of 'type' property in Rabbit message header.",typeIdHeaderValue));
         else
             return Integer.parseInt(typeIdHeaderValue);
     }
@@ -80,7 +82,14 @@ public class AmqpMessageHandler implements MessageHandler {
         try {
             return objectMapper.readValue(json, clazz);
         } catch (final Exception ex) {
-            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize '{0}' entity", clazz.getSimpleName()));
+            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity.", clazz.getSimpleName()),ex);
         }
+    }
+
+    private EntityHandler getEntityHandler(int typeId) {
+          EntityHandler entityHandler = entityRegister.getEntityByTypeId(typeId);
+          if (entityHandler == null)
+              throw new Trade360Exception(MessageFormat.format("Entity Handler not found - please register it for typeId: {0} with EntityRegistry.setEntityHandler() method.", typeId));
+          return entityHandler;
     }
 }
