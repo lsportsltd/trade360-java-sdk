@@ -87,7 +87,7 @@ public class MessageHandlerImplementation implements MessageHandler {
     private EntityHandler getEntityHandler(int typeId) {
           EntityHandler entityHandler = entityRegister.getEntityByTypeId(typeId);
           if (entityHandler == null)
-              throw new Trade360Exception(MessageFormat.format("Entity Handler not added - please add it for typeId: {0} by EntityRegistry.setEntityHandler()", typeId));
+              throw new Trade360Exception(MessageFormat.format("Entity Handler not found - please register it for typeId: {0} with EntityRegistry.setEntityHandler() method.", typeId));
           return entityHandler;
     }
 }

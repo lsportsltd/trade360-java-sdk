@@ -14,7 +14,6 @@ public class KeepAliveUpdateHandlerInplay implements EntityHandler<KeepAliveUpda
 
     @Override
     public int getEntityKey() {
-
         return KeepAliveUpdate.entityKey;
     }
 }
