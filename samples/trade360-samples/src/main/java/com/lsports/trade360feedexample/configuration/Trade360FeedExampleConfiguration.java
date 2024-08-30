@@ -4,10 +4,7 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.configurations.RabbitConnecti
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.EntityRegistry;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.AmqpMessageHandler;
-import com.lsports.trade360feedexample.handlers.inplay.FixtureMarketUpdateHandlerInplay;
-import com.lsports.trade360feedexample.handlers.inplay.FixtureMetadataUpdateHandlerInplay;
-import com.lsports.trade360feedexample.handlers.inplay.HeartbeatHandlerInplay;
-import com.lsports.trade360feedexample.handlers.inplay.LivescoreUpdateHandlerInplay;
+import com.lsports.trade360feedexample.handlers.inplay.*;
 import com.lsports.trade360feedexample.handlers.prematch.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +21,8 @@ public class Trade360FeedExampleConfiguration {
         entityRegistry.setEntityHandler(new LivescoreUpdateHandlerInplay());
         entityRegistry.setEntityHandler(new HeartbeatHandlerInplay());
         entityRegistry.setEntityHandler(new FixtureMetadataUpdateHandlerInplay());
+        entityRegistry.setEntityHandler(new KeepAliveUpdateHandlerInplay());
+        entityRegistry.setEntityHandler(new SettlementUpdateHandlerInplay());
         return entityRegistry;
     }
 
@@ -34,7 +33,7 @@ public class Trade360FeedExampleConfiguration {
         entityRegistry.setEntityHandler(new FixtureMarketUpdateHandlerPrematch());
         entityRegistry.setEntityHandler(new FixtureMetadataUpdateHandlerPrematch());
         entityRegistry.setEntityHandler(new HeartbeatHandlerPrematch());
-        entityRegistry.setEntityHandler(new KeepAliveUpdateHandlerPrematchPrematch());
+        entityRegistry.setEntityHandler(new KeepAliveUpdateHandlerPrematch());
         entityRegistry.setEntityHandler(new LivescoreUpdateHandlerPrematch());
         entityRegistry.setEntityHandler(new OutrightFixtureMarketUpdateHandlerPrematch());
         entityRegistry.setEntityHandler(new OutrightFixtureUpdateHandlerPrematch());

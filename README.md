@@ -5,7 +5,7 @@
 - [About](#about)
 - [Getting Started](#getting_started)
     - [Pre-requisites](#pre_requisites)
-    - [Supported .NET Versions](#supported_versions)
+    - [Supported JDK Versions](#supported_versions)
     - [Installing](#installing)
     - [Initial Configuration](#configuration)
 - [Usage Guide](#usage_guide)
@@ -57,13 +57,13 @@ A step-by-step series of instructions to set up your development environment.
 2. **Restore dependencies:**
 
     ```bash
-    dotnet restore
+    mvn -U clean install
     ```
 
-3. **Build the project:**
+3. **Run the project:**
 
     ```bash
-    dotnet build
+    mvn spring-boot:run
     ```
 
 ## Usage Guide <a name = "usage_guide"></a>
@@ -72,33 +72,30 @@ A step-by-step series of instructions to set up your development environment.
 
 This is an example usage of the feed SDK, which gives you the ability to create an instance and connect to your RabbitMQ feed. You can create a handler to deal with each type of message being produced (fixture, livescore, markets, settlement) for standard sports, outright sports, and outright league sports (tournaments). Please download the repo and run the examples for more information.
 
-#### Example Configuration (`appsettings.json`)
+#### Example Configuration (`application.properties`)
 
-```json
-{
-  "Trade360": {
-    "RmqInplaySettings": {
-      "Host": "trade360-inplay-rabbitmq-host",
-      "Port": "trade360-inplay-rabbitmq-port",
-      "VirtualHost": "trade360-inplay-rabbitmq-virtual-host",
-      "PackageId": 0,
-      "Username": "your-username",
-      "Password": "your-password",
-      "PrefetchCount": 100,
-      "AutoAck": true,
-      "RequestedHeartbeatSeconds": 30,
-      "NetworkRecoveryInterval": 30,
-      "DispatchConsumersAsync": true,
-      "AutomaticRecoveryEnabled": true
-    }
-  }
-}
-```
+```yaml
+spring.application.name:trade360-feed-example
 
-#### Dependency Injection Setup (Program.cs)
-After setting the correct configuration, add the following to your dependency injection:
-```csharp
-services.AddT360RmqFeedSdk();
+rabbitmq.inplay.name: inplay
+rabbitmq.inplay.rabbit_listener_container_factory_name: inplaySimpleRabbitListenerContainerFactory
+rabbitmq.inplay.package_id: 99
+rabbitmq.inplay.host: localhost
+rabbitmq.inplay.port: 5672
+rabbitmq.inplay.virtual_host: /
+rabbitmq.inplay.user_name: guest
+rabbitmq.inplay.password: guest
+rabbitmq.inplay.prefetch_count: 100
+rabbitmq.inplay.auto_ack: false
+rabbitmq.inplay.requested_heartbeat_seconds: 30
+rabbitmq.inplay.network_recovery_interval: 30
+rabbitmq.inplay.base_customers_api: https://stm-api.lsports.eu
+rabbitmq.inplay.retry_attempts: 3
+rabbitmq.inplay.retry_initial_interval: 1000
+rabbitmq.inplay.retry_multiple: 2
+rabbitmq.inplay.retry_max_interval: 5000
+rabbitmq.inplay.concurrent_consumers: 1
+rabbitmq.inplay.max_concurrent_consumers: 1
 ```
 
 #### Implementing The Connection
