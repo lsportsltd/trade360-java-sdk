@@ -64,6 +64,8 @@ public class SnapshotApiExampleApplication {
             () -> preMatchClient.getOutrightFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
         this.execute("Get Outright Leagues",
             () -> preMatchClient.getOutrightLeagues(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        this.execute("Get Outright League Markets",
+            () -> preMatchClient.getOutrightLeagueMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
     private void inPlayApi() {

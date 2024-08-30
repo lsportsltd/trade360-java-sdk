@@ -8,6 +8,7 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescor
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightEventsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightFixtureMarketsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightFixtureResultElement;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightLeagueMarketsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightLeaguesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightScoresResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
@@ -62,5 +63,10 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
     @Override
     public Iterable<GetOutrightLeaguesResultElement> getOutrightLeagues(GetSnapshotRequest getOutrightLeaguesRequest) throws Trade360Exception {
         return this.client.postRequest(getOutrightLeaguesRequest, "/Prematch/GetOutrightLeagues");
+    }
+
+    @Override
+    public Iterable<GetOutrightLeagueMarketsResultElement> getOutrightLeagueMarkets(GetSnapshotRequest getOutrightLeagueMarketsRequest) throws Trade360Exception {
+        return this.client.postRequest(getOutrightLeagueMarketsRequest, "/Prematch/GetOutrightLeagueMarkets");
     }
 }
