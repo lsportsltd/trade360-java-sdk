@@ -214,4 +214,27 @@ public class PreMatchSnapshotApiClientImplementationTests {
         // Assert
         verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightLeagues"));
     }
+
+    @Test
+    public void getOutrightLeagueMarkets_calledWithCorrectRequest_callsCorrectUrl(){
+        // Arrange
+        var mockedClient = mock(SnapshotApiRestClient.class);
+        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+
+        // Act
+        client.getOutrightLeagueMarkets(new GetSnapshotRequest(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ));
+
+        // Assert
+        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightLeagueMarkets"));
+    }
 }
