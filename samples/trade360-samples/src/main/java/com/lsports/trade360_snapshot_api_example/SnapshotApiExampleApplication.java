@@ -24,7 +24,7 @@ public class SnapshotApiExampleApplication {
     }
 
     @Bean
-    public static SnapshotApiClientFactory configureSnapshotApiFactory(WebClient.Builder webClientBuilder) {
+    public SnapshotApiClientFactory configureSnapshotApiFactory(WebClient.Builder webClientBuilder) {
         return new SpringBootSnapshotApiClientFactory(webClientBuilder);
     }
 
