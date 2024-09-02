@@ -1,6 +1,7 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,6 +15,7 @@ public class JacksonSnapshotApiSerializer implements JsonSnapshotApiSerializer {
         .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
         .configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .setSerializationInclusion(Include.NON_NULL);
     private final SnapshotApiSettings settings;
 

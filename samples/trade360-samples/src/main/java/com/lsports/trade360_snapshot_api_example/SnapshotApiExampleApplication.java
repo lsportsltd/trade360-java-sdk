@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
 import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
@@ -15,6 +15,7 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotR
 import com.lsports.trade360_java_sdk.snapshot_api.springframework.SpringBootSnapshotApiClientFactory;
 
 import jakarta.annotation.PostConstruct;
+import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 public class SnapshotApiExampleApplication {
@@ -23,8 +24,8 @@ public class SnapshotApiExampleApplication {
     }
 
     @Bean
-    public static SnapshotApiClientFactory configureSnapshotApiFactory(RestClient.Builder restBuilder) {
-        return new SpringBootSnapshotApiClientFactory(restBuilder);
+    public static SnapshotApiClientFactory configureSnapshotApiFactory(WebClient.Builder webClientBuilder) {
+        return new SpringBootSnapshotApiClientFactory(webClientBuilder);
     }
 
     private final SnapshotApiClientFactory apiClientFactory;
@@ -40,12 +41,13 @@ public class SnapshotApiExampleApplication {
     }
 
     private void preMatchApi() {
-        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
+        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 4, "1", "Tests1234");
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(preMatchSettings);
 
         System.out.println();
         System.out.println("================================");
         System.out.println("==== PREMATCH API EXAMPLES: ====");
+
         this.execute("Get Fixtures",
             () -> preMatchClient.getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
         this.execute("Get Livescore",
@@ -69,7 +71,7 @@ public class SnapshotApiExampleApplication {
     }
 
     private void inPlayApi() {
-        var inPlaySettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
+        var inPlaySettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 2, "1", "Tests1234");
         var inPlayClient = this.apiClientFactory.createInPlayApiClient(inPlaySettings);
 
         System.out.println();
@@ -85,11 +87,11 @@ public class SnapshotApiExampleApplication {
             () -> inPlayClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
-    private <T> void execute(String exampleName, Supplier<T> c) {
+    private <T> void execute(String exampleName, Supplier<Mono<T>> c) {
         System.out.println("--------------------------------");
         System.out.print("[" + exampleName + "] - ");
         try {
-            var response = c.get();
+            var response = c.get().block();
             System.out.println("Response received: " + response);
         } catch (Trade360Exception ex) {
             System.err.println("Failed: " + ex.getMessage());

@@ -28,7 +28,7 @@ public class InPlaySnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Inplay/GetFixtures"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Inplay/GetFixtures"));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class InPlaySnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Inplay/GetScores"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Inplay/GetScores"));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class InPlaySnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Inplay/GetFixtureMarkets"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Inplay/GetFixtureMarkets"));
     }
 
     @Test
@@ -97,6 +97,6 @@ public class InPlaySnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Inplay/GetEvents"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Inplay/GetEvents"));
     }
 }

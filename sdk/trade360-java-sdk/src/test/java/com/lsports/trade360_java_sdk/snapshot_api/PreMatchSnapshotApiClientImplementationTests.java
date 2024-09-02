@@ -28,7 +28,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetFixtures"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetFixtures"));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetScores"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetScores"));
     }
     
     @Test
@@ -74,7 +74,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetFixtureMarkets"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetFixtureMarkets"));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetEvents"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetEvents"));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightEvents"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetOutrightEvents"));
     }
 
     @Test
@@ -143,7 +143,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightFixture"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetOutrightFixture"));
     }
 
     @Test
@@ -166,7 +166,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightScores"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetOutrightScores"));
     }
 
     @Test
@@ -189,7 +189,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightFixtureMarkets"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetOutrightFixtureMarkets"));
     }
 
     @Test
@@ -212,7 +212,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightLeagues"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetOutrightLeagues"));
     }
 
     @Test
@@ -235,6 +235,6 @@ public class PreMatchSnapshotApiClientImplementationTests {
         ));
 
         // Assert
-        verify(mockedClient).postRequest(any(), eq("/Prematch/GetOutrightLeagueMarkets"));
+        verify(mockedClient).postRequest(any(), any(), eq("/Prematch/GetOutrightLeagueMarkets"));
     }
 }

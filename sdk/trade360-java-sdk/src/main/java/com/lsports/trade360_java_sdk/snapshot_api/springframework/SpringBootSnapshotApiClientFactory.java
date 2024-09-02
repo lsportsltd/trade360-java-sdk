@@ -1,7 +1,7 @@
 package com.lsports.trade360_java_sdk.snapshot_api.springframework;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.InPlaySnapshotApiClient;
 import com.lsports.trade360_java_sdk.snapshot_api.InPlaySnapshotApiClientImplementation;
@@ -13,9 +13,9 @@ import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSetti
 
 @Service
 public class SpringBootSnapshotApiClientFactory implements SnapshotApiClientFactory {
-    private final RestClient.Builder builder;
+    private final WebClient.Builder builder;
 
-    public SpringBootSnapshotApiClientFactory(RestClient.Builder builder) {
+    public SpringBootSnapshotApiClientFactory(WebClient.Builder builder) {
         this.builder = builder;
     }
 

@@ -12,24 +12,26 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutright
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightLeaguesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightScoresResultElement;
 
+import reactor.core.publisher.Mono;
+
 public interface PreMatchSnapshotApiClient {
-    Iterable<GetFixturesResultElement> getFixtures(GetSnapshotRequest getFixturesRequest) throws Trade360Exception;
+    Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest);
 
-    Iterable<GetLivescoreResultElement> getLivescore(GetSnapshotRequest getLivescoreRequestDto) throws Trade360Exception;
+    Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequestDto);
     
-    Iterable<GetFixtureMarketsResultElement> getFixtureMarkets(GetSnapshotRequest getFixtureMarketsRequest) throws Trade360Exception;
+    Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getFixtureMarketsRequest);
 
-    Iterable<GetEventsResultElement> getEvents(GetSnapshotRequest getEventsRequest) throws Trade360Exception;
+    Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest);
 
-    Iterable<GetOutrightEventsResultElement> getOutrightEvents(GetSnapshotRequest getOutrightEventsRequest) throws Trade360Exception;
+    Mono<Iterable<GetOutrightEventsResultElement>> getOutrightEvents(GetSnapshotRequest getOutrightEventsRequest);
 
-    Iterable<GetOutrightFixtureResultElement> getOutrightFixture(GetSnapshotRequest getOutrightFixtureRequest) throws Trade360Exception;
+    Mono<Iterable<GetOutrightFixtureResultElement>> getOutrightFixture(GetSnapshotRequest getOutrightFixtureRequest);
 
-    Iterable<GetOutrightScoresResultElement> getOutrightScores(GetSnapshotRequest getOutrightScoresRequest) throws Trade360Exception;
+    Mono<Iterable<GetOutrightScoresResultElement>> getOutrightScores(GetSnapshotRequest getOutrightScoresRequest);
 
-    Iterable<GetOutrightFixtureMarketsResultElement> getOutrightFixtureMarkets(GetSnapshotRequest getOutrightFixtureMarketsRequest) throws Trade360Exception;
+    Mono<Iterable<GetOutrightFixtureMarketsResultElement>> getOutrightFixtureMarkets(GetSnapshotRequest getOutrightFixtureMarketsRequest);
 
-    Iterable<GetOutrightLeaguesResultElement> getOutrightLeagues(GetSnapshotRequest getOutrightLeaguesRequest) throws Trade360Exception;
+    Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetSnapshotRequest getOutrightLeaguesRequest);
 
-    Iterable<GetOutrightLeagueMarketsResultElement> getOutrightLeagueMarkets(GetSnapshotRequest getOutrightLeaguesMarketsRequest) throws Trade360Exception;
+    Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetSnapshotRequest getOutrightLeaguesMarketsRequest);
 }

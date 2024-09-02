@@ -6,12 +6,14 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureM
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
 
+import reactor.core.publisher.Mono;
+
 public interface InPlaySnapshotApiClient {
-    Iterable<GetFixturesResultElement> getFixtures(GetSnapshotRequest getFixturesRequest) throws Trade360Exception;
+    Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest);
     
-    Iterable<GetLivescoreResultElement> getLivescore(GetSnapshotRequest getLivescoreRequestDto) throws Trade360Exception;
+    Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequestDto);
 
-    Iterable<GetFixtureMarketsResultElement> getFixtureMarkets(GetSnapshotRequest getFixtureMarketsRequest) throws Trade360Exception;
+    Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getFixtureMarketsRequest);
 
-    Iterable<GetEventsResultElement> getEvents(GetSnapshotRequest getEventsRequest) throws Trade360Exception;
+    Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest);
 }

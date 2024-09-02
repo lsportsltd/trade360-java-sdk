@@ -1,11 +1,14 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetEventsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureMarketsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
+
+import reactor.core.publisher.Mono;
 
 public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiClient {
     private final SnapshotApiRestClient client;
@@ -15,22 +18,34 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
     }
 
     @Override
-    public Iterable<GetFixturesResultElement> getFixtures(GetSnapshotRequest getFixturesRequest) throws Trade360Exception {
-        return this.client.postRequest(getFixturesRequest, "/Inplay/GetFixtures");
+    public Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest) {
+        return this.client.postRequest(
+            getFixturesRequest,
+            new TypeReference<Iterable<GetFixturesResultElement>>(){},
+            "/Inplay/GetFixtures");
     }
 
     @Override
-    public Iterable<GetLivescoreResultElement> getLivescore(GetSnapshotRequest getLivescoreRequest) throws Trade360Exception {
-        return this.client.postRequest(getLivescoreRequest, "/Inplay/GetScores");
+    public Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequest) {
+        return this.client.postRequest(
+            getLivescoreRequest,
+            new TypeReference<Iterable<GetLivescoreResultElement>>(){},
+            "/Inplay/GetScores");
     }
 
     @Override
-    public Iterable<GetFixtureMarketsResultElement> getFixtureMarkets(GetSnapshotRequest getMarketRequest) throws Trade360Exception {
-        return this.client.postRequest(getMarketRequest, "/Inplay/GetFixtureMarkets");
+    public Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getMarketRequest) {
+        return this.client.postRequest(
+            getMarketRequest,
+            new TypeReference<Iterable<GetFixtureMarketsResultElement>>(){},
+            "/Inplay/GetFixtureMarkets");
     }
 
     @Override
-    public Iterable<GetEventsResultElement> getEvents(GetSnapshotRequest getEventsRequest) throws Trade360Exception {
-        return this.client.postRequest(getEventsRequest, "/Inplay/GetEvents");
+    public Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest) {
+        return this.client.postRequest(
+            getEventsRequest,
+            new TypeReference<Iterable<GetEventsResultElement>>(){},
+            "/Inplay/GetEvents");
     }
 }
