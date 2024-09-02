@@ -1,7 +1,5 @@
 package com.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
-import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.ErrorMessageHandler;
-import com.lsports.trade360_java_sdk.feed.rabbitmq.handlers.RecoveryMessageResolver;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
@@ -13,38 +11,26 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.context.properties.bind.Binder;
-import org.springframework.core.Ordered;
-import org.springframework.core.PriorityOrdered;
 import org.springframework.core.env.Environment;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
-import java.util.Arrays;
 
-public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistryPostProcessor, PriorityOrdered {
+// Configuration class for dynamic register Rabbit Connection based on application properties
+public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistryPostProcessor {
 
-    public static final String RABBITMQ_INPLAY_PREFIX = "rabbitmq.inplay";
-    public static final String RABBITMQ_PREMATCH_PREFIX = "rabbitmq.prematch";
-    private final Iterable<RabbitConnectionConfiguration> connectionConfigurations;
+    private final RabbitConnectionConfiguration rabbitConnectionConfiguration;
+    private final MessageRecoverer messageRecoverer;
 
-    public DynamicRabbitMQDefinitionRegistrar(Environment environment) {
+    public DynamicRabbitMQDefinitionRegistrar(Environment environment, String rabbitPrefix, MessageRecoverer messageRecoverer) {
 
-        RabbitConnectionConfiguration inPlayConnectionConfiguration =
-                Binder.get(environment)
-                        .bind(RABBITMQ_INPLAY_PREFIX, RabbitConnectionConfiguration.class)
-                        .orElseThrow(IllegalStateException::new);
-
-        RabbitConnectionConfiguration preMatchConnectionConfiguration =
-                Binder.get(environment)
-                        .bind(RABBITMQ_PREMATCH_PREFIX, RabbitConnectionConfiguration.class)
-                        .orElseThrow(IllegalStateException::new);
-
-        connectionConfigurations = Arrays.asList(inPlayConnectionConfiguration, preMatchConnectionConfiguration);
+                this. messageRecoverer = messageRecoverer;
+                rabbitConnectionConfiguration = Binder.get(environment)
+                            .bind(rabbitPrefix, RabbitConnectionConfiguration.class)
+                            .orElseThrow(IllegalStateException::new);
     }
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 
-        connectionConfigurations.forEach(
-                cfg -> {
                     GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
                     beanDefinition.setBeanClass(SimpleRabbitListenerContainerFactory.class);
                     beanDefinition.setInstanceSupplier(() -> {
@@ -52,55 +38,37 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
 
                                 // Connection configuration
                                 CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-                                connectionFactory.setVirtualHost(cfg.virtual_host);
-                                connectionFactory.setHost(cfg.host);
-                                connectionFactory.setUsername(cfg.user_name);
-                                connectionFactory.setPassword(cfg.password);
+                                connectionFactory.setVirtualHost(rabbitConnectionConfiguration.virtual_host);
+                                connectionFactory.setHost(rabbitConnectionConfiguration.host);
+                                connectionFactory.setUsername(rabbitConnectionConfiguration.user_name);
+                                connectionFactory.setPassword(rabbitConnectionConfiguration.password);
 
                                 factory.setConnectionFactory( connectionFactory);
 
                                 // Converter configuration
                                 Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
 
-                                // message recover class
-                                MessageRecoverer messageRecoverer = new RecoveryMessageResolver();
-
                                 // Message recoverer configuration
                                 RetryOperationsInterceptor retryInterceptor =
-                                        RetryInterceptorBuilder.stateless().maxAttempts(cfg.retry_attempts)
-                                                .backOffOptions(cfg.retry_initial_interval,
-                                                        cfg.retry_multiple,
-                                                        cfg.retry_max_interval)
+                                        RetryInterceptorBuilder.stateless().maxAttempts(rabbitConnectionConfiguration.retry_attempts)
+                                                .backOffOptions(rabbitConnectionConfiguration.retry_initial_interval,
+                                                        rabbitConnectionConfiguration.retry_multiple,
+                                                        rabbitConnectionConfiguration.retry_max_interval)
                                                 .recoverer(messageRecoverer)
                                                 .build();
 
                                 // Configure Rabbit Listener Container Factory
-                                factory.setAcknowledgeMode(cfg.auto_ack ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
+                                factory.setAcknowledgeMode(rabbitConnectionConfiguration.auto_ack ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
                                 factory.setAdviceChain(retryInterceptor);
                                 factory.setDefaultRequeueRejected(false);
                                 factory.setMessageConverter(converter);
-                                factory.setConcurrentConsumers(cfg.concurrent_consumers);
-                                factory.setMaxConcurrentConsumers(cfg.max_concurrent_consumers);
-                                factory.setPrefetchCount(cfg.prefetch_count);
+                                factory.setConcurrentConsumers(rabbitConnectionConfiguration.concurrent_consumers);
+                                factory.setMaxConcurrentConsumers(rabbitConnectionConfiguration.max_concurrent_consumers);
+                                factory.setPrefetchCount(rabbitConnectionConfiguration.prefetch_count);
                                 return factory;
                             });
-                    // Register Bean for Rabbit Listener Container Factory
-                    registry.registerBeanDefinition(cfg.rabbit_listener_container_factory_name, beanDefinition);
 
-
-                    GenericBeanDefinition errorMessageHandlerBeanDefinition = new GenericBeanDefinition();
-                    errorMessageHandlerBeanDefinition.setBeanClass(ErrorMessageHandler.class);
-                    errorMessageHandlerBeanDefinition.setInstanceSupplier(() -> {
-                                ErrorMessageHandler errorMessageHandler = new ErrorMessageHandler();
-                                return errorMessageHandler;
-                            });
-
-                    registry.registerBeanDefinition(cfg.name + ".ErrorMessageHandler", errorMessageHandlerBeanDefinition);
-                });
-    }
-
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+                    // Register Bean for Rabbit Listener Container Factory - Bean name taken from application properties
+                    registry.registerBeanDefinition(rabbitConnectionConfiguration.rabbit_listener_container_factory_name, beanDefinition);
     }
 }

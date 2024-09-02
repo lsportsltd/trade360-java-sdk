@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 @Data
 public class RabbitConnectionConfiguration {
 
-
     public String name;
     @NotNull
     public int package_id;

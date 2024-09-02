@@ -5,7 +5,7 @@
 - [About](#about)
 - [Getting Started](#getting_started)
     - [Pre-requisites](#pre_requisites)
-    - [Supported .NET Versions](#supported_versions)
+    - [Supported JDK Versions](#supported_versions)
     - [Installing](#installing)
     - [Initial Configuration](#configuration)
 - [Usage Guide](#usage_guide)
@@ -60,10 +60,10 @@ A step-by-step series of instructions to set up your development environment.
     mvn -U clean install
     ```
 
-3. **Build the project:**
+3. **Run the project:**
 
     ```bash
-    dotnet build
+    mvn spring-boot:run
     ```
 
 ## Usage Guide <a name = "usage_guide"></a>
@@ -72,437 +72,157 @@ A step-by-step series of instructions to set up your development environment.
 
 This is an example usage of the feed SDK, which gives you the ability to create an instance and connect to your RabbitMQ feed. You can create a handler to deal with each type of message being produced (fixture, livescore, markets, settlement) for standard sports, outright sports, and outright league sports (tournaments). Please download the repo and run the examples for more information.
 
-#### Example Configuration (`appsettings.json`)
+#### Example Configuration (`application.properties`)
 
-```json
-{
-  "Trade360": {
-    "RmqInplaySettings": {
-      "Host": "trade360-inplay-rabbitmq-host",
-      "Port": "trade360-inplay-rabbitmq-port",
-      "VirtualHost": "trade360-inplay-rabbitmq-virtual-host",
-      "PackageId": 0,
-      "Username": "your-username",
-      "Password": "your-password",
-      "PrefetchCount": 100,
-      "AutoAck": true,
-      "RequestedHeartbeatSeconds": 30,
-      "NetworkRecoveryInterval": 30,
-      "DispatchConsumersAsync": true,
-      "AutomaticRecoveryEnabled": true
-    }
-  }
-}
-```
+```yaml
+spring.application.name:trade360-feed-example
 
-#### Dependency Injection Setup (Program.cs)
-After setting the correct configuration, add the following to your dependency injection:
-```csharp
-services.AddT360RmqFeedSdk();
+rabbitmq.inplay.name: inplay
+rabbitmq.inplay.rabbit_listener_container_factory_name: inplaySimpleRabbitListenerContainerFactory
+rabbitmq.inplay.package_id: 99
+rabbitmq.inplay.host: localhost
+rabbitmq.inplay.port: 5672
+rabbitmq.inplay.virtual_host: /
+rabbitmq.inplay.user_name: guest
+rabbitmq.inplay.password: guest
+rabbitmq.inplay.prefetch_count: 100
+rabbitmq.inplay.auto_ack: false
+rabbitmq.inplay.requested_heartbeat_seconds: 30
+rabbitmq.inplay.network_recovery_interval: 30
+rabbitmq.inplay.base_customers_api: https://stm-api.lsports.eu
+rabbitmq.inplay.retry_attempts: 3
+rabbitmq.inplay.retry_initial_interval: 1000
+rabbitmq.inplay.retry_multiple: 2
+rabbitmq.inplay.retry_max_interval: 5000
+rabbitmq.inplay.concurrent_consumers: 1
+rabbitmq.inplay.max_concurrent_consumers: 1
 ```
 
 #### Implementing The Connection
 
-Using `IFeedFactory` and creating a connection to the desired package (inplay or prematch):
+To create a connection it is necessary to use the 'InplayTrade360SdkConfiguration' or/and 'PrematchTrade360SdkConfiguration' configuration class.
+This class reads the connection parameters from the application properties based on defined prefixes.
 
-```csharp
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
-using Trade360SDK.Feed.Configuration;
-using Trade360SDK.Feed.Example.Handlers.Inplay;
+```java
+// Configuration class for Rabbit Connection
+@Configuration
+public class InplayTrade360SdkConfiguration {
+    // Configure the settings for the "Inplay" feed using the "rabbitmq.inplay" section of the configuration file
+    public static final String RABBITMQ_INPLAY_PREFIX = "rabbitmq.inplay";
+    ...
 
-namespace Trade360SDK.Feed.Example
-{
-    public class Startup : IHostedService
-    {
-        private readonly IFeedFactory _feedFactory;
-        private readonly IOptionsMonitor<RmqConnectionSettings> _settingsMonitor;
-        private IFeed? _inplayFeed;
 
-        public Startup(IFeedFactory feedFactory, IOptionsMonitor<RmqConnectionSettings> settingsMonitor)
-        {
-            _feedFactory = feedFactory;
-            _settingsMonitor = settingsMonitor;
-        }
+// Configuration class Rabbit Connection
+@Configuration
+public class PrematchTrade360SdkConfiguration {
+     // Configure the settings for the "Prematch" feed using the "rabbitmq.prematch" section of the configuration file
+     public static final String RABBITMQ_PREMATCH_PREFIX = "rabbitmq.prematch";
+        ...
 
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            var inplaySettings = _settingsMonitor.Get("Inplay");
-            _inplayFeed = _feedFactory.CreateFeed(inplaySettings); // Create the IFeed instance for inplay
+```
 
-            // Add entity handlers to the Inplay feed
-            _inplayFeed.AddEntityHandler(new HeartbeatHandlerInplay());
-            _inplayFeed.AddEntityHandler(new FixtureMetadataUpdateHandlerInplay());
-            _inplayFeed.AddEntityHandler(new LivescoreUpdateHandlerInplay());
+Above code register connections configuration for two prefixes 'rabbitmq.inplay' and "rabbitmq.prematch"
 
-            await _inplayFeed.StartAsync(cancellationToken); // Start the connection
+Next step is add listener handler methods for the above connections. Each @RabbitListener annotation has an association between the Rabbit Connection Factory and that method by the bean name written in the containerFactory annotation properties.
+Second parameter is queue and third name of error message handling implementation defined in Trade360SdkConfiguration class. 
+```java
 
-            Console.WriteLine("Click any key to stop message consumption");
-            Console.ReadLine();
+@RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_", errorHandler="inplayErrorMessageHandler")
+public void inPlayProcessMessage(final Message amqpMessage, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
+    inPlayMessageHandler.process(amqpMessage);
 
-            if (_inplayFeed != null) await _inplayFeed.StopAsync(cancellationToken);
-        }
+    //in case of manual ACK  - auto_ack:false
+    //   channel.basicAck(tag, false);
+}
 
-        public async Task StopAsync(CancellationToken cancellationToken)
-        {
-            if (_inplayFeed != null)
-            {
-                await _inplayFeed.StopAsync(cancellationToken);
-            }
-        }
+@RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_", errorHandler="prematchErrorMessageHandler")
+public void preMatchProcessMessage(final Message message, Channel channel,
+                                   @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
+    preMatchMessageHandler.process(message);
+
+    //in case of manual ACK  - auto_ack:false
+    //  channel.basicAck(tag, false);
+}
+```
+Next step is to register handlers for each type of message:
+```java
+    //Register entity handlers for inPlay
+    @Bean
+    public EntityRegistry inPlayEentityRegister() throws RabbitMQFeedException {
+    EntityRegistry entityRegistry = new EntityRegistry();
+    entityRegistry.setEntityHandler(new FixtureMarketUpdateHandlerInplay());
+    entityRegistry.setEntityHandler(new LivescoreUpdateHandlerInplay());
+    entityRegistry.setEntityHandler(new HeartbeatHandlerInplay());
+    entityRegistry.setEntityHandler(new FixtureMetadataUpdateHandlerInplay());
+    return entityRegistry;
+    }
+```
+
+Connection will be established right after application start. 
+
+#### Message recover in case of failure
+
+In order to handle message recover it is a need to  implements 'MessageRecoverer' interface. Spring [documentation](https://docs.spring.io/spring-amqp/api/org/springframework/amqp/rabbit/retry/RepublishMessageRecoverer.html)
+Example:
+```java
+package com.lsports.trade360feedexample.handlers.inplay.errors;
+
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.retry.MessageRecoverer;
+
+import java.text.MessageFormat;
+
+public class InplayRecoveryMessageResolver implements MessageRecoverer {
+    @Override
+    public void recover(Message message, Throwable cause) {
+
+        // Printout error message after policy retry fulfilment
+        System.out.print(MessageFormat.format("Unable to process message due to {0} message: {1}", cause.getMessage(), message));
+
+        // Further message handling can be added here, e.g. send to DLQ
     }
 }
 ```
+#### Message exception handling in case of failure
 
-As demonstrated above, we are injecting the IFeedFactory and creating the IFeed instance for inplay by providing the relevant configuration.
-1. **Inject `IFeedFactory`**:
-    ```csharp
-    public Startup(IFeedFactory feedFactory, IOptionsMonitor<RmqConnectionSettings> settingsMonitor)
-    {
-        _feedFactory = feedFactory;
-        _settingsMonitor = settingsMonitor;
+In order to handle message excpetion it is a need to  implements 'RabbitListenerErrorHandler' interface. Spring [documentation](https://docs.spring.io/spring-amqp/docs/current/api/org/springframework/amqp/rabbit/listener/api/RabbitListenerErrorHandler.html)
+
+Example:
+```java
+package com.lsports.trade360feedexample.handlers.inplay.errors;
+
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
+import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
+
+import java.text.MessageFormat;
+
+@SuppressWarnings("removal")
+public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
+
+    @Override
+    public Object handleError(Message amqpMessage, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {
+        return null;
     }
-    ```
 
-2. **Create the `IFeed` instance for inplay**:
-    ```csharp
-    var inplaySettings = _settingsMonitor.Get("Inplay");
-    _inplayFeed = _feedFactory.CreateFeed(inplaySettings);
-    ```
+    @Override
+    public Object handleError(Message amqpMessage, Channel channel, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {
 
-3. **Add handlers for each type of message**:
-    ```csharp
-    _inplayFeed.AddEntityHandler(new HeartbeatHandlerInplay());
-    _inplayFeed.AddEntityHandler(new FixtureMetadataUpdateHandlerInplay());
-    _inplayFeed.AddEntityHandler(new LivescoreUpdateHandlerInplay());
-    ```
+        String connectionName = channel.getConnection().getAddress().toString();
 
-4. **Start the connection**:
-    ```csharp
-    await _inplayFeed.StartAsync(cancellationToken);
-    ```
+        // Printout error message after error
+        System.out.println(MessageFormat.format("{0}: Unable to process message amqpMessage header: {1}", connectionName, amqpMessage.getMessageProperties().toString()));
+        System.out.println(MessageFormat.format("{0}: Unable to process due to exception cause: {1} ", connectionName, exception.getCause()));
+        System.out.println(MessageFormat.format("{0}: message: {1} ", connectionName, message.getPayload()));
 
+        // Further message handling can be added here, e.g. send to DLQ
 
-### Using the Snapshot API <a name = "usage_snapshot_api"></a>
-
-This is an example usage of the Snapshot API SDK, which provides an easy way to interact with the Snapshot API for recovery purposes. The SDK offers a simplified HTTP client with request and response handling.
-
-#### Example Configuration (`appsettings.json`)
-
-```json
-{
-  "Trade360": {
-    "SnapshotInplaySettings": {
-      "BaseUrl": "https://stm-snapshot.lsports.eu",
-      "PackageId": 0, //Insert your package id
-      "Username": "your-username",
-      "Password": "your-password"
-    },
-    "SnapshotPrematchSettings": {
-      "BaseUrl": "https://stm-snapshot.lsports.eu",
-      "PackageId": 0, //Insert your package id
-      "Username": "your-username",
-      "Password": "your-password"
-    }
-  }
-}
-```
-
-Dependency Injection Setup (Program.cs)
-After setting the correct configuration, add the following to your dependency injection:
-```csharp
-services.AddT360ApiClient();
-```
-
-#### Implementing The Snapshot API Client
-
-Using `ISnapshotApiFactory` to create and use the Snapshot API client:
-
-```csharp
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
-using Trade360SDK.SnapshotApi.Configuration;
-using Trade360SDK.SnapshotApi.Interfaces;
-using Trade360SDK.SnapshotApi.Entities.Requests;
-using Microsoft.Extensions.Logging;
-
-namespace Trade360SDK.SnapshotApi.Example
-{
-    public class Startup : IHostedService
-    {
-        private readonly ILogger<Startup> _logger;
-        private readonly ISnapshotApiFactory _snapshotApiFactory;
-        private readonly IOptionsMonitor<SnapshotApiSettings> _settingsMonitor;
-
-        public Startup(ILogger<Startup> logger, ISnapshotApiFactory snapshotApiFactory, IOptionsMonitor<SnapshotApiSettings> settingsMonitor)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _snapshotApiFactory = snapshotApiFactory;
-            _settingsMonitor = settingsMonitor;
-        }
-
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            try
-            {
-                var snapshotInplayApiSettings = _settingsMonitor.Get("SnapshotInplaySettings");
-                var snapshotPrematchApiSettings = _settingsMonitor.Get("SnapshotPrematchSettings");
-
-                var inplaySnapshotClient = _snapshotApiFactory.CreateInplayHttpClient(snapshotInplayApiSettings);
-                var prematchSnapshotClient = _snapshotApiFactory.CreatePrematchHttpClient(snapshotPrematchApiSettings);
-
-                // Example method call: GetFixtures
-                await GetFixtures(prematchSnapshotClient, cancellationToken);
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while retrieving data");
-            }
-        }
-
-        private async Task GetFixtures(ISnapshotPrematchApiClient snapshotPrematchApiClient, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Starting GetFixtures...");
-
-            var request = new GetFixturesRequestDto
-            {
-                Sports = new List<int> { /* List of sport IDs, e.g., 1234, 2345 */ },
-                Fixtures = new List<int> { /* List of fixture IDs, e.g., 12345678, 23456789 */ },
-                Leagues = new List<int> { /* List of league IDs, e.g., 1111, 2222 */ },
-                Locations = new List<int> { /* List of location IDs, e.g., 3333, 4444 */ }
-            };
-
-            var response = await snapshotPrematchApiClient.GetFixtures(request, cancellationToken);
-            _logger.LogInformation("GetFixtures ended with response count: {Count}", response.Count());
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Service is stopping.");
-            return Task.CompletedTask;
-        }
+        return RabbitListenerErrorHandler.super.handleError(amqpMessage, channel, message, exception);
     }
 }
+
 ```
-
-As demonstrated above, we are injecting the ISnapshotApiFactory and creating the Snapshot API client instance for inplay and prematch by providing the relevant configuration.
-
-1. **Inject `ISnapshotApiFactory`**:
-    ```csharp
-    public Startup(ILogger<Startup> logger, ISnapshotApiFactory snapshotApiFactory, IOptionsMonitor<SnapshotApiSettings> settingsMonitor)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _snapshotApiFactory = snapshotApiFactory;
-        _settingsMonitor = settingsMonitor;
-    }
-    ```
-
-2. **Create the Snapshot API client instance**:
-    ```csharp
-    var snapshotInplayApiSettings = _settingsMonitor.Get("SnapshotInplaySettings");
-    var snapshotPrematchApiSettings = _settingsMonitor.Get("SnapshotPrematchSettings");
-
-    var inplaySnapshotClient = _snapshotApiFactory.CreateInplayHttpClient(snapshotInplayApiSettings);
-    var prematchSnapshotClient = _snapshotApiFactory.CreatePrematchHttpClient(snapshotPrematchApiSettings);
-    ```
-
-3. **Add methods for snapshot operations**:
-    ```csharp
-    private async Task GetFixtures(ISnapshotPrematchApiClient snapshotPrematchApiClient, CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Starting GetFixtures...");
-
-        var request = new GetFixturesRequestDto
-        {
-            Sports = new List<int> { /* List of sport IDs, e.g., 1234, 2345 */ },
-            Fixtures = new List<int> { /* List of fixture IDs, e.g., 12345678, 23456789 */ },
-            Leagues = new List<int> { /* List of league IDs, e.g., 1111, 2222 */ },
-            Locations = new List<int> { /* List of location IDs, e.g., 3333, 4444 */ }
-        };
-
-        var response = await snapshotPrematchApiClient.GetFixtures(request, cancellationToken);
-        _logger.LogInformation("GetFixtures ended with response count: {Count}", response.Count());
-    }
-    ```
-
-4. **Call methods to interact with the API**:
-    ```csharp
-    await GetFixtures(prematchSnapshotClient, cancellationToken);
-    ```
-
-
-
-### Using Customers API <a name = "usage_customers_api"></a>
-
-The Customers API SDK is made up of three parts: Package Distribution, Metadata, and Subscription. It provides a simplified HTTP client with request and response handling for various operations.
-
-- **Package Distribution**: Start, stop, and get distribution status.
-- **Metadata**: Exposes endpoints to get leagues, sports, locations, markets, and translations.
-- **Subscription**: Allows subscribing and unsubscribing to a fixture or by league. It also includes manual suspension actions and quota retrieval.
-
-#### Example Configuration (`appsettings.json`)
-
-```json
-{
-  "Trade360": {
-    "CustomersApiInplay": {
-      "BaseUrl": "https://stm-api.lsports.eu",
-      "PackageId": 0, // Insert your package id
-      "Username": "your-username",
-      "Password": "your-password"
-    },
-    "CustomersApiPrematch": {
-      "BaseUrl": "https://stm-api.lsports.eu",
-      "PackageId": 0, // Insert your package id
-      "Username": "your-username",
-      "Password": "your-password"
-    }
-  }
-}
-```
-
-
-Dependency Injection Setup (Program.cs)
-After setting the correct configuration, add the following to your dependency injection:
-```csharp
-services.AddT360ApiClient();
-```
-
-
-#### Implementing The Customers API Client
-
-Using `ICustomersApiFactory` to create and use the Customers API client:
-
-```csharp
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Trade360SDK.CustomersApi.Configuration;
-using Trade360SDK.CustomersApi.Interfaces;
-
-namespace Trade360SDK.CustomersApi.Examples
-{
-    public class Startup : IHostedService
-    {
-        private readonly ILogger<Startup> _logger;
-        private readonly ICustomersApiFactory _customerApiFactory;
-        private readonly IOptionsMonitor<CustomersApiSettings> _settingsMonitor;
-
-        public Startup(ILogger<Startup> logger, ICustomersApiFactory customersApiFactory, IOptionsMonitor<CustomersApiSettings> settingsMonitor)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _customerApiFactory = customersApiFactory;
-            _settingsMonitor = settingsMonitor;
-        }
-
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            try
-            {
-                var customersApiSettings = _settingsMonitor.Get("CustomersApiInplay");
-
-                // Initialize API Clients (Metadata, PackageDistribution, Subscription)
-                var packageDistributionApiClient = _customerApiFactory.CreatePackageDistributionHttpClient(customersApiSettings);
-                var metadataApiClient = _customerApiFactory.CreateMetadataHttpClient(customersApiSettings);
-                var subscriptionApiClient = _customerApiFactory.CreateSubscriptionHttpClient(customersApiSettings);
-
-                // Example method calls
-                await SubscribeToFixture(subscriptionApiClient, cancellationToken);
-                await GetFixtureMetadata(metadataApiClient, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while retrieving data");
-            }
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Service is stopping.");
-            return Task.CompletedTask;
-        }
-
-        private async Task SubscribeToFixture(ISubscriptionApiClient subscriptionApiClient, CancellationToken cancellationToken)
-        {
-            var request = new FixtureSubscriptionRequestDto { Fixtures = new[] { 12345 } };
-            var response = await subscriptionApiClient.SubscribeByFixture(request, cancellationToken);
-            Console.WriteLine($"Send subscription request to {response.Fixtures.Count} fixtures");
-        }
-
-        private async Task GetFixtureMetadata(IMetadataApiClient metadataApiClient, CancellationToken cancellationToken)
-        {
-            var request = new GetFixtureMetadataRequestDto { FromDate = DateTime.Now, ToDate = DateTime.Now.AddDays(2) };
-            var response = await metadataApiClient.GetFixtureMetadataAsync(request, cancellationToken);
-            Console.WriteLine("Fixture metadata retrieved.");
-        }
-    }
-}
-```
-
-1. **Inject `ICustomersApiFactory`**:
-    ```csharp
-    public Startup(ILogger<Startup> logger, ICustomersApiFactory customersApiFactory, IOptionsMonitor<CustomersApiSettings> settingsMonitor)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _customersApiFactory = customersApiFactory;
-        _settingsMonitor = settingsMonitor;
-    }
-    ```
-
-2. **Create the Customers API client instance**:
-    ```csharp
-    var customersApiSettings = _settingsMonitor.Get("CustomersApiInplay");
-
-    var packageDistributionApiClient = _customersApiFactory.CreatePackageDistributionHttpClient(customersApiSettings);
-    var metadataApiClient = _customersApiFactory.CreateMetadataHttpClient(customersApiSettings);
-    var subscriptionApiClient = _customersApiFactory.CreateSubscriptionHttpClient(customersApiSettings);
-    ```
-
-3. **Add methods for various operations**:
-    ```csharp
-    private async Task SubscribeToFixture(ISubscriptionApiClient subscriptionApiClient, CancellationToken cancellationToken)
-    {
-        var request = new FixtureSubscriptionRequestDto { Fixtures = new[] { 12345 } };
-        var response = await subscriptionApiClient.SubscribeByFixture(request, cancellationToken);
-        Console.WriteLine($"Send subscription request to {response.Fixtures.Count} fixtures");
-    }
-
-    private async Task GetFixtureMetadata(IMetadataApiClient metadataApiClient, CancellationToken cancellationToken)
-    {
-        var request = new GetFixtureMetadataRequestDto { FromDate = DateTime.Now, ToDate = DateTime.Now.AddDays(2) };
-        var response = await metadataApiClient.GetFixtureMetadataAsync(request, cancellationToken);
-        Console.WriteLine("Fixture metadata retrieved.");
-    }
-    ```
-
-4. **Start and Stop the service**:
-    ```csharp
-    public async Task StartAsync(CancellationToken cancellationToken)
-    {
-        try
-        {
-            var customersApiSettings = _settingsMonitor.Get("CustomersApiInplay");
-
-            var packageDistributionApiClient = _customerApiFactory.CreatePackageDistributionHttpClient(customersApiSettings);
-            var metadataApiClient = _customerApiFactory.CreateMetadataHttpClient(customersApiSettings);
-            var subscriptionApiClient = _customerApiFactory.CreateSubscriptionHttpClient(customersApiSettings);
-
-            await SubscribeToFixture(subscriptionApiClient, cancellationToken);
-            await GetFixtureMetadata(metadataApiClient, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred while retrieving data");
-        }
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Service is stopping.");
-        return Task.CompletedTask;
-    }
-    ```
 
 ## Contributing <a name = "contributing"></a>
 

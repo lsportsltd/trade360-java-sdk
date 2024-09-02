@@ -1,11 +1,12 @@
-package com.lsports.trade360feedexample.handlers.inplay;
+package com.lsports.trade360feedexample.handlers.prematch.messages;
 
 import com.lsports.trade360_java_sdk.common.entities.message_types.FixtureMetadataUpdate;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 
 import java.util.Map;
 
-public class FixtureMetadataUpdateHandlerInplay  implements EntityHandler<FixtureMetadataUpdate> {
+public class FixtureMetadataUpdateHandlerPrematch implements EntityHandler<FixtureMetadataUpdate> {
+
     @Override
     public void process(FixtureMetadataUpdate entity, Map<String, String> messageProperties) {
         System.out.println("Received: " + this.getClass().getSimpleName());

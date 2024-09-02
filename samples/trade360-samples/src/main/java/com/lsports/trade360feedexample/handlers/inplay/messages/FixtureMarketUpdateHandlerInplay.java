@@ -1,11 +1,12 @@
-package com.lsports.trade360feedexample.handlers.prematch;
+package com.lsports.trade360feedexample.handlers.inplay.messages;
 
 import com.lsports.trade360_java_sdk.common.entities.message_types.MarketUpdate;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 
 import java.util.Map;
 
-public class FixtureMarketUpdateHandlerPrematch implements EntityHandler<MarketUpdate> {
+
+public class FixtureMarketUpdateHandlerInplay implements EntityHandler<MarketUpdate> {
 
     @Override
     public void process(MarketUpdate entity, Map<String, String> messageProperties) {
@@ -16,4 +17,5 @@ public class FixtureMarketUpdateHandlerPrematch implements EntityHandler<MarketU
     public int getEntityKey() {
         return MarketUpdate.entityKey;
     }
+
 }
