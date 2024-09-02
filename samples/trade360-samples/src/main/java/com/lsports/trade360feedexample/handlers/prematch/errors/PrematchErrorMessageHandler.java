@@ -1,13 +1,14 @@
-package com.lsports.trade360_java_sdk.feed.rabbitmq.handlers;
+package com.lsports.trade360feedexample.handlers.prematch.errors;
 
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
 import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
+
 import java.text.MessageFormat;
 
 @SuppressWarnings("removal")
-public class ErrorMessageHandler implements RabbitListenerErrorHandler {
+public class PrematchErrorMessageHandler implements RabbitListenerErrorHandler {
 
     @Override
     public Object handleError(Message amqpMessage, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {

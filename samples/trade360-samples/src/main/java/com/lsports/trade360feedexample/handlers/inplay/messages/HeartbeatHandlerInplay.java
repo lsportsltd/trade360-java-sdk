@@ -1,4 +1,4 @@
-package com.lsports.trade360feedexample.handlers.inplay;
+package com.lsports.trade360feedexample.handlers.inplay.messages;
 
 import com.lsports.trade360_java_sdk.common.entities.message_types.HeartbeatUpdate;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;

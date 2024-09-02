@@ -39,12 +39,12 @@ public class RabbitMQFeed {
     // - The association between Inplay Rabbit connection factory and this method is made by bean name written in containerFactory annotation properties. Name defined in application properties
    // - Name of queue is taken fom application properties
     // - Error handler is set by errorHandler annotation properties
-    @RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_", errorHandler="${rabbitmq.inplay.name}.ErrorMessageHandler")
+    @RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_", errorHandler="inplayErrorMessageHandler")
     public void inPlayProcessMessage(final Message amqpMessage, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         inPlayMessageHandler.process(amqpMessage);
 
-        if (!inPlayRabbitConnectionConfiguration.auto_ack)
-            channel.basicAck(tag, false);
+        //in case of manual ACK  - auto_ack:false
+        //   channel.basicAck(tag, false);
     }
 
     // Prematch message handler method.
@@ -52,14 +52,13 @@ public class RabbitMQFeed {
     // - The association between Prematch Rabbit connection factory and this method is made by bean name written in containerFactory annotation properties. Name defined in application properties
     // - Name of queue is taken fom application properties
     // - Error handler is set by errorHandler annotation properties
-    @RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_", errorHandler="${rabbitmq.inplay.name}.ErrorMessageHandler")
+    @RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_", errorHandler="prematchErrorMessageHandler")
     public void preMatchProcessMessage(final Message message, Channel channel,
                                        @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
         preMatchMessageHandler.process(message);
 
-        if (!preMatchRabbitConnectionConfiguration.auto_ack)
-            channel.basicAck(tag, false);
-
+        //in case of manual ACK  - auto_ack:false
+        //  channel.basicAck(tag, false);
     }
 }
 

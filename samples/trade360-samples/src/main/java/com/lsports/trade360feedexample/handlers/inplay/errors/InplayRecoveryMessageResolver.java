@@ -1,11 +1,11 @@
-package com.lsports.trade360_java_sdk.feed.rabbitmq.handlers;
+package com.lsports.trade360feedexample.handlers.inplay.errors;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
 
 import java.text.MessageFormat;
 
-public class RecoveryMessageResolver implements MessageRecoverer {
+public class InplayRecoveryMessageResolver implements MessageRecoverer {
     @Override
     public void recover(Message message, Throwable cause) {
 

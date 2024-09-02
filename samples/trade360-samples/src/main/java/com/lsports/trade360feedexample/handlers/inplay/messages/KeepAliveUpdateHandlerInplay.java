@@ -1,11 +1,11 @@
-package com.lsports.trade360feedexample.handlers.prematch;
+package com.lsports.trade360feedexample.handlers.inplay.messages;
 
 import com.lsports.trade360_java_sdk.common.entities.message_types.KeepAliveUpdate;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 
 import java.util.Map;
 
-public class KeepAliveUpdateHandlerPrematch implements EntityHandler<KeepAliveUpdate> {
+public class KeepAliveUpdateHandlerInplay implements EntityHandler<KeepAliveUpdate> {
 
     @Override
     public void process(KeepAliveUpdate entity, Map<String, String> messageProperties) {
@@ -14,7 +14,6 @@ public class KeepAliveUpdateHandlerPrematch implements EntityHandler<KeepAliveUp
 
     @Override
     public int getEntityKey() {
-
         return KeepAliveUpdate.entityKey;
     }
 }
