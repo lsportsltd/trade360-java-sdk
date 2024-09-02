@@ -112,7 +112,7 @@ public class InplayTrade360SdkConfiguration {
     ...
 
 
-    // Configuration class Rabbit Connection
+// Configuration class Rabbit Connection
 @Configuration
 public class PrematchTrade360SdkConfiguration {
      // Configure the settings for the "Prematch" feed using the "rabbitmq.prematch" section of the configuration file
