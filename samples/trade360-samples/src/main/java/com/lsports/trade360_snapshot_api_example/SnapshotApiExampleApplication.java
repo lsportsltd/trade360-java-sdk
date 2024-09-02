@@ -41,7 +41,7 @@ public class SnapshotApiExampleApplication {
     }
 
     private void preMatchApi() {
-        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 4, "1", "Tests1234");
+        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(preMatchSettings);
 
         System.out.println();
@@ -71,7 +71,7 @@ public class SnapshotApiExampleApplication {
     }
 
     private void inPlayApi() {
-        var inPlaySettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 2, "1", "Tests1234");
+        var inPlaySettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
         var inPlayClient = this.apiClientFactory.createInPlayApiClient(inPlaySettings);
 
         System.out.println();
