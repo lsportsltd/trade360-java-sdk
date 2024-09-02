@@ -1,5 +1,6 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetEventsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureMarketsResultElement;
@@ -13,6 +14,8 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutright
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightScoresResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
 
+import reactor.core.publisher.Mono;
+
 public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshotApiClient {
     private final SnapshotApiRestClient client;
 
@@ -21,52 +24,82 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
     }
 
     @Override
-    public Iterable<GetFixturesResultElement> getFixtures(GetSnapshotRequest getFixturesRequest) throws Trade360Exception {
-        return this.client.postRequest(getFixturesRequest, "/Prematch/GetFixtures");
+    public Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest) {
+        return this.client.postRequest(
+            getFixturesRequest,
+            new TypeReference<Iterable<GetFixturesResultElement>>() {},
+        "/Prematch/GetFixtures");
     }
 
     @Override
-    public Iterable<GetLivescoreResultElement> getLivescore(GetSnapshotRequest getLivescoreRequest) throws Trade360Exception {
-        return this.client.postRequest(getLivescoreRequest, "/Prematch/GetScores");
+    public Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequest) {
+        return this.client.postRequest(
+            getLivescoreRequest,
+            new TypeReference<Iterable<GetLivescoreResultElement>>() {},
+            "/Prematch/GetScores");
     }
 
     @Override
-    public Iterable<GetFixtureMarketsResultElement> getFixtureMarkets(GetSnapshotRequest getMarketRequest) throws Trade360Exception {
-        return this.client.postRequest(getMarketRequest, "/Prematch/GetFixtureMarkets");
+    public Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getMarketRequest) {
+        return this.client.postRequest(
+            getMarketRequest,
+            new TypeReference<Iterable<GetFixtureMarketsResultElement>>() {},
+            "/Prematch/GetFixtureMarkets");
     }
 
     @Override
-    public Iterable<GetEventsResultElement> getEvents(GetSnapshotRequest getEventsRequest) throws Trade360Exception {
-        return this.client.postRequest(getEventsRequest, "/Prematch/GetEvents");
+    public Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest) {
+        return this.client.postRequest(
+            getEventsRequest,
+            new TypeReference<Iterable<GetEventsResultElement>>() {},
+            "/Prematch/GetEvents");
     }
 
     @Override
-    public Iterable<GetOutrightEventsResultElement> getOutrightEvents(GetSnapshotRequest getOutrightEventsRequest) throws Trade360Exception {
-        return this.client.postRequest(getOutrightEventsRequest, "/Prematch/GetOutrightEvents");
+    public Mono<Iterable<GetOutrightEventsResultElement>> getOutrightEvents(GetSnapshotRequest getOutrightEventsRequest) {
+        return this.client.postRequest(
+            getOutrightEventsRequest,
+            new TypeReference<Iterable<GetOutrightEventsResultElement>>() {},
+            "/Prematch/GetOutrightEvents");
     }
 
     @Override
-    public Iterable<GetOutrightFixtureResultElement> getOutrightFixture(GetSnapshotRequest getOutrightFixtureRequest) throws Trade360Exception {
-        return this.client.postRequest(getOutrightFixtureRequest, "/Prematch/GetOutrightFixture");
+    public Mono<Iterable<GetOutrightFixtureResultElement>> getOutrightFixture(GetSnapshotRequest getOutrightFixtureRequest) {
+        return this.client.postRequest(
+            getOutrightFixtureRequest,
+            new TypeReference<Iterable<GetOutrightFixtureResultElement>>() {},
+            "/Prematch/GetOutrightFixture");
     }
 
     @Override
-    public Iterable<GetOutrightScoresResultElement> getOutrightScores(GetSnapshotRequest getOutrightScoresRequest) throws Trade360Exception {
-        return this.client.postRequest(getOutrightScoresRequest, "/Prematch/GetOutrightScores");
+    public Mono<Iterable<GetOutrightScoresResultElement>> getOutrightScores(GetSnapshotRequest getOutrightScoresRequest) {
+        return this.client.postRequest(
+            getOutrightScoresRequest,
+            new TypeReference<Iterable<GetOutrightScoresResultElement>>() {},
+            "/Prematch/GetOutrightScores");
     }
 
     @Override
-    public Iterable<GetOutrightFixtureMarketsResultElement> getOutrightFixtureMarkets(GetSnapshotRequest getOutrightFixtureMarketsRequest) throws Trade360Exception {
-        return this.client.postRequest(getOutrightFixtureMarketsRequest, "/Prematch/GetOutrightFixtureMarkets");
+    public Mono<Iterable<GetOutrightFixtureMarketsResultElement>> getOutrightFixtureMarkets(GetSnapshotRequest getOutrightFixtureMarketsRequest) {
+        return this.client.postRequest(
+            getOutrightFixtureMarketsRequest,
+            new TypeReference<Iterable<GetOutrightFixtureMarketsResultElement>>() {},
+            "/Prematch/GetOutrightFixtureMarkets");
     }
 
     @Override
-    public Iterable<GetOutrightLeaguesResultElement> getOutrightLeagues(GetSnapshotRequest getOutrightLeaguesRequest) throws Trade360Exception {
-        return this.client.postRequest(getOutrightLeaguesRequest, "/Prematch/GetOutrightLeagues");
+    public Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetSnapshotRequest getOutrightLeaguesRequest) {
+        return this.client.postRequest(
+            getOutrightLeaguesRequest,
+            new TypeReference<Iterable<GetOutrightLeaguesResultElement>>() {},
+            "/Prematch/GetOutrightLeagues");
     }
 
     @Override
-    public Iterable<GetOutrightLeagueMarketsResultElement> getOutrightLeagueMarkets(GetSnapshotRequest getOutrightLeagueMarketsRequest) throws Trade360Exception {
-        return this.client.postRequest(getOutrightLeagueMarketsRequest, "/Prematch/GetOutrightLeagueMarkets");
+    public Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetSnapshotRequest getOutrightLeagueMarketsRequest) {
+        return this.client.postRequest(
+            getOutrightLeagueMarketsRequest,
+            new TypeReference<Iterable<GetOutrightLeagueMarketsResultElement>>() {},
+            "/Prematch/GetOutrightLeagueMarkets");
     }
 }
