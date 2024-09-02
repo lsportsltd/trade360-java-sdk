@@ -8,6 +8,7 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescor
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightEventsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightFixtureMarketsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightFixtureResultElement;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightLeaguesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutrightScoresResultElement;
 
 public interface PreMatchSnapshotApiClient {
@@ -26,4 +27,6 @@ public interface PreMatchSnapshotApiClient {
     Iterable<GetOutrightScoresResultElement> getOutrightScores(GetSnapshotRequest getOutrightScoresRequest) throws Trade360Exception;
 
     Iterable<GetOutrightFixtureMarketsResultElement> getOutrightFixtureMarkets(GetSnapshotRequest getOutrightFixtureMarketsRequest) throws Trade360Exception;
+
+    Iterable<GetOutrightLeaguesResultElement> getOutrightLeagues(GetSnapshotRequest getOutrightLeaguesRequest) throws Trade360Exception;
 }
