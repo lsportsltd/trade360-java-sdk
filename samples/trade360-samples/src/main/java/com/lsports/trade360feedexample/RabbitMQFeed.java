@@ -36,8 +36,8 @@ public class RabbitMQFeed {
 
     // Inplay message handler method.
     // Important notes:
-    // - Connection between Inplay Rabbit connection and this method is made by bean name written in containerFactory annotation properties. Name defined in application properties
-    // - Name of queue is taken fom application properties
+    // - The association between Inplay Rabbit connection factory and this method is made by bean name written in containerFactory annotation properties. Name defined in application properties
+   // - Name of queue is taken fom application properties
     // - Error handler is set by errorHandler annotation properties
     @RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_", errorHandler="${rabbitmq.inplay.name}.ErrorMessageHandler")
     public void inPlayProcessMessage(final Message amqpMessage, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
@@ -49,7 +49,7 @@ public class RabbitMQFeed {
 
     // Prematch message handler method.
     // Important notes:
-    // - Connection between Prematch Rabbit connection and this method is made by bean name written in containerFactory annotation properties
+    // - The association between Prematch Rabbit connection factory and this method is made by bean name written in containerFactory annotation properties. Name defined in application properties
     // - Name of queue is taken fom application properties
     // - Error handler is set by errorHandler annotation properties
     @RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_", errorHandler="${rabbitmq.inplay.name}.ErrorMessageHandler")
