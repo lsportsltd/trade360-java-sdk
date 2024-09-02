@@ -100,18 +100,25 @@ rabbitmq.inplay.max_concurrent_consumers: 1
 
 #### Implementing The Connection
 
-To create a connection it is necessary to use the 'DynamicBeanDefinitionRegistrarConfiguration' configuration class.
+To create a connection it is necessary to use the 'InplayTrade360SdkConfiguration' or/and 'PrematchTrade360SdkConfiguration' configuration class.
 This class reads the connection parameters from the application properties based on defined prefixes.
 
 ```java
-// Configuration class for dynamic register Rabbit Connection based on application properties
+// Configuration class for Rabbit Connection
 @Configuration
-public class Trade360SdkConfiguration {
+public class InplayTrade360SdkConfiguration {
     // Configure the settings for the "Inplay" feed using the "rabbitmq.inplay" section of the configuration file
     public static final String RABBITMQ_INPLAY_PREFIX = "rabbitmq.inplay";
-    // Configure the settings for the "Prematch" feed using the "rabbitmq.prematch" section of the configuration file
-    public static final String RABBITMQ_PREMATCH_PREFIX = "rabbitmq.prematch";
     ...
+
+
+    // Configuration class Rabbit Connection
+@Configuration
+public class PrematchTrade360SdkConfiguration {
+     // Configure the settings for the "Prematch" feed using the "rabbitmq.prematch" section of the configuration file
+     public static final String RABBITMQ_PREMATCH_PREFIX = "rabbitmq.prematch";
+        ...
+
 ```
 
 Above code register connections configuration for two prefixes 'rabbitmq.inplay' and "rabbitmq.prematch"
