@@ -98,8 +98,6 @@ rabbitmq.inplay.concurrent_consumers: 1
 rabbitmq.inplay.max_concurrent_consumers: 1
 ```
 
-
-
 #### Implementing The Connection
 
 To create a connection it is necessary to use the 'DynamicBeanDefinitionRegistrarConfiguration' configuration class.
@@ -108,42 +106,38 @@ This class reads the connection parameters from the application properties based
 ```java
 // Configuration class for dynamic register Rabbit Connection based on application properties
 @Configuration
-public class DynamicBeanDefinitionRegistrarConfiguration {
+public class Trade360SdkConfiguration {
     // Configure the settings for the "Inplay" feed using the "rabbitmq.inplay" section of the configuration file
     public static final String RABBITMQ_INPLAY_PREFIX = "rabbitmq.inplay";
     // Configure the settings for the "Prematch" feed using the "rabbitmq.prematch" section of the configuration file
     public static final String RABBITMQ_PREMATCH_PREFIX = "rabbitmq.prematch";
-
-    @Bean
-    public static DynamicRabbitMQDefinitionRegistrar beanDefinitionRegistrar(Environment environment) {
-        return new DynamicRabbitMQDefinitionRegistrar(environment, Arrays.asList(RABBITMQ_INPLAY_PREFIX,RABBITMQ_PREMATCH_PREFIX));
-    }
-}
+    ...
 ```
 
 Above code register connections configuration for two prefixes 'rabbitmq.inplay' and "rabbitmq.prematch"
 
-Next, it is necessary to add listener methods for the above connections. Each @RabbitListener annotation has an association between the Rabbit Connection Factory and that method by the bean name written in the containerFactory annotation properties.
-
+Next step is add listener handler methods for the above connections. Each @RabbitListener annotation has an association between the Rabbit Connection Factory and that method by the bean name written in the containerFactory annotation properties.
+Second parameter is queue and third name of error message handling implementation defined in Trade360SdkConfiguration class. 
 ```java
-@RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_", errorHandler="${rabbitmq.inplay.name}.ErrorMessageHandler")
+
+@RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_", errorHandler="inplayErrorMessageHandler")
 public void inPlayProcessMessage(final Message amqpMessage, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
     inPlayMessageHandler.process(amqpMessage);
 
-    if (!inPlayRabbitConnectionConfiguration.auto_ack)
-        channel.basicAck(tag, false);
+    //in case of manual ACK  - auto_ack:false
+    //   channel.basicAck(tag, false);
 }
 
-@RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_", errorHandler="${rabbitmq.inplay.name}.ErrorMessageHandler")
+@RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_", errorHandler="prematchErrorMessageHandler")
 public void preMatchProcessMessage(final Message message, Channel channel,
                                    @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
     preMatchMessageHandler.process(message);
 
-    if (!preMatchRabbitConnectionConfiguration.auto_ack)
-        channel.basicAck(tag, false);
+    //in case of manual ACK  - auto_ack:false
+    //  channel.basicAck(tag, false);
 }
 ```
-Add handlers for each type of message**:
+Next step is to register handlers for each type of message:
 ```java
     //Register entity handlers for inPlay
     @Bean
@@ -162,11 +156,66 @@ Connection will be established right after application start.
 #### Message recover in case of failure
 
 In order to handle message recover it is a need to  implements 'MessageRecoverer' interface. Spring [documentation](https://docs.spring.io/spring-amqp/api/org/springframework/amqp/rabbit/retry/RepublishMessageRecoverer.html)
+Example:
+```java
+package com.lsports.trade360feedexample.handlers.inplay.errors;
 
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.retry.MessageRecoverer;
+
+import java.text.MessageFormat;
+
+public class InplayRecoveryMessageResolver implements MessageRecoverer {
+    @Override
+    public void recover(Message message, Throwable cause) {
+
+        // Printout error message after policy retry fulfilment
+        System.out.print(MessageFormat.format("Unable to process message due to {0} message: {1}", cause.getMessage(), message));
+
+        // Further message handling can be added here, e.g. send to DLQ
+    }
+}
+```
 #### Message exception handling in case of failure
 
 In order to handle message excpetion it is a need to  implements 'RabbitListenerErrorHandler' interface. Spring [documentation](https://docs.spring.io/spring-amqp/docs/current/api/org/springframework/amqp/rabbit/listener/api/RabbitListenerErrorHandler.html)
 
+Example:
+```java
+package com.lsports.trade360feedexample.handlers.inplay.errors;
+
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
+import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
+
+import java.text.MessageFormat;
+
+@SuppressWarnings("removal")
+public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
+
+    @Override
+    public Object handleError(Message amqpMessage, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Object handleError(Message amqpMessage, Channel channel, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {
+
+        String connectionName = channel.getConnection().getAddress().toString();
+
+        // Printout error message after error
+        System.out.println(MessageFormat.format("{0}: Unable to process message amqpMessage header: {1}", connectionName, amqpMessage.getMessageProperties().toString()));
+        System.out.println(MessageFormat.format("{0}: Unable to process due to exception cause: {1} ", connectionName, exception.getCause()));
+        System.out.println(MessageFormat.format("{0}: message: {1} ", connectionName, message.getPayload()));
+
+        // Further message handling can be added here, e.g. send to DLQ
+
+        return RabbitListenerErrorHandler.super.handleError(amqpMessage, channel, message, exception);
+    }
+}
+
+```
 
 ## Contributing <a name = "contributing"></a>
 

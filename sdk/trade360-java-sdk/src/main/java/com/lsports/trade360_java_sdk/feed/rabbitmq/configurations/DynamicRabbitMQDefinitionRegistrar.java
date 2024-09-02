@@ -48,9 +48,6 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                                 // Converter configuration
                                 Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
 
-                                // message recover class
-                                //MessageRecoverer messageRecoverer = new RecoveryMessageResolver();
-
                                 // Message recoverer configuration
                                 RetryOperationsInterceptor retryInterceptor =
                                         RetryInterceptorBuilder.stateless().maxAttempts(rabbitConnectionConfiguration.retry_attempts)
@@ -73,16 +70,5 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
 
                     // Register Bean for Rabbit Listener Container Factory - Bean name taken from application properties
                     registry.registerBeanDefinition(rabbitConnectionConfiguration.rabbit_listener_container_factory_name, beanDefinition);
-
-/*                    // Error Handler
-                    GenericBeanDefinition errorMessageHandlerBeanDefinition = new GenericBeanDefinition();
-                    errorMessageHandlerBeanDefinition.setBeanClass(ErrorMessageHandler.class);
-                    errorMessageHandlerBeanDefinition.setInstanceSupplier(() -> {
-                                ErrorMessageHandler errorMessageHandler = new ErrorMessageHandler();
-                                return errorMessageHandler;
-                            });
-
-                    // Register Bean for Rabbit Listener Error Handler - Bean name based on application properties
-                    registry.registerBeanDefinition(rabbitConnectionConfiguration.name + ".ErrorMessageHandler", errorMessageHandlerBeanDefinition);*/
     }
 }
