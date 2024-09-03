@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
+import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
 
 public class JacksonSnapshotApiSerializer implements JsonSnapshotApiSerializer {
     private final ObjectMapper jsonMapper = new ObjectMapper()
@@ -17,9 +17,9 @@ public class JacksonSnapshotApiSerializer implements JsonSnapshotApiSerializer {
         .configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .setSerializationInclusion(Include.NON_NULL);
-    private final SnapshotApiSettings settings;
+    private final ApiSettings settings;
 
-    public JacksonSnapshotApiSerializer(SnapshotApiSettings settings) {
+    public JacksonSnapshotApiSerializer(ApiSettings settings) {
         this.settings = settings;
     }
 

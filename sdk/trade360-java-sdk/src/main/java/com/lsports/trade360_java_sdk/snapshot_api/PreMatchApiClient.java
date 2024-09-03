@@ -14,7 +14,7 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetOutright
 
 import reactor.core.publisher.Mono;
 
-public interface PreMatchSnapshotApiClient {
+public interface PreMatchApiClient {
     Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest);
 
     Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequestDto);
