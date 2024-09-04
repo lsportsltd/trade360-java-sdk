@@ -2,10 +2,10 @@ package com.lsports.trade360_java_sdk.customers_api.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lsports.trade360_java_sdk.customers_api.JacksonCustomersApiSerializer;
 import com.lsports.trade360_java_sdk.customers_api.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.snapshot_api.JsonSnapshotApiSerializer;
 import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
@@ -16,16 +16,16 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.util.List;
 
-class SpringBootApiRestClient implements ApiRestClient {
+class SpringBootCustomersApiRestClient implements ApiRestClient {
     private final WebClient client;
-    private final JsonSnapshotApiSerializer serializer;
+    private final JacksonCustomersApiSerializer serializer;
     private final ObjectMapper mapper;
 
-    public SpringBootApiRestClient(WebClient.Builder builder, JsonSnapshotApiSerializer serializer, ApiSettings settings) {
+    public SpringBootCustomersApiRestClient(WebClient.Builder builder, JacksonCustomersApiSerializer serializer, String baseUrl) {
         this.serializer = serializer;
         mapper = serializer.getJsonMapper();
         this.client = builder
-            .baseUrl(settings.baseUrl().toString())
+            .baseUrl(baseUrl)
             .codecs(config -> {
                 config.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper));
                 config.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, new MediaType[] {MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM}));

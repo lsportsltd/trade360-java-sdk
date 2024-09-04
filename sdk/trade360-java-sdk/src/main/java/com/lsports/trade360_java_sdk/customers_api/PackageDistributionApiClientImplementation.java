@@ -12,8 +12,7 @@ public class PackageDistributionApiClientImplementation implements PackageDistri
 
     private final ApiRestClient client;
 
-    public PackageDistributionApiClientImplementation(ApiRestClient client
-    ) {
+    public PackageDistributionApiClientImplementation(ApiRestClient client) {
         this.client = client;
     }
 

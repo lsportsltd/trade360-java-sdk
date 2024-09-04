@@ -8,11 +8,12 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
+import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
 import org.junit.Test;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 
 public class JacksonSnapshotApiSerializerTests {
-        private final SnapshotApiSettings apiSettings = new SnapshotApiSettings(
+        private final ApiSettings apiSettings = new ApiSettings(
         URI.create("testhost"),
         1234,
         "testUser",

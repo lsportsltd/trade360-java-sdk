@@ -25,19 +25,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.snapshot_api.JacksonSnapshotApiSerializer;
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
+import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 
 public class SpringBootSnapshotApiRestClientTests {
     private MockWebServer mockServer;
-    private SnapshotApiSettings apiSettings;
+    private ApiSettings apiSettings;
 
     @Before
     public void initialize() throws IOException {
         this.mockServer = new MockWebServer();
         this.mockServer.start();
         String baseUrl = String.format("http://localhost:%s", mockServer.getPort());
-        apiSettings = new SnapshotApiSettings(
+        apiSettings = new ApiSettings(
             URI.create(baseUrl),
             1234,
             "testUser",

@@ -2,7 +2,6 @@ package com.lsports.trade360_java_sdk.snapshot_api.springframework;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
