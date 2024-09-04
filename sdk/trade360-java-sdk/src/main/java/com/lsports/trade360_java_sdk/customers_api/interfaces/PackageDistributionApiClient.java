@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 public interface PackageDistributionApiClient {
     Mono<GetDistributionStatusResponse> getDistributionStatusAsync();
 
-    Mono<StartDistributionResponse> StartDistribution();
+    Mono<StartDistributionResponse> startDistribution();
 
     Mono<StopDistributionResponse> StopDistribution();
 }
