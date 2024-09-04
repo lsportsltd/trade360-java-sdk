@@ -41,7 +41,7 @@ public class PackageDistributionApiClientImplementationTests {
     }
 
     @Test
-    public void StopDistribution_calledWithCorrectUrl_callsCorrectUrl() {
+    public void stopDistributionCalledWithCorrectUrlCallsCorrectUrl() {
 
         //Arrange
         var mockedClient = mock(ApiRestClient.class);
