@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.snapshot_api;
+package com.lsports.trade360_java_sdk.common.configuration;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,12 +9,10 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
-import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import org.junit.Test;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 
-public class JacksonSnapshotApiSerializerTests {
+public class JacksonApiSerializerTests {
         private final PackageCredentials packageCredentials = new PackageCredentials(
         URI.create("testhost"),
         1234,
