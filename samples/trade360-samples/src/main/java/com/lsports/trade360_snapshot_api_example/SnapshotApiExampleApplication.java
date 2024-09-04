@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
 import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.lsports.trade360_java_sdk.snapshot_api.springframework.SpringBootSnapshotApiClientFactory;
 
@@ -41,7 +41,7 @@ public class SnapshotApiExampleApplication {
     }
 
     private void preMatchApi() {
-        var preMatchSettings = new ApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
+        var preMatchSettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(preMatchSettings);
 
         System.out.println();
@@ -71,7 +71,7 @@ public class SnapshotApiExampleApplication {
     }
 
     private void inPlayApi() {
-        var inPlaySettings = new ApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
+        var inPlaySettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 0, "xyz", "abc");
         var inPlayClient = this.apiClientFactory.createInPlayApiClient(inPlaySettings);
 
         System.out.println();

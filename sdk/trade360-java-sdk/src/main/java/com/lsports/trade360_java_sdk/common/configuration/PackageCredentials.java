@@ -1,13 +1,17 @@
 package com.lsports.trade360_java_sdk.common.configuration;
 
-import jakarta.annotation.Nullable;
+import java.net.URI;
+import java.util.Objects;
 
-public class PackageCredentials {
-    public int packageId;
+public record PackageCredentials(URI baseUrl, int packageId, String userName, String password, String messageFormat) {
+    public PackageCredentials {
+        Objects.requireNonNull(baseUrl);
+        Objects.requireNonNull(userName);
+        Objects.requireNonNull(password);
+        Objects.requireNonNull(messageFormat);
+    }
 
-    @Nullable public String username;
-
-    @Nullable public String password;
-
-    @Nullable public String messageFormat = "json";
+    public PackageCredentials(URI baseUrl, int packageId, String userName, String password) {
+        this(baseUrl,packageId,userName,password,"json");
+    }
 }

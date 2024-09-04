@@ -1,11 +1,11 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 
 public interface SnapshotApiClientFactory {
 
-    InPlayApiClient createInPlayApiClient(ApiSettings settings);
+    InPlayApiClient createInPlayApiClient(PackageCredentials settings);
 
-    PreMatchApiClient createPreMatchApiClient(ApiSettings settings);
+    PreMatchApiClient createPreMatchApiClient(PackageCredentials settings);
 
 }

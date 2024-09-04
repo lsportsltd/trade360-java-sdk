@@ -12,7 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsports.trade360_java_sdk.snapshot_api.JsonSnapshotApiSerializer;
 import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
 
 import reactor.core.publisher.Mono;
@@ -22,7 +22,7 @@ class SpringBootSnapshotApiRestClient implements SnapshotApiRestClient {
     private final JsonSnapshotApiSerializer serializer;
     private final ObjectMapper mapper;
 
-    public SpringBootSnapshotApiRestClient(WebClient.Builder builder, JsonSnapshotApiSerializer serializer, ApiSettings settings) {
+    public SpringBootSnapshotApiRestClient(WebClient.Builder builder, JsonSnapshotApiSerializer serializer, PackageCredentials settings) {
         this.serializer = serializer;
         mapper = serializer.getJsonMapper();
         this.client = builder

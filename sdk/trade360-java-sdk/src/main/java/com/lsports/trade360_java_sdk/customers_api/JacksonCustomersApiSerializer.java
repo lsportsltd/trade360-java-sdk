@@ -27,10 +27,10 @@ public class JacksonCustomersApiSerializer implements JsonSnapshotApiSerializer 
     @Override
     public <R> Object serialize(R request) {
         ObjectNode jsonObject = this.jsonMapper.valueToTree(request);
-        jsonObject.put("PackageId", this.packageCredentials.packageId);
-        jsonObject.put("Username", this.packageCredentials.username);
-        jsonObject.put("Password", this.packageCredentials.password);
-        jsonObject.put("MessageFormat", this.packageCredentials.messageFormat);
+        jsonObject.put("PackageId", this.packageCredentials.packageId());
+        jsonObject.put("UserName", this.packageCredentials.userName());
+        jsonObject.put("Password", this.packageCredentials.password());
+        jsonObject.put("MessageFormat", this.packageCredentials.messageFormat());
 
         return jsonObject;
     }

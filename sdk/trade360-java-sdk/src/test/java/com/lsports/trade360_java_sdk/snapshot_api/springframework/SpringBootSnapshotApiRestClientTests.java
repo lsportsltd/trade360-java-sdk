@@ -25,19 +25,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.snapshot_api.JacksonSnapshotApiSerializer;
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 
 public class SpringBootSnapshotApiRestClientTests {
     private MockWebServer mockServer;
-    private ApiSettings apiSettings;
+    private PackageCredentials packageCredentials;
 
     @Before
     public void initialize() throws IOException {
         this.mockServer = new MockWebServer();
         this.mockServer.start();
         String baseUrl = String.format("http://localhost:%s", mockServer.getPort());
-        apiSettings = new ApiSettings(
+        packageCredentials = new PackageCredentials(
             URI.create(baseUrl),
             1234,
             "testUser",
@@ -55,8 +55,8 @@ public class SpringBootSnapshotApiRestClientTests {
         final var expectedBody = "{\"Timestamp\":1722816000000,\"FromDate\":1722470400000,\"ToDate\":1722988800000,\"Sports\":[1,2,3],\"Locations\":[4,5,6],\"Leagues\":[7,8,9],\"Tournaments\":[10,11,12],\"Fixtures\":[13,14,15],\"Markets\":[16,17,18],\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\"}";
         final var rawResponse = "{\"Header\":{},\"Body\":[]}";
 
-        var serializer = new JacksonSnapshotApiSerializer(apiSettings);
-        var client = new SpringBootSnapshotApiRestClient(WebClient.builder(), serializer, apiSettings);
+        var serializer = new JacksonSnapshotApiSerializer(packageCredentials);
+        var client = new SpringBootSnapshotApiRestClient(WebClient.builder(), serializer, packageCredentials);
 
         this.prepareResponse(response -> response
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)
@@ -93,8 +93,8 @@ public class SpringBootSnapshotApiRestClientTests {
         final var expectedBody = "{\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\"}";
         final var rawResponse = "{\"Header\":{},\"Body\":[]}";
 
-        var serializer = new JacksonSnapshotApiSerializer(apiSettings);
-        var client = new SpringBootSnapshotApiRestClient(WebClient.builder(), serializer, apiSettings);
+        var serializer = new JacksonSnapshotApiSerializer(packageCredentials);
+        var client = new SpringBootSnapshotApiRestClient(WebClient.builder(), serializer, packageCredentials);
 
         this.prepareResponse(response -> response
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)

@@ -8,12 +8,12 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.ApiSettings;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import org.junit.Test;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 
 public class JacksonSnapshotApiSerializerTests {
-        private final ApiSettings apiSettings = new ApiSettings(
+        private final PackageCredentials packageCredentials = new PackageCredentials(
         URI.create("testhost"),
         1234,
         "testUser",
@@ -22,7 +22,7 @@ public class JacksonSnapshotApiSerializerTests {
     @Test
     public void serialize_whenEmptyRequestProvided_appendsCredentialsToFinalJson() {
         // Arrange
-        var serializer = new JacksonSnapshotApiSerializer(this.apiSettings);
+        var serializer = new JacksonSnapshotApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
             null,
             null,
@@ -48,7 +48,7 @@ public class JacksonSnapshotApiSerializerTests {
     @Test
     public void serialize_whenNonEmptyRequestProvided_appendsCredentialsToFinalJson() {
         // Arrange
-        var serializer = new JacksonSnapshotApiSerializer(this.apiSettings);
+        var serializer = new JacksonSnapshotApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
             ZonedDateTime.of(LocalDateTime.of(2024, 8, 5, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
             ZonedDateTime.of(LocalDateTime.of(2024, 8, 1, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
