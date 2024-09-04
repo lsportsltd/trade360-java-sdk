@@ -10,5 +10,5 @@ public interface PackageDistributionApiClient {
 
     Mono<StartDistributionResponse> startDistribution();
 
-    Mono<StopDistributionResponse> StopDistribution();
+    Mono<StopDistributionResponse> stopDistribution();
 }

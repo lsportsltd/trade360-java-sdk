@@ -25,7 +25,7 @@ public class PackageDistributionApiClientImplementation implements PackageDistri
     }
 
     @Override
-    public Mono<StartDistributionResponse> StartDistribution() {
+    public Mono<StartDistributionResponse> startDistribution() {
         return this.client
                 .postRequest(
                         new TypeReference<StartDistributionResponse>() {},
@@ -33,7 +33,7 @@ public class PackageDistributionApiClientImplementation implements PackageDistri
     }
 
     @Override
-    public Mono<StopDistributionResponse> StopDistribution() {
+    public Mono<StopDistributionResponse> stopDistribution() {
         return this.client
                 .postRequest(
                         new TypeReference<StopDistributionResponse>() {},

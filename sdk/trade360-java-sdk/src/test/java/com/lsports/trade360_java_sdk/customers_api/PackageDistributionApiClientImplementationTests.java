@@ -1,8 +1,6 @@
 package com.lsports.trade360_java_sdk.customers_api;
 
 import com.lsports.trade360_java_sdk.customers_api.http.ApiRestClient;
-import com.lsports.trade360_java_sdk.customers_api.interfaces.PackageDistributionApiClient;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -20,21 +18,21 @@ public class PackageDistributionApiClientImplementationTests {
         var client = new PackageDistributionApiClientImplementation(mockedClient);
 
         //Act
-        var result = client.getDistributionStatusAsync();
+        client.getDistributionStatusAsync();
 
         //Assert
         verify(mockedClient).postRequest(any(), eq("Package/GetDistributionStatus"));
     }
 
     @Test
-    public void StartDistribution_calledWithCorrectUrl_callsCorrectUrl() {
+    public void startDistribution_calledWithCorrectUrl_callsCorrectUrl() {
 
         //Arrange
         var mockedClient = mock(ApiRestClient.class);
         var client = new PackageDistributionApiClientImplementation(mockedClient);
 
         //Act
-        var result = client.StartDistribution();
+        client.startDistribution();
 
         //Assert
         verify(mockedClient).postRequest(any(), eq("Distribution/Start"));
@@ -48,7 +46,7 @@ public class PackageDistributionApiClientImplementationTests {
         var client = new PackageDistributionApiClientImplementation(mockedClient);
 
         //Act
-        var result = client.StopDistribution();
+        client.stopDistribution();
 
         //Assert
         verify(mockedClient).postRequest(any(), eq("Distribution/Stop"));
