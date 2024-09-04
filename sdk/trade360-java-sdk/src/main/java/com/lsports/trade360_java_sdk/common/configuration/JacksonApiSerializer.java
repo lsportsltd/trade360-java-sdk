@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.customers_api;
+package com.lsports.trade360_java_sdk.common.configuration;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -7,10 +7,9 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
-import com.lsports.trade360_java_sdk.snapshot_api.JsonSnapshotApiSerializer;
+import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 
-public class JacksonCustomersApiSerializer implements JsonSnapshotApiSerializer {
+public class JacksonApiSerializer implements JsonApiSerializer {
     private final ObjectMapper jsonMapper = new ObjectMapper()
         .registerModule(new JavaTimeModule())
         .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
@@ -20,7 +19,7 @@ public class JacksonCustomersApiSerializer implements JsonSnapshotApiSerializer 
         .setSerializationInclusion(Include.NON_NULL);
     private final PackageCredentials packageCredentials;
 
-    public JacksonCustomersApiSerializer(PackageCredentials packageCredentials) {
+    public JacksonApiSerializer(PackageCredentials packageCredentials) {
         this.packageCredentials = packageCredentials;
     }
 

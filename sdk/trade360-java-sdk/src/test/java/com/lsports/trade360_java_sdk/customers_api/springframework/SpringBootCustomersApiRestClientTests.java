@@ -1,4 +1,18 @@
-package com.lsports.trade360_java_sdk.snapshot_api.springframework;
+package com.lsports.trade360_java_sdk.customers_api.springframework;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
+import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,33 +24,18 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.function.Consumer;
 
-import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
-
-public class SpringBootSnapshotApiRestClientTests {
+public class SpringBootCustomersApiRestClientTests {
     private MockWebServer mockServer;
     private PackageCredentials packageCredentials;
+    private String baseUrl;
 
     @Before
     public void initialize() throws IOException {
         this.mockServer = new MockWebServer();
         this.mockServer.start();
-        String baseUrl = String.format("http://localhost:%s", mockServer.getPort());
+        baseUrl = String.format("http://localhost:%s", mockServer.getPort());
         packageCredentials = new PackageCredentials(
             URI.create(baseUrl),
             1234,
@@ -56,7 +55,7 @@ public class SpringBootSnapshotApiRestClientTests {
         final var rawResponse = "{\"Header\":{},\"Body\":[]}";
 
         var serializer = new JacksonApiSerializer(packageCredentials);
-        var client = new SpringBootSnapshotApiRestClient(WebClient.builder(), serializer, packageCredentials);
+        var client = new SpringBootCustomersApiRestClient(WebClient.builder(), serializer, baseUrl);
 
         this.prepareResponse(response -> response
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)
@@ -94,7 +93,7 @@ public class SpringBootSnapshotApiRestClientTests {
         final var rawResponse = "{\"Header\":{},\"Body\":[]}";
 
         var serializer = new JacksonApiSerializer(packageCredentials);
-        var client = new SpringBootSnapshotApiRestClient(WebClient.builder(), serializer, packageCredentials);
+        var client = new SpringBootCustomersApiRestClient(WebClient.builder(), serializer, baseUrl);
 
         this.prepareResponse(response -> response
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)

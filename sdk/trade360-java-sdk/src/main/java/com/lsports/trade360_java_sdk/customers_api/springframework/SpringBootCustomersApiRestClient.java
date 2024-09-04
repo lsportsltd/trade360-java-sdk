@@ -2,9 +2,8 @@ package com.lsports.trade360_java_sdk.customers_api.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lsports.trade360_java_sdk.customers_api.JacksonCustomersApiSerializer;
+import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.customers_api.http.ApiRestClient;
-import com.lsports.trade360_java_sdk.snapshot_api.JsonSnapshotApiSerializer;
 import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -18,10 +17,10 @@ import java.util.List;
 
 class SpringBootCustomersApiRestClient implements ApiRestClient {
     private final WebClient client;
-    private final JacksonCustomersApiSerializer serializer;
+    private final JacksonApiSerializer serializer;
     private final ObjectMapper mapper;
 
-    public SpringBootCustomersApiRestClient(WebClient.Builder builder, JacksonCustomersApiSerializer serializer, String baseUrl) {
+    public SpringBootCustomersApiRestClient(WebClient.Builder builder, JacksonApiSerializer serializer, String baseUrl) {
         this.serializer = serializer;
         mapper = serializer.getJsonMapper();
         this.client = builder
