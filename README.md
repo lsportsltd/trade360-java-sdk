@@ -242,8 +242,6 @@ Available `SnapshotApiClientFactory` implementations:
 
 - `SpringBootSnapshotApiClientFactory` - an implementation comptatible with Spring Framework, as it uses flux `WebClient`.
 
-In case you're workload is not based on Spring Framework, please contact your LSports Customer Success Manager.
-
 In case you use `SpringBootSnapshotApiClientFactory` the good practice is to register it as a `@Bean` and fetch it via dependency injection where necessary. Below you can find an example of proper registration of the factory.
 
 ```java
