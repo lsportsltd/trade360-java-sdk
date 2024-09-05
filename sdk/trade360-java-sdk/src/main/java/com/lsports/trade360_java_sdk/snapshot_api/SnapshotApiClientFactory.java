@@ -6,6 +6,6 @@ public interface SnapshotApiClientFactory {
 
     InPlaySnapshotApiClient createInPlayApiClient(PackageCredentials settings);
 
-    PreMatchApiClient createPreMatchApiClient(PackageCredentials settings);
+    PreMatchSnapshotApiClient createPreMatchApiClient(PackageCredentials settings);
 
 }

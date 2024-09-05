@@ -12,7 +12,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getFixtures_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getFixtures(new GetSnapshotRequest(
@@ -35,7 +35,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getLivescore_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getLivescore(new GetSnapshotRequest(
@@ -58,7 +58,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getFixtureMarkets_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getFixtureMarkets(new GetSnapshotRequest(
@@ -81,7 +81,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getEvents_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getEvents(new GetSnapshotRequest(
@@ -104,7 +104,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getOutrightsEvents_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getOutrightEvents(new GetSnapshotRequest(
@@ -127,7 +127,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getOutrightFixture_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getOutrightFixture(new GetSnapshotRequest(
@@ -150,7 +150,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getOutrightScores_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getOutrightScores(new GetSnapshotRequest(
@@ -173,7 +173,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getOutrightFixtureMarkets_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getOutrightFixtureMarkets(new GetSnapshotRequest(
@@ -196,7 +196,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getOutrightLeagues_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getOutrightLeagues(new GetSnapshotRequest(
@@ -219,7 +219,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
     public void getOutrightLeagueMarkets_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new PreMatchSnapshotApiClientImplementation(mockedClient);
+        var client = new PreMatchSnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getOutrightLeagueMarkets(new GetSnapshotRequest(
