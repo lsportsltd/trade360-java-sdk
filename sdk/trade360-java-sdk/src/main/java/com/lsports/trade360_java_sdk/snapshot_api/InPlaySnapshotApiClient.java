@@ -8,7 +8,7 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescor
 
 import reactor.core.publisher.Mono;
 
-public interface InPlayApiClient {
+public interface InPlaySnapshotApiClient {
     Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest);
     
     Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequestDto);

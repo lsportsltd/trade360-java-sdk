@@ -12,7 +12,7 @@ public class InPlaySnapshotApiClientImplementationTests {
     public void getFixtures_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new InPlaySnapshotApiClientImplementation(mockedClient);
+        var client = new InPlaySnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getFixtures(new GetSnapshotRequest(
@@ -35,7 +35,7 @@ public class InPlaySnapshotApiClientImplementationTests {
     public void getLivescore_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new InPlaySnapshotApiClientImplementation(mockedClient);
+        var client = new InPlaySnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getLivescore(new GetSnapshotRequest(
@@ -58,7 +58,7 @@ public class InPlaySnapshotApiClientImplementationTests {
     public void getFixtureMarkets_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new InPlaySnapshotApiClientImplementation(mockedClient);
+        var client = new InPlaySnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getFixtureMarkets(new GetSnapshotRequest(
@@ -81,7 +81,7 @@ public class InPlaySnapshotApiClientImplementationTests {
     public void getEvents_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
         var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new InPlaySnapshotApiClientImplementation(mockedClient);
+        var client = new InPlaySnapshotSnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getEvents(new GetSnapshotRequest(

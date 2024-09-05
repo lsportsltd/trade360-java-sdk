@@ -10,10 +10,10 @@ import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
 
 import reactor.core.publisher.Mono;
 
-public class InPlaySnapshotApiClientImplementation implements InPlayApiClient {
+public class InPlaySnapshotSnapshotApiClientImplementation implements InPlaySnapshotApiClient {
     private final SnapshotApiRestClient client;
 
-    public InPlaySnapshotApiClientImplementation(SnapshotApiRestClient client) {
+    public InPlaySnapshotSnapshotApiClientImplementation(SnapshotApiRestClient client) {
         this.client = client;
     }
 

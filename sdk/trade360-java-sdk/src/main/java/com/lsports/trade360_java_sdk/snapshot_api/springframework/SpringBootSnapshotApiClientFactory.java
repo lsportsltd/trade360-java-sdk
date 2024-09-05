@@ -4,8 +4,8 @@ import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.lsports.trade360_java_sdk.snapshot_api.InPlayApiClient;
-import com.lsports.trade360_java_sdk.snapshot_api.InPlaySnapshotApiClientImplementation;
+import com.lsports.trade360_java_sdk.snapshot_api.InPlaySnapshotApiClient;
+import com.lsports.trade360_java_sdk.snapshot_api.InPlaySnapshotSnapshotApiClientImplementation;
 import com.lsports.trade360_java_sdk.snapshot_api.PreMatchApiClient;
 import com.lsports.trade360_java_sdk.snapshot_api.PreMatchSnapshotApiClientImplementation;
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
@@ -20,11 +20,11 @@ public class SpringBootSnapshotApiClientFactory implements SnapshotApiClientFact
     }
 
     @Override
-    public InPlayApiClient createInPlayApiClient(PackageCredentials settings) {
+    public InPlaySnapshotApiClient createInPlayApiClient(PackageCredentials settings) {
         var serializer = new JacksonApiSerializer(settings);
         var client = new SpringBootSnapshotApiRestClient(builder, serializer, settings);
         
-        return new InPlaySnapshotApiClientImplementation(client);
+        return new InPlaySnapshotSnapshotApiClientImplementation(client);
     }
 
     @Override

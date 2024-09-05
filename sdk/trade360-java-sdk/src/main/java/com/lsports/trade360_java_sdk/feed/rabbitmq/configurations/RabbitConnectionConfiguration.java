@@ -27,9 +27,7 @@ public class RabbitConnectionConfiguration {
     @NotNull
     public boolean auto_ack = true;
     @NotNull
-    public int requested_heartbeat_seconds = 30;
-    @NotNull
-    public int network_recovery_interval = 30;
+    public long network_recovery_interval = 3000;
     @NotBlank
     public String base_customers_api;
     @NotNull
