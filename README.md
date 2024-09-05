@@ -2,20 +2,26 @@
 
 ## Table of Contents
 
-- [About](#about)
-- [Getting Started](#getting_started)
-    - [Pre-requisites](#pre_requisites)
-    - [Supported JDK Versions](#supported_versions)
-    - [Installing](#installing)
-    - [Initial Configuration](#configuration)
-- [Usage Guide](#usage_guide)
-  - [Connecting to Trade360 Feed](#usage_guide_feed)
-  - [Using the Snapshot API](#usage_snapshot_api)
-  - [Using Customers API](#usage_customers_api)
-- [Contribution](#contributing)
-- [License](#license)
+- [LSports Trade360 SDK](#lsports-trade360-sdk)
+  - [Table of Contents](#table-of-contents)
+  - [About](#about)
+    - [Key Features](#key-features)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+  - [Installing](#installing)
+  - [Usage Guide](#usage-guide)
+    - [Connecting to Trade360 Feed](#connecting-to-trade360-feed)
+      - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
+      - [Implementing The Connection](#implementing-the-connection)
+      - [Message recover in case of failure](#message-recover-in-case-of-failure)
+      - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
+    - [Using Snapshot API](#using-snapshot-api)
+      - [Handling responses](#handling-responses)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Release](#release)
 
-## About <a name = "about"></a>
+## About
 
 The Trade360 SDK is designed to simplify the integration with Trade360 services. This SDK provides a comprehensive set of tools and examples to streamline the following tasks:
 
@@ -30,20 +36,22 @@ By using this SDK, developers can easily integrate and interact with Trade360's 
 - Utilize the Snapshot API for real-time recovery, with an easy-to-use HTTP client exposing all relevant endpoints, including comprehensive request and response handling.
 - Manage customer data and subscriptions seamlessly via the Customers API, offering an intuitive HTTP client that covers all necessary endpoints for efficient data management.
 
-## Getting Started <a name="getting_started"></a>
+## Getting Started
 
 This section provides examples and guidance to help you start using the Trade360 SDK.
 
-### Prerequisites <a name = "pre_requisites"></a>
+### Prerequisites
 
 Ensure you have the following installed on your machine:
 
-- [[JAVA OpenJDK 1.7 Linux x64]](https://jdk.java.net/java-se-ri/17-MR1) 
-- [[Maven 3.9.8]](https://maven.apache.org/download.cgi)
-- 
+- JDK 17, e.g.:
+  - [Reference JAVA OpenJDK 17](https://jdk.java.net/java-se-ri/17-MR1)
+  - [Adoptium Java SDK 17](https://adoptium.net/temurin/releases/?version=17)
+- [Maven 3.9.8](https://maven.apache.org/download.cgi)
+
 This SDK targets JDK in version 17.
 
-## Installing <a name = "installing"></a>
+## Installing
 
 A step-by-step series of instructions to set up your development environment.
 
@@ -66,9 +74,9 @@ A step-by-step series of instructions to set up your development environment.
     mvn spring-boot:run
     ```
 
-## Usage Guide <a name = "usage_guide"></a>
+## Usage Guide
 
-### Connecting to Trade360 Feed <a name = "usage_guide_feed"></a>
+### Connecting to Trade360 Feed
 
 This is an example usage of the feed SDK, which gives you the ability to create an instance and connect to your RabbitMQ feed. You can create a handler to deal with each type of message being produced (fixture, livescore, markets, settlement) for standard sports, outright sports, and outright league sports (tournaments). Please download the repo and run the examples for more information.
 
@@ -100,7 +108,7 @@ rabbitmq.inplay.max_concurrent_consumers: 1
 
 #### Implementing The Connection
 
-To create a connection it is necessary to use the 'InplayTrade360SdkConfiguration' or/and 'PrematchTrade360SdkConfiguration' configuration class.
+To create a connection it is necessary to use the `InplayTrade360SdkConfiguration` or/and `PrematchTrade360SdkConfiguration` configuration class.
 This class reads the connection parameters from the application properties based on defined prefixes.
 
 ```java
@@ -118,13 +126,12 @@ public class PrematchTrade360SdkConfiguration {
      // Configure the settings for the "Prematch" feed using the "rabbitmq.prematch" section of the configuration file
      public static final String RABBITMQ_PREMATCH_PREFIX = "rabbitmq.prematch";
         ...
-
 ```
 
-Above code register connections configuration for two prefixes 'rabbitmq.inplay' and "rabbitmq.prematch"
+Above code register connections configuration for two prefixes `rabbitmq.inplay` and `rabbitmq.prematch`
 
-Next step is add listener handler methods for the above connections. Each @RabbitListener annotation has an association between the Rabbit Connection Factory and that method by the bean name written in the containerFactory annotation properties.
-Second parameter is queue and third name of error message handling implementation defined in Trade360SdkConfiguration class. 
+Next step is add listener handler methods for the above connections. Each `@RabbitListener` annotation has an association between the Rabbit Connection Factory and that method by the bean name written in the containerFactory annotation properties.
+Second parameter is queue and third name of error message handling implementation defined in `Trade360SdkConfiguration` class. 
 ```java
 
 @RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.inplay.package_id}_", errorHandler="inplayErrorMessageHandler")
@@ -162,7 +169,8 @@ Connection will be established right after application start.
 
 #### Message recover in case of failure
 
-In order to handle message recover it is a need to  implements 'MessageRecoverer' interface. Spring [documentation](https://docs.spring.io/spring-amqp/api/org/springframework/amqp/rabbit/retry/RepublishMessageRecoverer.html)
+In order to handle message recover it is a need to  implements `MessageRecoverer` interface ([Spring documentation](https://docs.spring.io/spring-amqp/api/org/springframework/amqp/rabbit/retry/RepublishMessageRecoverer.html)).
+
 Example:
 ```java
 package com.lsports.trade360feedexample.handlers.inplay.errors;
@@ -185,7 +193,7 @@ public class InplayRecoveryMessageResolver implements MessageRecoverer {
 ```
 #### Message exception handling in case of failure
 
-In order to handle message excpetion it is a need to  implements 'RabbitListenerErrorHandler' interface. Spring [documentation](https://docs.spring.io/spring-amqp/docs/current/api/org/springframework/amqp/rabbit/listener/api/RabbitListenerErrorHandler.html)
+In order to handle message exception it is a need to implement `RabbitListenerErrorHandler` interface ([Spring documentation](https://docs.spring.io/spring-amqp/docs/current/api/org/springframework/amqp/rabbit/listener/api/RabbitListenerErrorHandler.html)).
 
 Example:
 ```java
@@ -224,14 +232,77 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 
 ```
 
-## Contributing <a name = "contributing"></a>
+### Using Snapshot API
+
+Full working example of using Snapshot API in Spring Framework can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_snapshot_api_example/SnapshotApiExampleApplication.java).
+
+In order to create a client instance a `SnapshotApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation. 
+
+Available `SnapshotApiClientFactory` implementations:
+
+- `SpringBootSnapshotApiClientFactory` - an implementation comptatible with Spring Framework, as it uses flux `WebClient`.
+
+In case you use `SpringBootSnapshotApiClientFactory` the good practice is to register it as a `@Bean` and fetch it via dependency injection where necessary. Below you can find an example of proper registration of the factory.
+
+```java
+@Bean
+public SnapshotApiClientFactory configureSnapshotApiClientFactory(WebClient.Builder webClientBuilder) {
+    return new SpringBootSnapshotApiClientFactory(webClientBuilder);
+}
+```
+
+Later, you can inject the factory e.g. via the constructor:
+```java
+private final SnapshotApiClientFactory apiClientFactory;
+
+public SnapshotApiExampleApplication(SnapshotApiClientFactory factory) {
+    apiClientFactory = factory;
+}
+```
+
+After factory is obtained, it can be used to create actual API Client instances. When creating an instance, proper settings need to be provided with your package information and credentials.
+For example:
+
+```java
+var preMatchSettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 1234, "yourUsername", "yourPassword");
+var preMatchClient = this.apiClientFactory.createPreMatchApiClient(preMatchSettings);
+```
+
+It's up to integrator how you store the parameters. You can fetch them from application configuration or other source, depending on scenario and your needs.
+
+Having the configured client instance one can use it by invoking requests with proper parameters. The documentation for each request can be found [here](https://docs.lsports.eu/lsports/v/integration/apis/snapshot) - bear in mind that you do not need to provide auth parameters each time as the SDK does it for you.
+
+#### Handling responses
+
+The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
+
+Below you can find two primary approaches how you can handle responses.
+
+1. Synchronous method - recommended only for simple use cases when there are not a lot of requests done, as it may lead to bottlenecks (socket saturation etc.).
+    ```java
+    try {
+        var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
+        var getFixturesResponse = getFixturesResponseMono.block();
+    } catch (Trade360Exception ex) {
+        // Handle failure
+    }
+    ```
+2. Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
+    ```java
+    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
+    getFixturesResponseMono.subscribe(
+        response -> System.out.println("[" + exampleName + "] - Got response: " + response),
+        exception -> /* handle failure */));
+    ```
+
+## Contributing
 
 Please read [CONTRIBUTING.md](../CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## License <a name = "license"></a>
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## Release
 
-Release: https://github.com/lsportsltd/trade360-dotnet-sdk/releases/tag/v1.0.0
+Latest release: <https://github.com/lsportsltd/trade360-dotnet-sdk/releases/latest>
