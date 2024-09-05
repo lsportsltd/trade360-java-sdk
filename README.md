@@ -233,6 +233,7 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 ```
 
 ### Using Snapshot API
+
 Full working example of using Snapshot API in Spring Framework can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_snapshot_api_example/SnapshotApiExampleApplication.java).
 
 In order to create a client instance a `SnapshotApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation. 
