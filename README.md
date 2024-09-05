@@ -276,6 +276,7 @@ Having the configured client instance one can use it by invoking requests with p
 The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
 
 Below you can find two primary approaches how you can handle responses.
+
 1. Synchronous method - recommended only for simple use cases when there are not a lot of requests done, as it may lead to bottlenecks (socket saturation etc.).
     ```java
     try {
