@@ -36,8 +36,8 @@ public class SnapshotApiExampleApplication {
 
     @PostConstruct
     public void run() {
-        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 4, "1", "Tests1234");
-        var inPlaySettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 2, "1", "Tests1234");
+        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "userName", "password");
+        var inPlaySettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "userName", "password");
         this.preMatchSynchronousApi(preMatchSettings);
         this.inPlaySynchronousApi(inPlaySettings);
 
