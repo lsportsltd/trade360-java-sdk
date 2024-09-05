@@ -274,6 +274,7 @@ It's up to integrator how you store the parameters. You can fetch them from appl
 Having the configured client instance one can use it by invoking requests with proper parameters. The documentation for each request can be found [here](https://docs.lsports.eu/lsports/v/integration/apis/snapshot) - bear in mind that you do not need to provide auth parameters each time as the SDK does it for you.
 
 #### Handling responses
+
 The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
 
 Below you can find two primary approaches how you can handle responses.
