@@ -239,6 +239,7 @@ Full working example of using Snapshot API in Spring Framework can be found in t
 In order to create a client instance a `SnapshotApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation. 
 
 Available `SnapshotApiClientFactory` implementations:
+
 - `SpringBootSnapshotApiClientFactory` - an implementation comptatible with Spring Framework, as it uses flux `WebClient`.
 
 In case you're workload is not based on Spring Framework, please contact your LSports Customer Success Manager.
