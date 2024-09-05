@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.snapshot_api;
+package com.lsports.trade360_java_sdk.common.configuration;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,12 +10,10 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 
-public class JacksonSnapshotApiSerializerTests {
-        private final SnapshotApiSettings apiSettings = new SnapshotApiSettings(
+public class JacksonApiSerializerTests {
+        private final PackageCredentials packageCredentials = new PackageCredentials(
         URI.create("testhost"),
         1234,
         "testUser",
@@ -24,7 +22,7 @@ public class JacksonSnapshotApiSerializerTests {
     @Test
     public void serialize_whenEmptyRequestProvided_appendsCredentialsToFinalJson() {
         // Arrange
-        var serializer = new JacksonSnapshotApiSerializer(this.apiSettings);
+        var serializer = new JacksonApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
             null,
             null,
@@ -42,7 +40,7 @@ public class JacksonSnapshotApiSerializerTests {
 
         // Assert
         assertEquals(
-            "{\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\"}",
+            "{\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\",\"MessageFormat\":\"json\"}",
             result.toString()
         );
     }
@@ -50,7 +48,7 @@ public class JacksonSnapshotApiSerializerTests {
     @Test
     public void serialize_whenNonEmptyRequestProvided_appendsCredentialsToFinalJson() {
         // Arrange
-        var serializer = new JacksonSnapshotApiSerializer(this.apiSettings);
+        var serializer = new JacksonApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
             ZonedDateTime.of(LocalDateTime.of(2024, 8, 5, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
             ZonedDateTime.of(LocalDateTime.of(2024, 8, 1, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
@@ -68,7 +66,7 @@ public class JacksonSnapshotApiSerializerTests {
 
         // Assert
         assertEquals(
-            "{\"Timestamp\":1722816000000,\"FromDate\":1722470400000,\"ToDate\":1722988800000,\"Sports\":[1,2,3],\"Locations\":[4,5,6],\"Leagues\":[7,8,9],\"Tournaments\":[10,11,12],\"Fixtures\":[13,14,15],\"Markets\":[16,17,18],\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\"}",
+            "{\"Timestamp\":1722816000000,\"FromDate\":1722470400000,\"ToDate\":1722988800000,\"Sports\":[1,2,3],\"Locations\":[4,5,6],\"Leagues\":[7,8,9],\"Tournaments\":[10,11,12],\"Fixtures\":[13,14,15],\"Markets\":[16,17,18],\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\",\"MessageFormat\":\"json\"}",
             result.toString()
         );
     }
