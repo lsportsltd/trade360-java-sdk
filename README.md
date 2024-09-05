@@ -304,4 +304,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Release
 
-Latest release: https://github.com/lsportsltd/trade360-dotnet-sdk/releases/latest
+Latest release: <https://github.com/lsportsltd/trade360-dotnet-sdk/releases/latest>
