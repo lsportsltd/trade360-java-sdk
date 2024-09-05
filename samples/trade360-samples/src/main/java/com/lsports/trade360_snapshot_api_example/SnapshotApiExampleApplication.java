@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
 import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
-import com.lsports.trade360_java_sdk.snapshot_api.configuration.SnapshotApiSettings;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.lsports.trade360_java_sdk.snapshot_api.springframework.SpringBootSnapshotApiClientFactory;
 
@@ -36,8 +36,8 @@ public class SnapshotApiExampleApplication {
 
     @PostConstruct
     public void run() {
-        var preMatchSettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "userName", "password");
-        var inPlaySettings = new SnapshotApiSettings(URI.create("https://stm-snapshot.lsports.eu"), 0, "userName", "password");
+        var preMatchSettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 0, "userName", "password");
+        var inPlaySettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 0, "userName", "password");
         this.preMatchSynchronousApi(preMatchSettings);
         this.inPlaySynchronousApi(inPlaySettings);
 
@@ -45,7 +45,7 @@ public class SnapshotApiExampleApplication {
         this.inPlayAsynchronousApi(inPlaySettings);
     }
 
-    private void preMatchSynchronousApi(SnapshotApiSettings settings) {
+    private void preMatchSynchronousApi(PackageCredentials settings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(settings);
 
         System.out.println();
@@ -74,7 +74,7 @@ public class SnapshotApiExampleApplication {
             () -> preMatchClient.getOutrightLeagueMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
-    private void preMatchAsynchronousApi(SnapshotApiSettings settings) {
+    private void preMatchAsynchronousApi(PackageCredentials settings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(settings);
 
         System.out.println();
@@ -103,7 +103,7 @@ public class SnapshotApiExampleApplication {
             () -> preMatchClient.getOutrightLeagueMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
-    private void inPlaySynchronousApi(SnapshotApiSettings settings) {
+    private void inPlaySynchronousApi(PackageCredentials settings) {
         var inPlayClient = this.apiClientFactory.createInPlayApiClient(settings);
 
         System.out.println();
@@ -119,7 +119,7 @@ public class SnapshotApiExampleApplication {
             () -> inPlayClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
-    private void inPlayAsynchronousApi(SnapshotApiSettings settings) {
+    private void inPlayAsynchronousApi(PackageCredentials settings) {
         var inPlayClient = this.apiClientFactory.createInPlayApiClient(settings);
 
         System.out.println();
