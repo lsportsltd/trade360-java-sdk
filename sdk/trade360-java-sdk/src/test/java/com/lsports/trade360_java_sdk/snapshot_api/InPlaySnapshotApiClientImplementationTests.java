@@ -4,15 +4,15 @@ import org.junit.Test;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
-import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
 
 public class InPlaySnapshotApiClientImplementationTests {
     @Test
     public void getFixtures_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
-        var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new InPlaySnapshotSnapshotApiClientImplementation(mockedClient);
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new InPlaySnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getFixtures(new GetSnapshotRequest(
@@ -34,8 +34,8 @@ public class InPlaySnapshotApiClientImplementationTests {
     @Test
     public void getLivescore_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
-        var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new InPlaySnapshotSnapshotApiClientImplementation(mockedClient);
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new InPlaySnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getLivescore(new GetSnapshotRequest(
@@ -57,8 +57,8 @@ public class InPlaySnapshotApiClientImplementationTests {
     @Test
     public void getFixtureMarkets_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
-        var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new InPlaySnapshotSnapshotApiClientImplementation(mockedClient);
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new InPlaySnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getFixtureMarkets(new GetSnapshotRequest(
@@ -80,8 +80,8 @@ public class InPlaySnapshotApiClientImplementationTests {
     @Test
     public void getEvents_calledWithCorrectRequest_callsCorrectUrl(){
         // Arrange
-        var mockedClient = mock(SnapshotApiRestClient.class);
-        var client = new InPlaySnapshotSnapshotApiClientImplementation(mockedClient);
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new InPlaySnapshotApiClientImplementation(mockedClient);
 
         // Act
         client.getEvents(new GetSnapshotRequest(

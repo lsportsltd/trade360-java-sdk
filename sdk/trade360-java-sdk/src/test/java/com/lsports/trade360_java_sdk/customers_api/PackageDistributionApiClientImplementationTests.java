@@ -1,7 +1,8 @@
 package com.lsports.trade360_java_sdk.customers_api;
 
-import com.lsports.trade360_java_sdk.customers_api.http.ApiRestClient;
 import org.junit.Test;
+
+import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
