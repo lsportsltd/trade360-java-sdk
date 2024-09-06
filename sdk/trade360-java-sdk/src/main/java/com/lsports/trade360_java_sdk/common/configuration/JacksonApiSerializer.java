@@ -1,7 +1,18 @@
 package com.lsports.trade360_java_sdk.common.configuration;
 
+import java.io.IOException;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.ClientCodecConfigurer;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
+
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -35,7 +46,18 @@ public class JacksonApiSerializer implements JsonApiSerializer {
     }
 
     @Override
-    public ObjectMapper getJsonMapper() {
-        return this.jsonMapper;
+    public JsonNode deserializeToTree(String json) throws JsonProcessingException {
+        return this.jsonMapper.readTree(json);
+    }
+
+    @Override
+    public <T> T deserializeToValue(JsonParser jsonParser, TypeReference<T> valueTypeRef) throws IOException {
+        return this.jsonMapper.readValue(jsonParser, valueTypeRef);
+    }
+
+    @Override
+    public void configureWebClientCodecs(ClientCodecConfigurer config) {
+        config.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.jsonMapper));
+        config.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.jsonMapper, new MediaType[] {MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM}));
     }
 }

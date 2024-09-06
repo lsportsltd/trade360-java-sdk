@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.snapshot_api;
+package com.lsports.trade360_java_sdk.common.exceptions;
 
 public class Trade360Exception extends RuntimeException {
 

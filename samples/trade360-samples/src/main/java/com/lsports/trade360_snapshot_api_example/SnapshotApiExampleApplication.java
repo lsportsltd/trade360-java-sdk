@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
-import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
+import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.lsports.trade360_java_sdk.snapshot_api.springframework.SpringBootSnapshotApiClientFactory;
 
@@ -36,17 +36,17 @@ public class SnapshotApiExampleApplication {
 
     @PostConstruct
     public void run() {
-        var preMatchSettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 0, "userName", "password");
-        var inPlaySettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 0, "userName", "password");
-        this.preMatchSynchronousApi(preMatchSettings);
-        this.inPlaySynchronousApi(inPlaySettings);
+        var preMatchSettings = new PackageCredentials(0, "userName", "password");
+        var inPlaySettings = new PackageCredentials(0, "userName", "password");
+        this.preMatchSynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), preMatchSettings);
+        this.inPlaySynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), inPlaySettings);
 
-        this.preMatchAsynchronousApi(preMatchSettings);
-        this.inPlayAsynchronousApi(inPlaySettings);
+        this.preMatchAsynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), preMatchSettings);
+        this.inPlayAsynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), inPlaySettings);
     }
 
-    private void preMatchSynchronousApi(PackageCredentials settings) {
-        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(settings);
+    private void preMatchSynchronousApi(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
 
         System.out.println();
         System.out.println("============================================");
@@ -74,8 +74,8 @@ public class SnapshotApiExampleApplication {
             () -> preMatchClient.getOutrightLeagueMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
-    private void preMatchAsynchronousApi(PackageCredentials settings) {
-        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(settings);
+    private void preMatchAsynchronousApi(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
 
         System.out.println();
         System.out.println("=============================================");
@@ -103,8 +103,8 @@ public class SnapshotApiExampleApplication {
             () -> preMatchClient.getOutrightLeagueMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
-    private void inPlaySynchronousApi(PackageCredentials settings) {
-        var inPlayClient = this.apiClientFactory.createInPlayApiClient(settings);
+    private void inPlaySynchronousApi(URI baseUrl, PackageCredentials settings) {
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, settings);
 
         System.out.println();
         System.out.println("============================================");
@@ -119,8 +119,8 @@ public class SnapshotApiExampleApplication {
             () -> inPlayClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
-    private void inPlayAsynchronousApi(PackageCredentials settings) {
-        var inPlayClient = this.apiClientFactory.createInPlayApiClient(settings);
+    private void inPlayAsynchronousApi(URI baseUrl, PackageCredentials settings) {
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, settings);
 
         System.out.println();
         System.out.println("=============================================");

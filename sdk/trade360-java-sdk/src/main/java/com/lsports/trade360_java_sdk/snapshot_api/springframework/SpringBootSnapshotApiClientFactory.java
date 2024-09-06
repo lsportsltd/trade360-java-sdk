@@ -1,17 +1,19 @@
 package com.lsports.trade360_java_sdk.snapshot_api.springframework;
 
 import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
-import org.springframework.stereotype.Service;
+
+import java.net.URI;
+
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lsports.trade360_java_sdk.snapshot_api.InPlaySnapshotApiClient;
-import com.lsports.trade360_java_sdk.snapshot_api.InPlaySnapshotSnapshotApiClientImplementation;
+import com.lsports.trade360_java_sdk.snapshot_api.InPlaySnapshotApiClientImplementation;
 import com.lsports.trade360_java_sdk.snapshot_api.PreMatchSnapshotApiClient;
-import com.lsports.trade360_java_sdk.snapshot_api.PreMatchSnapshotSnapshotApiClientImplementation;
+import com.lsports.trade360_java_sdk.snapshot_api.PreMatchSnapshotApiClientImplementation;
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
+import com.lsports.trade360_java_sdk.common.springframework.SpringBootApiRestClient;
 
-@Service
 public class SpringBootSnapshotApiClientFactory implements SnapshotApiClientFactory {
     private final WebClient.Builder builder;
 
@@ -20,18 +22,18 @@ public class SpringBootSnapshotApiClientFactory implements SnapshotApiClientFact
     }
 
     @Override
-    public InPlaySnapshotApiClient createInPlayApiClient(PackageCredentials settings) {
-        var serializer = new JacksonApiSerializer(settings);
-        var client = new SpringBootSnapshotApiRestClient(builder, serializer, settings);
+    public InPlaySnapshotApiClient createInPlayApiClient(URI baseUrl, PackageCredentials credentials) {
+        var serializer = new JacksonApiSerializer(credentials);
+        var client = new SpringBootApiRestClient(builder, serializer, baseUrl);
         
-        return new InPlaySnapshotSnapshotApiClientImplementation(client);
+        return new InPlaySnapshotApiClientImplementation(client);
     }
 
     @Override
-    public PreMatchSnapshotApiClient createPreMatchApiClient(PackageCredentials settings) {
-        var serializer = new JacksonApiSerializer(settings);
-        var client = new SpringBootSnapshotApiRestClient(builder, serializer, settings);
+    public PreMatchSnapshotApiClient createPreMatchApiClient(URI baseUrl, PackageCredentials credentials) {
+        var serializer = new JacksonApiSerializer(credentials);
+        var client = new SpringBootApiRestClient(builder, serializer, baseUrl);
         
-        return new PreMatchSnapshotSnapshotApiClientImplementation(client);
+        return new PreMatchSnapshotApiClientImplementation(client);
     }
 }

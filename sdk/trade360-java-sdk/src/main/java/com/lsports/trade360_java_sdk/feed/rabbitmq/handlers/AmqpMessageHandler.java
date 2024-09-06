@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lsports.trade360_java_sdk.common.entities.enums.MessageType;
+import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
-import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
+
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;

@@ -1,9 +1,12 @@
 package com.lsports.trade360_java_sdk.customers_api.interfaces;
 
+import java.net.URI;
+
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.customers_api.PackageDistributionApiClientImplementation;
-import jakarta.annotation.Nullable;
 
 public interface CustomersApiClientFactory {
-    PackageDistributionApiClientImplementation createPackageDistributionHttpClient(@Nullable String baseUrl, @Nullable PackageCredentials packageCredentials);
+    PackageDistributionApiClientImplementation createPackageDistributionHttpClient(URI baseUrl, PackageCredentials packageCredentials);
+
+    MetadataApiClient createMetadataHttpClient(URI baseUrl, PackageCredentials packageCredentials);
 }

@@ -1,7 +1,8 @@
-package com.lsports.trade360_java_sdk.customers_api.http;
+package com.lsports.trade360_java_sdk.common.http;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.lsports.trade360_java_sdk.snapshot_api.Trade360Exception;
+import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+
 import reactor.core.publisher.Mono;
 
 public interface ApiRestClient {
