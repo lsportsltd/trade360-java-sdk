@@ -87,14 +87,15 @@ public class MetadataApiExampleApplication {
     private <T, R> void executeSynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
         System.out.println("--------------------------------");
         try {
+            var jsonMapper = new ObjectMapper();
             if (request == null) {
                 System.out.println("[" + exampleName + "] - Executing request");
             } else {
-                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + new ObjectMapper().writeValueAsString(request));
+                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + jsonMapper.writeValueAsString(request));
             }
             var responseMono = executeFunction.apply(request);
             var response = responseMono.block();
-            System.out.println("Response received: " + response);
+            System.out.println("Response received: " + jsonMapper.writeValueAsString(response));
         } catch (Trade360Exception ex) {
             System.err.println("Failed: " + ex.getMessage());
         } catch (Exception ex) {
@@ -107,12 +108,13 @@ public class MetadataApiExampleApplication {
     }
 
     private <T, R> void executeAsynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
+        var jsonMapper = new ObjectMapper();
         System.out.println("--------------------------------");
         if (request == null) {
             System.out.println("[" + exampleName + "] - Executing request");
         } else {
             try {
-                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + new ObjectMapper().writeValueAsString(request));
+                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + jsonMapper.writeValueAsString(request));
             } catch (JsonProcessingException ex) {
                 System.err.println("Unhandled exception: " + ex.getMessage());
             }
@@ -120,7 +122,13 @@ public class MetadataApiExampleApplication {
         var responseMono = executeFunction.apply(request);
         responseMono
             .subscribe(
-                response -> System.out.println("[" + exampleName + "] - Got response: " + response),
+                response -> {
+                    try {
+                        System.out.println("[" + exampleName + "] - Got response: " + jsonMapper.writeValueAsString(response));
+                    } catch (JsonProcessingException ex) {
+                        System.err.println("Unhandled exception: " + ex.getMessage());
+                    }
+                },
                 exception -> System.err.println("Failed: " + exception.getMessage()));
     }
 }
