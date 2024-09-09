@@ -1,7 +1,6 @@
 package com.lsports.trade360_java_sdk.customers_api.interfaces;
 
 import java.net.URI;
-
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.customers_api.PackageDistributionApiClientImplementation;
 

@@ -19,6 +19,12 @@ import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 public class SnapshotApiExampleApplication {
+    private final SnapshotApiClientFactory apiClientFactory;
+
+    public SnapshotApiExampleApplication(SnapshotApiClientFactory factory) {
+        apiClientFactory = factory;
+    }
+    
     public static void main(String[] args) {
         SpringApplication.run(SnapshotApiExampleApplication.class, args);
     }
@@ -26,12 +32,6 @@ public class SnapshotApiExampleApplication {
     @Bean
     public static SnapshotApiClientFactory configureSnapshotApiClientFactory(WebClient.Builder webClientBuilder) {
         return new SpringBootSnapshotApiClientFactory(webClientBuilder);
-    }
-
-    private final SnapshotApiClientFactory apiClientFactory;
-
-    public SnapshotApiExampleApplication(SnapshotApiClientFactory factory) {
-        apiClientFactory = factory;
     }
 
     @PostConstruct
@@ -135,11 +135,11 @@ public class SnapshotApiExampleApplication {
             () -> inPlayClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
     }
 
-    private <T> void executeSynchronous(String exampleName, Supplier<Mono<T>> c) {
+    private <T> void executeSynchronous(String exampleName, Supplier<Mono<T>> executeFunction) {
         System.out.println("--------------------------------");
         System.out.print("[" + exampleName + "] - ");
         try {
-            var responseMono = c.get();
+            var responseMono = executeFunction.get();
             var response = responseMono.block();
             System.out.println("Response received: " + response);
         } catch (Trade360Exception ex) {
@@ -147,10 +147,10 @@ public class SnapshotApiExampleApplication {
         }
     }
 
-    private <T> void executeAsynchronous(String exampleName, Supplier<Mono<T>> c) {
+    private <T> void executeAsynchronous(String exampleName, Supplier<Mono<T>> executeFunction) {
         System.out.println("--------------------------------");
         System.out.println("[" + exampleName + "] - Executing request");
-        var responseMono = c.get();
+        var responseMono = executeFunction.get();
         responseMono
             .subscribe(
                 response -> System.out.println("[" + exampleName + "] - Got response: " + response),
