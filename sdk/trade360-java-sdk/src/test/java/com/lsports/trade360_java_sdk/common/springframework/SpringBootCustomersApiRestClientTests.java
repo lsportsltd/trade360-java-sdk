@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.customers_api.springframework;
+package com.lsports.trade360_java_sdk.common.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
@@ -29,15 +29,14 @@ import static org.junit.Assert.assertEquals;
 public class SpringBootCustomersApiRestClientTests {
     private MockWebServer mockServer;
     private PackageCredentials packageCredentials;
-    private String baseUrl;
+    private URI baseUrl;
 
     @Before
     public void initialize() throws IOException {
         this.mockServer = new MockWebServer();
         this.mockServer.start();
-        baseUrl = String.format("http://localhost:%s", mockServer.getPort());
+        baseUrl = URI.create(String.format("http://localhost:%s", mockServer.getPort()));
         packageCredentials = new PackageCredentials(
-            URI.create(baseUrl),
             1234,
             "testUser",
             "testPassword");
@@ -55,7 +54,7 @@ public class SpringBootCustomersApiRestClientTests {
         final var rawResponse = "{\"Header\":{},\"Body\":[]}";
 
         var serializer = new JacksonApiSerializer(packageCredentials);
-        var client = new SpringBootCustomersApiRestClient(WebClient.builder(), serializer, baseUrl);
+        var client = new SpringBootApiRestClient(WebClient.builder(), serializer, baseUrl);
 
         this.prepareResponse(response -> response
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)
@@ -93,7 +92,7 @@ public class SpringBootCustomersApiRestClientTests {
         final var rawResponse = "{\"Header\":{},\"Body\":[]}";
 
         var serializer = new JacksonApiSerializer(packageCredentials);
-        var client = new SpringBootCustomersApiRestClient(WebClient.builder(), serializer, baseUrl);
+        var client = new SpringBootApiRestClient(WebClient.builder(), serializer, baseUrl);
 
         this.prepareResponse(response -> response
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)

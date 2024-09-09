@@ -2,7 +2,6 @@ package com.lsports.trade360_java_sdk.common.configuration;
 
 import static org.junit.Assert.assertEquals;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -14,7 +13,6 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotR
 
 public class JacksonApiSerializerTests {
         private final PackageCredentials packageCredentials = new PackageCredentials(
-        URI.create("testhost"),
         1234,
         "testUser",
         "testPassword");

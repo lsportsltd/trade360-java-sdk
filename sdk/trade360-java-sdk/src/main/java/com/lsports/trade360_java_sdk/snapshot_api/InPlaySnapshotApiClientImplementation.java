@@ -1,19 +1,18 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetEventsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureMarketsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
-import com.lsports.trade360_java_sdk.snapshot_api.http.SnapshotApiRestClient;
-
 import reactor.core.publisher.Mono;
 
-public class InPlaySnapshotSnapshotApiClientImplementation implements InPlaySnapshotApiClient {
-    private final SnapshotApiRestClient client;
+public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiClient {
+    private final ApiRestClient client;
 
-    public InPlaySnapshotSnapshotApiClientImplementation(SnapshotApiRestClient client) {
+    public InPlaySnapshotApiClientImplementation(ApiRestClient client) {
         this.client = client;
     }
 
