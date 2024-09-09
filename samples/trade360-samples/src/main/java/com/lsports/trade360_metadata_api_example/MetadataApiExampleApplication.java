@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
 import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClientFactory;
@@ -54,6 +55,11 @@ public class MetadataApiExampleApplication {
         this.executeSynchronous("Sync GetSports with parameters",
             new GetSportsRequest(6),
             request -> client.getSports(request));
+        this.executeSynchronous("Sync GetLocations without parameters",
+            () -> client.getLocations());
+        this.executeSynchronous("Sync GetLocations with parameters",
+            new GetLocationsRequest(6),
+            request -> client.getLocations(request));
     }
 
     private void asynchronousExample(URI baseUri, PackageCredentials credentials) {
@@ -67,6 +73,11 @@ public class MetadataApiExampleApplication {
         this.executeAsynchronous("Async GetSports with parameters",
             new GetSportsRequest(6),
             request -> client.getSports(request));
+        this.executeAsynchronous("Sync GetLocations without parameters",
+            () -> client.getLocations());
+        this.executeAsynchronous("Sync GetLocations with parameters",
+            new GetLocationsRequest(6),
+            request -> client.getLocations(request));
     }
 
     private <R> void executeSynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
