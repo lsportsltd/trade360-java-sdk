@@ -4,12 +4,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
@@ -43,7 +41,7 @@ public class MetadataApiExampleApplication {
 
     @PostConstruct
     public void run() {
-        var packageSettings = new PackageCredentials(2, "1", "Tests1234");
+        var packageSettings = new PackageCredentials(0, "userName", "password");
 
         this.synchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
         this.asynchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
