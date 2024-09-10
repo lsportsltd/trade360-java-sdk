@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
 import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClientFactory;
@@ -54,6 +55,11 @@ public class MetadataApiExampleApplication {
         this.executeSynchronous("Sync GetSports with parameters",
             new GetSportsRequest(6),
             request -> client.getSports(request));
+        this.executeSynchronous("Sync GetLocations without parameters",
+            () -> client.getLocations());
+        this.executeSynchronous("Sync GetLocations with parameters",
+            new GetLocationsRequest(6),
+            request -> client.getLocations(request));
     }
 
     private void asynchronousExample(URI baseUri, PackageCredentials credentials) {
@@ -67,6 +73,11 @@ public class MetadataApiExampleApplication {
         this.executeAsynchronous("Async GetSports with parameters",
             new GetSportsRequest(6),
             request -> client.getSports(request));
+        this.executeAsynchronous("Sync GetLocations without parameters",
+            () -> client.getLocations());
+        this.executeAsynchronous("Sync GetLocations with parameters",
+            new GetLocationsRequest(6),
+            request -> client.getLocations(request));
     }
 
     private <R> void executeSynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
@@ -76,14 +87,15 @@ public class MetadataApiExampleApplication {
     private <T, R> void executeSynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
         System.out.println("--------------------------------");
         try {
+            var jsonMapper = new ObjectMapper();
             if (request == null) {
                 System.out.println("[" + exampleName + "] - Executing request");
             } else {
-                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + new ObjectMapper().writeValueAsString(request));
+                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + jsonMapper.writeValueAsString(request));
             }
             var responseMono = executeFunction.apply(request);
             var response = responseMono.block();
-            System.out.println("Response received: " + response);
+            System.out.println("Response received: " + jsonMapper.writeValueAsString(response));
         } catch (Trade360Exception ex) {
             System.err.println("Failed: " + ex.getMessage());
         } catch (Exception ex) {
@@ -96,12 +108,13 @@ public class MetadataApiExampleApplication {
     }
 
     private <T, R> void executeAsynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
+        var jsonMapper = new ObjectMapper();
         System.out.println("--------------------------------");
         if (request == null) {
             System.out.println("[" + exampleName + "] - Executing request");
         } else {
             try {
-                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + new ObjectMapper().writeValueAsString(request));
+                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + jsonMapper.writeValueAsString(request));
             } catch (JsonProcessingException ex) {
                 System.err.println("Unhandled exception: " + ex.getMessage());
             }
@@ -109,7 +122,13 @@ public class MetadataApiExampleApplication {
         var responseMono = executeFunction.apply(request);
         responseMono
             .subscribe(
-                response -> System.out.println("[" + exampleName + "] - Got response: " + response),
+                response -> {
+                    try {
+                        System.out.println("[" + exampleName + "] - Got response: " + jsonMapper.writeValueAsString(response));
+                    } catch (JsonProcessingException ex) {
+                        System.err.println("Unhandled exception: " + ex.getMessage());
+                    }
+                },
                 exception -> System.err.println("Failed: " + exception.getMessage()));
     }
 }
