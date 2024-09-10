@@ -13,16 +13,16 @@ import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
-import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
-import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClientFactory;
+import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClient;
+import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClient;
 import jakarta.annotation.PostConstruct;
 import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 public class MetadataApiExampleApplication {
-    private final CustomersApiClientFactory apiClientFactory;
+    private final CustomersApiClient apiClientFactory;
 
-    public MetadataApiExampleApplication(CustomersApiClientFactory factory) {
+    public MetadataApiExampleApplication(CustomersApiClient factory) {
         apiClientFactory = factory;
     }
 
@@ -31,8 +31,8 @@ public class MetadataApiExampleApplication {
     }
 
     @Bean
-    public static CustomersApiClientFactory configureSnapshotApiClientFactory(WebClient.Builder webClientBuilder) {
-        return new SpringBootCustomersApiClientFactory(webClientBuilder);
+    public static CustomersApiClient configureSnapshotApiClientFactory(WebClient.Builder webClientBuilder) {
+        return new SpringBootCustomersApiClient(webClientBuilder);
     }
 
     @PostConstruct
