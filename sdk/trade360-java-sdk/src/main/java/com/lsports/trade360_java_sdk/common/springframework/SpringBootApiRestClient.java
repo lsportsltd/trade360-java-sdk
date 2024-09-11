@@ -25,7 +25,10 @@ public class SpringBootApiRestClient implements ApiRestClient {
         this.serializer = serializer;
         this.client = builder
             .baseUrl(baseUrl.toString())
-            .codecs(config -> this.serializer.configureWebClientCodecs(config))
+            .codecs(config -> {
+                this.serializer.configureWebClientCodecs(config);
+                config.defaultCodecs().maxInMemorySize(1024 * 1024 * 16);
+            })
             .defaultHeaders(t -> {
                 t.setContentType(MediaType.APPLICATION_JSON);
                 t.setAccept(List.of(MediaType.APPLICATION_JSON));

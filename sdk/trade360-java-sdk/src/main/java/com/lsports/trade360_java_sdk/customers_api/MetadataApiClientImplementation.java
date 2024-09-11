@@ -2,8 +2,10 @@ package com.lsports.trade360_java_sdk.customers_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetLeaguesResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetLocationsResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetSportsResponse;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.MetadataApiClient;
@@ -41,6 +43,15 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
             request,
             new TypeReference<GetLocationsResponse>() {},
             "Locations/Get"
+        );
+    }
+
+    @Override
+    public Mono<GetLeaguesResponse> getLeagues(GetLeaguesRequest request) {
+        return this.client.postRequest(
+            request,
+            new TypeReference<GetLeaguesResponse>() {},
+            "Leagues/Get"
         );
     }
 }

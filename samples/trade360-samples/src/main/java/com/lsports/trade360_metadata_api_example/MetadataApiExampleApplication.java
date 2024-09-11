@@ -1,6 +1,7 @@
 package com.lsports.trade360_metadata_api_example;
 
 import java.net.URI;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.springframework.boot.SpringApplication;
@@ -10,11 +11,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
+import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
 import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClientFactory;
+
 import jakarta.annotation.PostConstruct;
 import reactor.core.publisher.Mono;
 
@@ -60,6 +64,9 @@ public class MetadataApiExampleApplication {
         this.executeSynchronous("Sync GetLocations with parameters",
             new GetLocationsRequest(6),
             request -> client.getLocations(request));
+        this.executeSynchronous("Sync GetLeagues with parameters",
+            new GetLeaguesRequest(List.of(6046, 48242), List.of(22, 161), SubscriptionState.ALL, 6),
+            request -> client.getLeagues(request));
     }
 
     private void asynchronousExample(URI baseUri, PackageCredentials credentials) {
@@ -78,6 +85,9 @@ public class MetadataApiExampleApplication {
         this.executeAsynchronous("Sync GetLocations with parameters",
             new GetLocationsRequest(6),
             request -> client.getLocations(request));
+        this.executeAsynchronous("Sync GetLeagues with parameters",
+            new GetLeaguesRequest(List.of(6046, 48242), List.of(22, 161), SubscriptionState.ALL, 6),
+            request -> client.getLeagues(request));
     }
 
     private <R> void executeSynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
