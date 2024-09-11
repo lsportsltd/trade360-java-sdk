@@ -9,6 +9,5 @@ public final record GetTranslationsResponse(
     @Nullable Map<Integer, Iterable<TranslationElement>> locations,
     @Nullable Map<Integer, Iterable<TranslationElement>> leagues,
     @Nullable Map<Integer, Iterable<TranslationElement>> markets,
-    @Nullable Map<Integer, Iterable<TranslationElement>> participants
-) {
+    @Nullable Map<Integer, Iterable<TranslationElement>> participants) {
 }

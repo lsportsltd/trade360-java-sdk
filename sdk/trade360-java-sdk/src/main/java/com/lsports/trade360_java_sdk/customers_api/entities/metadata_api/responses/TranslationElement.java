@@ -4,6 +4,5 @@ import jakarta.annotation.Nullable;
 
 public final record TranslationElement(
     int languageId,
-    @Nullable String value
-) {
+    @Nullable String value) {
 }
