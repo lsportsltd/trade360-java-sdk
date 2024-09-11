@@ -108,7 +108,7 @@ public class MetadataApiExampleApplication {
             new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
             request -> client.getTranslations(request));
         this.executeAsynchronous("Async GetCompetitions with parameters",
-            new GetCompetitionsRequest(List.of(6046, 48242), List.of(22, 161), null, SubscriptionState.ALL),
+            new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
             request -> client.getCompetitions(request));
     }
 
