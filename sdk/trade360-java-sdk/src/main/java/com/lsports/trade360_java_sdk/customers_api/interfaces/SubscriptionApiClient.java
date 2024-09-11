@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 public interface SubscriptionApiClient {
 
-    Mono<PackageQuotaResponse> GetPackageQuotaAsync();
+    Mono<PackageQuotaResponse> GetPackageQuota();
 
     Mono<FixtureScheduleCollectionResponse> GetInPlayFixtureSchedule(GetFixtureScheduleRequest request);
 

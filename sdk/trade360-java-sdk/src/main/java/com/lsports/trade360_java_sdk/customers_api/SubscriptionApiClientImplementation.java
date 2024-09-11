@@ -17,7 +17,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<PackageQuotaResponse> GetPackageQuotaAsync() {
+    public Mono<PackageQuotaResponse> GetPackageQuota() {
         return this.client
                 .postRequest(
                         new TypeReference<PackageQuotaResponse>() {},
@@ -85,9 +85,10 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<CompetitionSubscriptionCollectionResponse> SubscribeByCompetition(CompetitionSubscriptionRequest requestDt) {
+    public Mono<CompetitionSubscriptionCollectionResponse> SubscribeByCompetition(CompetitionSubscriptionRequest request) {
         return this.client
                 .postRequest(
+                        request,
                         new TypeReference<CompetitionSubscriptionCollectionResponse>() {},
                         "Outright/Subscribe"
                 );
