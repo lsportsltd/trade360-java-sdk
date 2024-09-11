@@ -2,11 +2,11 @@ package com.lsports.trade360_java_sdk.customers_api;
 
 import org.junit.Test;
 
+import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.SubscriptionFilterEnum;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -79,7 +79,7 @@ public class MetadataApiClientImplementationTests {
         var client = new MetadataApiClientImplementation(mockedClient);
 
         //Act
-        client.getLeagues(new GetLeaguesRequest(List.of(1), List.of(2), SubscriptionFilterEnum.ALL, 2));
+        client.getLeagues(new GetLeaguesRequest(List.of(1), List.of(2), SubscriptionState.ALL, 2));
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Leagues/Get"));
