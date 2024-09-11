@@ -2,7 +2,7 @@ package com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.re
 
 import jakarta.annotation.Nullable;
 
-public class GetSubscriptionRequestDto {
+public class GetSubscriptionRequest {
     @Nullable public Iterable<Integer> sportIds;
     @Nullable public Iterable<Integer> locationIds;
     @Nullable public Iterable<Integer> leagueIds;
