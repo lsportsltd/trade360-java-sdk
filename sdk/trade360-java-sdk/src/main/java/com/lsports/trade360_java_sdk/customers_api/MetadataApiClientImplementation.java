@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetLeaguesResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetLocationsResponse;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetMarketsResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetSportsResponse;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.MetadataApiClient;
 import reactor.core.publisher.Mono;
@@ -52,6 +54,15 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
             request,
             new TypeReference<GetLeaguesResponse>() {},
             "Leagues/Get"
+        );
+    }
+
+    @Override
+    public Mono<GetMarketsResponse> getMarkets(GetMarketsRequest request) {
+        return this.client.postRequest(
+            request,
+            new TypeReference<GetMarketsResponse>() {},
+            "Markets/Get"
         );
     }
 }

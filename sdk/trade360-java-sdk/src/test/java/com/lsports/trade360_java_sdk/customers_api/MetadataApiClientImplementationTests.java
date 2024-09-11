@@ -3,9 +3,11 @@ package com.lsports.trade360_java_sdk.customers_api;
 import org.junit.Test;
 
 import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
+import com.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -83,5 +85,19 @@ public class MetadataApiClientImplementationTests {
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Leagues/Get"));
+    }
+
+    @Test
+    public void getMarkets_withParameterCalledWithCorrectUrl_callsCorrectUrl() {
+
+        //Arrange
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new MetadataApiClientImplementation(mockedClient);
+
+        //Act
+        client.getMarkets(new GetMarketsRequest(List.of(1), List.of(2), List.of(3), List.of(4), false, MarketType.ALL, 2));
+
+        //Assert
+        verify(mockedClient).postRequest(any(), any(), eq("Markets/Get"));
     }
 }
