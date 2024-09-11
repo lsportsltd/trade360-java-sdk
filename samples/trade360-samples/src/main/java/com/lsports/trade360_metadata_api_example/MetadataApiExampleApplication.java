@@ -64,8 +64,6 @@ public class MetadataApiExampleApplication {
         this.executeSynchronous("Sync GetLocations with parameters",
             new GetLocationsRequest(6),
             request -> client.getLocations(request));
-        // this.executeSynchronous("Sync GetLeagues without parameters",
-        //     () -> client.getLeagues()); // Commented out because the response is large with no filters provided. Uncomment if you want to test it.
         this.executeSynchronous("Sync GetLeagues with parameters",
             new GetLeaguesRequest(List.of(6046, 48242), List.of(22, 161), SubscriptionFilterEnum.ALL, 6),
             request -> client.getLeagues(request));
@@ -87,8 +85,6 @@ public class MetadataApiExampleApplication {
         this.executeAsynchronous("Sync GetLocations with parameters",
             new GetLocationsRequest(6),
             request -> client.getLocations(request));
-        // this.executeAsynchronous("Sync GetLeagues without parameters",
-        //     () -> client.getLeagues()); // Commented out because the response is large with no filters provided. Uncomment if you want to test it.
         this.executeAsynchronous("Sync GetLeagues with parameters",
             new GetLeaguesRequest(List.of(6046, 48242), List.of(22, 161), SubscriptionFilterEnum.ALL, 6),
             request -> client.getLeagues(request));

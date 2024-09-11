@@ -72,20 +72,6 @@ public class MetadataApiClientImplementationTests {
     }
 
     @Test
-    public void getLeagues_parameterlessCalledWithCorrectUrl_callsCorrectUrl() {
-
-        //Arrange
-        var mockedClient = mock(ApiRestClient.class);
-        var client = new MetadataApiClientImplementation(mockedClient);
-
-        //Act
-        client.getLeagues();
-
-        //Assert
-        verify(mockedClient).postRequest(any(), any(), eq("Leagues/Get"));
-    }
-
-    @Test
     public void getLeagues_withParameterCalledWithCorrectUrl_callsCorrectUrl() {
 
         //Arrange

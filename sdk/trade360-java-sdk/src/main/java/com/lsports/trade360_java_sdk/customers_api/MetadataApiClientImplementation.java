@@ -47,11 +47,6 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
     }
 
     @Override
-    public Mono<GetLeaguesResponse> getLeagues() {
-        return this.getLeagues(new GetLeaguesRequest());
-    }
-
-    @Override
     public Mono<GetLeaguesResponse> getLeagues(GetLeaguesRequest request) {
         return this.client.postRequest(
             request,

@@ -18,7 +18,5 @@ public interface MetadataApiClient {
 
     Mono<GetLocationsResponse> getLocations(GetLocationsRequest request);
 
-    Mono<GetLeaguesResponse> getLeagues();
-
     Mono<GetLeaguesResponse> getLeagues(GetLeaguesRequest request);
 }
