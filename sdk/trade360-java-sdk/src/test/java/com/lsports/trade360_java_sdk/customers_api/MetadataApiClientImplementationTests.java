@@ -9,6 +9,7 @@ import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.request
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -99,5 +100,19 @@ public class MetadataApiClientImplementationTests {
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Markets/Get"));
+    }
+
+    @Test
+    public void getTranslations_withParameterCalledWithCorrectUrl_callsCorrectUrl() {
+
+        //Arrange
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new MetadataApiClientImplementation(mockedClient);
+
+        //Act
+        client.getTranslations(new GetTranslationsRequest(List.of(1), List.of(2), List.of(3), List.of(4), List.of(5), List.of(6)));
+
+        //Assert
+        verify(mockedClient).postRequest(any(), any(), eq("Translation/Get"));
     }
 }

@@ -18,6 +18,7 @@ import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.request
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
 import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClientFactory;
 
@@ -72,6 +73,9 @@ public class MetadataApiExampleApplication {
         this.executeSynchronous("Sync GetMarkets with parameters",
             new GetMarketsRequest(List.of(6046, 48242), List.of(22, 161), null, null, false, MarketType.STANDARD, null),
             request -> client.getMarkets(request));
+        this.executeSynchronous("Sync GetTranslations with parameters",
+            new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
+            request -> client.getTranslations(request));
     }
 
     private void asynchronousExample(URI baseUri, PackageCredentials credentials) {
@@ -96,6 +100,9 @@ public class MetadataApiExampleApplication {
         this.executeAsynchronous("Async GetMarkets with parameters",
             new GetMarketsRequest(List.of(6046, 48242), List.of(22, 161), null, null, false, MarketType.STANDARD, null),
             request -> client.getMarkets(request));
+        this.executeAsynchronous("Async GetTranslations with parameters",
+            new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
+            request -> client.getTranslations(request));
     }
 
     private <R> void executeSynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
