@@ -3,6 +3,7 @@ package com.lsports.trade360_java_sdk.customers_api;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.CompetitionSubscription;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.LeagueSubscription;
+import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.Suspension;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.requests.*;
 import org.junit.Test;
 import java.util.Arrays;
@@ -155,5 +156,54 @@ public class SubscriptionApiClientImplementationTests {
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Outright/UnSubscribe"));
     }
+
+    @Test
+    public void GetAllManualSuspensions_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+        //Arrange
+
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new SubscriptionApiClientImplementation(mockedClient);
+
+        //Act
+        var result = client.GetAllManualSuspensions();
+
+        //Assert
+        verify(mockedClient).postRequest( any(), eq("Markets/ManualSuspension/GetAll"));
+    }
+
+    @Test
+    public void AddManualSuspension_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+        //Arrange
+
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new SubscriptionApiClientImplementation(mockedClient);
+        var mockedSuspension = mock(Suspension.class);
+        List<Suspension> suspensions = Arrays.asList(mockedSuspension);
+        var request = new ChangeManualSuspensionRequest(suspensions);
+
+        //Act
+        var result = client.AddManualSuspension(request);
+
+        //Assert
+        verify(mockedClient).postRequest(any(), any(), eq("Markets/ManualSuspension/Activate"));
+    }
+
+    @Test
+    public void RemoveManualSuspension_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+        //Arrange
+
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new SubscriptionApiClientImplementation(mockedClient);
+        var mockedSuspension = mock(Suspension.class);
+        List<Suspension> suspensions = Arrays.asList(mockedSuspension);
+        var request = new ChangeManualSuspensionRequest(suspensions);
+
+        //Act
+        var result = client.RemoveManualSuspension(request);
+
+        //Assert
+        verify(mockedClient).postRequest(any(), any(), eq("Markets/ManualSuspension/Deactivate"));
+    }
+
 
 }
