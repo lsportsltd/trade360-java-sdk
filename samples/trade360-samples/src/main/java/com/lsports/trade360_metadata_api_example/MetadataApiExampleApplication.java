@@ -14,6 +14,7 @@ import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
 import com.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
@@ -76,6 +77,9 @@ public class MetadataApiExampleApplication {
         this.executeSynchronous("Sync GetTranslations with parameters",
             new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
             request -> client.getTranslations(request));
+        this.executeSynchronous("Sync GetCompetitions with parameters",
+            new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
+            request -> client.getCompetitions(request));
     }
 
     private void asynchronousExample(URI baseUri, PackageCredentials credentials) {
@@ -103,6 +107,9 @@ public class MetadataApiExampleApplication {
         this.executeAsynchronous("Async GetTranslations with parameters",
             new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
             request -> client.getTranslations(request));
+        this.executeAsynchronous("Async GetCompetitions with parameters",
+            new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
+            request -> client.getCompetitions(request));
     }
 
     private <R> void executeSynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
@@ -149,6 +156,7 @@ public class MetadataApiExampleApplication {
             .subscribe(
                 response -> {
                     try {
+                        System.out.println("--------------------------------");
                         System.out.println("[" + exampleName + "] - Got response: " + jsonMapper.writeValueAsString(response));
                     } catch (JsonProcessingException ex) {
                         System.err.println("Unhandled exception: " + ex.getMessage());
