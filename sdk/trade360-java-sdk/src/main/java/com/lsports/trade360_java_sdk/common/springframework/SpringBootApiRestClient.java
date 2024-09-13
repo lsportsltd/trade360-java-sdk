@@ -1,6 +1,8 @@
 package com.lsports.trade360_java_sdk.common.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;

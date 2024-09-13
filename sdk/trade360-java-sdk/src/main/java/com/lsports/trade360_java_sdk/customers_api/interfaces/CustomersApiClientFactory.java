@@ -4,7 +4,7 @@ import java.net.URI;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.customers_api.PackageDistributionApiClientImplementation;
 
-public interface CustomersApiClient {
+public interface CustomersApiClientFactory {
     PackageDistributionApiClientImplementation createPackageDistributionHttpClient(URI baseUrl, PackageCredentials packageCredentials);
 
     MetadataApiClient createMetadataHttpClient(URI baseUrl, PackageCredentials packageCredentials);

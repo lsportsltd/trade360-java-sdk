@@ -8,7 +8,7 @@ import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.bas
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.LeagueSubscription;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.Suspension;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.requests.*;
-import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClient;
+import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,10 +21,10 @@ import java.util.function.Supplier;
 
 @SpringBootApplication
 public class CustomerApiExampleApplication {
-    private final CustomersApiClient apiClientFactory;
+    private final CustomersApiClientFactory apiClientFactory;
     private JsonApiSerializer jsonApiSerializer;
 
-    public CustomerApiExampleApplication(CustomersApiClient factory) {
+    public CustomerApiExampleApplication(CustomersApiClientFactory factory) {
         apiClientFactory = factory;
     }
 

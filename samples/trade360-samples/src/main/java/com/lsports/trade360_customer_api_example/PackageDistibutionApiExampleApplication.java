@@ -4,7 +4,7 @@ import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
-import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClient;
+import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,10 +15,10 @@ import java.util.function.Supplier;
 
 @SpringBootApplication
 public class PackageDistibutionApiExampleApplication {
-    private final CustomersApiClient apiClientFactory;
+    private final CustomersApiClientFactory apiClientFactory;
     private JsonApiSerializer jsonApiSerializer;
 
-    public PackageDistibutionApiExampleApplication(CustomersApiClient factory) {
+    public PackageDistibutionApiExampleApplication(CustomersApiClientFactory factory) {
         apiClientFactory = factory;
     }
 
