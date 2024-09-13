@@ -37,7 +37,7 @@ public class MetadataApiExampleApplication {
 
     @PostConstruct
     public void run() {
-        var packageSettings = new PackageCredentials(0, "userName", "password");
+        var packageSettings = new PackageCredentials(4, "1", "Tests1234");
 
         this.synchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
         this.asynchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);

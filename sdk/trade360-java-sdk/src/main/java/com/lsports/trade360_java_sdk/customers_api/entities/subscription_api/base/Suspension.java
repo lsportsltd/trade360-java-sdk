@@ -4,13 +4,12 @@ import jakarta.annotation.Nullable;
 
 import java.time.LocalDateTime;
 
-public class Suspension {
-
-    public Boolean succeeded;
-    public int sportId;
-    @Nullable public Integer locationId; // Nullable to handle missing values
-    public int competitionId;
-    @Nullable public Integer fixtureId; // Nullable to handle missing values
-    public LocalDateTime creationDate;
-    @Nullable public Iterable<Market> markets;
+public record Suspension(
+    Boolean succeeded,
+    int sportId,
+    @Nullable Integer locationId, // Nullable to handle missing values
+    int competitionId,
+    @Nullable Integer fixtureId, // Nullable to handle missing values
+    LocalDateTime creationDate,
+    @Nullable Iterable<Market> markets) {
 }

@@ -5,11 +5,13 @@ import com.lsports.trade360_java_sdk.common.springframework.SpringBootApiRestCli
 import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.customers_api.MetadataApiClientImplementation;
 import com.lsports.trade360_java_sdk.customers_api.PackageDistributionApiClientImplementation;
+import com.lsports.trade360_java_sdk.customers_api.SubscriptionApiClientImplementation;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClient;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.MetadataApiClient;
 
 import java.net.URI;
 
+import com.lsports.trade360_java_sdk.customers_api.interfaces.SubscriptionApiClient;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class SpringBootCustomersApiClient implements CustomersApiClient {
@@ -29,6 +31,12 @@ public class SpringBootCustomersApiClient implements CustomersApiClient {
     public MetadataApiClient createMetadataHttpClient(URI baseUrl, PackageCredentials packageCredentials) {
         var client = this.createInternalClient(baseUrl, packageCredentials);
         return new MetadataApiClientImplementation(client);
+    }
+
+    @Override
+    public SubscriptionApiClient createSubscriptionApiHttpClient(URI baseUrl, PackageCredentials packageCredentials) {
+        var client = this.createInternalClient(baseUrl, packageCredentials);
+        return new SubscriptionApiClientImplementation(client);
     }
 
     private SpringBootApiRestClient createInternalClient(URI baseUrl, PackageCredentials packageCredentials) {
