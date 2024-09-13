@@ -34,7 +34,7 @@ public class CustomerApiExampleApplication {
 
     @PostConstruct
     public void run() {
-        var packageSettings = new PackageCredentials(2, "1", "Tests1234");
+        var packageSettings = new PackageCredentials(0, "UserName", "Password");
         this.jsonApiSerializer = new JacksonApiSerializer(packageSettings);
 
         this.synchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
