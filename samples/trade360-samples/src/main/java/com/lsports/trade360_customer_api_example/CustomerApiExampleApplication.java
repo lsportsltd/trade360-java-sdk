@@ -9,12 +9,9 @@ import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.bas
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.Suspension;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.requests.*;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClient;
-import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClient;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -33,11 +30,6 @@ public class CustomerApiExampleApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CustomerApiExampleApplication.class, args);
-    }
-
-    @Bean
-    public static CustomersApiClient configureSnapshotApiClientFactory(WebClient.Builder webClientBuilder) {
-        return new SpringBootCustomersApiClient(webClientBuilder);
     }
 
     @PostConstruct
@@ -85,10 +77,10 @@ public class CustomerApiExampleApplication {
         this.executeSynchronous("Sync GetAllManualSuspensions without parameters",
                 () -> client.GetAllManualSuspensions());
         this.executeSynchronous("Sync AddManualSuspension with parameters",
-                new ChangeManualSuspensionRequest(List.of(new Suspension(true,1,1,1,1,null , null))),
+                new ChangeManualSuspensionRequest(List.of(new Suspension(true,1,1,1,1,LocalDateTime.now(), null))),
                 request -> client.AddManualSuspension(request));
         this.executeSynchronous("Sync RemoveManualSuspension with parameters",
-                new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1,null , null))),
+                new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1,LocalDateTime.now(), null))),
                 request -> client.RemoveManualSuspension(request));
     }
 
