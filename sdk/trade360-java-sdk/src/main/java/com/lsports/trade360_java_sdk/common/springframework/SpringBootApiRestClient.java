@@ -92,6 +92,10 @@ public class SpringBootApiRestClient implements ApiRestClient {
 
     private <Res> void handleResponse(TypeReference<Res> responseTypeReference, JsonNode parsedResponse, SynchronousSink<Res> sink) {
         try {
+            if (parsedResponse == null) {
+                throw new Trade360Exception("No correct response received. Ensure that correct Trade360 URL is configured.");
+            }
+
             if (!parsedResponse.has("Header")) {
                 throw new Trade360Exception("'Header' property is missing. Please, ensure that you use the correct URL.");
             }
