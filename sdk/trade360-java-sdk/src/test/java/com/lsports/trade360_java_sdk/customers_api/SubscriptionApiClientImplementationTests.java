@@ -39,7 +39,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new GetFixtureScheduleRequest(dumpList, dumpList, dumpList );
 
         //Act
-        var result = client.GetInPlayFixtureSchedule(request);
+        client.GetInPlayFixtureSchedule(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Fixtures/InPlaySchedule") );
@@ -55,7 +55,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new FixtureSubscriptionRequest(dumpList);
 
         //Act
-        var result = client.SubscribeByFixture(request);
+        client.SubscribeByFixture(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Fixtures/Subscribe"));
@@ -71,7 +71,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new FixtureSubscriptionRequest(dumpList);
 
         //Act
-        var result = client.UnSubscribeByFixture(request);
+        client.UnSubscribeByFixture(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Fixtures/UnSubscribe"));
@@ -87,7 +87,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new LeagueSubscriptionRequest(leagueSubscriptions);
 
         //Act
-        var result = client.SubscribeByLeague(request);
+        client.SubscribeByLeague(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Leagues/Subscribe"));
@@ -103,7 +103,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new LeagueSubscriptionRequest(leagueSubscriptions);
 
         //Act
-        var result = client.UnSubscribeByLeague(request);
+        client.UnSubscribeByLeague(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Leagues/UnSubscribe"));
@@ -135,7 +135,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new CompetitionSubscriptionRequest(leagueSubscriptions);
 
         //Act
-        var result = client.SubscribeByCompetition(request);
+        client.SubscribeByCompetition(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Outright/Subscribe"));
@@ -151,7 +151,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new CompetitionSubscriptionRequest(leagueSubscriptions);
 
         //Act
-        var result = client.UnSubscribeByCompetition(request);
+        client.UnSubscribeByCompetition(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Outright/UnSubscribe"));
@@ -165,7 +165,7 @@ public class SubscriptionApiClientImplementationTests {
         var client = new SubscriptionApiClientImplementation(mockedClient);
 
         //Act
-        var result = client.GetAllManualSuspensions();
+        client.GetAllManualSuspensions();
 
         //Assert
         verify(mockedClient).postRequest( any(), eq("Markets/ManualSuspension/GetAll"));
@@ -182,7 +182,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new ChangeManualSuspensionRequest(suspensions);
 
         //Act
-        var result = client.AddManualSuspension(request);
+        client.AddManualSuspension(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Markets/ManualSuspension/Activate"));
@@ -199,7 +199,7 @@ public class SubscriptionApiClientImplementationTests {
         var request = new ChangeManualSuspensionRequest(suspensions);
 
         //Act
-        var result = client.RemoveManualSuspension(request);
+        client.RemoveManualSuspension(request);
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Markets/ManualSuspension/Deactivate"));
