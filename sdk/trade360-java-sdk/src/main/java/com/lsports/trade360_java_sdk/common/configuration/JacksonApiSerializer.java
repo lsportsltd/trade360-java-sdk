@@ -37,6 +37,10 @@ public class JacksonApiSerializer implements JsonApiSerializer {
     @Override
     public <R> ObjectNode serialize(R request) {
         ObjectNode jsonObject = this.jsonMapper.valueToTree(request);
+        if(this.packageCredentials == null) {
+            return jsonObject;
+        }
+        
         jsonObject.put("PackageId", this.packageCredentials.packageId());
         jsonObject.put("UserName", this.packageCredentials.userName());
         jsonObject.put("Password", this.packageCredentials.password());

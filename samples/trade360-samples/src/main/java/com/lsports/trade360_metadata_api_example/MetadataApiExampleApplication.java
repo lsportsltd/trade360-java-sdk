@@ -2,10 +2,8 @@ package com.lsports.trade360_metadata_api_example;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.springframework.boot.SpringApplication;
@@ -53,7 +51,7 @@ public class MetadataApiExampleApplication {
     @PostConstruct
     public void run() {
         var packageSettings = new PackageCredentials(4, "1", "Tests1234");
-        this.jsonApiSerializer = new JacksonApiSerializer(packageSettings);
+        this.jsonApiSerializer = new JacksonApiSerializer(null);
 
         this.synchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
         this.asynchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
