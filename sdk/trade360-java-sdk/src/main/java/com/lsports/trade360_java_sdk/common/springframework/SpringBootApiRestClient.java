@@ -1,6 +1,7 @@
 package com.lsports.trade360_java_sdk.common.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
@@ -28,7 +29,6 @@ public class SpringBootApiRestClient implements ApiRestClient {
             .baseUrl(baseUrl.toString())
             .codecs(config -> {
                 this.serializer.configureWebClientCodecs(config);
-                config.defaultCodecs().maxInMemorySize(1024 * 1024 * 16);
             })
             .defaultHeaders(t -> {
                 t.setContentType(MediaType.APPLICATION_JSON);
@@ -45,7 +45,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
             .body(BodyInserters.fromValue(this.serializer.serialize(requestBody)))
             .retrieve()
             .onStatus(HttpStatusCode::isError, res -> this.createErrorMono(res))
-            .bodyToMono(String.class)
+            .bodyToMono(JsonNode.class)
             .handle((responseJson, sink) -> this.handleResponse(responseTypeReference, responseJson, sink));
     }
 
@@ -57,7 +57,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
             .body(BodyInserters.fromValue(this.serializer.serialize(new Object())))
             .retrieve()
             .onStatus(HttpStatusCode::isError, res -> this.createErrorMono(res))
-            .bodyToMono(String.class)
+            .bodyToMono(JsonNode.class)
             .handle((responseJson, sink) -> this.handleResponse(responseTypeReference, responseJson, sink));
     }
 
@@ -78,7 +78,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
                 .build())
             .retrieve()
             .onStatus(HttpStatusCode::isError, res -> this.createErrorMono(res))
-            .bodyToMono(String.class)
+            .bodyToMono(JsonNode.class)
             .handle((responseJson, sink) -> this.handleResponse(responseTypeReference, responseJson, sink));
     }
 
@@ -90,14 +90,8 @@ public class SpringBootApiRestClient implements ApiRestClient {
         return params;
     }
 
-    private <Res> void handleResponse(TypeReference<Res> responseTypeReference, String responseJson, SynchronousSink<Res> sink) {
+    private <Res> void handleResponse(TypeReference<Res> responseTypeReference, JsonNode parsedResponse, SynchronousSink<Res> sink) {
         try {
-            if (responseJson == null) {
-                throw new Trade360Exception("No correct response received. Ensure that correct Trade360 URL is configured.");
-            }
-
-            var parsedResponse = this.serializer.deserializeToTree(responseJson);
-
             if (!parsedResponse.has("Header")) {
                 throw new Trade360Exception("'Header' property is missing. Please, ensure that you use the correct URL.");
             }
