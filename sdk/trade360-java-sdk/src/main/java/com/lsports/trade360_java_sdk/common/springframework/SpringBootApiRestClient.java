@@ -86,12 +86,12 @@ public class SpringBootApiRestClient implements ApiRestClient {
 
 
     private Mono<Throwable> createErrorMono(ClientResponse response) {
-        return ExtractErrorMessage(response).flatMap(errorMessage ->
+        return extractErrorMessage(response).flatMap(errorMessage ->
                 Mono.error(new Trade360Exception("Request failed because of " + response.statusCode() + errorMessage))
         );
     }
 
-    private Mono<String> ExtractErrorMessage(ClientResponse response) {
+    private Mono<String> extractErrorMessage(ClientResponse response) {
         return response.bodyToMono(String.class).map(body -> {
             StringBuilder errorMessage = new StringBuilder(" Errors: ");
             try {
