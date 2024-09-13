@@ -7,27 +7,27 @@ import reactor.core.publisher.Mono;
 
 public interface SubscriptionApiClient {
 
-    Mono<PackageQuotaResponse> GetPackageQuota();
+    Mono<PackageQuotaResponse> getPackageQuota();
 
-    Mono<FixtureScheduleCollectionResponse> GetInPlayFixtureSchedule(GetFixtureScheduleRequest request);
+    Mono<FixtureScheduleCollectionResponse> getInPlayFixtureSchedule(GetFixtureScheduleRequest request);
 
-    Mono<FixtureSubscriptionCollectionResponse> SubscribeByFixture(FixtureSubscriptionRequest request);
+    Mono<FixtureSubscriptionCollectionResponse> subscribeByFixture(FixtureSubscriptionRequest request);
 
-    Mono<FixtureSubscriptionCollectionResponse> UnSubscribeByFixture(FixtureSubscriptionRequest request);
+    Mono<FixtureSubscriptionCollectionResponse> unSubscribeByFixture(FixtureSubscriptionRequest request);
 
-    Mono<LeagueSubscriptionCollectionResponse> SubscribeByLeague(LeagueSubscriptionRequest request);
+    Mono<LeagueSubscriptionCollectionResponse> subscribeByLeague(LeagueSubscriptionRequest request);
 
-    Mono<LeagueSubscriptionCollectionResponse> UnSubscribeByLeague(LeagueSubscriptionRequest request);
+    Mono<LeagueSubscriptionCollectionResponse> unSubscribeByLeague(LeagueSubscriptionRequest request);
 
-    Mono<GetSubscriptionResponse> GetSubscriptions(GetSubscriptionRequest request);
+    Mono<GetSubscriptionResponse> getSubscriptions(GetSubscriptionRequest request);
 
-    Mono<CompetitionSubscriptionCollectionResponse> SubscribeByCompetition(CompetitionSubscriptionRequest requestDt);
+    Mono<CompetitionSubscriptionCollectionResponse> subscribeByCompetition(CompetitionSubscriptionRequest requestDt);
 
-    Mono<CompetitionSubscriptionCollectionResponse> UnSubscribeByCompetition(CompetitionSubscriptionRequest request);
+    Mono<CompetitionSubscriptionCollectionResponse> unSubscribeByCompetition(CompetitionSubscriptionRequest request);
 
-    Mono<GetManualSuspensionResponse> GetAllManualSuspensions();
+    Mono<GetManualSuspensionResponse> getAllManualSuspensions();
 
-    Mono<ChangeManualSuspensionResponse> AddManualSuspension(ChangeManualSuspensionRequest request);
+    Mono<ChangeManualSuspensionResponse> addManualSuspension(ChangeManualSuspensionRequest request);
 
-    Mono<ChangeManualSuspensionResponse> RemoveManualSuspension(ChangeManualSuspensionRequest request);
+    Mono<ChangeManualSuspensionResponse> removeManualSuspension(ChangeManualSuspensionRequest request);
 }

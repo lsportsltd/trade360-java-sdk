@@ -17,7 +17,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<PackageQuotaResponse> GetPackageQuota() {
+    public Mono<PackageQuotaResponse> getPackageQuota() {
         return this.client
                 .postRequest(
                         new TypeReference<PackageQuotaResponse>() {},
@@ -25,7 +25,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<FixtureScheduleCollectionResponse> GetInPlayFixtureSchedule(GetFixtureScheduleRequest request) {
+    public Mono<FixtureScheduleCollectionResponse> getInPlayFixtureSchedule(GetFixtureScheduleRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -35,7 +35,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<FixtureSubscriptionCollectionResponse> SubscribeByFixture(FixtureSubscriptionRequest request) {
+    public Mono<FixtureSubscriptionCollectionResponse> subscribeByFixture(FixtureSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -45,7 +45,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<FixtureSubscriptionCollectionResponse> UnSubscribeByFixture(FixtureSubscriptionRequest request) {
+    public Mono<FixtureSubscriptionCollectionResponse> unSubscribeByFixture(FixtureSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -55,7 +55,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<LeagueSubscriptionCollectionResponse> SubscribeByLeague(LeagueSubscriptionRequest request) {
+    public Mono<LeagueSubscriptionCollectionResponse> subscribeByLeague(LeagueSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -65,7 +65,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<LeagueSubscriptionCollectionResponse> UnSubscribeByLeague(LeagueSubscriptionRequest request) {
+    public Mono<LeagueSubscriptionCollectionResponse> unSubscribeByLeague(LeagueSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -75,7 +75,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<GetSubscriptionResponse> GetSubscriptions(GetSubscriptionRequest request) {
+    public Mono<GetSubscriptionResponse> getSubscriptions(GetSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -85,7 +85,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<CompetitionSubscriptionCollectionResponse> SubscribeByCompetition(CompetitionSubscriptionRequest request) {
+    public Mono<CompetitionSubscriptionCollectionResponse> subscribeByCompetition(CompetitionSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -95,7 +95,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<CompetitionSubscriptionCollectionResponse> UnSubscribeByCompetition(CompetitionSubscriptionRequest request) {
+    public Mono<CompetitionSubscriptionCollectionResponse> unSubscribeByCompetition(CompetitionSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -105,7 +105,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<GetManualSuspensionResponse> GetAllManualSuspensions() {
+    public Mono<GetManualSuspensionResponse> getAllManualSuspensions() {
         return this.client
                 .postRequest(
                         new TypeReference<GetManualSuspensionResponse>() {},
@@ -114,7 +114,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<ChangeManualSuspensionResponse> AddManualSuspension(ChangeManualSuspensionRequest request) {
+    public Mono<ChangeManualSuspensionResponse> addManualSuspension(ChangeManualSuspensionRequest request) {
         return this.client
                 .postRequest(
                         request,
@@ -124,7 +124,7 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
     }
 
     @Override
-    public Mono<ChangeManualSuspensionResponse> RemoveManualSuspension(ChangeManualSuspensionRequest request) {
+    public Mono<ChangeManualSuspensionResponse> removeManualSuspension(ChangeManualSuspensionRequest request) {
         return this.client
                 .postRequest(
                         request,
