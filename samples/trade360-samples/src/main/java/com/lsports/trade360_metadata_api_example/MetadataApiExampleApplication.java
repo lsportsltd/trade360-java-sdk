@@ -1,24 +1,30 @@
 package com.lsports.trade360_metadata_api_example;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
 import com.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesMetadataRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
 import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClientFactory;
@@ -29,6 +35,7 @@ import reactor.core.publisher.Mono;
 @SpringBootApplication
 public class MetadataApiExampleApplication {
     private final CustomersApiClientFactory apiClientFactory;
+    private JsonApiSerializer jsonApiSerializer;
 
     public MetadataApiExampleApplication(CustomersApiClientFactory factory) {
         apiClientFactory = factory;
@@ -45,7 +52,8 @@ public class MetadataApiExampleApplication {
 
     @PostConstruct
     public void run() {
-        var packageSettings = new PackageCredentials(0, "userName", "password");
+        var packageSettings = new PackageCredentials(4, "1", "Tests1234");
+        this.jsonApiSerializer = new JacksonApiSerializer(packageSettings);
 
         this.synchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
         this.asynchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
@@ -80,6 +88,12 @@ public class MetadataApiExampleApplication {
         this.executeSynchronous("Sync GetCompetitions with parameters",
             new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
             request -> client.getCompetitions(request));
+        this.executeSynchronous("Sync GetSubscribedFixtures with parameters",
+            new GetSubscribedFixturesRequest(List.of(6046, 48242), List.of(22, 161), null),
+            request -> client.getSubscribedFixtures(request));
+        this.executeSynchronous("Sync GetSubscribedFixturesMetadata with parameters",
+            new GetSubscribedFixturesMetadataRequest(LocalDate.now(ZoneId.of("UTC")), LocalDate.now(ZoneId.of("UTC"))),
+            request -> client.getSubscribedFixturesMetadata(request));
     }
 
     private void asynchronousExample(URI baseUri, PackageCredentials credentials) {
@@ -110,6 +124,12 @@ public class MetadataApiExampleApplication {
         this.executeAsynchronous("Async GetCompetitions with parameters",
             new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
             request -> client.getCompetitions(request));
+        this.executeAsynchronous("Async GetSubscribedFixtures with parameters",
+            new GetSubscribedFixturesRequest(List.of(6046, 48242), List.of(22, 161), null),
+            request -> client.getSubscribedFixtures(request));
+        this.executeAsynchronous("Async GetSubscribedFixturesMetadata with parameters",
+            new GetSubscribedFixturesMetadataRequest(LocalDate.now(ZoneId.of("UTC")), LocalDate.now(ZoneId.of("UTC"))),
+            request -> client.getSubscribedFixturesMetadata(request));
     }
 
     private <R> void executeSynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
@@ -119,15 +139,14 @@ public class MetadataApiExampleApplication {
     private <T, R> void executeSynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
         System.out.println("--------------------------------");
         try {
-            var jsonMapper = new ObjectMapper();
             if (request == null) {
                 System.out.println("[" + exampleName + "] - Executing request");
             } else {
-                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + jsonMapper.writeValueAsString(request));
+                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serialize(request));
             }
             var responseMono = executeFunction.apply(request);
             var response = responseMono.block();
-            System.out.println("Response received: " + jsonMapper.writeValueAsString(response));
+            System.out.println("Response received: " + this.jsonApiSerializer.serialize(response));
         } catch (Trade360Exception ex) {
             System.err.println("Failed: " + ex.getMessage());
         } catch (Exception ex) {
@@ -140,27 +159,18 @@ public class MetadataApiExampleApplication {
     }
 
     private <T, R> void executeAsynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
-        var jsonMapper = new ObjectMapper();
         System.out.println("--------------------------------");
         if (request == null) {
             System.out.println("[" + exampleName + "] - Executing request");
         } else {
-            try {
-                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + jsonMapper.writeValueAsString(request));
-            } catch (JsonProcessingException ex) {
-                System.err.println("Unhandled exception: " + ex.getMessage());
-            }
+            System.out.println("[" + exampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serialize(request));
         }
         var responseMono = executeFunction.apply(request);
         responseMono
             .subscribe(
                 response -> {
-                    try {
-                        System.out.println("--------------------------------");
-                        System.out.println("[" + exampleName + "] - Got response: " + jsonMapper.writeValueAsString(response));
-                    } catch (JsonProcessingException ex) {
-                        System.err.println("Unhandled exception: " + ex.getMessage());
-                    }
+                    System.out.println("--------------------------------");
+                    System.out.println("[" + exampleName + "] - Got response: " + this.jsonApiSerializer.serialize(response));
                 },
                 exception -> System.err.println("Failed: " + exception.getMessage()));
     }

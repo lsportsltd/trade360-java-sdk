@@ -35,7 +35,7 @@ public class JacksonApiSerializer implements JsonApiSerializer {
     }
 
     @Override
-    public <R> Object serialize(R request) {
+    public <R> ObjectNode serialize(R request) {
         ObjectNode jsonObject = this.jsonMapper.valueToTree(request);
         jsonObject.put("PackageId", this.packageCredentials.packageId());
         jsonObject.put("UserName", this.packageCredentials.userName());
@@ -53,6 +53,11 @@ public class JacksonApiSerializer implements JsonApiSerializer {
     @Override
     public <T> T deserializeToValue(JsonParser jsonParser, TypeReference<T> valueTypeRef) throws IOException {
         return this.jsonMapper.readValue(jsonParser, valueTypeRef);
+    }
+
+    @Override
+    public <T, R> R convertValue(T fromValue, TypeReference<R> valueTypeRef) {
+        return this.jsonMapper.convertValue(fromValue, valueTypeRef);
     }
 
     @Override

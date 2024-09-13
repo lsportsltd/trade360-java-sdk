@@ -1,27 +1,28 @@
 package com.lsports.trade360_java_sdk.common.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
-
+import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SynchronousSink;
-
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 public class SpringBootApiRestClient implements ApiRestClient {
     private final WebClient client;
-    private final JacksonApiSerializer serializer;
+    private final JsonApiSerializer serializer;
 
-    public SpringBootApiRestClient(WebClient.Builder builder, JacksonApiSerializer serializer, URI baseUrl) {
+    public SpringBootApiRestClient(WebClient.Builder builder, JsonApiSerializer serializer, URI baseUrl) {
         this.serializer = serializer;
         this.client = builder
             .baseUrl(baseUrl.toString())
@@ -37,7 +38,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
     }
 
     @Override
-    public <Req, Res> Mono<Res> postRequest(Req requestBody, TypeReference<Res> responseTypeReference, String url) throws Trade360Exception {
+    public <Req, Res> Mono<Res> postRequest(Req requestBody, TypeReference<Res> responseTypeReference, String url) {
         return this.client
             .post()
             .uri(url)
@@ -49,7 +50,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
     }
 
     @Override
-    public <Res> Mono<Res> postRequest(TypeReference<Res> responseTypeReference, String url) throws Trade360Exception {
+    public <Res> Mono<Res> postRequest(TypeReference<Res> responseTypeReference, String url) {
         return this.client
             .post()
             .uri(url)
@@ -58,6 +59,35 @@ public class SpringBootApiRestClient implements ApiRestClient {
             .onStatus(HttpStatusCode::isError, res -> this.createErrorMono(res))
             .bodyToMono(String.class)
             .handle((responseJson, sink) -> this.handleResponse(responseTypeReference, responseJson, sink));
+    }
+
+    @Override
+    public <Req, Res> Mono<Res> getRequest(Req requestQueryStringObject, TypeReference<Res> responseTypeReference, String url) {
+        MultiValueMap<String, String> queryParams;
+        try {
+            queryParams = this.convertToQueryParams(requestQueryStringObject);
+        } catch (IOException e) {
+            return Mono.error(e);
+        }
+
+        return this.client
+            .get()
+            .uri(urlBuilder -> urlBuilder
+                .path(url)
+                .queryParams(queryParams)
+                .build())
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, res -> this.createErrorMono(res))
+            .bodyToMono(String.class)
+            .handle((responseJson, sink) -> this.handleResponse(responseTypeReference, responseJson, sink));
+    }
+
+    private <Req> MultiValueMap<String, String> convertToQueryParams(Req requestParams) throws IOException {
+        var serialized = this.serializer.serialize(requestParams);
+        Map<String, String> map = this.serializer.deserializeToValue(serialized.traverse(), new TypeReference<Map<String, String>>() {});
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        map.forEach(params::add);
+        return params;
     }
 
     private <Res> void handleResponse(TypeReference<Res> responseTypeReference, String responseJson, SynchronousSink<Res> sink) {
