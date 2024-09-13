@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 public class SubscriptionApiClientImplementationTests {
 
     @Test
-    public void GetPackageQuota_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void getPackageQuota_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -30,7 +30,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void GetInPlayFixtureSchedule_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void getInPlayFixtureSchedule_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -46,7 +46,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void SubscribeByFixture_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void subscribeByFixture_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -62,7 +62,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void UnSubscribeByFixture_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void unSubscribeByFixture_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -78,7 +78,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void SubscribeByLeague_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void subscribeByLeague_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -94,7 +94,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void UnSubscribeByLeague_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void unSubscribeByLeague_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -110,7 +110,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void GetSubscriptions_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void getSubscriptions_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -126,7 +126,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void SubscribeByCompetition_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void subscribeByCompetition_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -142,7 +142,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void UnSubscribeByCompetition_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void unSubscribeByCompetition_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -158,7 +158,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void GetAllManualSuspensions_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void getAllManualSuspensions_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -172,7 +172,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void AddManualSuspension_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void addManualSuspension_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
@@ -189,7 +189,7 @@ public class SubscriptionApiClientImplementationTests {
     }
 
     @Test
-    public void RemoveManualSuspension_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
+    public void removeManualSuspension_parameterlessCalledWithCorrectUrl_callsCorrectUrl(){
         //Arrange
 
         var mockedClient = mock(ApiRestClient.class);
