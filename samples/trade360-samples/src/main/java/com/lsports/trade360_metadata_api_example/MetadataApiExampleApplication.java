@@ -1,6 +1,7 @@
 package com.lsports.trade360_metadata_api_example;
 
 import java.net.URI;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.springframework.boot.SpringApplication;
@@ -10,19 +11,26 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
+import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
+import com.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
-import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClient;
-import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClient;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
+import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
+import com.lsports.trade360_java_sdk.customers_api.springframework.SpringBootCustomersApiClientFactory;
+
 import jakarta.annotation.PostConstruct;
 import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 public class MetadataApiExampleApplication {
-    private final CustomersApiClient apiClientFactory;
+    private final CustomersApiClientFactory apiClientFactory;
 
-    public MetadataApiExampleApplication(CustomersApiClient factory) {
+    public MetadataApiExampleApplication(CustomersApiClientFactory factory) {
         apiClientFactory = factory;
     }
 
@@ -31,13 +39,13 @@ public class MetadataApiExampleApplication {
     }
 
     @Bean
-    public static CustomersApiClient configureSnapshotApiClientFactory(WebClient.Builder webClientBuilder) {
-        return new SpringBootCustomersApiClient(webClientBuilder);
+    public static CustomersApiClientFactory configureSnapshotApiClientFactory(WebClient.Builder webClientBuilder) {
+        return new SpringBootCustomersApiClientFactory(webClientBuilder);
     }
 
     @PostConstruct
     public void run() {
-        var packageSettings = new PackageCredentials(4, "1", "Tests1234");
+        var packageSettings = new PackageCredentials(0, "userName", "password");
 
         this.synchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
         this.asynchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
@@ -60,6 +68,18 @@ public class MetadataApiExampleApplication {
         this.executeSynchronous("Sync GetLocations with parameters",
             new GetLocationsRequest(6),
             request -> client.getLocations(request));
+        this.executeSynchronous("Sync GetLeagues with parameters",
+            new GetLeaguesRequest(List.of(6046, 48242), List.of(22, 161), SubscriptionState.ALL, 6),
+            request -> client.getLeagues(request));
+        this.executeSynchronous("Sync GetMarkets with parameters",
+            new GetMarketsRequest(List.of(6046, 48242), List.of(22, 161), null, null, false, MarketType.STANDARD, null),
+            request -> client.getMarkets(request));
+        this.executeSynchronous("Sync GetTranslations with parameters",
+            new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
+            request -> client.getTranslations(request));
+        this.executeSynchronous("Sync GetCompetitions with parameters",
+            new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
+            request -> client.getCompetitions(request));
     }
 
     private void asynchronousExample(URI baseUri, PackageCredentials credentials) {
@@ -73,11 +93,23 @@ public class MetadataApiExampleApplication {
         this.executeAsynchronous("Async GetSports with parameters",
             new GetSportsRequest(6),
             request -> client.getSports(request));
-        this.executeAsynchronous("Sync GetLocations without parameters",
+        this.executeAsynchronous("Async GetLocations without parameters",
             () -> client.getLocations());
-        this.executeAsynchronous("Sync GetLocations with parameters",
+        this.executeAsynchronous("Async GetLocations with parameters",
             new GetLocationsRequest(6),
             request -> client.getLocations(request));
+        this.executeAsynchronous("Async GetLeagues with parameters",
+            new GetLeaguesRequest(List.of(6046, 48242), List.of(22, 161), SubscriptionState.ALL, 6),
+            request -> client.getLeagues(request));
+        this.executeAsynchronous("Async GetMarkets with parameters",
+            new GetMarketsRequest(List.of(6046, 48242), List.of(22, 161), null, null, false, MarketType.STANDARD, null),
+            request -> client.getMarkets(request));
+        this.executeAsynchronous("Async GetTranslations with parameters",
+            new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
+            request -> client.getTranslations(request));
+        this.executeAsynchronous("Async GetCompetitions with parameters",
+            new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
+            request -> client.getCompetitions(request));
     }
 
     private <R> void executeSynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
@@ -124,6 +156,7 @@ public class MetadataApiExampleApplication {
             .subscribe(
                 response -> {
                     try {
+                        System.out.println("--------------------------------");
                         System.out.println("[" + exampleName + "] - Got response: " + jsonMapper.writeValueAsString(response));
                     } catch (JsonProcessingException ex) {
                         System.err.println("Unhandled exception: " + ex.getMessage());
