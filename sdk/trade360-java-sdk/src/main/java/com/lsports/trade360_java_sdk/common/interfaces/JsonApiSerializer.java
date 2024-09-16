@@ -11,7 +11,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public interface JsonApiSerializer {
-    <R> ObjectNode serialize(R request);
+    <R> ObjectNode serializeRequest(R request);
+
+    <R> String rawSerialize(R request) throws JsonProcessingException;
 
     JsonNode deserializeToTree(String json) throws JsonProcessingException;
 

@@ -8,8 +8,3 @@ public class HeaderResponse {
 
     @Nullable public Iterable<Error> errors;
 }
-
-
-class Error{
-    @Nullable public String message;
-}

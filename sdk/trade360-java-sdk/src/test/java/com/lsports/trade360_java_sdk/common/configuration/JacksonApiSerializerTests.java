@@ -18,7 +18,7 @@ public class JacksonApiSerializerTests {
         "testPassword");
 
     @Test
-    public void serialize_whenEmptyRequestProvided_appendsCredentialsToFinalJson() {
+    public void serializeRequest_whenEmptyRequestProvided_appendsCredentialsToFinalJson() {
         // Arrange
         var serializer = new JacksonApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
@@ -34,7 +34,7 @@ public class JacksonApiSerializerTests {
         );
 
         // Act
-        var result = serializer.serialize(request);
+        var result = serializer.serializeRequest(request);
 
         // Assert
         assertEquals(
@@ -44,7 +44,7 @@ public class JacksonApiSerializerTests {
     }
 
     @Test
-    public void serialize_whenNonEmptyRequestProvided_appendsCredentialsToFinalJson() {
+    public void serializeRequest_whenNonEmptyRequestProvided_appendsCredentialsToFinalJson() {
         // Arrange
         var serializer = new JacksonApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
@@ -60,7 +60,7 @@ public class JacksonApiSerializerTests {
         );
 
         // Act
-        var result = serializer.serialize(request);
+        var result = serializer.serializeRequest(request);
 
         // Assert
         assertEquals(

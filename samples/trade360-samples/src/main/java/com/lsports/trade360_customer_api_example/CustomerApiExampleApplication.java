@@ -1,9 +1,18 @@
 package com.lsports.trade360_customer_api_example;
 
+import com.lsports.base.ApiExampleApplicationBase;
 import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
-import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
-import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
+import com.lsports.trade360_java_sdk.common.entities.enums.MarketType;
+import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesMetadataRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.CompetitionSubscription;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.LeagueSubscription;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.Suspension;
@@ -12,17 +21,16 @@ import com.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClient
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import reactor.core.publisher.Mono;
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @SpringBootApplication
-public class CustomerApiExampleApplication {
+public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
+    private final URI baseUri = URI.create("https://stm-api.lsports.eu");
     private final CustomersApiClientFactory apiClientFactory;
-    private JsonApiSerializer jsonApiSerializer;
 
     public CustomerApiExampleApplication(CustomersApiClientFactory factory) {
         apiClientFactory = factory;
@@ -34,139 +42,217 @@ public class CustomerApiExampleApplication {
 
     @PostConstruct
     public void run() {
-        var packageSettings = new PackageCredentials(0, "UserName", "Password");
-        this.jsonApiSerializer = new JacksonApiSerializer(packageSettings);
-
-        this.synchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
-        this.asynchronousExample(URI.create("https://stm-api.lsports.eu"), packageSettings);
+        var packageCredentials = new PackageCredentials(0, "userName", "password");
+        this.setExampleJsonApiSerializer(new JacksonApiSerializer(packageCredentials));
+        this.subscriptionApiExample(packageCredentials);
+        this.metadataApiExample(packageCredentials);
+        this.packageDistributionApiExample(packageCredentials);
     }
 
-    private void synchronousExample(URI baseUri, PackageCredentials credentials) {
+    private void metadataApiExample(PackageCredentials packageCredentials) {
+        this.synchronousMetadataApiExample(this.baseUri, packageCredentials);
+        this.asynchronousMetadataApiExample(this.baseUri, packageCredentials);
+    }
+
+    private void subscriptionApiExample(PackageCredentials packageCredentials) {
+        this.synchronousSubscriptionApiExample(this.baseUri, packageCredentials);
+        this.asynchronousSubscriptionApiExample(this.baseUri, packageCredentials);
+    }
+
+    private void packageDistributionApiExample(PackageCredentials packageCredentials) {
+        this.synchronousPackageDistributionApiExample(this.baseUri, packageCredentials);
+        this.asynchronousPackageDistributionApiExample(this.baseUri, packageCredentials);
+    }
+
+    private void synchronousPackageDistributionApiExample(URI baseUri, PackageCredentials credentials) {
+        var client = this.apiClientFactory.createPackageDistributionHttpClient(baseUri, credentials);
+
+        System.out.println();
+        System.out.println("============================================");
+        System.out.println("==== SYNCHRONOUS PACKAGE DISTRIBUTION API EXAMPLES: ====");
+
+        this.executeSynchronous("getDistributionStatusAsync without parameters",
+            () -> client.getDistributionStatusAsync());
+        this.executeSynchronous("startDistribution without parameters",
+            () -> client.startDistribution());
+        this.executeSynchronous("stopDistribution without parameters",
+            () -> client.stopDistribution());
+    }
+
+    private void asynchronousPackageDistributionApiExample(URI baseUri, PackageCredentials credentials) {
+        var client = this.apiClientFactory.createPackageDistributionHttpClient(baseUri, credentials);
+
+        System.out.println();
+        System.out.println("===============================================");
+        System.out.println("===== PACKAGE DISTRIBUTION API EXAMPLES: =====");
+
+        this.executeAsynchronous("getDistributionStatusAsync without parameters",
+            () -> client.getDistributionStatusAsync());
+        this.executeAsynchronous("startDistribution without parameters",
+            () -> client.startDistribution());
+        this.executeAsynchronous("stopDistribution without parameters",
+            () -> client.stopDistribution());
+        this.waitForAllAsyncSamples();
+    }
+
+    private void synchronousMetadataApiExample(URI baseUri, PackageCredentials credentials) {
+        var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
+
+        System.out.println();
+        System.out.println("============================================");
+        System.out.println("==== SYNCHRONOUS METADATA API EXAMPLES: ====");
+
+        this.executeSynchronous("GetSports without parameters",
+            () -> client.getSports());
+        this.executeSynchronous("GetSports with parameters",
+            new GetSportsRequest(6),
+            request -> client.getSports(request));
+        this.executeSynchronous("GetLocations without parameters",
+            () -> client.getLocations());
+        this.executeSynchronous("GetLocations with parameters",
+            new GetLocationsRequest(6),
+            request -> client.getLocations(request));
+        this.executeSynchronous("GetLeagues with parameters",
+            new GetLeaguesRequest(List.of(6046, 48242), List.of(22, 161), SubscriptionState.ALL, 6),
+            request -> client.getLeagues(request));
+        this.executeSynchronous("GetMarkets with parameters",
+            new GetMarketsRequest(List.of(6046, 48242), List.of(22, 161), null, null, false, MarketType.STANDARD, null),
+            request -> client.getMarkets(request));
+        this.executeSynchronous("GetTranslations with parameters",
+            new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
+            request -> client.getTranslations(request));
+        this.executeSynchronous("GetCompetitions with parameters",
+            new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
+            request -> client.getCompetitions(request));
+        this.executeSynchronous("GetSubscribedFixtures with parameters",
+            new GetSubscribedFixturesRequest(List.of(6046, 48242), List.of(22, 161), null),
+            request -> client.getSubscribedFixtures(request));
+        this.executeSynchronous("GetSubscribedFixturesMetadata with parameters",
+            new GetSubscribedFixturesMetadataRequest(LocalDate.now(ZoneId.of("UTC")), LocalDate.now(ZoneId.of("UTC"))),
+            request -> client.getSubscribedFixturesMetadata(request));
+    }
+
+    private void asynchronousMetadataApiExample(URI baseUri, PackageCredentials credentials) {
+        var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
+
+        System.out.println();
+        System.out.println("===============================================");
+        System.out.println("===== ASYNCHRONOUS METADATA API EXAMPLES: =====");
+        this.executeAsynchronous("GetSports without parameters",
+            () -> client.getSports());
+        this.executeAsynchronous("GetSports with parameters",
+            new GetSportsRequest(6),
+            request -> client.getSports(request));
+        this.executeAsynchronous("GetLocations without parameters",
+            () -> client.getLocations());
+        this.executeAsynchronous("GetLocations with parameters",
+            new GetLocationsRequest(6),
+            request -> client.getLocations(request));
+        this.executeAsynchronous("GetLeagues with parameters",
+            new GetLeaguesRequest(List.of(6046, 48242), List.of(22, 161), SubscriptionState.ALL, 6),
+            request -> client.getLeagues(request));
+        this.executeAsynchronous("GetMarkets with parameters",
+            new GetMarketsRequest(List.of(6046, 48242), List.of(22, 161), null, null, false, MarketType.STANDARD, null),
+            request -> client.getMarkets(request));
+        this.executeAsynchronous("GetTranslations with parameters",
+            new GetTranslationsRequest(List.of(6, 38), List.of(6046, 48242), List.of(22, 161), null, null, null),
+            request -> client.getTranslations(request));
+        this.executeAsynchronous("GetCompetitions with parameters",
+            new GetCompetitionsRequest(List.of(), List.of(22, 161), null, SubscriptionState.ALL),
+            request -> client.getCompetitions(request));
+        this.executeAsynchronous("GetSubscribedFixtures with parameters",
+            new GetSubscribedFixturesRequest(List.of(6046, 48242), List.of(22, 161), null),
+            request -> client.getSubscribedFixtures(request));
+        this.executeAsynchronous("GetSubscribedFixturesMetadata with parameters",
+            new GetSubscribedFixturesMetadataRequest(LocalDate.now(ZoneId.of("UTC")), LocalDate.now(ZoneId.of("UTC"))),
+            request -> client.getSubscribedFixturesMetadata(request));
+        this.waitForAllAsyncSamples();
+    }
+
+    private void synchronousSubscriptionApiExample(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createSubscriptionApiHttpClient(baseUri, credentials);
 
         System.out.println();
         System.out.println("============================================");
-        System.out.println("==== SYNCHRONOUS CUSTOMER API EXAMPLES: ====");
+        System.out.println("==== SYNCHRONOUS SUBSCRIPTION API EXAMPLES: ====");
 
-        this.executeSynchronous("Sync GetPackageQuota without parameters",
+        this.executeSynchronous("GetPackageQuota without parameters",
                 () -> client.getPackageQuota());
-        this.executeSynchronous("Sync GetInPlayFixtureSchedule with parameters",
+        this.executeSynchronous("GetInPlayFixtureSchedule with parameters",
                 new GetFixtureScheduleRequest(List.of(1),List.of(1),List.of(1)),
                 request -> client.getInPlayFixtureSchedule(request));
-        this.executeSynchronous("Sync SubscribeByFixture with parameters",
+        this.executeSynchronous("SubscribeByFixture with parameters",
                 new FixtureSubscriptionRequest(List.of(1)),
                 request-> client.subscribeByFixture(request));
-        this.executeSynchronous("Sync UnSubscribeByFixture with parameters",
+        this.executeSynchronous("UnSubscribeByFixture with parameters",
                 new FixtureSubscriptionRequest(List.of(1)),
                 request -> client.unSubscribeByFixture(request));
-        this.executeSynchronous("Sync SubscribeByLeague with parameters",
+        this.executeSynchronous("SubscribeByLeague with parameters",
                 new LeagueSubscriptionRequest(List.of(new LeagueSubscription(1,1,1))),
                 request -> client.subscribeByLeague(request));
-        this.executeSynchronous("Sync UnSubscribeByFixture with parameters",
+        this.executeSynchronous("UnSubscribeByFixture with parameters",
                 new LeagueSubscriptionRequest(List.of(new LeagueSubscription(1,1,1))),
                 request -> client.unSubscribeByLeague(request));
-        this.executeSynchronous("Sync GetSubscriptions with parameters",
+        this.executeSynchronous("GetSubscriptions with parameters",
                 new GetSubscriptionRequest(List.of(1), List.of(1), List.of(1)),
                 request -> client.getSubscriptions(request));
-        this.executeSynchronous("Sync SubscribeByCompetition with parameters",
+        this.executeSynchronous("SubscribeByCompetition with parameters",
                 new CompetitionSubscriptionRequest(List.of( new CompetitionSubscription(1,1,1))),
                 request -> client.subscribeByCompetition(request));
-        this.executeSynchronous("Sync UnSubscribeByCompetition with parameters",
+        this.executeSynchronous("UnSubscribeByCompetition with parameters",
                 new CompetitionSubscriptionRequest(List.of( new CompetitionSubscription(1,1,1))),
                 request -> client.unSubscribeByCompetition(request));
-        this.executeSynchronous("Sync GetAllManualSuspensions without parameters",
+        this.executeSynchronous("GetAllManualSuspensions without parameters",
                 () -> client.getAllManualSuspensions());
-        this.executeSynchronous("Sync AddManualSuspension with parameters",
+        this.executeSynchronous("AddManualSuspension with parameters",
                 new ChangeManualSuspensionRequest(List.of(new Suspension(true,1,1,1,1,LocalDateTime.now(), null))),
                 request -> client.addManualSuspension(request));
-        this.executeSynchronous("Sync RemoveManualSuspension with parameters",
+        this.executeSynchronous("RemoveManualSuspension with parameters",
                 new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1,LocalDateTime.now(), null))),
                 request -> client.removeManualSuspension(request));
     }
 
-    private void asynchronousExample(URI baseUri, PackageCredentials credentials) {
+    private void asynchronousSubscriptionApiExample(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createSubscriptionApiHttpClient(baseUri, credentials);
 
         System.out.println();
         System.out.println("===============================================");
-        System.out.println("===== ASYNCHRONOUS CUSTOMER API EXAMPLES: =====");
+        System.out.println("===== ASYNCHRONOUS SUBSCRIPTION API EXAMPLES: =====");
 
-        this.executeAsynchronous("Async GetPackageQuota without parameters",
+        this.executeAsynchronous("GetPackageQuota without parameters",
                 () -> client.getPackageQuota());
-        this.executeAsynchronous("Async GetInPlayFixtureSchedule with parameters",
+        this.executeAsynchronous("GetInPlayFixtureSchedule with parameters",
                 new GetFixtureScheduleRequest(List.of(1),List.of(1),List.of(1)),
                 request -> client.getInPlayFixtureSchedule(request));
-        this.executeAsynchronous("Async SubscribeByFixture with parameters",
+        this.executeAsynchronous("SubscribeByFixture with parameters",
                 new FixtureSubscriptionRequest(List.of(1)),
                 request-> client.subscribeByFixture(request));
-        this.executeAsynchronous("Async UnSubscribeByFixture with parameters",
+        this.executeAsynchronous("UnSubscribeByFixture with parameters",
                 new FixtureSubscriptionRequest(List.of(1)),
                 request -> client.unSubscribeByFixture(request));
-        this.executeAsynchronous("Async SubscribeByLeague with parameters",
+        this.executeAsynchronous("SubscribeByLeague with parameters",
                 new LeagueSubscriptionRequest(List.of(new LeagueSubscription(1,1,1))),
                 request -> client.subscribeByLeague(request));
-        this.executeAsynchronous("Async UnSubscribeByFixture with parameters",
+        this.executeAsynchronous("UnSubscribeByFixture with parameters",
                 new LeagueSubscriptionRequest(List.of(new LeagueSubscription(1,1,1))),
                 request -> client.unSubscribeByLeague(request));
-        this.executeAsynchronous("Async GetSubscriptions with parameters",
+        this.executeAsynchronous("GetSubscriptions with parameters",
                 new GetSubscriptionRequest(List.of(1), List.of(1), List.of(1)),
                 request -> client.getSubscriptions(request));
-        this.executeAsynchronous("Async SubscribeByCompetition with parameters",
+        this.executeAsynchronous("SubscribeByCompetition with parameters",
                 new CompetitionSubscriptionRequest(List.of( new CompetitionSubscription(1,1,1))),
                 request -> client.subscribeByCompetition(request));
-        this.executeAsynchronous("Async UnSubscribeByCompetition with parameters",
+        this.executeAsynchronous("UnSubscribeByCompetition with parameters",
                 new CompetitionSubscriptionRequest(List.of( new CompetitionSubscription(1,1,1))),
                 request -> client.unSubscribeByCompetition(request));
-        this.executeAsynchronous("Async GetAllManualSuspensions without parameters",
+        this.executeAsynchronous("GetAllManualSuspensions without parameters",
                 () -> client.getAllManualSuspensions());
-        this.executeAsynchronous("Async AddManualSuspension with parameters",
+        this.executeAsynchronous("AddManualSuspension with parameters",
                 new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, LocalDateTime.now(), null))),
                 request -> client.addManualSuspension(request));
-        this.executeAsynchronous("Async RemoveManualSuspension with parameters",
+        this.executeAsynchronous("RemoveManualSuspension with parameters",
                 new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, LocalDateTime.now(), null))),
                 request -> client.removeManualSuspension(request));
-    }
-
-    private <R> void executeSynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
-        this.executeSynchronous(exampleName, null, request -> executeFunction.get());
-    }
-
-    private <T, R> void executeSynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
-        System.out.println("--------------------------------");
-        try {
-            if (request == null) {
-                System.out.println("[" + exampleName + "] - Executing request");
-            } else {
-                System.out.println("[" + exampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serialize(request));
-            }
-            var responseMono = executeFunction.apply(request);
-            var response = responseMono.block();
-            System.out.println("Response received: " + this.jsonApiSerializer.serialize(response));
-        } catch (Trade360Exception ex) {
-            System.err.println("Failed: " + ex.getMessage());
-        } catch (Exception ex) {
-            System.err.println("Unhandled exception: " + ex.getMessage());
-        }
-    }
-
-    private <R> void executeAsynchronous(String exampleName, Supplier<Mono<R>> executeFunction) {
-        this.executeAsynchronous(exampleName, null, request -> executeFunction.get());
-    }
-
-    private <T, R> void executeAsynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
-        System.out.println("--------------------------------");
-        if (request == null) {
-            System.out.println("[" + exampleName + "] - Executing request");
-        } else {
-            System.out.println("[" + exampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serialize(request));
-        }
-        var responseMono = executeFunction.apply(request);
-        responseMono
-                .subscribe(
-                        response -> {
-                            System.out.println("--------------------------------");
-                            System.out.println("[" + exampleName + "] - Got response: " + this.jsonApiSerializer.serialize(response));
-                        },
-                        exception -> System.err.println("Failed: " + exception.getMessage()));
+        this.waitForAllAsyncSamples();
     }
 }
