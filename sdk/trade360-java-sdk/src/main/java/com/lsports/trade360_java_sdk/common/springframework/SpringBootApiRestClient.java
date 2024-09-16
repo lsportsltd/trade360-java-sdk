@@ -2,6 +2,7 @@ package com.lsports.trade360_java_sdk.common.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
@@ -115,6 +116,26 @@ public class SpringBootApiRestClient implements ApiRestClient {
     }
 
     private Mono<Throwable> createErrorMono(ClientResponse response) {
-        return Mono.error(new Trade360Exception("Request failed because of " + response.statusCode()));
+        return extractErrorMessage(response).flatMap(errorMessage ->
+                Mono.error(new Trade360Exception("Request failed because of " + response.statusCode() + errorMessage))
+        );
+    }
+
+    private Mono<String> extractErrorMessage(ClientResponse response) {
+        return response.bodyToMono(JsonNode.class).map(body -> {
+            StringBuilder errorMessage = new StringBuilder(" Errors: ");
+            try {
+                JsonNode jsonNode = body;
+                if (jsonNode.has("Header") && jsonNode.get("Header").has("Errors")) {
+                    JsonNode errors = jsonNode.get("Header").get("Errors");
+                    errorMessage.append(errors.toString());
+                } else {
+                    errorMessage.append(body);
+                }
+            } catch (Exception e) {
+                errorMessage.append(" Failed to parse errors from response body.");
+            }
+            return errorMessage.toString();
+        });
     }
 }

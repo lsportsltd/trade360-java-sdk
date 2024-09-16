@@ -8,4 +8,6 @@ public interface CustomersApiClientFactory {
     PackageDistributionApiClientImplementation createPackageDistributionHttpClient(URI baseUrl, PackageCredentials packageCredentials);
 
     MetadataApiClient createMetadataHttpClient(URI baseUrl, PackageCredentials packageCredentials);
+
+    SubscriptionApiClient createSubscriptionApiHttpClient(URI baseUrl, PackageCredentials packageCredentials);
 }

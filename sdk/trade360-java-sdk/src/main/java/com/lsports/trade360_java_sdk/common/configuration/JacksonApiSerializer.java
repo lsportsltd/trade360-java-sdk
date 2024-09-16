@@ -1,12 +1,10 @@
 package com.lsports.trade360_java_sdk.common.configuration;
 
 import java.io.IOException;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ClientCodecConfigurer;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,8 +24,10 @@ public class JacksonApiSerializer implements JsonApiSerializer {
         .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
         .configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
+        .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .setSerializationInclusion(Include.NON_NULL);
+
     private final PackageCredentials packageCredentials;
 
     public JacksonApiSerializer(PackageCredentials packageCredentials) {
