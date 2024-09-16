@@ -88,13 +88,13 @@ public abstract class ApiExampleApplicationBase {
     }
 
     protected void waitForAllAsyncSamples(){
-    try {
-        this.asyncBarrierSemaphore.acquire(this.asyncOperationsCount);
-    } catch (InterruptedException e) {
-        System.err.println("Failed to wait for all async operations to finish: " + e.getMessage());
-    }
+        try {
+            this.asyncBarrierSemaphore.acquire(this.asyncOperationsCount);
+        } catch (InterruptedException e) {
+            System.err.println("Failed to wait for all async operations to finish: " + e.getMessage());
+        }
 
-    this.asyncOperationsCount = 0;
-    this.asyncBarrierSemaphore.drainPermits();
-}
+        this.asyncOperationsCount = 0;
+        this.asyncBarrierSemaphore.drainPermits();
+    }
 }
