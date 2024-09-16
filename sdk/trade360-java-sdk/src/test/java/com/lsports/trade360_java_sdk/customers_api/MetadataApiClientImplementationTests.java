@@ -3,7 +3,6 @@ package com.lsports.trade360_java_sdk.customers_api;
 import org.junit.Test;
 
 import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
-import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionStatus;
 import com.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
@@ -11,11 +10,14 @@ import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.request
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesMetadataRequest;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MetadataApiClientImplementationTests {
@@ -130,5 +132,33 @@ public class MetadataApiClientImplementationTests {
 
         //Assert
         verify(mockedClient).postRequest(any(), any(), eq("Outright/GetCompetitions"));
+    }
+
+    @Test
+    public void getSubscribedFixtures_withParameterCalledWithCorrectUrl_callsCorrectUrl() {
+
+        //Arrange
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new MetadataApiClientImplementation(mockedClient);
+
+        //Act
+        client.getSubscribedFixtures(new GetSubscribedFixturesRequest(List.of(1), List.of(2), List.of(3)));
+
+        //Assert
+        verify(mockedClient).postRequest(any(), any(), eq("Fixtures/Get"));
+    }
+
+    @Test
+    public void getSubscribedFixturesMetadata_withParameterCalledWithCorrectUrl_callsCorrectUrl() {
+
+        //Arrange
+        var mockedClient = mock(ApiRestClient.class);
+        var client = new MetadataApiClientImplementation(mockedClient);
+
+        //Act
+        client.getSubscribedFixturesMetadata(new GetSubscribedFixturesMetadataRequest(LocalDate.now(), LocalDate.now()));
+
+        //Assert
+        verify(mockedClient).getRequest(any(), any(), eq("Fixtures/GetSubscribedMetaData"));
     }
 }
