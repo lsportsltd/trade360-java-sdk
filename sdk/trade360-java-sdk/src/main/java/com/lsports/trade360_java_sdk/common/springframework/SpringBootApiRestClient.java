@@ -95,11 +95,10 @@ public class SpringBootApiRestClient implements ApiRestClient {
     }
 
     private Mono<String> extractErrorMessage(ClientResponse response) {
-        return response.bodyToMono(String.class).map(body -> {
+        return response.bodyToMono(JsonNode.class).map(body -> {
             StringBuilder errorMessage = new StringBuilder(" Errors: ");
             try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode jsonNode = objectMapper.readTree(body);
+                JsonNode jsonNode = body;
                 if (jsonNode.has("Header") && jsonNode.get("Header").has("Errors")) {
                     JsonNode errors = jsonNode.get("Header").get("Errors");
                     errorMessage.append(errors.toString());

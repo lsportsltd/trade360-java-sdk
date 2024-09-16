@@ -57,11 +57,11 @@ public class PackageDistibutionApiExampleApplication {
         System.out.println("===============================================");
         System.out.println("===== PACKAGE DISTRIBUTION API EXAMPLES: =====");
 
-        this.executeAsynchronous("Sync getDistributionStatusAsync without parameters",
+        this.executeAsynchronous("Async getDistributionStatusAsync without parameters",
                 () -> client.getDistributionStatusAsync());
-        this.executeAsynchronous("Sync startDistribution without parameters",
+        this.executeAsynchronous("Async startDistribution without parameters",
                 () -> client.startDistribution());
-        this.executeAsynchronous("Sync stopDistribution without parameters",
+        this.executeAsynchronous("Async stopDistribution without parameters",
                 () -> client.stopDistribution());
     }
 

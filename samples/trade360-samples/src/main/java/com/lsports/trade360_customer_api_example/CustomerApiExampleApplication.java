@@ -91,38 +91,38 @@ public class CustomerApiExampleApplication {
         System.out.println("===============================================");
         System.out.println("===== ASYNCHRONOUS CUSTOMER API EXAMPLES: =====");
 
-        this.executeAsynchronous("Sync GetPackageQuota without parameters",
+        this.executeAsynchronous("Async GetPackageQuota without parameters",
                 () -> client.getPackageQuota());
-        this.executeAsynchronous("Sync GetInPlayFixtureSchedule with parameters",
+        this.executeAsynchronous("Async GetInPlayFixtureSchedule with parameters",
                 new GetFixtureScheduleRequest(List.of(1),List.of(1),List.of(1)),
                 request -> client.getInPlayFixtureSchedule(request));
-        this.executeAsynchronous("Sync SubscribeByFixture with parameters",
+        this.executeAsynchronous("Async SubscribeByFixture with parameters",
                 new FixtureSubscriptionRequest(List.of(1)),
                 request-> client.subscribeByFixture(request));
-        this.executeAsynchronous("Sync UnSubscribeByFixture with parameters",
+        this.executeAsynchronous("Async UnSubscribeByFixture with parameters",
                 new FixtureSubscriptionRequest(List.of(1)),
                 request -> client.unSubscribeByFixture(request));
-        this.executeAsynchronous("Sync SubscribeByLeague with parameters",
+        this.executeAsynchronous("Async SubscribeByLeague with parameters",
                 new LeagueSubscriptionRequest(List.of(new LeagueSubscription(1,1,1))),
                 request -> client.subscribeByLeague(request));
-        this.executeAsynchronous("Sync UnSubscribeByFixture with parameters",
+        this.executeAsynchronous("Async UnSubscribeByFixture with parameters",
                 new LeagueSubscriptionRequest(List.of(new LeagueSubscription(1,1,1))),
                 request -> client.unSubscribeByLeague(request));
-        this.executeAsynchronous("Sync GetSubscriptions with parameters",
+        this.executeAsynchronous("Async GetSubscriptions with parameters",
                 new GetSubscriptionRequest(List.of(1), List.of(1), List.of(1)),
                 request -> client.getSubscriptions(request));
-        this.executeAsynchronous("Sync SubscribeByCompetition with parameters",
+        this.executeAsynchronous("Async SubscribeByCompetition with parameters",
                 new CompetitionSubscriptionRequest(List.of( new CompetitionSubscription(1,1,1))),
                 request -> client.subscribeByCompetition(request));
-        this.executeAsynchronous("Sync UnSubscribeByCompetition with parameters",
+        this.executeAsynchronous("Async UnSubscribeByCompetition with parameters",
                 new CompetitionSubscriptionRequest(List.of( new CompetitionSubscription(1,1,1))),
                 request -> client.unSubscribeByCompetition(request));
-        this.executeAsynchronous("Sync GetAllManualSuspensions without parameters",
+        this.executeAsynchronous("Async GetAllManualSuspensions without parameters",
                 () -> client.getAllManualSuspensions());
-        this.executeAsynchronous("Sync AddManualSuspension with parameters",
+        this.executeAsynchronous("Async AddManualSuspension with parameters",
                 new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, LocalDateTime.now(), null))),
                 request -> client.addManualSuspension(request));
-        this.executeAsynchronous("Sync RemoveManualSuspension with parameters",
+        this.executeAsynchronous("Async RemoveManualSuspension with parameters",
                 new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, LocalDateTime.now(), null))),
                 request -> client.removeManualSuspension(request));
     }
