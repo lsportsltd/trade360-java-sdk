@@ -50,7 +50,7 @@ public class JacksonApiSerializer implements JsonApiSerializer {
     }
 
     @Override
-    public <R> String rawSerialize(R request) throws JsonProcessingException{
+    public <R> String serializeToString(R request) throws JsonProcessingException{
         return this.jsonMapper.writeValueAsString(request);
     }
 

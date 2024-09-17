@@ -34,7 +34,7 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
     public void run() {
         var preMatchSettings = new PackageCredentials(0, "userName", "password");
         var inPlaySettings = new PackageCredentials(0, "userName", "password");
-        this.setExampleJsonApiSerializer(new JacksonApiSerializer(preMatchSettings));
+        this.setJsonApiSerializerForExampleOutputs(new JacksonApiSerializer(preMatchSettings));
 
         this.preMatchSynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), preMatchSettings);
         this.inPlaySynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), inPlaySettings);
@@ -99,7 +99,7 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
             () -> preMatchClient.getOutrightLeagues(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
         this.executeAsynchronous("Async Get Outright League Markets",
             () -> preMatchClient.getOutrightLeagueMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.waitForAllAsyncSamples();
+        this.waitForAllAsyncFinish();
     }
 
     private void inPlaySynchronousApi(URI baseUrl, PackageCredentials settings) {
@@ -132,6 +132,6 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
             () -> inPlayClient.getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
         this.executeAsynchronous("Async Get Events",
             () -> inPlayClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.waitForAllAsyncSamples();
+        this.waitForAllAsyncFinish();
     }
 }

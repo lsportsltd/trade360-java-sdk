@@ -43,7 +43,7 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
     @PostConstruct
     public void run() {
         var packageCredentials = new PackageCredentials(0, "userName", "password");
-        this.setExampleJsonApiSerializer(new JacksonApiSerializer(packageCredentials));
+        this.setJsonApiSerializerForExampleOutputs(new JacksonApiSerializer(packageCredentials));
         this.subscriptionApiExample(packageCredentials);
         this.metadataApiExample(packageCredentials);
         this.packageDistributionApiExample(packageCredentials);
@@ -92,7 +92,7 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
             () -> client.startDistribution());
         this.executeAsynchronous("stopDistribution without parameters",
             () -> client.stopDistribution());
-        this.waitForAllAsyncSamples();
+        this.waitForAllAsyncFinish();
     }
 
     private void synchronousMetadataApiExample(URI baseUri, PackageCredentials credentials) {
@@ -166,7 +166,7 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         this.executeAsynchronous("GetSubscribedFixturesMetadata with parameters",
             new GetSubscribedFixturesMetadataRequest(LocalDate.now(ZoneId.of("UTC")), LocalDate.now(ZoneId.of("UTC"))),
             request -> client.getSubscribedFixturesMetadata(request));
-        this.waitForAllAsyncSamples();
+        this.waitForAllAsyncFinish();
     }
 
     private void synchronousSubscriptionApiExample(URI baseUri, PackageCredentials credentials) {
@@ -253,6 +253,6 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         this.executeAsynchronous("RemoveManualSuspension with parameters",
                 new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, LocalDateTime.now(), null))),
                 request -> client.removeManualSuspension(request));
-        this.waitForAllAsyncSamples();
+        this.waitForAllAsyncFinish();
     }
 }
