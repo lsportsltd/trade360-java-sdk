@@ -1,19 +1,7 @@
 package com.lsports.trade360_java_sdk.common.springframework;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
-import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -23,8 +11,20 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.function.Consumer;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.WebClient;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
+import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
 
 public class SpringBootCustomersApiRestClientTests {
     private MockWebServer mockServer;
@@ -111,6 +111,67 @@ public class SpringBootCustomersApiRestClientTests {
             var body = request.getBody().readString(StandardCharsets.UTF_8);
             assertEquals(expectedBody, body);
         });
+    }
+
+    @Test
+    public void postRequest_oneErrorInResponse_isParsedCorrectly() {
+        // Arrange
+        final var errorMessage = "Test error";
+        final var expectedExceptionMessage = "Request failed because of 400 BAD_REQUEST.";
+        final var rawResponse = "{\"Header\":{\"Errors\":[{\"Message\":\"" + errorMessage + "\"}]},\"Body\":[]}";
+
+        var serializer = new JacksonApiSerializer(packageCredentials);
+        var client = new SpringBootApiRestClient(WebClient.builder(), serializer, baseUrl);
+
+        this.prepareResponse(response -> response
+            .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)
+            .setResponseCode(HttpStatus.BAD_REQUEST.value())
+            .setBody(rawResponse));
+        
+        // Act
+        var mono = client.postRequest(
+            new GetSnapshotRequest(null, null, null, null, null, null, null, null, null),
+            new TypeReference<Object>() {},
+            "/");
+
+        // Assert
+        try {
+            mono.block();
+        } catch (Trade360Exception ex) {
+            assertEquals(expectedExceptionMessage, ex.getMessage());
+            assertIterableEquals(List.of(errorMessage), ex.getErrors());
+        }
+    }
+
+    @Test
+    public void postRequest_manyErrorInResponse_isParsedCorrectly() {
+        // Arrange
+        final var errorMessage1 = "Test error";
+        final var errorMessage2 = "Wow, another error!";
+        final var expectedExceptionMessage = "Request failed because of 400 BAD_REQUEST.";
+        final var rawResponse = "{\"Header\":{\"Errors\":[{\"Message\":\"" + errorMessage1 + "\"},{\"Message\":\"" + errorMessage2 + "\"}]},\"Body\":[]}";
+
+        var serializer = new JacksonApiSerializer(packageCredentials);
+        var client = new SpringBootApiRestClient(WebClient.builder(), serializer, baseUrl);
+
+        this.prepareResponse(response -> response
+            .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)
+            .setResponseCode(HttpStatus.BAD_REQUEST.value())
+            .setBody(rawResponse));
+        
+        // Act
+        var mono = client.postRequest(
+            new GetSnapshotRequest(null, null, null, null, null, null, null, null, null),
+            new TypeReference<Object>() {},
+            "/");
+
+        // Assert
+        try {
+            mono.block();
+        } catch (Trade360Exception ex) {
+            assertEquals(expectedExceptionMessage, ex.getMessage());
+            assertIterableEquals(List.of(errorMessage1, errorMessage2), ex.getErrors());
+        }
     }
 
     private void prepareResponse(Consumer<MockResponse> consumer) {

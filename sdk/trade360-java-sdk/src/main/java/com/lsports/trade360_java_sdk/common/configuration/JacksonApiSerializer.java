@@ -35,7 +35,7 @@ public class JacksonApiSerializer implements JsonApiSerializer {
     }
 
     @Override
-    public <R> ObjectNode serialize(R request) {
+    public <R> ObjectNode serializeRequest(R request) {
         ObjectNode jsonObject = this.jsonMapper.valueToTree(request);
         if(this.packageCredentials == null) {
             return jsonObject;
@@ -47,6 +47,11 @@ public class JacksonApiSerializer implements JsonApiSerializer {
         jsonObject.put("MessageFormat", this.packageCredentials.messageFormat());
 
         return jsonObject;
+    }
+
+    @Override
+    public <R> String serializeToString(R request) throws JsonProcessingException{
+        return this.jsonMapper.writeValueAsString(request);
     }
 
     @Override

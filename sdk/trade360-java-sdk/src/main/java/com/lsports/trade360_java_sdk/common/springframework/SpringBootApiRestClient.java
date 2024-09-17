@@ -2,7 +2,7 @@ package com.lsports.trade360_java_sdk.common.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
+import com.lsports.trade360_java_sdk.common.entities.base.Error;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.StreamSupport;
 
 public class SpringBootApiRestClient implements ApiRestClient {
     private final WebClient client;
@@ -43,7 +44,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
         return this.client
             .post()
             .uri(url)
-            .body(BodyInserters.fromValue(this.serializer.serialize(requestBody)))
+            .body(BodyInserters.fromValue(this.serializer.serializeRequest(requestBody)))
             .retrieve()
             .onStatus(HttpStatusCode::isError, res -> this.createErrorMono(res))
             .bodyToMono(JsonNode.class)
@@ -55,7 +56,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
         return this.client
             .post()
             .uri(url)
-            .body(BodyInserters.fromValue(this.serializer.serialize(new Object())))
+            .body(BodyInserters.fromValue(this.serializer.serializeRequest(new Object())))
             .retrieve()
             .onStatus(HttpStatusCode::isError, res -> this.createErrorMono(res))
             .bodyToMono(JsonNode.class)
@@ -84,7 +85,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
     }
 
     private <Req> MultiValueMap<String, String> convertToQueryParams(Req requestParams) throws IOException {
-        var serialized = this.serializer.serialize(requestParams);
+        var serialized = this.serializer.serializeRequest(requestParams);
         Map<String, String> map = this.serializer.deserializeToValue(serialized.traverse(), new TypeReference<Map<String, String>>() {});
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         map.forEach(params::add);
@@ -116,26 +117,31 @@ public class SpringBootApiRestClient implements ApiRestClient {
     }
 
     private Mono<Throwable> createErrorMono(ClientResponse response) {
-        return extractErrorMessage(response).flatMap(errorMessage ->
-                Mono.error(new Trade360Exception("Request failed because of " + response.statusCode() + errorMessage))
+        return extractErrorMessage(response).flatMap(errorMessages ->
+            Mono.error(new Trade360Exception("Request failed because of " + response.statusCode() + ".", errorMessages))
         );
     }
 
-    private Mono<String> extractErrorMessage(ClientResponse response) {
+    private Mono<Iterable<String>> extractErrorMessage(ClientResponse response) {
+        if(response.headers().contentLength().orElse(0L) == 0) {
+            return Mono.just(List.of("Unknown error occured."));
+        }
+
         return response.bodyToMono(JsonNode.class).map(body -> {
-            StringBuilder errorMessage = new StringBuilder(" Errors: ");
             try {
-                JsonNode jsonNode = body;
+                var jsonNode = body;
                 if (jsonNode.has("Header") && jsonNode.get("Header").has("Errors")) {
-                    JsonNode errors = jsonNode.get("Header").get("Errors");
-                    errorMessage.append(errors.toString());
+                    var errors = jsonNode.get("Header").get("Errors");
+                    var parsedErrors = this.serializer.deserializeToValue(errors.traverse(), new TypeReference<Iterable<Error>>() {});
+                    return StreamSupport.stream(parsedErrors.spliterator(), false)
+                        .map(e -> e.message)
+                        .toList();
                 } else {
-                    errorMessage.append(body);
+                    return List.of(body.toString());
                 }
-            } catch (Exception e) {
-                errorMessage.append(" Failed to parse errors from response body.");
+            } catch (Throwable e) {
+                return List.of("Failed to parse errors from response body.");
             }
-            return errorMessage.toString();
         });
     }
 }
