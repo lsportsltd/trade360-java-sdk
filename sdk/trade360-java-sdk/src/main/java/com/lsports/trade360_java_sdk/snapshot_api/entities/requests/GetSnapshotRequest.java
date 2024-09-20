@@ -1,13 +1,13 @@
 package com.lsports.trade360_java_sdk.snapshot_api.entities.requests;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 import jakarta.annotation.Nullable;
 
 public final record GetSnapshotRequest(
-    @Nullable ZonedDateTime timestamp,
-    @Nullable ZonedDateTime fromDate,
-    @Nullable ZonedDateTime toDate,
+    @Nullable LocalDateTime timestamp,
+    @Nullable LocalDateTime fromDate,
+    @Nullable LocalDateTime toDate,
     @Nullable Iterable<Integer> sports,
     @Nullable Iterable<Integer> locations,
     @Nullable Iterable<Integer> leagues,

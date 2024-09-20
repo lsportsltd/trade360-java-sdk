@@ -3,12 +3,10 @@ package com.lsports.trade360_java_sdk.common.configuration;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 import org.junit.Test;
+import com.lsports.trade360_java_sdk.common.serialization.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 
 public class JacksonApiSerializerTests {
@@ -48,9 +46,9 @@ public class JacksonApiSerializerTests {
         // Arrange
         var serializer = new JacksonApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
-            ZonedDateTime.of(LocalDateTime.of(2024, 8, 5, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
-            ZonedDateTime.of(LocalDateTime.of(2024, 8, 1, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
-            ZonedDateTime.of(LocalDateTime.of(2024, 8, 7, 0, 0), ZoneId.of(ZoneOffset.UTC.getId())),
+            LocalDateTime.of(2024, 8, 5, 0, 0),
+            LocalDateTime.of(2024, 8, 1, 0, 0),
+            LocalDateTime.of(2024, 8, 7, 0, 0),
             List.of(1, 2, 3),
             List.of(4, 5, 6),
             List.of(7, 8, 9),

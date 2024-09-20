@@ -1,6 +1,6 @@
 package com.lsports.trade360_java_sdk.snapshot_api.springframework;
 
-import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
+import com.lsports.trade360_java_sdk.common.serialization.JacksonApiSerializer;
 
 import java.net.URI;
 

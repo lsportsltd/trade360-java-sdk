@@ -24,7 +24,7 @@ public class Fixture {
 
     @Nullable public Iterable<NameValuePair> fixtureExtraData;
 
-    @Nullable public String externalfixtureId;
+    @Nullable public String externalFixtureId;
 
     @Nullable public Subscription subscription;
 }

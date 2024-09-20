@@ -1,7 +1,7 @@
 package com.lsports.trade360_customer_api_example;
 
 import com.lsports.base.ApiExampleApplicationBase;
-import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
+import com.lsports.trade360_java_sdk.common.serialization.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;

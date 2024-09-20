@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.common.configuration;
+package com.lsports.trade360_java_sdk.common.serialization;
 
 import java.io.IOException;
 import org.springframework.http.MediaType;
@@ -16,14 +16,13 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 
 public class JacksonApiSerializer implements JsonApiSerializer {
     private final ObjectMapper jsonMapper = new ObjectMapper()
-        .registerModule(new JavaTimeModule())
+        .registerModule(new JavaTimeModule().addSerializer(new LSportsLocalDateTimeSerializer()))
         .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
-        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
-        .configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
         .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .setSerializationInclusion(Include.NON_NULL);
@@ -72,6 +71,6 @@ public class JacksonApiSerializer implements JsonApiSerializer {
     @Override
     public void configureWebClientCodecs(ClientCodecConfigurer config) {
         config.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(this.jsonMapper));
-        config.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.jsonMapper, new MediaType[] {MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM}));
+        config.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(this.jsonMapper, new MediaType[] {MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_PROBLEM_JSON}));
     }
 }
