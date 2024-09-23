@@ -50,9 +50,8 @@ public abstract class ApiExampleApplicationBase {
 
     protected <T, R> void executeAsynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
         var newExampleName = "ASYNC - " + exampleName;
-        System.out.println("--------------------------------");
         if (request == null) {
-            System.out.println("[" + newExampleName + "] - Executing request");
+            System.out.println("--------------------------------\n[" + newExampleName + "] - Executing request");
         } else {
             try {
                 System.out.println("[" + newExampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serializeToString(request));
@@ -61,20 +60,19 @@ public abstract class ApiExampleApplicationBase {
             }
         }
         var responseMono = executeFunction
-            .apply(request)
-            .doOnNext(response -> {
-                System.out.println("--------------------------------");
-                try {
-                    System.out.println("[" + newExampleName + "] - Got response: " + this.jsonApiSerializer.serializeToString(response));
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-                System.out.flush();
-            });
+            .apply(request);
         this.asyncOperationsCount++;
         responseMono
             .subscribe(
-                x -> this.asyncBarrierSemaphore.release(),
+                response -> {
+                    try {
+                        System.out.println("--------------------------------\n[" + newExampleName + "] - Got response: " + this.jsonApiSerializer.serializeToString(response));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.flush();
+                    this.asyncBarrierSemaphore.release();
+                },
                 exception -> {
                     System.err.println("[" + newExampleName + "] - Failed: " + exception.getMessage());
                     if (exception instanceof Trade360Exception) {

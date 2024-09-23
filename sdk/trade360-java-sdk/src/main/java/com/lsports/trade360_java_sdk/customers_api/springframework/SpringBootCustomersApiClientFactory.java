@@ -2,7 +2,7 @@ package com.lsports.trade360_java_sdk.customers_api.springframework;
 
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import com.lsports.trade360_java_sdk.common.springframework.SpringBootApiRestClient;
-import com.lsports.trade360_java_sdk.common.configuration.JacksonApiSerializer;
+import com.lsports.trade360_java_sdk.common.serialization.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.customers_api.MetadataApiClientImplementation;
 import com.lsports.trade360_java_sdk.customers_api.PackageDistributionApiClientImplementation;
 import com.lsports.trade360_java_sdk.customers_api.SubscriptionApiClientImplementation;

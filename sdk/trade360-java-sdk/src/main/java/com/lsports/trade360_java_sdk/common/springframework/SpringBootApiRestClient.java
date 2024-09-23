@@ -2,9 +2,10 @@ package com.lsports.trade360_java_sdk.common.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.lsports.trade360_java_sdk.common.entities.base.Error;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
+import com.lsports.trade360_java_sdk.common.http.LSportsHeaderErrorsExtractor;
+import com.lsports.trade360_java_sdk.common.http.ProblemJsonErrorsExtractor;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -124,23 +125,24 @@ public class SpringBootApiRestClient implements ApiRestClient {
 
     private Mono<Iterable<String>> extractErrorMessage(ClientResponse response) {
         if(response.headers().contentLength().orElse(0L) == 0) {
-            return Mono.just(List.of("Unknown error occured."));
+            return Mono.just(List.of("Unknown error occurred."));
         }
 
+        var errorExtractors = List.of(
+            new LSportsHeaderErrorsExtractor(),
+            new ProblemJsonErrorsExtractor()
+        );
+        
         return response.bodyToMono(JsonNode.class).map(body -> {
-            try {
-                var jsonNode = body;
-                if (jsonNode.has("Header") && jsonNode.get("Header").has("Errors")) {
-                    var errors = jsonNode.get("Header").get("Errors");
-                    var parsedErrors = this.serializer.deserializeToValue(errors.traverse(), new TypeReference<Iterable<Error>>() {});
-                    return StreamSupport.stream(parsedErrors.spliterator(), false)
-                        .map(e -> e.message)
-                        .toList();
-                } else {
-                    return List.of(body.toString());
-                }
-            } catch (Throwable e) {
-                return List.of("Failed to parse errors from response body.");
+            var extractedErrors = StreamSupport.stream(errorExtractors.spliterator(), false)
+                .map(e -> e.extractErrors(body, this.serializer))
+                .filter(e -> e != null)
+                .findFirst();
+
+            if (extractedErrors.isPresent()) {
+                return extractedErrors.get();
+            } else {
+                return List.of("Unknown error occurred.");
             }
         });
     }
