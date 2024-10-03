@@ -28,8 +28,6 @@ public class RabbitConnectionConfiguration {
     public boolean auto_ack = true;
     @NotNull
     public long network_recovery_interval = 3000;
-    @NotBlank
-    public String base_customers_api;
     @NotNull
     public int retry_attempts = 3;
     @NotNull
@@ -44,4 +42,6 @@ public class RabbitConnectionConfiguration {
     public int max_concurrent_consumers = 20;
     @NotBlank
     public String rabbit_listener_container_factory_name;
+    @NotNull
+    public int requestedHeartBeat = 30;
 }
