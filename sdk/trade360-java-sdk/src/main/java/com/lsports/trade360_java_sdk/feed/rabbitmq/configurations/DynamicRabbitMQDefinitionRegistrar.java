@@ -42,6 +42,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
                                 connectionFactory.setHost(rabbitConnectionConfiguration.host);
                                 connectionFactory.setUsername(rabbitConnectionConfiguration.user_name);
                                 connectionFactory.setPassword(rabbitConnectionConfiguration.password);
+                                connectionFactory.setRequestedHeartBeat(rabbitConnectionConfiguration.requestedHeartBeat);
 
                                 factory.setConnectionFactory( connectionFactory);
 

@@ -2,8 +2,6 @@
 
 ## Table of Contents
 
-- [LSports Trade360 SDK](#lsports-trade360-sdk)
-  - [Table of Contents](#table-of-contents)
   - [About](#about)
     - [Key Features](#key-features)
   - [Getting Started](#getting-started)
@@ -17,6 +15,7 @@
       - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
     - [Using Snapshot API](#using-snapshot-api)
       - [Handling responses](#handling-responses)
+  - [Links](#links)   
   - [Contributing](#contributing)
   - [License](#license)
   - [Release](#release)
@@ -105,8 +104,31 @@ rabbitmq.inplay.retry_max_interval: 5000
 rabbitmq.inplay.concurrent_consumers: 1
 rabbitmq.inplay.max_concurrent_consumers: 1
 ```
+name - name for a RabbitMQ connection 
+rabbit_listener_container_factory_name - name of the RabbitMQ listener container factory
+package_id - LSports package id/used to create RabbitMQ queue name
+host - RabbitMQ host 
+port - RabbitMQ port
+virtual_host - RabbitMQ virtual host
+user_name - RabbitMQ user name
+password - RabbitMQ password
+prefetch_count - RabbitMQ prefetch count
+auto_ack - RabbitMQ auto ack message flag
+requested_heartbeat_seconds - RabbitMQ requested heartbeat seconds
+network_recovery_interval - RabbitMQ network recovery interval
+retry_attempts - RabbitMQ retry attempts
+retry_initial_interval - RabbitMQ retry initial interval
+retry_multiple - RabbitMQ retry multiple
+retry_max_interval - RabbitMQ retry max interval
+concurrent_consumers - RabbitMQ concurrent consumers (prefered 1)
+max_concurrent_consumers - RabbitMQ max concurrent consumers (prefered 1)
 
-#### Implementing The Connection
+
+
+```yaml
+#### Implementing the connection
+
+Full working example of using Trade360 Feed in Spring Framework can be found in this sample application.
 
 To create a connection it is necessary to use the `InplayTrade360SdkConfiguration` or/and `PrematchTrade360SdkConfiguration` configuration class.
 This class reads the connection parameters from the application properties based on defined prefixes.
@@ -130,7 +152,7 @@ public class PrematchTrade360SdkConfiguration {
 
 Above code register connections configuration for two prefixes `rabbitmq.inplay` and `rabbitmq.prematch`
 
-Next step is add listener handler methods for the above connections. Each `@RabbitListener` annotation has an association between the Rabbit Connection Factory and that method by the bean name written in the containerFactory annotation properties.
+Next step is add listener handler methods for the above connections. Each `@RabbitListener` annotation has an association between the Rabbit Connection Factory and that listener method by the bean name written in the containerFactory annotation properties.
 Second parameter is queue and third name of error message handling implementation defined in `Trade360SdkConfiguration` class. 
 ```java
 
@@ -151,7 +173,7 @@ public void preMatchProcessMessage(final Message message, Channel channel,
     //  channel.basicAck(tag, false);
 }
 ```
-Next step is to register handlers for each type of message:
+Next step is to register handlers for each type of message separately for InPlay and PreMatch:
 ```java
     //Register entity handlers for inPlay
     @Bean
@@ -162,6 +184,25 @@ Next step is to register handlers for each type of message:
     entityRegistry.setEntityHandler(new HeartbeatHandlerInplay());
     entityRegistry.setEntityHandler(new FixtureMetadataUpdateHandlerInplay());
     return entityRegistry;
+    }
+
+    //Register entity handlers for preMatch
+    @Bean
+    public EntityRegistry preMachEentityRegister() throws RabbitMQFeedException {
+        EntityRegistry entityRegistry = new EntityRegistry();
+        entityRegistry.setEntityHandler(new FixtureMarketUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new FixtureMetadataUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new HeartbeatHandlerPrematch());
+        entityRegistry.setEntityHandler(new KeepAliveUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new LivescoreUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new OutrightFixtureMarketUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new OutrightFixtureUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new OutrightLeagueMarketsUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new OutrightLeagueUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new OutrightScoreUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new OutrightSettlementsUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new SettlementUpdateHandlerPrematch());
+        return entityRegistry;
     }
 ```
 
@@ -294,6 +335,12 @@ Below you can find two primary approaches how you can handle responses.
         response -> System.out.println("[" + exampleName + "] - Got response: " + response),
         exception -> /* handle failure */));
     ```
+## Links
+Spring AMQP documentation:
+https://spring.io/projects/spring-amqp
+https://docs.spring.io/spring-amqp/reference/amqp/resilience-recovering-from-errors-and-broker-failures.html
+https://docs.spring.io/spring-amqp/reference/amqp/listener-concurrency.html
+
 
 ## Contributing
 
