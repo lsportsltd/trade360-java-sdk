@@ -5,7 +5,7 @@ import jakarta.annotation.Nullable;
 
 public class Statistic {
     
-    @Nullable public StatisticType type;
+    @Nullable public int type;
 
     @Nullable public Iterable<Result> results;
 
