@@ -71,8 +71,8 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         System.out.println("============================================");
         System.out.println("==== SYNCHRONOUS PACKAGE DISTRIBUTION API EXAMPLES: ====");
 
-        this.executeSynchronous("getDistributionStatusAsync without parameters",
-            () -> client.getDistributionStatusAsync());
+        this.executeSynchronous("getDistributionStatus without parameters",
+            () -> client.getDistributionStatus());
         this.executeSynchronous("startDistribution without parameters",
             () -> client.startDistribution());
         this.executeSynchronous("stopDistribution without parameters",
@@ -86,8 +86,8 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         System.out.println("===============================================");
         System.out.println("===== PACKAGE DISTRIBUTION API EXAMPLES: =====");
 
-        this.executeAsynchronous("getDistributionStatusAsync without parameters",
-            () -> client.getDistributionStatusAsync());
+        this.executeAsynchronous("getDistributionStatus without parameters",
+            () -> client.getDistributionStatus());
         this.executeAsynchronous("startDistribution without parameters",
             () -> client.startDistribution());
         this.executeAsynchronous("stopDistribution without parameters",

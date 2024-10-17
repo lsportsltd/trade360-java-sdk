@@ -9,6 +9,8 @@ import com.lsports.trade360_java_sdk.common.http.ProblemJsonErrorsExtractor;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -16,22 +18,34 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SynchronousSink;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
+/**
+ * The {@code SpringBootApiRestClient} class implements the {@link ApiRestClient} interface using Spring WebClient.
+ */
 public class SpringBootApiRestClient implements ApiRestClient {
     private final WebClient client;
     private final JsonApiSerializer serializer;
 
+    /**
+     * Constructs a new {@code SpringBootApiRestClient} with the specified WebClient builder, serializer, and base URL.
+     *
+     * @param builder the WebClient builder
+     * @param serializer the JSON serializer
+     * @param baseUrl the base URL for the API
+     */
     public SpringBootApiRestClient(WebClient.Builder builder, JsonApiSerializer serializer, URI baseUrl) {
         this.serializer = serializer;
         this.client = builder
             .baseUrl(baseUrl.toString())
             .codecs(config -> {
-                this.serializer.configureWebClientCodecs(config);
+                config.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(serializer.getObjectMapper()));
+                config.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(serializer.getObjectMapper(), new MediaType[] {MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_PROBLEM_JSON}));
             })
             .defaultHeaders(t -> {
                 t.setContentType(MediaType.APPLICATION_JSON);
@@ -40,6 +54,9 @@ public class SpringBootApiRestClient implements ApiRestClient {
             .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <Req, Res> Mono<Res> postRequest(Req requestBody, TypeReference<Res> responseTypeReference, String url) {
         return this.client
@@ -52,6 +69,9 @@ public class SpringBootApiRestClient implements ApiRestClient {
             .handle((responseJson, sink) -> this.handleResponse(responseTypeReference, responseJson, sink));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <Res> Mono<Res> postRequest(TypeReference<Res> responseTypeReference, String url) {
         return this.client
@@ -64,6 +84,9 @@ public class SpringBootApiRestClient implements ApiRestClient {
             .handle((responseJson, sink) -> this.handleResponse(responseTypeReference, responseJson, sink));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <Req, Res> Mono<Res> getRequest(Req requestQueryStringObject, TypeReference<Res> responseTypeReference, String url) {
         MultiValueMap<String, String> queryParams;

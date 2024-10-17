@@ -4,6 +4,16 @@ import java.util.Map;
 
 import jakarta.annotation.Nullable;
 
+/**
+ * The {@code GetTranslationsResponse} record represents a response containing translations for various entities.
+ *
+ * @param sports the translations for sports
+ * @param locations the translations for locations
+ * @param leagues the translations for leagues
+ * @param markets the translations for markets
+ * @param participants the translations for participants
+ * @see TranslationElement
+ */
 public final record GetTranslationsResponse(
     @Nullable Map<Integer, Iterable<TranslationElement>> sports,
     @Nullable Map<Integer, Iterable<TranslationElement>> locations,

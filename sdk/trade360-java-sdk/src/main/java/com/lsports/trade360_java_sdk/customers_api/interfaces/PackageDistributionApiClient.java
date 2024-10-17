@@ -5,10 +5,28 @@ import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.res
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.responses.StopDistributionResponse;
 import reactor.core.publisher.Mono;
 
+/**
+ * The Package Distribution API client.
+ */
 public interface PackageDistributionApiClient {
-    Mono<GetDistributionStatusResponse> getDistributionStatusAsync();
+    /**
+     * Gets the distribution status.
+     *
+     * @return A {@link Mono} emitting the {@link GetDistributionStatusResponse}
+     */
+    Mono<GetDistributionStatusResponse> getDistributionStatus();
 
+    /**
+     * Starts the distribution.
+     *
+     * @return A {@link Mono} emitting the {@link StartDistributionResponse}
+     */
     Mono<StartDistributionResponse> startDistribution();
 
+    /**
+     * Stops the distribution.
+     *
+     * @return A {@link Mono} emitting the {@link StopDistributionResponse}
+     */
     Mono<StopDistributionResponse> stopDistribution();
 }

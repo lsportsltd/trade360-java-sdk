@@ -1,18 +1,68 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+/**
+ * The {@code StatusDescription} enum represents the various status descriptions.
+ */
 public enum StatusDescription {
-    NONE (0),
-    HT (1),
-    OTHT (2),
-    HOME_RETIRED (3),
-    AWAY_RETIRED (4),
-    LOST_COVERAGE (5),
-    MEDICAL_TIMEOUT (6),
-    TIMEOUT_HOME_TEAM (7),
-    TIMEOUT_AWAY_TEAM (8),
-    TIMEOUT (9),
-    HOME_WALKOVER (10),
-    AWAY_WALKOVER (11);
+    /**
+     * Status indicating none.
+     */
+    NONE(0),
+
+    /**
+     * Status indicating half-time.
+     */
+    HT(1),
+
+    /**
+     * Status indicating overtime half-time.
+     */
+    OTHT(2),
+
+    /**
+     * Status indicating home team retired.
+     */
+    HOME_RETIRED(3),
+
+    /**
+     * Status indicating away team retired.
+     */
+    AWAY_RETIRED(4),
+
+    /**
+     * Status indicating lost coverage.
+     */
+    LOST_COVERAGE(5),
+
+    /**
+     * Status indicating medical timeout.
+     */
+    MEDICAL_TIMEOUT(6),
+
+    /**
+     * Status indicating timeout for home team.
+     */
+    TIMEOUT_HOME_TEAM(7),
+
+    /**
+     * Status indicating timeout for away team.
+     */
+    TIMEOUT_AWAY_TEAM(8),
+
+    /**
+     * Status indicating timeout.
+     */
+    TIMEOUT(9),
+
+    /**
+     * Status indicating home team walkover.
+     */
+    HOME_WALKOVER(10),
+
+    /**
+     * Status indicating away team walkover.
+     */
+    AWAY_WALKOVER(11);
 
     private int value;
 
@@ -20,6 +70,11 @@ public enum StatusDescription {
         this.value = value;
     }
 
+    /**
+     * Returns the integer value representing the status description.
+     *
+     * @return the integer value representing the status description
+     */
     public int getValue() {
         return this.value;
     }

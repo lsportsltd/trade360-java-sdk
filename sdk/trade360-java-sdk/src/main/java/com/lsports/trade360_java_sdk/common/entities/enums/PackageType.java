@@ -1,8 +1,18 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+/**
+ * The {@code PackageType} enum represents the various types of packages.
+ */
 public enum PackageType {
-    INPLAY (1),
-    PREMATCH (2);
+    /**
+     * Type indicating an in-play package.
+     */
+    INPLAY(1),
+
+    /**
+     * Type indicating a pre-match package.
+     */
+    PREMATCH(2);
 
     private int value;
 
@@ -10,6 +20,11 @@ public enum PackageType {
         this.value = value;
     }
 
+    /**
+     * Returns the integer value representing the package type.
+     *
+     * @return the integer value representing the package type
+     */
     public int getValue() {
         return this.value;
     }

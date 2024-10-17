@@ -4,6 +4,19 @@ import java.time.LocalDateTime;
 
 import jakarta.annotation.Nullable;
 
+/**
+ * Represents a request to get a snapshot of data.
+ *
+ * @param timestamp The timestamp of the snapshot in UTC
+ * @param fromDate The start date for the snapshot in UTC
+ * @param toDate The end date for the snapshot in UTC
+ * @param sports The IDs of the sports
+ * @param locations The IDs of the locations
+ * @param leagues The IDs of the leagues
+ * @param tournaments The IDs of the tournaments
+ * @param fixtures The IDs of the fixtures
+ * @param markets The IDs of the markets
+ */
 public final record GetSnapshotRequest(
     @Nullable LocalDateTime timestamp,
     @Nullable LocalDateTime fromDate,

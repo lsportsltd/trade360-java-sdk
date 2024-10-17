@@ -2,6 +2,14 @@ package com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.re
 
 import jakarta.annotation.Nullable;
 
+/**
+ * Represents a collection response for league subscriptions.
+ */
 public class LeagueSubscriptionCollectionResponse {
-    @Nullable public Iterable<LeagueSubscriptionResponse> Subscription;
+    /**
+     * The league subscriptions.
+     *
+     * @see LeagueSubscriptionResponse
+     */
+    @Nullable public Iterable<LeagueSubscriptionResponse> subscription;
 }

@@ -2,37 +2,37 @@ package com.lsports.trade360_java_sdk.customers_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesMetadataRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetCompetitionsResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetLeaguesResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetLocationsResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetMarketsResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetSportsResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetSubscribedFixturesMetadataResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetSubscribedFixturesResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetTranslationsResponse;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.*;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.*;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.MetadataApiClient;
 import reactor.core.publisher.Mono;
 
+/**
+ * The {@code MetadataApiClientImplementation} class implements the {@link MetadataApiClient} interface to interact with the metadata API.
+ */
 public class MetadataApiClientImplementation implements MetadataApiClient {
     private final ApiRestClient client;
 
+    /**
+     * Constructs a new {@code MetadataApiClientImplementation} with the specified {@link ApiRestClient}.
+     *
+     * @param client the {@link ApiRestClient}
+     */
     public MetadataApiClientImplementation(ApiRestClient client) {
         this.client = client;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetSportsResponse> getSports() {
         return this.getSports(new GetSportsRequest());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetSportsResponse> getSports(GetSportsRequest request) {
         return this.client.postRequest(
@@ -42,11 +42,17 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetLocationsResponse> getLocations() {
         return this.getLocations(new GetLocationsRequest());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetLocationsResponse> getLocations(GetLocationsRequest request) {
         return this.client.postRequest(
@@ -56,6 +62,9 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetLeaguesResponse> getLeagues(GetLeaguesRequest request) {
         return this.client.postRequest(
@@ -65,6 +74,9 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetMarketsResponse> getMarkets(GetMarketsRequest request) {
         return this.client.postRequest(
@@ -74,6 +86,9 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetTranslationsResponse> getTranslations(GetTranslationsRequest request) {
         return this.client.postRequest(
@@ -83,6 +98,9 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetCompetitionsResponse> getCompetitions(GetCompetitionsRequest request) {
         return this.client.postRequest(
@@ -92,6 +110,9 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetSubscribedFixturesResponse> getSubscribedFixtures(GetSubscribedFixturesRequest request) {
         return this.client.postRequest(
@@ -101,6 +122,9 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetSubscribedFixturesMetadataResponse> getSubscribedFixturesMetadata(GetSubscribedFixturesMetadataRequest request) {
         return this.client.getRequest(

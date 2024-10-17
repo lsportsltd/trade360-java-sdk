@@ -19,7 +19,7 @@ public class PackageDistributionApiClientImplementationTests {
         var client = new PackageDistributionApiClientImplementation(mockedClient);
 
         //Act
-        client.getDistributionStatusAsync();
+        client.getDistributionStatus();
 
         //Assert
         verify(mockedClient).postRequest(any(), eq("Package/GetDistributionStatus"));
