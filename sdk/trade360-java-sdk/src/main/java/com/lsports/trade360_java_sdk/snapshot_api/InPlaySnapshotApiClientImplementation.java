@@ -9,13 +9,24 @@ import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtures
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
 import reactor.core.publisher.Mono;
 
+/**
+ * Implementation of the {@link InPlaySnapshotApiClient} interface.
+ */
 public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiClient {
     private final ApiRestClient client;
 
+    /**
+     * Constructs a new InPlaySnapshotApiClientImplementation with the given API client.
+     *
+     * @param client The API client
+     */
     public InPlaySnapshotApiClientImplementation(ApiRestClient client) {
         this.client = client;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest) {
         return this.client.postRequest(
@@ -24,6 +35,9 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
             "/Inplay/GetFixtures");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequest) {
         return this.client.postRequest(
@@ -32,6 +46,9 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
             "/Inplay/GetScores");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getMarketRequest) {
         return this.client.postRequest(
@@ -40,6 +57,9 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
             "/Inplay/GetFixtureMarkets");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest) {
         return this.client.postRequest(

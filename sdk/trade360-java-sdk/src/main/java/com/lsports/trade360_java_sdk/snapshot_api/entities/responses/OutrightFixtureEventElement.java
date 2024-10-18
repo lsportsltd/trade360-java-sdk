@@ -2,7 +2,20 @@ package com.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
 import jakarta.annotation.Nullable;
 
+/**
+ * Represents an outright fixture event element.
+ */
 public final class OutrightFixtureEventElement {
+    /**
+     * The unique identifier of the fixture.
+     */
     public int fixtureId;
+
+    /**
+     * The outright fixture element associated with this event.
+     * Can be {@code null}.
+     * 
+     * @see OutrightFixtureElement
+     */
     @Nullable public OutrightFixtureElement outrightFixture;
 }

@@ -1,10 +1,28 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+/**
+ * The {@code CompetitionType} enum represents the various types of competitions.
+ */
 public enum CompetitionType {
-    NO_TSET (0),
-    TRACK (1),
-    LEAGUE (3),
-    SEASON (4);
+    /**
+     * Type indicating that the competition type is not set.
+     */
+    NOT_SET(0),
+
+    /**
+     * Type indicating a track competition.
+     */
+    TRACK(1),
+
+    /**
+     * Type indicating a league competition.
+     */
+    LEAGUE(3),
+
+    /**
+     * Type indicating a season competition.
+     */
+    SEASON(4);
 
     private int value;
 
@@ -12,6 +30,11 @@ public enum CompetitionType {
         this.value = value;
     }
 
+    /**
+     * Returns the integer value representing the competition type.
+     *
+     * @return the integer value representing the competition type
+     */
     public int getValue() {
         return this.value;
     }

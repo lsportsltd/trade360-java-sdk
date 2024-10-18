@@ -1,16 +1,58 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+/**
+ * The {@code FixtureStatus} enum represents the various statuses a fixture can have.
+ */
 public enum FixtureStatus {
-    NOT_SET (0),
-    NSY (1),
-    IN_PROGRESS (2),
-    FINISHED (3),
-    CANCELLED (4),
-    POSTPONED (5),
-    INTERRUPTED (6),
-    ABANDONED (7),
-    LOST_COVERAGE (8),
-    ABOUT_TO_START (9);
+    /**
+     * Status indicating that the fixture status is not set.
+     */
+    NOT_SET(0),
+
+    /**
+     * Status indicating that the fixture is not yet started.
+     */
+    NSY(1),
+
+    /**
+     * Status indicating that the fixture is in progress.
+     */
+    IN_PROGRESS(2),
+
+    /**
+     * Status indicating that the fixture is finished.
+     */
+    FINISHED(3),
+
+    /**
+     * Status indicating that the fixture is cancelled.
+     */
+    CANCELLED(4),
+
+    /**
+     * Status indicating that the fixture is postponed.
+     */
+    POSTPONED(5),
+
+    /**
+     * Status indicating that the fixture is interrupted.
+     */
+    INTERRUPTED(6),
+
+    /**
+     * Status indicating that the fixture is abandoned.
+     */
+    ABANDONED(7),
+
+    /**
+     * Status indicating that the fixture has lost coverage.
+     */
+    LOST_COVERAGE(8),
+
+    /**
+     * Status indicating that the fixture is about to start.
+     */
+    ABOUT_TO_START(9);
 
     private int value;
 
@@ -18,7 +60,12 @@ public enum FixtureStatus {
         this.value = value;
     }
 
-    public int getValue(){
+    /**
+     * Returns the integer value representing the fixture status.
+     *
+     * @return the integer value representing the fixture status
+     */
+    public int getValue() {
         return this.value;
     }
 }

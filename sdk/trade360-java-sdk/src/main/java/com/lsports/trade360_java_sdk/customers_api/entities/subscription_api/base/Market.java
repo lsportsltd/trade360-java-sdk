@@ -2,7 +2,18 @@ package com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.ba
 
 import jakarta.annotation.Nullable;
 
+/**
+ * Represents a market in the subscription API.
+ */
 public class Market {
+    /**
+     * The ID of the market.
+     */
     public int marketId;
-    @Nullable public String line; // Nullable to handle missing values
+
+    /**
+     * The line of the market.
+     * Nullable to handle missing values.
+     */
+    @Nullable public String line;
 }

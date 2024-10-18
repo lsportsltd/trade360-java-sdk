@@ -1,42 +1,99 @@
 package com.lsports.trade360_java_sdk.customers_api.interfaces;
 
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesMetadataRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetCompetitionsResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetLeaguesResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetLocationsResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetMarketsResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetSportsResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetSubscribedFixturesMetadataResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetSubscribedFixturesResponse;
-import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.GetTranslationsResponse;
-
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.*;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.*;
 import reactor.core.publisher.Mono;
 
+/**
+ * The Metadata API client.
+ */
 public interface MetadataApiClient {
+
+    /**
+     * Retrieves the list of sports.
+     *
+     * @return a {@link Mono} emitting the response containing the list of sports
+     * @see GetSportsResponse
+     */
     Mono<GetSportsResponse> getSports();
 
+    /**
+     * Retrieves the list of sports based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of sports
+     * @return a {@link Mono} emitting the response containing the list of sports
+     * @see GetSportsResponse
+     */
     Mono<GetSportsResponse> getSports(GetSportsRequest request);
 
+    /**
+     * Retrieves the list of locations.
+     *
+     * @return a {@link Mono} emitting the response containing the list of locations
+     * @see GetLocationsResponse
+     */
     Mono<GetLocationsResponse> getLocations();
 
+    /**
+     * Retrieves the list of locations based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of locations
+     * @return a {@link Mono} emitting the response containing the list of locations
+     * @see GetLocationsResponse
+     */
     Mono<GetLocationsResponse> getLocations(GetLocationsRequest request);
 
+    /**
+     * Retrieves the list of leagues based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of leagues
+     * @return a {@link Mono} emitting the response containing the list of leagues
+     * @see GetLeaguesResponse
+     */
     Mono<GetLeaguesResponse> getLeagues(GetLeaguesRequest request);
-    
+
+    /**
+     * Retrieves the list of markets based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of markets
+     * @return a {@link Mono} emitting the response containing the list of markets
+     * @see GetMarketsResponse
+     */
     Mono<GetMarketsResponse> getMarkets(GetMarketsRequest request);
 
+    /**
+     * Retrieves the list of translations based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of translations
+     * @return a {@link Mono} emitting the response containing the list of translations
+     * @see GetTranslationsResponse
+     */
     Mono<GetTranslationsResponse> getTranslations(GetTranslationsRequest request);
 
+    /**
+     * Retrieves the list of competitions based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of competitions
+     * @return a {@link Mono} emitting the response containing the list of competitions
+     * @see GetCompetitionsResponse
+     */
     Mono<GetCompetitionsResponse> getCompetitions(GetCompetitionsRequest request);
 
+    /**
+     * Retrieves the list of subscribed fixtures based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of subscribed fixtures
+     * @return a {@link Mono} emitting the response containing the list of subscribed fixtures
+     * @see GetSubscribedFixturesResponse
+     */
     Mono<GetSubscribedFixturesResponse> getSubscribedFixtures(GetSubscribedFixturesRequest request);
 
+    /**
+     * Retrieves the metadata of subscribed fixtures based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the metadata of subscribed fixtures
+     * @return a {@link Mono} emitting the response containing the metadata of subscribed fixtures
+     * @see GetSubscribedFixturesMetadataResponse
+     */
     Mono<GetSubscribedFixturesMetadataResponse> getSubscribedFixturesMetadata(GetSubscribedFixturesMetadataRequest request);
 }

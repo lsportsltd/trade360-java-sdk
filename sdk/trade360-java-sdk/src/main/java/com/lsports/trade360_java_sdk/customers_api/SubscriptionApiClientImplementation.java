@@ -8,14 +8,25 @@ import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.res
 import com.lsports.trade360_java_sdk.customers_api.interfaces.SubscriptionApiClient;
 import reactor.core.publisher.Mono;
 
+/**
+ * Implementation of the {@link SubscriptionApiClient} interface.
+ */
 public class SubscriptionApiClientImplementation implements SubscriptionApiClient {
 
     private final ApiRestClient client;
 
+    /**
+     * Constructs a new {@code SubscriptionApiClientImplementation} with the given {@link ApiRestClient}.
+     *
+     * @param client the {@link ApiRestClient} to use for making API requests
+     */
     public SubscriptionApiClientImplementation(ApiRestClient client) {
         this.client = client;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<PackageQuotaResponse> getPackageQuota() {
         return this.client
@@ -24,6 +35,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                         "/package/GetPackageQuota");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<FixtureScheduleCollectionResponse> getInPlayFixtureSchedule(GetFixtureScheduleRequest request) {
         return this.client
@@ -34,6 +48,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<FixtureSubscriptionCollectionResponse> subscribeByFixture(FixtureSubscriptionRequest request) {
         return this.client
@@ -44,6 +61,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<FixtureSubscriptionCollectionResponse> unSubscribeByFixture(FixtureSubscriptionRequest request) {
         return this.client
@@ -54,6 +74,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<LeagueSubscriptionCollectionResponse> subscribeByLeague(LeagueSubscriptionRequest request) {
         return this.client
@@ -64,6 +87,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<LeagueSubscriptionCollectionResponse> unSubscribeByLeague(LeagueSubscriptionRequest request) {
         return this.client
@@ -74,6 +100,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetSubscriptionResponse> getSubscriptions(GetSubscriptionRequest request) {
         return this.client
@@ -84,6 +113,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<CompetitionSubscriptionCollectionResponse> subscribeByCompetition(CompetitionSubscriptionRequest request) {
         return this.client
@@ -94,6 +126,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<CompetitionSubscriptionCollectionResponse> unSubscribeByCompetition(CompetitionSubscriptionRequest request) {
         return this.client
@@ -104,6 +139,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<GetManualSuspensionResponse> getAllManualSuspensions() {
         return this.client
@@ -113,6 +151,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<ChangeManualSuspensionResponse> addManualSuspension(ChangeManualSuspensionRequest request) {
         return this.client
@@ -123,6 +164,9 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
                 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Mono<ChangeManualSuspensionResponse> removeManualSuspension(ChangeManualSuspensionRequest request) {
         return this.client

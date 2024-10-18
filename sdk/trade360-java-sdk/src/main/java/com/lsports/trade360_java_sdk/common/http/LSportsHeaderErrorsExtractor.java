@@ -6,7 +6,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.lsports.trade360_java_sdk.common.entities.base.Error;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 
+/**
+ * The {@code LSportsHeaderErrorsExtractor} class implements the {@code ErrorsExtractor} interface to extract errors from the "Header" section of a JSON response.
+ */
 public class LSportsHeaderErrorsExtractor implements ErrorsExtractor {
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterable<String> extractErrors(JsonNode bodyJsonNode, JsonApiSerializer serializer) {
         try {
