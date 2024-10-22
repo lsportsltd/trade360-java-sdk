@@ -1,26 +1,24 @@
-# LSports Trade360 SDK
+# LSports Trade360 SDK <!-- omit from toc -->
 
-## Table of Contents
+## Table of Contents <!-- omit from toc -->
 
-- [LSports Trade360 SDK](#lsports-trade360-sdk)
-  - [Table of Contents](#table-of-contents)
-  - [About](#about)
-    - [Key Features](#key-features)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-  - [Installing](#installing)
-  - [Usage Guide](#usage-guide)
-    - [Connecting to Trade360 Feed](#connecting-to-trade360-feed)
-      - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
-      - [Message recover in case of failure](#message-recover-in-case-of-failure)
-      - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
-    - [Using Snapshot API](#using-snapshot-api)
-      - [Handling responses](#handling-responses)
-      - [Error handling](#error-handling)
-  - [Links](#links)
-  - [Contributing](#contributing)
-  - [License](#license)
-  - [Release](#release)
+- [About](#about)
+  - [Key Features](#key-features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+- [Installing](#installing)
+- [Usage Guide](#usage-guide)
+  - [Connecting to Trade360 Feed](#connecting-to-trade360-feed)
+    - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
+    - [Message recover in case of failure](#message-recover-in-case-of-failure)
+    - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
+  - [Using Snapshot API](#using-snapshot-api)
+    - [Handling responses](#handling-responses)
+    - [Error handling](#error-handling)
+- [Links](#links)
+- [Contributing](#contributing)
+- [License](#license)
+- [Release](#release)
 
 ## About
 
