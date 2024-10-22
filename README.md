@@ -336,7 +336,7 @@ Error handling depends on which approach is used – synchronous or asynchronous
 1. In case of synchronous method it's as simple as wrapping invocation in `try`/`catch` and catching [`Trade360Exception`](/sdk/trade360-java-sdk/src/main/java/com/lsports/trade360_java_sdk/common/exceptions/Trade360Exception.java).
     ```java
     try {
-        preMatchClient.getFixtures(new GetSnapshotRequest(...)))
+        preMatchClient.getFixtures(new GetSnapshotRequest(...))
             .block();
     } catch (Trade360Exception ex) {
         // handle exception
