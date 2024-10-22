@@ -2,6 +2,8 @@
 
 ## Table of Contents
 
+- [LSports Trade360 SDK](#lsports-trade360-sdk)
+  - [Table of Contents](#table-of-contents)
   - [About](#about)
     - [Key Features](#key-features)
   - [Getting Started](#getting-started)
@@ -10,12 +12,12 @@
   - [Usage Guide](#usage-guide)
     - [Connecting to Trade360 Feed](#connecting-to-trade360-feed)
       - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
-      - [Implementing The Connection](#implementing-the-connection)
       - [Message recover in case of failure](#message-recover-in-case-of-failure)
       - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
     - [Using Snapshot API](#using-snapshot-api)
       - [Handling responses](#handling-responses)
-  - [Links](#links)   
+      - [Error handling](#error-handling)
+  - [Links](#links)
   - [Contributing](#contributing)
   - [License](#license)
   - [Release](#release)
@@ -321,20 +323,44 @@ Below you can find two primary approaches how you can handle responses.
 
 1. Synchronous method - recommended only for simple use cases when there are not a lot of requests done, as it may lead to bottlenecks (socket saturation etc.).
     ```java
-    try {
-        var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
-        var getFixturesResponse = getFixturesResponseMono.block();
-    } catch (Trade360Exception ex) {
-        // Handle failure
-    }
+    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
+    var getFixturesResponse = getFixturesResponseMono.block();
     ```
 2. Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
     ```java
     var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
     getFixturesResponseMono.subscribe(
-        response -> System.out.println("[" + exampleName + "] - Got response: " + response),
-        exception -> /* handle failure */));
+        response -> System.out.println("[" + exampleName + "] - Got response: " + response)));
     ```
+
+#### Error handling
+Error handling depends on which approach is used – synchronous or asynchronous:
+1. In case of synchronous method it's as simple as wrapping invocation in `try`/`catch` and catching [`Trade360Exception`](/sdk/trade360-java-sdk/src/main/java/com/lsports/trade360_java_sdk/common/exceptions/Trade360Exception.java).
+    ```java
+    try {
+        preMatchClient.getFixtures(new GetSnapshotRequest(...)));
+    } catch (Trade360Exception ex) {
+        // handle exception
+    }
+    ```
+2. For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
+    ```java
+    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
+    getFixturesResponseMono.subscribe(
+        response -> /* Handle success response */),
+        error -> {
+            if (error instanceof Trade360Exception) {
+                var trade360Exception = (Trade360Exception) error;
+                /* Handle exception */
+            }
+        });
+    ```
+
+The `Trade360Exception` class does contain a detailed message which may help identify the root cause of the issue. To obtain the message call `getMessage()` method. Also sometimes additional detailed errors can be obtained using `getErrors()` method.
+
+Below you can find an example how an exception may look like. In this case it means incorrect credentials have been provided.
+![Trade360Exception example](/docs/static/trade360exception_example.png)
+
 ## Links
 Spring AMQP documentation:
 https://spring.io/projects/spring-amqp
