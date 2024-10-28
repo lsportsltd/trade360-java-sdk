@@ -234,7 +234,9 @@ public class InplayRecoveryMessageResolver implements MessageRecoverer {
 ```
 #### Message exception handling in case of failure
 
-In order to handle message exception it is a need to implement `RabbitListenerErrorHandler` interface ([Spring documentation](https://docs.spring.io/spring-amqp/docs/current/api/org/springframework/amqp/rabbit/listener/api/RabbitListenerErrorHandler.html)).
+In order to handle message processing exceptions from Spring AMQP it is a need to implement `RabbitListenerErrorHandler` interface ([Spring documentation](https://docs.spring.io/spring-amqp/docs/current/api/org/springframework/amqp/rabbit/listener/api/RabbitListenerErrorHandler.html)) separate for each connection.
+
+More details can be found here: https://docs.spring.io/spring-amqp/reference/amqp/exception-handling.html
 
 Example:
 ```java
@@ -272,6 +274,15 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 }
 
 ```
+#### Application Error handling
+RabbitMQFeedException is a custom exception class that is thrown when there is an error in the application.
+Below exceptions are raised (exception messages):
+
+- "ExceptionFailed to deserialize typeId: .... entity: ...." - when the message is not deserialized properly
+
+- "Failed to deserialize ... entity, Due to: Wrong or lack of 'type' property in Rabbit message header." - when the message has wrong or lack type information, or EntityHandler is not registered
+
+- "Provided EntityHandler already exists! -.... -... " when the EntityHandler is already registered
 
 ### Using Snapshot API
 

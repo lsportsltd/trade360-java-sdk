@@ -30,7 +30,7 @@ public class RabbitMQFeed {
 
     // General notes:
     // Application can work with one, two or more connection to RabbitMQ (Inplay, Prematch).
-    // In order to remove one of connection nit is need to
+    // In order to remove one of connection it is need to:
     // - remove appropriate RabbitListener handler
     // - remove connection prefix definition from DynamicBeanDefinitionRegistrarConfiguration
 
