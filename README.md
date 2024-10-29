@@ -274,6 +274,7 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 }
 
 ```
+
 #### Application Error handling
 RabbitMQFeedException is a custom exception class that is thrown when there is an error in the application.
 Below exceptions are raised (exception messages):
