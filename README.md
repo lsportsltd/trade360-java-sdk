@@ -1,24 +1,27 @@
 # LSports Trade360 SDK <!-- omit from toc -->
 
 ## Table of Contents <!-- omit from toc -->
-
-- [About](#about)
-  - [Key Features](#key-features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-- [Installing](#installing)
-- [Usage Guide](#usage-guide)
-  - [Connecting to Trade360 Feed](#connecting-to-trade360-feed)
-    - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
-    - [Message recover in case of failure](#message-recover-in-case-of-failure)
-    - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
-  - [Using Snapshot API](#using-snapshot-api)
-    - [Handling responses](#handling-responses)
-    - [Error handling](#error-handling)
-- [Links](#links)
-- [Contributing](#contributing)
-- [License](#license)
-- [Release](#release)
+<!-- TOC -->
+* [LSports Trade360 SDK <!-- omit from toc -->](#lsports-trade360-sdk----omit-from-toc---)
+  * [Table of Contents <!-- omit from toc -->](#table-of-contents----omit-from-toc---)
+  * [About](#about)
+    * [Key Features](#key-features)
+  * [Getting Started](#getting-started)
+    * [Prerequisites](#prerequisites)
+  * [Installing](#installing)
+  * [Usage Guide](#usage-guide)
+    * [Connecting to Trade360 Feed](#connecting-to-trade360-feed)
+      * [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
+      * [Message recover in case of failure](#message-recover-in-case-of-failure)
+      * [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
+      * [Application Error handling](#application-error-handling)
+    * [Using Snapshot API](#using-snapshot-api)
+      * [Handling responses](#handling-responses)
+      * [Error handling](#error-handling)
+  * [Links](#links)
+  * [Contributing](#contributing)
+  * [License](#license)
+  * [Release](#release)
 
 ## About
 
@@ -276,6 +279,7 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 ```
 
 #### Application Error handling
+
 RabbitMQFeedException is a custom exception class that is thrown when there is an error in the application.
 Below exceptions are raised (exception messages):
 
