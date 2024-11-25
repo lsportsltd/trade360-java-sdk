@@ -17,9 +17,9 @@ public class OutrightSettlementsUpdate {
     public final static int entityKey = 42;
 
     /**
-     * The competitions associated with the outright settlements update.
+     * The competition associated with the outright settlements update.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public Iterable<OutrightCompetition<MarketEvent>> competitions;
+    public OutrightCompetition<MarketEvent> competition;
 }

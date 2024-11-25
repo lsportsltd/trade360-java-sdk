@@ -16,9 +16,9 @@ public class OutrightFixtureUpdate {
     public final static int entityKey = 37;
 
     /**
-     * The competitions associated with the outright fixture update.
+     * The competition associated with the outright fixture update.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public Iterable<OutrightCompetition<OutrightFixtureEvent>> competitions;
+    public OutrightCompetition<OutrightFixtureEvent> competition;
 }

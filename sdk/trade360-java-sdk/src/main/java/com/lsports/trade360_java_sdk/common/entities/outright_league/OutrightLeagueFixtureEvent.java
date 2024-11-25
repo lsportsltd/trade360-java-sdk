@@ -3,9 +3,9 @@ package com.lsports.trade360_java_sdk.common.entities.outright_league;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code OutrightLeagueMarketEvent} class represents a market event in an outright league.
+ * The {@code OutrightLeagueFixtureEvent} class represents a fixture event in an outright league.
  */
-public class OutrightLeagueMarketEvent {
+public class OutrightLeagueFixtureEvent {
 
     /**
      * The ID of the fixture associated with the market event.

@@ -6,6 +6,11 @@ package com.lsports.trade360_java_sdk.common.entities.outright_sport;
 public class OutrightScoreEvent {
 
     /**
+     * The ID of the fixture.
+     */
+    public int fixtureId;
+
+    /**
      * The outright score associated with the event.
      */
     public OutrightScore outrightScore;
