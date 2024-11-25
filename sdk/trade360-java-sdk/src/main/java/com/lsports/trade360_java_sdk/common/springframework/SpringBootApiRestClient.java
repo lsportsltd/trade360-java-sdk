@@ -44,6 +44,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
         this.client = builder
             .baseUrl(baseUrl.toString())
             .codecs(config -> {
+                config.defaultCodecs().maxInMemorySize(-1);
                 config.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(serializer.getObjectMapper()));
                 config.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(serializer.getObjectMapper(), new MediaType[] {MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM, MediaType.APPLICATION_PROBLEM_JSON}));
             })
