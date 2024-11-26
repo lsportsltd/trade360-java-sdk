@@ -1,15 +1,15 @@
-package com.lsports.trade360_java_sdk.common.configuration;
+package com.lsports.trade360_java_sdk.common.serialization;
 
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import org.junit.Test;
-import com.lsports.trade360_java_sdk.common.serialization.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 
-public class JacksonApiSerializerTests {
+public class JacksonApiSerializerTest {
         private final PackageCredentials packageCredentials = new PackageCredentials(
         1234,
         "testUser",
