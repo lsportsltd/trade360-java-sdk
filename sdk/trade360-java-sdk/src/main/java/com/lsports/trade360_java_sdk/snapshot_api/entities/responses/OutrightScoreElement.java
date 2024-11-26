@@ -1,7 +1,7 @@
 package com.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
 import com.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
-import com.lsports.trade360_java_sdk.common.entities.outright_sport.OutrightParticipant;
+import com.lsports.trade360_java_sdk.common.entities.outright_sport.OutrightParticipantResult;
 
 import jakarta.annotation.Nullable;
 
@@ -13,9 +13,9 @@ public final class OutrightScoreElement {
      * The collection of participant results associated with the outright score element.
      * Can be {@code null}.
      * 
-     * @see OutrightParticipant
+     * @see OutrightParticipantResult
      */
-    @Nullable public Iterable<OutrightParticipant> participantResults;
+    @Nullable public Iterable<OutrightParticipantResult> participantResults;
 
     /**
      * The status of the outright score element.

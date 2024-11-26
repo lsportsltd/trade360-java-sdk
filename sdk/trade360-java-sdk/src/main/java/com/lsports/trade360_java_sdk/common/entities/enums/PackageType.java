@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The {@code PackageType} enum represents the various types of packages.
  */
@@ -25,6 +27,7 @@ public enum PackageType {
      *
      * @return the integer value representing the package type
      */
+    @JsonValue
     public int getValue() {
         return this.value;
     }

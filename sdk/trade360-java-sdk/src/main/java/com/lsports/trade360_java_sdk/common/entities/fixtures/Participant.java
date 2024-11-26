@@ -37,10 +37,4 @@ public class Participant {
      */
     public int isActive = -1;
 
-
-    /**
-     * Extra data associated with the participant.
-     * This can be {@code null} if not set.
-     */
-    @Nullable public Iterable<NameValuePair> extraData;
 }

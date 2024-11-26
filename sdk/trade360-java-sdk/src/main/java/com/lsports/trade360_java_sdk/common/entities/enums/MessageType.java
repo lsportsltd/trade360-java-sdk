@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The {@code MessageType} enum represents the various types of messages.
  */
@@ -84,6 +86,7 @@ public enum MessageType {
      *
      * @return the integer value representing the message type
      */
+    @JsonValue
     public int getValue() {
         return this.value;
     }

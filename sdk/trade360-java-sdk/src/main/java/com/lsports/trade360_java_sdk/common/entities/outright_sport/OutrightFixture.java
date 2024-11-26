@@ -38,7 +38,7 @@ public class OutrightFixture {
     /**
      * The participants in the fixture.
      */
-    public Iterable<Participant> participants;
+    public Iterable<OutrightParticipant> participants;
 
     /**
      * Extra data associated with the fixture.

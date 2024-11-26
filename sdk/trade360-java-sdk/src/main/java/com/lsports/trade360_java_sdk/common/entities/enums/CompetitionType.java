@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The {@code CompetitionType} enum represents the various types of competitions.
  */
@@ -35,6 +37,7 @@ public enum CompetitionType {
      *
      * @return the integer value representing the competition type
      */
+    @JsonValue
     public int getValue() {
         return this.value;
     }

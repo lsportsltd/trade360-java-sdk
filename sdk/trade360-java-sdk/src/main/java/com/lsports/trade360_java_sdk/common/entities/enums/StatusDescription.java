@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The {@code StatusDescription} enum represents the various status descriptions.
  */
@@ -75,6 +77,7 @@ public enum StatusDescription {
      *
      * @return the integer value representing the status description
      */
+    @JsonValue
     public int getValue() {
         return this.value;
     }
