@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The {@code FixtureStatus} enum represents the various statuses a fixture can have.
  */
@@ -65,6 +67,7 @@ public enum FixtureStatus {
      *
      * @return the integer value representing the fixture status
      */
+    @JsonValue
     public int getValue() {
         return this.value;
     }

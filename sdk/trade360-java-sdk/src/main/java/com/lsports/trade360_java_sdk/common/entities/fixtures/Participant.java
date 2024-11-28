@@ -1,5 +1,6 @@
 package com.lsports.trade360_java_sdk.common.entities.fixtures;
 
+import com.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import jakarta.annotation.Nullable;
 
 /**
@@ -35,4 +36,5 @@ public class Participant {
      * {@code -1} represents unknown value.
      */
     public int isActive = -1;
+
 }

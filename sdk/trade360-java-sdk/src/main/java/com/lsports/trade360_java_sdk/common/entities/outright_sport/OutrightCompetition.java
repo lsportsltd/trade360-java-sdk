@@ -22,10 +22,6 @@ public class OutrightCompetition<T> {
      */
     public int type;
 
-    /**
-     * The sub-competitions associated with the competition.
-     */
-    public Iterable<OutrightCompetition<T>> competitions;
 
     /**
      * The events associated with the competition.

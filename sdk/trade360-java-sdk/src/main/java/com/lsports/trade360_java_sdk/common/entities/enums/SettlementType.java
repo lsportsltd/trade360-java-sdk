@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The {@code SettlementType} enum represents the various types of settlement statuses.
  */
@@ -41,16 +43,13 @@ public enum SettlementType {
 
     private int value;
 
-    SettlementType(int value) {
-        this.value = value;
-    }
+    SettlementType(int value) { this.value = value;}
 
     /**
      * Returns the integer value representing the settlement type.
      *
      * @return the integer value representing the settlement type
      */
-    public int getValue() {
-        return this.value;
-    }
+    @JsonValue
+    public int getValue() {return this.value; }
 }

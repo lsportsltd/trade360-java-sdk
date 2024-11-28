@@ -10,7 +10,7 @@ public class OutrightScore {
     /**
      * The results of the participants in the fixture.
      */
-    public Iterable<OutrightParticipant> participantResults;
+    public Iterable<OutrightParticipantResult> participantResults;
 
     /**
      * The status of the fixture.

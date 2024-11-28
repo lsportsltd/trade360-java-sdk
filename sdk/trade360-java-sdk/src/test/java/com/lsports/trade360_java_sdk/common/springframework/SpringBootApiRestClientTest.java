@@ -23,7 +23,7 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 
-public class SpringBootCustomersApiRestClientTests {
+public class SpringBootApiRestClientTest {
     private MockWebServer mockServer;
     private PackageCredentials packageCredentials;
     private URI baseUrl;
@@ -95,7 +95,7 @@ public class SpringBootCustomersApiRestClientTests {
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)
             .setResponseCode(HttpStatus.OK.value())
             .setBody(rawResponse));
-        
+
         // Act
         client.postRequest(
             new GetSnapshotRequest(null, null, null, null, null, null, null, null, null),
@@ -124,7 +124,7 @@ public class SpringBootCustomersApiRestClientTests {
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)
             .setResponseCode(HttpStatus.BAD_REQUEST.value())
             .setBody(rawResponse));
-        
+
         // Act
         var mono = client.postRequest(
             new GetSnapshotRequest(null, null, null, null, null, null, null, null, null),
@@ -155,7 +155,7 @@ public class SpringBootCustomersApiRestClientTests {
             .setHeader("Content-Type", MediaType.APPLICATION_OCTET_STREAM)
             .setResponseCode(HttpStatus.BAD_REQUEST.value())
             .setBody(rawResponse));
-        
+
         // Act
         var mono = client.postRequest(
             new GetSnapshotRequest(null, null, null, null, null, null, null, null, null),

@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The {@code SubscriptionStatus} enum represents the various statuses of a subscription.
  */
@@ -41,6 +43,7 @@ public enum SubscriptionStatus {
      *
      * @return the integer value representing the subscription status
      */
+    @JsonValue
     public int getValue() {
         return this.value;
     }

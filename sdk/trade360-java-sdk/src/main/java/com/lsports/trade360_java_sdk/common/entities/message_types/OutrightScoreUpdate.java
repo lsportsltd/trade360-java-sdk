@@ -16,9 +16,9 @@ public class OutrightScoreUpdate {
     public final static int entityKey = 39;
 
     /**
-     * The competitions associated with the outright score update.
+     * The competition associated with the outright score update.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public Iterable<OutrightCompetition<OutrightScoreEvent>> competitions;
+    public OutrightCompetition<OutrightScoreEvent> competition;
 }

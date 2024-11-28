@@ -1,5 +1,7 @@
 package com.lsports.trade360_java_sdk.common.entities.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * The {@code StatisticType} enum represents the various types of statistics.
  */
@@ -220,6 +222,7 @@ public enum StatisticType {
      *
      * @return the integer value representing the statistic type
      */
+    @JsonValue
     public int getValue() {
         return this.value;
     }

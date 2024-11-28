@@ -3,11 +3,11 @@ package com.lsports.trade360_java_sdk.common.entities.outright_league;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code OutrightLeagueCompetitionWrapper} class represents a wrapper for outright league competitions.
+ * The {@code OutrightLeagueCompetitions} class represents competitions in an outright league.
  *
  * @param <T> the type of the events associated with the competition
  */
-public class OutrightLeagueCompetitionWrapper<T> {
+public class OutrightLeagueCompetitions<T> {
 
     /**
      * The ID of the competition.
@@ -16,9 +16,8 @@ public class OutrightLeagueCompetitionWrapper<T> {
 
     /**
      * The name of the competition.
-     * This can be {@code null} if not set.
      */
-    @Nullable public String name;
+    public String name;
 
     /**
      * The type of the competition.
@@ -26,8 +25,8 @@ public class OutrightLeagueCompetitionWrapper<T> {
     public int type;
 
     /**
-     * The competitions associated with the competition wrapper.
+     * The events associated with the competition.
      * This can be {@code null} if not set.
      */
-    @Nullable public Iterable<OutrightLeagueEventsWrapper<T>> competitions;
+    @Nullable public Iterable<T> events;
 }
