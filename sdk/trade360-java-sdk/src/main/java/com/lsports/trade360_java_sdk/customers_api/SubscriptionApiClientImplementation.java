@@ -2,6 +2,7 @@ package com.lsports.trade360_java_sdk.customers_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
+import com.lsports.trade360_java_sdk.customers_api.entities.base.BaseResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.PackageQuotaResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.requests.*;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.responses.*;
@@ -28,10 +29,10 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<PackageQuotaResponse> getPackageQuota() {
+    public Mono<BaseResponse<PackageQuotaResponse>> getPackageQuota() {
         return this.client
                 .postRequest(
-                        new TypeReference<PackageQuotaResponse>() {},
+                        new TypeReference<BaseResponse<PackageQuotaResponse>>() {},
                         "/package/GetPackageQuota");
     }
 
@@ -39,11 +40,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<FixtureScheduleCollectionResponse> getInPlayFixtureSchedule(GetFixtureScheduleRequest request) {
+    public Mono<BaseResponse<FixtureScheduleCollectionResponse>> getInPlayFixtureSchedule(GetFixtureScheduleRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<FixtureScheduleCollectionResponse>() {},
+                        new TypeReference<BaseResponse<FixtureScheduleCollectionResponse>>() {},
                         "Fixtures/InPlaySchedule"
                 );
     }
@@ -52,11 +53,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<FixtureSubscriptionCollectionResponse> subscribeByFixture(FixtureSubscriptionRequest request) {
+    public Mono<BaseResponse<FixtureSubscriptionCollectionResponse>> subscribeByFixture(FixtureSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<FixtureSubscriptionCollectionResponse>() {},
+                        new TypeReference<BaseResponse<FixtureSubscriptionCollectionResponse>>() {},
                         "Fixtures/Subscribe"
                 );
     }
@@ -65,11 +66,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<FixtureSubscriptionCollectionResponse> unSubscribeByFixture(FixtureSubscriptionRequest request) {
+    public Mono<BaseResponse<FixtureSubscriptionCollectionResponse>> unSubscribeByFixture(FixtureSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<FixtureSubscriptionCollectionResponse>() {},
+                        new TypeReference<BaseResponse<FixtureSubscriptionCollectionResponse>>() {},
                         "Fixtures/UnSubscribe"
                 );
     }
@@ -78,11 +79,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<LeagueSubscriptionCollectionResponse> subscribeByLeague(LeagueSubscriptionRequest request) {
+    public Mono<BaseResponse<LeagueSubscriptionCollectionResponse>> subscribeByLeague(LeagueSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<LeagueSubscriptionCollectionResponse>() {},
+                        new TypeReference<BaseResponse<LeagueSubscriptionCollectionResponse>>() {},
                         "Leagues/Subscribe"
                 );
     }
@@ -91,11 +92,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<LeagueSubscriptionCollectionResponse> unSubscribeByLeague(LeagueSubscriptionRequest request) {
+    public Mono<BaseResponse<LeagueSubscriptionCollectionResponse>> unSubscribeByLeague(LeagueSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<LeagueSubscriptionCollectionResponse>() {},
+                        new TypeReference<BaseResponse<LeagueSubscriptionCollectionResponse>>() {},
                         "Leagues/UnSubscribe"
                 );
     }
@@ -104,11 +105,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetSubscriptionResponse> getSubscriptions(GetSubscriptionRequest request) {
+    public Mono<BaseResponse<GetSubscriptionResponse>> getSubscriptions(GetSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<GetSubscriptionResponse>() {},
+                        new TypeReference<BaseResponse<GetSubscriptionResponse>>() {},
                         "Fixtures/Get"
                 );
     }
@@ -117,11 +118,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<CompetitionSubscriptionCollectionResponse> subscribeByCompetition(CompetitionSubscriptionRequest request) {
+    public Mono<BaseResponse<CompetitionSubscriptionCollectionResponse>> subscribeByCompetition(CompetitionSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<CompetitionSubscriptionCollectionResponse>() {},
+                        new TypeReference<BaseResponse<CompetitionSubscriptionCollectionResponse>>() {},
                         "Outright/Subscribe"
                 );
     }
@@ -130,11 +131,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<CompetitionSubscriptionCollectionResponse> unSubscribeByCompetition(CompetitionSubscriptionRequest request) {
+    public Mono<BaseResponse<CompetitionSubscriptionCollectionResponse>> unSubscribeByCompetition(CompetitionSubscriptionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<CompetitionSubscriptionCollectionResponse>() {},
+                        new TypeReference<BaseResponse<CompetitionSubscriptionCollectionResponse>>() {},
                         "Outright/UnSubscribe"
                 );
     }
@@ -143,10 +144,10 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetManualSuspensionResponse> getAllManualSuspensions() {
+    public Mono<BaseResponse<GetManualSuspensionResponse>> getAllManualSuspensions() {
         return this.client
                 .postRequest(
-                        new TypeReference<GetManualSuspensionResponse>() {},
+                        new TypeReference<BaseResponse<GetManualSuspensionResponse>>() {},
                         "Markets/ManualSuspension/GetAll"
                 );
     }
@@ -155,11 +156,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<ChangeManualSuspensionResponse> addManualSuspension(ChangeManualSuspensionRequest request) {
+    public Mono<BaseResponse<ChangeManualSuspensionResponse>> addManualSuspension(ChangeManualSuspensionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<ChangeManualSuspensionResponse>() {},
+                        new TypeReference<BaseResponse<ChangeManualSuspensionResponse>>() {},
                         "Markets/ManualSuspension/Activate"
                 );
     }
@@ -168,11 +169,11 @@ public class SubscriptionApiClientImplementation implements SubscriptionApiClien
      * {@inheritDoc}
      */
     @Override
-    public Mono<ChangeManualSuspensionResponse> removeManualSuspension(ChangeManualSuspensionRequest request) {
+    public Mono<BaseResponse<ChangeManualSuspensionResponse>> removeManualSuspension(ChangeManualSuspensionRequest request) {
         return this.client
                 .postRequest(
                         request,
-                        new TypeReference<ChangeManualSuspensionResponse>() {},
+                        new TypeReference<BaseResponse<ChangeManualSuspensionResponse>>() {},
                         "Markets/ManualSuspension/Deactivate"
                 );
     }

@@ -1,6 +1,6 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetEventsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureMarketsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
@@ -20,7 +20,7 @@ public interface InPlaySnapshotApiClient {
      * @return A {@link Mono} emitting the fixtures
      * @see GetFixturesResultElement
      */
-    Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest);
+    Mono<Iterable<GetFixturesResultElement>> getFixtures(GetFixtureRequest getFixturesRequest);
     
     /**
      * Gets the live scores based on the provided request.
@@ -29,7 +29,7 @@ public interface InPlaySnapshotApiClient {
      * @return A {@link Mono} emitting the live scores
      * @see GetLivescoreResultElement
      */
-    Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequestDto);
+    Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetLivescoreRequest getLivescoreRequestDto);
 
     /**
      * Gets the fixture markets based on the provided request.
@@ -38,7 +38,7 @@ public interface InPlaySnapshotApiClient {
      * @return A {@link Mono} emitting the fixture markets
      * @see GetFixtureMarketsResultElement
      */
-    Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getFixtureMarketsRequest);
+    Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetMarketRequest getFixtureMarketsRequest);
 
     /**
      * Gets the events based on the provided request.
@@ -47,5 +47,5 @@ public interface InPlaySnapshotApiClient {
      * @return A {@link Mono} emitting the events
      * @see GetEventsResultElement
      */
-    Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest);
+    Mono<Iterable<GetEventsResultElement>> getEvents(GetInPlayEventRequest getEventsRequest);
 }

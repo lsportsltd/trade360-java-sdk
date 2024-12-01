@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.common.springframework;
+package com.lsports.trade360_java_sdk.snapshot_api.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,7 +29,7 @@ import java.util.stream.StreamSupport;
 /**
  * The {@code SpringBootApiRestClient} class implements the {@link ApiRestClient} interface using Spring WebClient.
  */
-public class SpringBootApiRestClient implements ApiRestClient {
+public class SpringBootSnapshotApiRestClient implements SnapshotApiRestClient {
     private final WebClient client;
     private final JsonApiSerializer serializer;
 
@@ -40,7 +40,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
      * @param serializer the JSON serializer
      * @param baseUrl the base URL for the API
      */
-    public SpringBootApiRestClient(WebClient.Builder builder, JsonApiSerializer serializer, URI baseUrl) {
+    public SpringBootSnapshotApiRestClient(WebClient.Builder builder, JsonApiSerializer serializer, URI baseUrl) {
         this.serializer = serializer;
         this.client = builder
             .baseUrl(baseUrl.toString())
@@ -59,7 +59,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
      * {@inheritDoc}
      */
     @Override
-    public <Req, Res> Mono<BaseResponse<Res>> postRequest(Req requestBody, TypeReference<BaseResponse<Res>> responseTypeReference, String url){
+    public <Req, Res> Mono<Res> postRequest(Req requestBody, TypeReference<Res> responseTypeReference, String url){
         return this.client
             .post()
             .uri(url)
@@ -74,7 +74,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
      * {@inheritDoc}
      */
     @Override
-    public <Res> Mono<BaseResponse<Res>> postRequest(TypeReference<BaseResponse<Res>> responseTypeReference, String url) {
+    public <Res> Mono<Res> postRequest(TypeReference<Res> responseTypeReference, String url) {
         return this.client
             .post()
             .uri(url)
@@ -89,7 +89,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
      * {@inheritDoc}
      */
     @Override
-    public <Req, Res> Mono<BaseResponse<Res>> getRequest(Req requestQueryStringObject, TypeReference<BaseResponse<Res>> responseTypeReference, String url) {
+    public <Req, Res> Mono<Res> getRequest(Req requestQueryStringObject, TypeReference<Res> responseTypeReference, String url) {
         MultiValueMap<String, String> queryParams;
         try {
             queryParams = this.convertToQueryParams(requestQueryStringObject);
@@ -117,24 +117,24 @@ public class SpringBootApiRestClient implements ApiRestClient {
         return params;
     }
 
-    private <Res> void handleResponse(TypeReference<Res> responseTypeReference, JsonNode response, SynchronousSink<Res> sink) {
+    private <Res> void handleResponse(TypeReference<Res> responseTypeReference, JsonNode parsedResponse, SynchronousSink<Res> sink) {
         try {
-            if (response == null) {
+            if (parsedResponse == null) {
                 throw new Trade360Exception("No correct response received. Ensure that correct Trade360 URL is configured.");
             }
 
-            if (!response.has("Header")) {
+            if (!parsedResponse.has("Header")) {
                 throw new Trade360Exception("'Header' property is missing. Please, ensure that you use the correct URL.");
             }
 
-            var body = response.get("Body");
+            var body = parsedResponse.get("Body");
             if (body == null) {
                 throw new Trade360Exception("'Body' property is missing. Please, ensure that you use the correct URL.");
             }
 
-            var parsedResponse = this.serializer.deserializeToValue(response.traverse(), responseTypeReference);
+            var parsedBody = this.serializer.deserializeToValue(body.traverse(), responseTypeReference);
 
-            sink.next(parsedResponse);
+            sink.next(parsedBody);
         }
         catch(IOException ex) {
             sink.error(ex);

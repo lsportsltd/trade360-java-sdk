@@ -1,7 +1,5 @@
-package com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base;
-
+package com.lsports.trade360_java_sdk.customers_api.entities.base;
 import jakarta.annotation.Nullable;
-
 /**
  * Represents a base response for the subscription API.
  *
@@ -9,14 +7,16 @@ import jakarta.annotation.Nullable;
  */
 public class BaseResponse<T> {
     /**
+     * /**
      * The header of the response.
      *
-     * @see HeaderResponse
      */
-    @Nullable public HeaderResponse header;
+    @Nullable
+    public HeaderResponse header;
 
     /**
      * The body of the response.
      */
-    @Nullable public T body;
+    @Nullable
+    public T body;
 }

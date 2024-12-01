@@ -35,7 +35,7 @@ public class SpringBootSnapshotApiClientFactory implements SnapshotApiClientFact
     @Override
     public InPlaySnapshotApiClient createInPlayApiClient(URI baseUrl, PackageCredentials credentials) {
         var serializer = new JacksonApiSerializer(credentials);
-        var client = new SpringBootApiRestClient(builder, serializer, baseUrl);
+        var client = new SpringBootSnapshotApiRestClient(builder, serializer, baseUrl);
         
         return new InPlaySnapshotApiClientImplementation(client);
     }
@@ -46,7 +46,7 @@ public class SpringBootSnapshotApiClientFactory implements SnapshotApiClientFact
     @Override
     public PreMatchSnapshotApiClient createPreMatchApiClient(URI baseUrl, PackageCredentials credentials) {
         var serializer = new JacksonApiSerializer(credentials);
-        var client = new SpringBootApiRestClient(builder, serializer, baseUrl);
+        var client = new SpringBootSnapshotApiRestClient(builder, serializer, baseUrl);
         
         return new PreMatchSnapshotApiClientImplementation(client);
     }

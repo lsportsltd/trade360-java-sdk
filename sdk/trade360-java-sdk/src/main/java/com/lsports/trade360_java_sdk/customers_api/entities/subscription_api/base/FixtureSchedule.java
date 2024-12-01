@@ -3,6 +3,7 @@ package com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.ba
 import com.lsports.trade360_java_sdk.common.entities.fixtures.League;
 import com.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import com.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
+import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.LeagueMetadata;
 import jakarta.annotation.Nullable;
 
 import java.time.LocalDateTime;
@@ -35,7 +36,7 @@ public class FixtureSchedule {
      *
      * @see League
      */
-    @Nullable public League league;
+    @Nullable public LeagueMetadata league;
 
     /**
      * The start date of the fixture in UTC.

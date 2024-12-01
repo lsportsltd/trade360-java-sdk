@@ -4,16 +4,17 @@ import jakarta.annotation.Nullable;
 
 /**
  * Represents a market in the subscription API.
- */
-public class Market {
-    /**
-     * The ID of the market.
-     */
-    public int marketId;
+ *
+ * @param marketId The ID of the a market in the subscription API..
+ * @param line The line of the market
+ *             **/
+public record Market (
+     int marketId,
+    @Nullable String line
+){
 
-    /**
-     * The line of the market.
-     * Nullable to handle missing values.
-     */
-    @Nullable public String line;
+ //   public Market(int id, String line) {
+ //       this.marketId = id;
+  //      this.line = line;
+  //  }
 }

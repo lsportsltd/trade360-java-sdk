@@ -2,22 +2,23 @@ package com.lsports.trade360_java_sdk.snapshot_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.*;
+import com.lsports.trade360_java_sdk.snapshot_api.springframework.SnapshotApiRestClient;
 import reactor.core.publisher.Mono;
 
 /**
  * Implementation of the {@link PreMatchSnapshotApiClient} interface.
  */
 public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshotApiClient {
-    private final ApiRestClient client;
+    private final SnapshotApiRestClient client;
 
     /**
      * Constructs a new PreMatchSnapshotApiClientImplementation with the given API client.
      *
      * @param client The API client
      */
-    public PreMatchSnapshotApiClientImplementation(ApiRestClient client) {
+    public PreMatchSnapshotApiClientImplementation(SnapshotApiRestClient client) {
         this.client = client;
     }
 
@@ -25,7 +26,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest) {
+    public Mono<Iterable<GetFixturesResultElement>> getFixtures(GetFixtureRequest getFixturesRequest) {
         return this.client.postRequest(
             getFixturesRequest,
             new TypeReference<Iterable<GetFixturesResultElement>>() {},
@@ -36,7 +37,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequest) {
+    public Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetLivescoreRequest getLivescoreRequest) {
         return this.client.postRequest(
             getLivescoreRequest,
             new TypeReference<Iterable<GetLivescoreResultElement>>() {},
@@ -47,7 +48,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getMarketRequest) {
+    public Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetMarketRequest getMarketRequest) {
         return this.client.postRequest(
             getMarketRequest,
             new TypeReference<Iterable<GetFixtureMarketsResultElement>>() {},
@@ -58,7 +59,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest) {
+    public Mono<Iterable<GetEventsResultElement>> getEvents(GetEventRequest getEventsRequest) {
         return this.client.postRequest(
             getEventsRequest,
             new TypeReference<Iterable<GetEventsResultElement>>() {},
@@ -69,7 +70,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetOutrightEventsResultElement>> getOutrightEvents(GetSnapshotRequest getOutrightEventsRequest) {
+    public Mono<Iterable<GetOutrightEventsResultElement>> getOutrightEvents(GetOutrightEventRequest getOutrightEventsRequest) {
         return this.client.postRequest(
             getOutrightEventsRequest,
             new TypeReference<Iterable<GetOutrightEventsResultElement>>() {},
@@ -80,7 +81,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetOutrightFixtureResultElement>> getOutrightFixture(GetSnapshotRequest getOutrightFixtureRequest) {
+    public Mono<Iterable<GetOutrightFixtureResultElement>> getOutrightFixture(GetOutrightFixtureRequest getOutrightFixtureRequest) {
         return this.client.postRequest(
             getOutrightFixtureRequest,
             new TypeReference<Iterable<GetOutrightFixtureResultElement>>() {},
@@ -91,7 +92,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetOutrightScoresResultElement>> getOutrightScores(GetSnapshotRequest getOutrightScoresRequest) {
+    public Mono<Iterable<GetOutrightScoresResultElement>> getOutrightScores(GetOutrightLivescoreRequest getOutrightScoresRequest) {
         return this.client.postRequest(
             getOutrightScoresRequest,
             new TypeReference<Iterable<GetOutrightScoresResultElement>>() {},
@@ -102,7 +103,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetOutrightFixtureMarketsResultElement>> getOutrightFixtureMarkets(GetSnapshotRequest getOutrightFixtureMarketsRequest) {
+    public Mono<Iterable<GetOutrightFixtureMarketsResultElement>> getOutrightFixtureMarkets(GetOutrightMarketRequest getOutrightFixtureMarketsRequest) {
         return this.client.postRequest(
             getOutrightFixtureMarketsRequest,
             new TypeReference<Iterable<GetOutrightFixtureMarketsResultElement>>() {},
@@ -113,7 +114,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetSnapshotRequest getOutrightLeaguesRequest) {
+    public Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetOutrightLeaguesRequest getOutrightLeaguesRequest) {
         return this.client.postRequest(
             getOutrightLeaguesRequest,
             new TypeReference<Iterable<GetOutrightLeaguesResultElement>>() {},
@@ -124,7 +125,7 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetSnapshotRequest getOutrightLeagueMarketsRequest) {
+    public Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetOutrightLeagueMarketRequest getOutrightLeagueMarketsRequest) {
         return this.client.postRequest(
             getOutrightLeagueMarketsRequest,
             new TypeReference<Iterable<GetOutrightLeagueMarketsResultElement>>() {},

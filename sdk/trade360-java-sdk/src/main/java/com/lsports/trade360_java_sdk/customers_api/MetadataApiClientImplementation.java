@@ -2,6 +2,7 @@ package com.lsports.trade360_java_sdk.customers_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
+import com.lsports.trade360_java_sdk.customers_api.entities.base.BaseResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.*;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.*;
 import com.lsports.trade360_java_sdk.customers_api.interfaces.MetadataApiClient;
@@ -26,7 +27,7 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetSportsResponse> getSports() {
+    public Mono<BaseResponse<GetSportsResponse>> getSports() {
         return this.getSports(new GetSportsRequest());
     }
 
@@ -34,10 +35,10 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetSportsResponse> getSports(GetSportsRequest request) {
+    public Mono<BaseResponse<GetSportsResponse>> getSports(GetSportsRequest request) {
         return this.client.postRequest(
             request,
-            new TypeReference<GetSportsResponse>() {},
+            new TypeReference<BaseResponse<GetSportsResponse>>() {},
             "Sports/Get"
         );
     }
@@ -46,7 +47,7 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetLocationsResponse> getLocations() {
+    public Mono<BaseResponse<GetLocationsResponse>> getLocations() {
         return this.getLocations(new GetLocationsRequest());
     }
 
@@ -54,10 +55,10 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetLocationsResponse> getLocations(GetLocationsRequest request) {
+    public Mono<BaseResponse<GetLocationsResponse>> getLocations(GetLocationsRequest request) {
         return this.client.postRequest(
             request,
-            new TypeReference<GetLocationsResponse>() {},
+            new TypeReference<BaseResponse<GetLocationsResponse>>() {},
             "Locations/Get"
         );
     }
@@ -66,10 +67,10 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetLeaguesResponse> getLeagues(GetLeaguesRequest request) {
+    public Mono<BaseResponse<GetLeaguesResponse>> getLeagues(GetLeaguesRequest request) {
         return this.client.postRequest(
             request,
-            new TypeReference<GetLeaguesResponse>() {},
+            new TypeReference<BaseResponse<GetLeaguesResponse>>() {},
             "Leagues/Get"
         );
     }
@@ -78,10 +79,10 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetMarketsResponse> getMarkets(GetMarketsRequest request) {
+    public Mono<BaseResponse<GetMarketsResponse>> getMarkets(GetMarketsRequest request) {
         return this.client.postRequest(
             request,
-            new TypeReference<GetMarketsResponse>() {},
+            new TypeReference<BaseResponse<GetMarketsResponse>>() {},
             "Markets/Get"
         );
     }
@@ -90,10 +91,10 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetTranslationsResponse> getTranslations(GetTranslationsRequest request) {
+    public Mono<BaseResponse<GetTranslationsResponse>> getTranslations(GetTranslationsRequest request) {
         return this.client.postRequest(
             request,
-            new TypeReference<GetTranslationsResponse>() {},
+            new TypeReference<BaseResponse<GetTranslationsResponse>>() {},
             "Translation/Get"
         );
     }
@@ -102,10 +103,10 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetCompetitionsResponse> getCompetitions(GetCompetitionsRequest request) {
+    public Mono<BaseResponse<GetCompetitionsResponse>> getCompetitions(GetCompetitionsRequest request) {
         return this.client.postRequest(
             request,
-            new TypeReference<GetCompetitionsResponse>() {},
+            new TypeReference<BaseResponse<GetCompetitionsResponse>>() {},
             "Outright/GetCompetitions"
         );
     }
@@ -114,10 +115,10 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetSubscribedFixturesResponse> getSubscribedFixtures(GetSubscribedFixturesRequest request) {
+    public Mono<BaseResponse<GetSubscribedFixturesResponse>> getSubscribedFixtures(GetSubscribedFixturesRequest request) {
         return this.client.postRequest(
             request,
-            new TypeReference<GetSubscribedFixturesResponse>() {},
+            new TypeReference<BaseResponse<GetSubscribedFixturesResponse>>() {},
             "Fixtures/Get"
         );
     }
@@ -126,10 +127,10 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetSubscribedFixturesMetadataResponse> getSubscribedFixturesMetadata(GetSubscribedFixturesMetadataRequest request) {
+    public Mono<BaseResponse<GetSubscribedFixturesMetadataResponse>> getSubscribedFixturesMetadata(GetSubscribedFixturesMetadataRequest request) {
         return this.client.getRequest(
             request,
-            new TypeReference<GetSubscribedFixturesMetadataResponse>() {},
+            new TypeReference<BaseResponse<GetSubscribedFixturesMetadataResponse>>() {},
             "Fixtures/GetSubscribedMetaData"
         );
     }

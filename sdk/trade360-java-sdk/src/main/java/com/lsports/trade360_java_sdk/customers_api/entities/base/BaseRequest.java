@@ -1,4 +1,4 @@
-package com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base;
+package com.lsports.trade360_java_sdk.customers_api.entities.base;
 
 import jakarta.annotation.Nullable;
 
@@ -14,7 +14,8 @@ public class BaseRequest {
     /**
      * The username for authentication.
      */
-    @Nullable public String userName;
+    @Nullable
+    public String userName;
 
     /**
      * The password for authentication.

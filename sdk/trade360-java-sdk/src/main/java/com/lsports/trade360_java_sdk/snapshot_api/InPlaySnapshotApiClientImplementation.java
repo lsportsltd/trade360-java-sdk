@@ -1,26 +1,26 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetEventsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureMarketsResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
+import com.lsports.trade360_java_sdk.snapshot_api.springframework.SnapshotApiRestClient;
 import reactor.core.publisher.Mono;
 
 /**
  * Implementation of the {@link InPlaySnapshotApiClient} interface.
  */
 public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiClient {
-    private final ApiRestClient client;
+    private final SnapshotApiRestClient client;
 
     /**
      * Constructs a new InPlaySnapshotApiClientImplementation with the given API client.
      *
      * @param client The API client
      */
-    public InPlaySnapshotApiClientImplementation(ApiRestClient client) {
+    public InPlaySnapshotApiClientImplementation(SnapshotApiRestClient client) {
         this.client = client;
     }
 
@@ -28,7 +28,7 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest) {
+    public Mono<Iterable<GetFixturesResultElement>> getFixtures(GetFixtureRequest getFixturesRequest) {
         return this.client.postRequest(
             getFixturesRequest,
             new TypeReference<Iterable<GetFixturesResultElement>>(){},
@@ -39,7 +39,7 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequest) {
+    public Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetLivescoreRequest getLivescoreRequest) {
         return this.client.postRequest(
             getLivescoreRequest,
             new TypeReference<Iterable<GetLivescoreResultElement>>(){},
@@ -50,7 +50,7 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getMarketRequest) {
+    public Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetMarketRequest getMarketRequest) {
         return this.client.postRequest(
             getMarketRequest,
             new TypeReference<Iterable<GetFixtureMarketsResultElement>>(){},
@@ -61,7 +61,7 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
      * {@inheritDoc}
      */
     @Override
-    public Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest) {
+    public Mono<Iterable<GetEventsResultElement>> getEvents(GetInPlayEventRequest getEventsRequest) {
         return this.client.postRequest(
             getEventsRequest,
             new TypeReference<Iterable<GetEventsResultElement>>(){},

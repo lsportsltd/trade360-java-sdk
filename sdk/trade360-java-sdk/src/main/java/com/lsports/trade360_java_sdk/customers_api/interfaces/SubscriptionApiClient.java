@@ -1,5 +1,6 @@
 package com.lsports.trade360_java_sdk.customers_api.interfaces;
 
+import com.lsports.trade360_java_sdk.customers_api.entities.base.BaseResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.PackageQuotaResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.requests.*;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.responses.*;
@@ -15,7 +16,7 @@ public interface SubscriptionApiClient {
      *
      * @return A {@link Mono} emitting the {@link PackageQuotaResponse}
      */
-    Mono<PackageQuotaResponse> getPackageQuota();
+    Mono<BaseResponse<PackageQuotaResponse>> getPackageQuota();
 
     /**
      * Gets the in-play fixture schedule.
@@ -23,7 +24,7 @@ public interface SubscriptionApiClient {
      * @param request The request containing the parameters
      * @return A {@link Mono} emitting the {@link FixtureScheduleCollectionResponse}
      */
-    Mono<FixtureScheduleCollectionResponse> getInPlayFixtureSchedule(GetFixtureScheduleRequest request);
+    Mono<BaseResponse<FixtureScheduleCollectionResponse>> getInPlayFixtureSchedule(GetFixtureScheduleRequest request);
 
     /**
      * Subscribes to fixtures.
@@ -31,7 +32,7 @@ public interface SubscriptionApiClient {
      * @param request The request containing the fixture IDs
      * @return A {@link Mono} emitting the {@link FixtureSubscriptionCollectionResponse}
      */
-    Mono<FixtureSubscriptionCollectionResponse> subscribeByFixture(FixtureSubscriptionRequest request);
+    Mono<BaseResponse<FixtureSubscriptionCollectionResponse>> subscribeByFixture(FixtureSubscriptionRequest request);
 
     /**
      * Unsubscribes from fixtures.
@@ -39,7 +40,7 @@ public interface SubscriptionApiClient {
      * @param request The request containing the fixture IDs
      * @return A {@link Mono} emitting the {@link FixtureSubscriptionCollectionResponse}
      */
-    Mono<FixtureSubscriptionCollectionResponse> unSubscribeByFixture(FixtureSubscriptionRequest request);
+    Mono<BaseResponse<FixtureSubscriptionCollectionResponse>> unSubscribeByFixture(FixtureSubscriptionRequest request);
 
     /**
      * Subscribes to leagues.
@@ -47,7 +48,7 @@ public interface SubscriptionApiClient {
      * @param request The request containing the league subscriptions
      * @return A {@link Mono} emitting the {@link LeagueSubscriptionCollectionResponse}
      */
-    Mono<LeagueSubscriptionCollectionResponse> subscribeByLeague(LeagueSubscriptionRequest request);
+    Mono<BaseResponse<LeagueSubscriptionCollectionResponse>> subscribeByLeague(LeagueSubscriptionRequest request);
 
     /**
      * Unsubscribes from leagues.
@@ -55,7 +56,7 @@ public interface SubscriptionApiClient {
      * @param request The request containing the league subscriptions
      * @return A {@link Mono} emitting the {@link LeagueSubscriptionCollectionResponse}
      */
-    Mono<LeagueSubscriptionCollectionResponse> unSubscribeByLeague(LeagueSubscriptionRequest request);
+    Mono<BaseResponse<LeagueSubscriptionCollectionResponse>> unSubscribeByLeague(LeagueSubscriptionRequest request);
 
     /**
      * Gets the current subscriptions.
@@ -63,7 +64,7 @@ public interface SubscriptionApiClient {
      * @param request The request containing the parameters
      * @return A {@link Mono} emitting the {@link GetSubscriptionResponse}
      */
-    Mono<GetSubscriptionResponse> getSubscriptions(GetSubscriptionRequest request);
+    Mono<BaseResponse<GetSubscriptionResponse>> getSubscriptions(GetSubscriptionRequest request);
 
     /**
      * Subscribes to competitions.
@@ -71,7 +72,7 @@ public interface SubscriptionApiClient {
      * @param request The request containing the competition subscriptions
      * @return A {@link Mono} emitting the {@link CompetitionSubscriptionCollectionResponse}
      */
-    Mono<CompetitionSubscriptionCollectionResponse> subscribeByCompetition(CompetitionSubscriptionRequest request);
+    Mono<BaseResponse<CompetitionSubscriptionCollectionResponse>> subscribeByCompetition(CompetitionSubscriptionRequest request);
 
     /**
      * Unsubscribes from competitions.
@@ -79,14 +80,14 @@ public interface SubscriptionApiClient {
      * @param request The request containing the competition subscriptions
      * @return A {@link Mono} emitting the {@link CompetitionSubscriptionCollectionResponse}
      */
-    Mono<CompetitionSubscriptionCollectionResponse> unSubscribeByCompetition(CompetitionSubscriptionRequest request);
+    Mono<BaseResponse<CompetitionSubscriptionCollectionResponse>> unSubscribeByCompetition(CompetitionSubscriptionRequest request);
 
     /**
      * Gets all manual suspensions.
      *
      * @return A {@link Mono} emitting the {@link GetManualSuspensionResponse}
      */
-    Mono<GetManualSuspensionResponse> getAllManualSuspensions();
+    Mono<BaseResponse<GetManualSuspensionResponse>> getAllManualSuspensions();
 
     /**
      * Adds a manual suspension.
@@ -94,7 +95,7 @@ public interface SubscriptionApiClient {
      * @param request The request containing the suspensions to be added
      * @return A {@link Mono} emitting the {@link ChangeManualSuspensionResponse}
      */
-    Mono<ChangeManualSuspensionResponse> addManualSuspension(ChangeManualSuspensionRequest request);
+    Mono<BaseResponse<ChangeManualSuspensionResponse>> addManualSuspension(ChangeManualSuspensionRequest request);
 
     /**
      * Removes a manual suspension.
@@ -102,5 +103,5 @@ public interface SubscriptionApiClient {
      * @param request The request containing the suspensions to be removed
      * @return A {@link Mono} emitting the {@link ChangeManualSuspensionResponse}
      */
-    Mono<ChangeManualSuspensionResponse> removeManualSuspension(ChangeManualSuspensionRequest request);
+    Mono<BaseResponse<ChangeManualSuspensionResponse>> removeManualSuspension(ChangeManualSuspensionRequest request);
 }
