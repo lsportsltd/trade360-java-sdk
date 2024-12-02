@@ -1,6 +1,7 @@
 package com.lsports.trade360_java_sdk.customers_api;
 
 import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
+import com.lsports.trade360_java_sdk.customers_api.entities.base.BaseResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.responses.GetDistributionStatusResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.responses.StartDistributionResponse;
 import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.responses.StopDistributionResponse;
@@ -28,10 +29,10 @@ public class PackageDistributionApiClientImplementation implements PackageDistri
      * {@inheritDoc}
      */
     @Override
-    public Mono<GetDistributionStatusResponse> getDistributionStatus() {
+    public Mono<BaseResponse<GetDistributionStatusResponse>> getDistributionStatus() {
         return this.client
                 .postRequest(
-                        new TypeReference<GetDistributionStatusResponse>() {},
+                        new TypeReference<BaseResponse<GetDistributionStatusResponse>>() {},
                         "Package/GetDistributionStatus");
     }
 
@@ -39,10 +40,10 @@ public class PackageDistributionApiClientImplementation implements PackageDistri
      * {@inheritDoc}
      */
     @Override
-    public Mono<StartDistributionResponse> startDistribution() {
+    public Mono<BaseResponse<StartDistributionResponse>> startDistribution() {
         return this.client
                 .postRequest(
-                        new TypeReference<StartDistributionResponse>() {},
+                        new TypeReference<BaseResponse<StartDistributionResponse>>() {},
                         "Distribution/Start");
     }
 
@@ -50,10 +51,10 @@ public class PackageDistributionApiClientImplementation implements PackageDistri
      * {@inheritDoc}
      */
     @Override
-    public Mono<StopDistributionResponse> stopDistribution() {
+    public Mono<BaseResponse<StopDistributionResponse>> stopDistribution() {
         return this.client
                 .postRequest(
-                        new TypeReference<StopDistributionResponse>() {},
+                        new TypeReference<BaseResponse<StopDistributionResponse>>() {},
                         "Distribution/Stop");
     }
 }

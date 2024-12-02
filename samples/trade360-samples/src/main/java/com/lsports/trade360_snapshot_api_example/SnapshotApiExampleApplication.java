@@ -1,26 +1,40 @@
 package com.lsports.trade360_snapshot_api_example;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Scanner;
+
+import com.lsports.trade360_java_sdk.customers_api.entities.subscription_api.requests.GetFixtureScheduleRequest;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
+import com.lsports.trade360_java_sdk.snapshot_api.springframework.SpringBootSnapshotApiClientFactory;
+import com.lsports.trade360_snapshot_api_example.configuration.SnapshotApiConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import com.lsports.trade360_java_sdk.snapshot_api.SnapshotApiClientFactory;
 import com.lsports.base.ApiExampleApplicationBase;
 import com.lsports.trade360_java_sdk.common.serialization.JacksonApiSerializer;
 import com.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
-import com.lsports.trade360_java_sdk.snapshot_api.springframework.SpringBootSnapshotApiClientFactory;
 import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
+@EnableConfigurationProperties(SnapshotApiConfiguration.class)
 public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
+    private URI baseUri;
     private final SnapshotApiClientFactory apiClientFactory;
+    private PackageCredentials inPlayPackageCredentials;
 
+    private PackageCredentials preMatchPackageCredentials;
+
+    @Autowired
+    private SnapshotApiConfiguration snapshotApiConfiguration;
     public SnapshotApiExampleApplication(SnapshotApiClientFactory factory) {
         apiClientFactory = factory;
     }
-    
+
     public static void main(String[] args) {
         SpringApplication.run(SnapshotApiExampleApplication.class, args);
     }
@@ -32,106 +46,167 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
 
     @PostConstruct
     public void run() {
-        var preMatchSettings = new PackageCredentials(0, "userName", "password");
-        var inPlaySettings = new PackageCredentials(0, "userName", "password");
-        this.setJsonApiSerializerForExampleOutputs(new JacksonApiSerializer(preMatchSettings));
-
-        this.preMatchSynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), preMatchSettings);
-        this.inPlaySynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), inPlaySettings);
-
-        this.preMatchAsynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), preMatchSettings);
-        this.inPlayAsynchronousApi(URI.create("https://stm-snapshot.lsports.eu"), inPlaySettings);
+        this.baseUri = URI.create(snapshotApiConfiguration.base_snapshot_api);
+        this.inPlayPackageCredentials = new PackageCredentials(snapshotApiConfiguration.inplay.package_id, snapshotApiConfiguration.inplay.user_name, snapshotApiConfiguration.inplay.password);
+        this.setJsonApiSerializerForExampleOutputs(new JacksonApiSerializer(inPlayPackageCredentials));
+        this.preMatchPackageCredentials = new PackageCredentials(snapshotApiConfiguration.prematch.package_id, snapshotApiConfiguration.prematch.user_name, snapshotApiConfiguration.prematch.password);
+        this.setJsonApiSerializerForExampleOutputs(new JacksonApiSerializer(preMatchPackageCredentials));
+        displayMenu();
     }
 
-    private void preMatchSynchronousApi(URI baseUrl, PackageCredentials settings) {
-        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+    private void displayMenu() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("===============================================");
+            System.out.println("Customer API Example Application");
+            System.out.println("===============================================");
+            System.out.println("1. Snapshot API - Get Fixtures");
+            System.out.println("2. Snapshot API - Get Events");
+            System.out.println("3. Snapshot API - Get Fixture Markets");
+            System.out.println("4. Snapshot API - Get Livescore");
+            System.out.println("5. Snapshot API - Get Outright Fixtures");
+            System.out.println("6. Snapshot API - Get Outright Livescore");
+            System.out.println("7. Snapshot API - Get Outright Markets");
+            System.out.println("8. Snapshot API - Get Outright Events");
+            System.out.println("9. Snapshot API - Get Outright Leagues Fixtures");
+            System.out.println("10. Snapshot API - Get Outright Leagues Markets");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
 
-        System.out.println();
-        System.out.println("============================================");
-        System.out.println("==== PREMATCH SYNCHRONOUS API EXAMPLES: ====");
-
-        this.executeSynchronous("Get Fixtures",
-            () -> preMatchClient.getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Livescore",
-            () -> preMatchClient.getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Fixture Markets",
-            () -> preMatchClient.getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Events",
-            () -> preMatchClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Outright Events",
-            () -> preMatchClient.getOutrightEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Outright Fixture",
-            () -> preMatchClient.getOutrightFixture(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Outright Scores",
-            () -> preMatchClient.getOutrightScores(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Outright Fixture Markets",
-            () -> preMatchClient.getOutrightFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Outright Leagues",
-            () -> preMatchClient.getOutrightLeagues(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Outright League Markets",
-            () -> preMatchClient.getOutrightLeagueMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    getFixtures(baseUri, preMatchPackageCredentials, inPlayPackageCredentials);
+                    break;
+                case 2:
+                    getEvents(baseUri, preMatchPackageCredentials, inPlayPackageCredentials);
+                    break;
+                case 3:
+                    getFixtureMarkets(baseUri, preMatchPackageCredentials, inPlayPackageCredentials);
+                    break;
+                case 4:
+                    getLivescore(baseUri,preMatchPackageCredentials, inPlayPackageCredentials);
+                    break;
+                case 5:
+                    getOutrightFixture(baseUri,preMatchPackageCredentials);
+                    break;
+                case 6:
+                    getOutrightScores(baseUri,preMatchPackageCredentials);
+                    break;
+                case 7:
+                    getOutrightFixtureMarkets(baseUri,preMatchPackageCredentials);
+                    break;
+                case 8:
+                    getOutrightEvents(baseUri,preMatchPackageCredentials);
+                    break;
+                case 9:
+                    getOutrightLeagues(baseUri,preMatchPackageCredentials);
+                    break;
+                case 10:
+                    getOutrightLeagueMarkets(baseUri,preMatchPackageCredentials);
+                    break;
+                case 0:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+            this.waitForAllAsyncFinish();
+        }
     }
 
-    private void preMatchAsynchronousApi(URI baseUrl, PackageCredentials settings) {
-        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
 
-        System.out.println();
-        System.out.println("=============================================");
-        System.out.println("==== PREMATCH ASYNCHRONOUS API EXAMPLES: ====");
+    private void getFixtures(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
+        this.executeAsynchronous("PreMatch Async Get Fixtures",
+                new GetFixtureRequest(null, null, null, List.of(35232), List.of(73), List.of(4003), List.of(14299207)),
+                preMatchClient::getFixtures);
 
-        this.executeAsynchronous("Async Get Fixtures",
-            () -> preMatchClient.getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Livescore",
-            () -> preMatchClient.getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Fixture Markets",
-            () -> preMatchClient.getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Events",
-            () -> preMatchClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Outright Events",
-            () -> preMatchClient.getOutrightEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Outright Fixture",
-            () -> preMatchClient.getOutrightFixture(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Outright Scores",
-            () -> preMatchClient.getOutrightScores(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Outright Fixture Markets",
-            () -> preMatchClient.getOutrightFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Outright Leagues",
-            () -> preMatchClient.getOutrightLeagues(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Outright League Markets",
-            () -> preMatchClient.getOutrightLeagueMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+        this.executeAsynchronous("InPlay Async Get Fixtures",
+                new GetFixtureRequest(null, null, null, List.of(6046), List.of(171), List.of(170), List.of(13903501)),
+                inPlayClient::getFixtures);
+    }
+
+    private void getLivescore(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
+        this.executeAsynchronous("PreMatch Async Get Livescore",
+                new GetLivescoreRequest(null, null, null, List.of(35232), List.of(73), null, null),
+                preMatchClient::getLivescore);
+
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+        this.executeAsynchronous("InPlay Async Get Livescore",
+                new GetLivescoreRequest(null, null, null, List.of(6046), List.of(171), null, null),
+                inPlayClient::getLivescore);
         this.waitForAllAsyncFinish();
     }
 
-    private void inPlaySynchronousApi(URI baseUrl, PackageCredentials settings) {
-        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, settings);
+    private void getFixtureMarkets(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
+        this.executeAsynchronous("PreMatch Async Get Fixture Markets",
+                new GetMarketRequest(null, null, null, List.of(35232), List.of(73), null, null),
+                preMatchClient::getFixtureMarkets);
 
-        System.out.println();
-        System.out.println("============================================");
-        System.out.println("===== INPLAY SYNCHRONOUS API EXAMPLES: =====");
-        this.executeSynchronous("Get Fixtures",
-            () -> inPlayClient.getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Livescore",
-            () -> inPlayClient.getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Fixture Markets",
-            () -> inPlayClient.getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeSynchronous("Get Events",
-            () -> inPlayClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+        this.executeAsynchronous("InPlay Async Get Fixture Markets",
+                new GetMarketRequest(null, null, null, List.of(6046), List.of(171), null, null),
+                inPlayClient::getFixtureMarkets);
+        this.waitForAllAsyncFinish();
     }
 
-    private void inPlayAsynchronousApi(URI baseUrl, PackageCredentials settings) {
-        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, settings);
+    private void getEvents(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
+        this.executeAsynchronous("PreMatch Async Get Events",
+                new GetEventRequest(null, null, null, List.of(35232), List.of(73), null, null),
+                preMatchClient::getEvents);
 
-        System.out.println();
-        System.out.println("=============================================");
-        System.out.println("===== INPLAY ASYNCHRONOUS API EXAMPLES: =====");
-        this.executeAsynchronous("Async Get Fixtures",
-            () -> inPlayClient.getFixtures(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Livescore",
-            () -> inPlayClient.getLivescore(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Fixture Markets",
-            () -> inPlayClient.getFixtureMarkets(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
-        this.executeAsynchronous("Async Get Events",
-            () -> inPlayClient.getEvents(new GetSnapshotRequest(null, null, null, null, null, null, null, null, null)));
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+        this.executeAsynchronous("InPlay Async Get Events",
+                new GetInPlayEventRequest(null, null, null,List.of(6046), List.of(171), null, null, null),
+                inPlayClient::getEvents);
         this.waitForAllAsyncFinish();
+    }
+
+    private void getOutrightEvents(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+        this.executeAsynchronous("PreMatch Async Get Outright Events",
+                new GetOutrightEventRequest(null, null, null, List.of(6046),null, null, null, List.of(12003961), null ),
+                preMatchClient::getOutrightEvents);
+    }
+
+    private void getOutrightFixture(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+        this.executeAsynchronous("PreMatch Async Get Outright Fixture",
+                new GetOutrightFixtureRequest(null, null, null, List.of(6046), null, null, List.of(12003961) ),
+                preMatchClient::getOutrightFixture);
+    }
+
+    private void getOutrightScores(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+        this.executeAsynchronous("PreMatch Async Get Outright Scores",
+                new GetOutrightLivescoreRequest(null, null, null, List.of(6046), null, null, List.of(12003961) ),
+                preMatchClient::getOutrightScores);
+    }
+
+    private void getOutrightFixtureMarkets(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+        this.executeAsynchronous("PreMatch Async Get Outright Fixture Markets",
+        new GetOutrightMarketRequest(null, null, null, List.of(6046), List.of(171), null, List.of(13903501), null ),
+                preMatchClient::getOutrightFixtureMarkets);
+    }
+
+    private void getOutrightLeagues(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+        this.executeAsynchronous("PreMatch Async Get Outright Leagues",
+        new GetOutrightLeaguesRequest(null, null, null, List.of(6046), null, null, null ),
+                preMatchClient::getOutrightLeagues);
+    }
+
+    private void getOutrightLeagueMarkets(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+        this.executeAsynchronous("PreMatch Async Get Outright League Markets",
+        new GetOutrightLeagueMarketRequest(null, null, null, List.of(6046), List.of(161), null, null , null),
+                preMatchClient::getOutrightLeagueMarkets);
     }
 }

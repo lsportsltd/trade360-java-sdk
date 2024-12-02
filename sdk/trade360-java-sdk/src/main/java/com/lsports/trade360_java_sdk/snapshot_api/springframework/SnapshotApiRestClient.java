@@ -1,13 +1,12 @@
-package com.lsports.trade360_java_sdk.common.http;
+package com.lsports.trade360_java_sdk.snapshot_api.springframework;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.lsports.trade360_java_sdk.customers_api.entities.base.BaseResponse;
 import reactor.core.publisher.Mono;
 
 /**
  * The {@code ApiRestClient} interface defines methods for making REST API requests.
  */
-public interface ApiRestClient {
+public interface SnapshotApiRestClient {
 
     /**
      * Sends a POST request with a request body and returns a response of the specified type.
@@ -19,7 +18,7 @@ public interface ApiRestClient {
      * @param url the URL to send the request to
      * @return a {@code Mono} emitting the response
      */
-    <Req, Res> Mono<BaseResponse<Res>> postRequest(Req requestBody, TypeReference<BaseResponse<Res>> responseTypeReference, String url);
+    <Req, Res> Mono<Res> postRequest(Req requestBody, TypeReference<Res> responseTypeReference, String url);
 
     /**
      * Sends a POST request without a request body and returns a response of the specified type.
@@ -29,7 +28,7 @@ public interface ApiRestClient {
      * @param url the URL to send the request to
      * @return a {@code Mono} emitting the response
      */
-    <Res> Mono<BaseResponse<Res>> postRequest(TypeReference<BaseResponse<Res>> responseTypeReference, String url);
+    <Res> Mono<Res> postRequest(TypeReference<Res> responseTypeReference, String url);
 
     /**
      * Sends a GET request with a query string object and returns a response of the specified type.
@@ -41,5 +40,5 @@ public interface ApiRestClient {
      * @param url the URL to send the request to
      * @return a {@code Mono} emitting the response
      */
-    <Req, Res> Mono<BaseResponse<Res>> getRequest(Req requestQueryStringObject, TypeReference<BaseResponse<Res>> responseTypeReference, String url);
+    <Req, Res> Mono<Res> getRequest(Req requestQueryStringObject, TypeReference<Res> responseTypeReference, String url);
 }

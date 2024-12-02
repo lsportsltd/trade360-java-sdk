@@ -1,6 +1,6 @@
 package com.lsports.trade360_java_sdk.snapshot_api;
 
-import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
+import com.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
 import com.lsports.trade360_java_sdk.snapshot_api.entities.responses.*;
 import reactor.core.publisher.Mono;
 
@@ -16,7 +16,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the fixtures
      * @see GetFixturesResultElement
      */
-    Mono<Iterable<GetFixturesResultElement>> getFixtures(GetSnapshotRequest getFixturesRequest);
+    Mono<Iterable<GetFixturesResultElement>> getFixtures(GetFixtureRequest getFixturesRequest);
 
     /**
      * Gets the live scores based on the provided request.
@@ -25,7 +25,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the live scores
      * @see GetLivescoreResultElement
      */
-    Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetSnapshotRequest getLivescoreRequestDto);
+    Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetLivescoreRequest getLivescoreRequestDto);
 
     /**
      * Gets the fixture markets based on the provided request.
@@ -34,7 +34,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the fixture markets
      * @see GetFixtureMarketsResultElement
      */
-    Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetSnapshotRequest getFixtureMarketsRequest);
+    Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetMarketRequest getFixtureMarketsRequest);
 
     /**
      * Gets the events based on the provided request.
@@ -43,7 +43,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the events
      * @see GetEventsResultElement
      */
-    Mono<Iterable<GetEventsResultElement>> getEvents(GetSnapshotRequest getEventsRequest);
+    Mono<Iterable<GetEventsResultElement>> getEvents(GetEventRequest getEventsRequest);
 
     /**
      * Gets the outright events based on the provided request.
@@ -52,7 +52,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the outright events
      * @see GetOutrightEventsResultElement
      */
-    Mono<Iterable<GetOutrightEventsResultElement>> getOutrightEvents(GetSnapshotRequest getOutrightEventsRequest);
+    Mono<Iterable<GetOutrightEventsResultElement>> getOutrightEvents(GetOutrightEventRequest getOutrightEventsRequest);
 
     /**
      * Gets the outright fixture based on the provided request.
@@ -61,7 +61,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the outright fixture
      * @see GetOutrightFixtureResultElement
      */
-    Mono<Iterable<GetOutrightFixtureResultElement>> getOutrightFixture(GetSnapshotRequest getOutrightFixtureRequest);
+    Mono<Iterable<GetOutrightFixtureResultElement>> getOutrightFixture(GetOutrightFixtureRequest getOutrightFixtureRequest);
 
     /**
      * Gets the outright scores based on the provided request.
@@ -70,7 +70,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the outright scores
      * @see GetOutrightScoresResultElement
      */
-    Mono<Iterable<GetOutrightScoresResultElement>> getOutrightScores(GetSnapshotRequest getOutrightScoresRequest);
+    Mono<Iterable<GetOutrightScoresResultElement>> getOutrightScores(GetOutrightLivescoreRequest getOutrightScoresRequest);
 
     /**
      * Gets the outright fixture markets based on the provided request.
@@ -79,7 +79,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the outright fixture markets
      * @see GetOutrightFixtureMarketsResultElement
      */
-    Mono<Iterable<GetOutrightFixtureMarketsResultElement>> getOutrightFixtureMarkets(GetSnapshotRequest getOutrightFixtureMarketsRequest);
+    Mono<Iterable<GetOutrightFixtureMarketsResultElement>> getOutrightFixtureMarkets(GetOutrightMarketRequest getOutrightFixtureMarketsRequest);
 
     /**
      * Gets the outright leagues based on the provided request.
@@ -88,7 +88,7 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the outright leagues
      * @see GetOutrightLeaguesResultElement
      */
-    Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetSnapshotRequest getOutrightLeaguesRequest);
+    Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetOutrightLeaguesRequest getOutrightLeaguesRequest);
 
     /**
      * Gets the outright league markets based on the provided request.
@@ -97,5 +97,5 @@ public interface PreMatchSnapshotApiClient {
      * @return A {@link Mono} emitting the outright league markets
      * @see GetOutrightLeagueMarketsResultElement
      */
-    Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetSnapshotRequest getOutrightLeaguesMarketsRequest);
+    Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetOutrightLeagueMarketRequest getOutrightLeaguesMarketsRequest);
 }

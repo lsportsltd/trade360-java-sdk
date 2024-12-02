@@ -1,10 +1,10 @@
 package com.lsports.trade360_java_sdk.customers_api;
 
+import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import org.junit.Test;
 
 import com.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
 import com.lsports.trade360_java_sdk.common.entities.enums.MarketType;
-import com.lsports.trade360_java_sdk.common.http.ApiRestClient;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
 import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
@@ -17,7 +17,6 @@ import com.lsports.trade360_java_sdk.customers_api.entities.metadata_api.request
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class MetadataApiClientImplementationTests {
@@ -156,7 +155,7 @@ public class MetadataApiClientImplementationTests {
         var client = new MetadataApiClientImplementation(mockedClient);
 
         //Act
-        client.getSubscribedFixturesMetadata(new GetSubscribedFixturesMetadataRequest(LocalDate.now(), LocalDate.now()));
+        client.getSubscribedFixturesMetadata(new GetSubscribedFixturesMetadataRequest(LocalDate.now(), LocalDate.now(), null, null, null));
 
         //Assert
         verify(mockedClient).getRequest(any(), any(), eq("Fixtures/GetSubscribedMetaData"));
