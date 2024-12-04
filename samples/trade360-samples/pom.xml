@@ -61,7 +61,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.lsports.trade360_customer_api_example.CustomerApiExampleApplication</mainClass>
+                    <mainClass>com.lsports.trade360feedexample.Trade360FeedExampleApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

@@ -13,8 +13,13 @@
     - [Message recover in case of failure](#message-recover-in-case-of-failure)
     - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
   - [Using Snapshot API](#using-snapshot-api)
+    - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
     - [Handling responses](#handling-responses)
     - [Error handling](#error-handling)
+  - [Using Customers API](#using-customers-api)
+      - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
+      - [Handling responses](#handling-responses)
+      - [Error handling](#error-handling)
 - [Links](#links)
 - [Contributing](#contributing)
 - [License](#license)
@@ -85,18 +90,17 @@ This is an example usage of the feed SDK, which gives you the ability to create 
 spring.application.name:trade360-feed-example
 
 rabbitmq.inplay.name: inplay
-rabbitmq.inplay.rabbit_listener_container_factory_name: inplaySimpleRabbitListenerContainerFactory
-rabbitmq.inplay.package_id: 99
-rabbitmq.inplay.host: localhost
-rabbitmq.inplay.port: 5672
-rabbitmq.inplay.virtual_host: /
-rabbitmq.inplay.user_name: guest
-rabbitmq.inplay.password: guest
+rabbitmq.inplay.rabbit_listener_container_factory_name: inPlaySimpleRabbitListenerContainerFactory
+rabbitmq.inplay.package_id: your-packageid
+rabbitmq.inplay.host: trade360-inplay-rabbitmq-host
+rabbitmq.inplay.port: trade360-inplay-rabbitmq-port
+rabbitmq.inplay.virtual_host: trade360-inplay-rabbitmq-virtual-host
+rabbitmq.inplay.user_name: your-username
+rabbitmq.inplay.password: your-password
 rabbitmq.inplay.prefetch_count: 100
-rabbitmq.inplay.auto_ack: false
+rabbitmq.inplay.auto_ack: true
 rabbitmq.inplay.requested_heartbeat_seconds: 30
 rabbitmq.inplay.network_recovery_interval: 30
-rabbitmq.inplay.base_customers_api: https://stm-api.lsports.eu
 rabbitmq.inplay.retry_attempts: 3
 rabbitmq.inplay.retry_initial_interval: 1000
 rabbitmq.inplay.retry_multiple: 2
@@ -275,8 +279,21 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 
 ### Using Snapshot API
 
-Full working example of using Snapshot API in Spring Framework can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_snapshot_api_example/SnapshotApiExampleApplication.java).
+Full working example of using Snapshot API SDK in Spring Framework, which provides an easy way to interact with the Snapshot API for recovery purposes. The SDK offers a simplified HTTP client with request and response handling.
 
+It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_snapshot_api_example/SnapshotApiExampleApplication.java).
+
+#### Example Configuration (`application.properties`)
+```yaml
+snapshotapi.base_snapshot_api:https://stm-snapshot.lsports.eu
+snapshotapi.inplay.package_id:430
+snapshotapi.inplay.user_name:<username>
+snapshotapi.inplay.password:<password>
+snapshotapi.prematch.package_id:431
+snapshotapi.prematch.user_name:<username>
+snapshotapi.prematch.password:<password>
+```
+After setting the correct configuration, add the following:
 In order to create a client instance a `SnapshotApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation. 
 
 Available `SnapshotApiClientFactory` implementations:
@@ -301,15 +318,7 @@ public SnapshotApiExampleApplication(SnapshotApiClientFactory factory) {
 }
 ```
 
-After factory is obtained, it can be used to create actual API Client instances. When creating an instance, proper settings need to be provided with your package information and credentials.
-For example:
-
-```java
-var preMatchSettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 1234, "yourUsername", "yourPassword");
-var preMatchClient = this.apiClientFactory.createPreMatchApiClient(preMatchSettings);
-```
-
-It's up to integrator how you store the parameters. You can fetch them from application configuration or other source, depending on scenario and your needs.
+After factory is obtained, it can be used to create actual API Client instances. When creating an instance, proper settings will be loaded from application.properties file. 
 
 Having the configured client instance one can use it by invoking requests with proper parameters. The documentation for each request can be found [here](https://docs.lsports.eu/lsports/v/integration/apis/snapshot) - bear in mind that you do not need to provide auth parameters each time as the SDK does it for you.
 
@@ -317,44 +326,121 @@ Having the configured client instance one can use it by invoking requests with p
 
 The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
 
-Below you can find two primary approaches how you can handle responses.
-
-1. Synchronous method - recommended only for simple use cases when there are not a lot of requests done, as it may lead to bottlenecks (socket saturation etc.).
-    ```java
-    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
-    var getFixturesResponse = getFixturesResponseMono.block();
-    ```
-2. Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
-    ```java
-    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
-    getFixturesResponseMono.subscribe(
-        response -> System.out.println("[" + exampleName + "] - Got response: " + response)));
-    ```
+Below you can find primary approach how you can handle responses.
+Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
+```java
+    this.executeAsynchronous("PreMatch Async Get Fixtures",
+        new GetFixtureRequest(.....),
+        preMatchClient::getFixtures);
+```
 
 #### Error handling
 Error handling depends on which approach is used – synchronous or asynchronous:
-1. In case of synchronous method it's as simple as wrapping invocation in `try`/`catch` and catching [`Trade360Exception`](/sdk/trade360-java-sdk/src/main/java/com/lsports/trade360_java_sdk/common/exceptions/Trade360Exception.java).
-    ```java
-    try {
-        preMatchClient.getFixtures(new GetSnapshotRequest(...))
-            .block();
-    } catch (Trade360Exception ex) {
-        // handle exception
-    }
-    ```
-2. For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
-    ```java
-    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
-    getFixturesResponseMono.subscribe(
-        response -> /* Handle success response */),
-        error -> {
-            if (error instanceof Trade360Exception) {
-                var trade360Exception = (Trade360Exception) error;
-                /* Handle exception */
-            }
-        });
-    ```
+ For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
+```java
+    exception -> {
+        System.err.println("[" + newExampleName + "] - Failed: " + exception.getMessage());
+        if (exception instanceof Trade360Exception) {
+            var trade360Exception = (Trade360Exception) exception;
+            System.out.println("[" + newExampleName + "] - Errors:");
+            trade360Exception.getErrors().forEach(error -> System.out.println("[" + newExampleName + "]\t- " + error));
+            System.out.flush();}
+        }
+```
 
+The `Trade360Exception` class does contain a detailed message which may help identify the root cause of the issue. To obtain the message call `getMessage()` method. Also sometimes additional detailed errors can be obtained using `getErrors()` method.
+
+Below you can find an example how an exception may look like. In this case it means incorrect credentials have been provided.
+![Trade360Exception example](/docs/static/trade360exception_example.png)
+
+
+
+### Using Customers API
+
+The Customers API SDK is made up of three parts: Package Distribution, Metadata, and Subscription. It provides a simplified HTTP client with request and response handling for various operations.
+
+Package Distribution: Start, stop, and get distribution status.
+Metadata: Exposes endpoints to get leagues, sports, locations, markets, and translations.
+Subscription: Allows subscribing and unsubscribing to a fixture or by league. It also includes manual suspension actions and quota retrieval.
+
+It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_customer_api_example/CustomerApiExampleApplication.java).
+
+#### Example Configuration (`application.properties`)
+```yaml
+customersapi.base_customers_api:https://stm-api.lsports.eu
+customersapi.inplay.package_id:430
+customersapi.inplay.user_name:<username>
+customersapi.inplay.password:<password>
+customersapi.prematch.package_id:431
+customersapi.prematch.user_name:<username>
+customersapi.prematch.password:<password>
+```
+After setting the correct configuration, add the following:
+In order to create a client instance a `CustomersApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation.
+
+Available `CustomersApiClientFactory` implementations:
+
+- `SpringBootCustomersApiClientFactory` - an implementation comptatible with Spring Framework, as it uses flux `WebClient`.
+
+In case you use `SpringBootCustomersApiClientFactory` we will have spreate implination for each type of apis- PackageDistributionApiClient, MetadataApiClient, SubscriptionApiClient. Below you can find an example of proper registration of the factory.
+
+```java
+  @Override
+public PackageDistributionApiClientImplementation createPackageDistributionHttpClient(URI baseUrl, PackageCredentials packageCredentials) {
+    var client = this.createInternalClient(baseUrl, packageCredentials);
+    return new PackageDistributionApiClientImplementation(client);
+}
+
+/**
+ * {@inheritDoc}
+ */
+@Override
+public MetadataApiClient createMetadataHttpClient(URI baseUrl, PackageCredentials packageCredentials) {
+    var client = this.createInternalClient(baseUrl, packageCredentials);
+    return new MetadataApiClientImplementation(client);
+}
+
+/**
+ * {@inheritDoc}
+ */
+@Override
+public SubscriptionApiClient createSubscriptionApiHttpClient(URI baseUrl, PackageCredentials packageCredentials) {
+    var client = this.createInternalClient(baseUrl, packageCredentials);
+    return new SubscriptionApiClientImplementation(client);
+}
+```
+
+Later, you can inject the factory e.g. via the constructor:
+```java
+private final CustomersApiClientFactory apiClientFactory;
+
+public CustomerApiExampleApplication(CustomersApiClientFactory factory) {
+    apiClientFactory = factory;
+}
+```
+
+After factory is obtained, it can be used to create actual API Client instances. When creating an instance, proper settings will be loaded from application.properties file.
+
+Having the configured client instance one can use it by invoking requests with proper parameters. The documentation for each request can be found [here](https://docs.lsports.eu/lsports/v/integration/apis/snapshot) - bear in mind that you do not need to provide auth parameters each time as the SDK does it for you.
+
+#### Handling responses
+
+The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<BaseResponse<T>>` instance being an observable eventually returning response in case of success, or an error in case of failure. 
+You can use the `Mono<BaseResponse<T>>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
+BaseResponse- will include the response body and response header. T will be used for the different types of the body response.
+
+Below you can find primary approach how you can handle responses.
+Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
+```java
+    exception -> {
+        System.err.println("[" + newExampleName + "] - Failed: " + exception.getMessage());
+        if (exception instanceof Trade360Exception) {
+            var trade360Exception = (Trade360Exception) exception;
+               System.out.println("[" + newExampleName + "] - Errors:");
+               trade360Exception.getErrors().forEach(error -> System.out.println("[" + newExampleName + "]\t- " + error));
+               System.out.flush();}
+    }
+```
 The `Trade360Exception` class does contain a detailed message which may help identify the root cause of the issue. To obtain the message call `getMessage()` method. Also sometimes additional detailed errors can be obtained using `getErrors()` method.
 
 Below you can find an example how an exception may look like. In this case it means incorrect credentials have been provided.
