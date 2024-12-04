@@ -13,13 +13,13 @@
     - [Message recover in case of failure](#message-recover-in-case-of-failure)
     - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
   - [Using Snapshot API](#using-snapshot-api)
-    - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
-    - [Handling responses](#handling-responses)
-    - [Error handling](#error-handling)
+    - [Example Configuration (`application.properties`)](#snapshot-api-example-configuration-applicationproperties)
+    - [Handling responses](#snapshot-api-handling-responses)
+    - [Error handling](#snapshot-api-error-handling)
   - [Using Customers API](#using-customers-api)
-      - [Example Configuration (`application.properties`)](#example-configuration-applicationproperties)
-      - [Handling responses](#handling-responses)
-      - [Error handling](#error-handling)
+      - [Example Configuration (`application.properties`)](#customers-api-example-configuration-applicationproperties)
+      - [Handling responses](#customers-api-handling-responses)
+      - [Error handling](#customers-api-error-handling)
 - [Links](#links)
 - [Contributing](#contributing)
 - [License](#license)
@@ -283,7 +283,7 @@ Full working example of using Snapshot API SDK in Spring Framework, which provid
 
 It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_snapshot_api_example/SnapshotApiExampleApplication.java).
 
-#### Example Configuration (`application.properties`)
+#### Snapshot API Example Configuration (`application.properties`)
 ```yaml
 snapshotapi.base_snapshot_api:https://stm-snapshot.lsports.eu
 snapshotapi.inplay.package_id:430
@@ -322,7 +322,7 @@ After factory is obtained, it can be used to create actual API Client instances.
 
 Having the configured client instance one can use it by invoking requests with proper parameters. The documentation for each request can be found [here](https://docs.lsports.eu/lsports/v/integration/apis/snapshot) - bear in mind that you do not need to provide auth parameters each time as the SDK does it for you.
 
-#### Handling responses
+#### Snapshot API Handling responses
 
 The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
 
@@ -334,7 +334,7 @@ Asynchronous method - this is the recommended approach to the high load and thro
         preMatchClient::getFixtures);
 ```
 
-#### Error handling
+#### Snapshot API Error handling
 Error handling depends on which approach is used – synchronous or asynchronous:
  For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
 ```java
@@ -365,7 +365,7 @@ Subscription: Allows subscribing and unsubscribing to a fixture or by league. It
 
 It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_customer_api_example/CustomerApiExampleApplication.java).
 
-#### Example Configuration (`application.properties`)
+#### Customers API Example Configuration (`application.properties`)
 ```yaml
 customersapi.base_customers_api:https://stm-api.lsports.eu
 customersapi.inplay.package_id:430
@@ -423,28 +423,39 @@ After factory is obtained, it can be used to create actual API Client instances.
 
 Having the configured client instance one can use it by invoking requests with proper parameters. The documentation for each request can be found [here](https://docs.lsports.eu/lsports/v/integration/apis/snapshot) - bear in mind that you do not need to provide auth parameters each time as the SDK does it for you.
 
-#### Handling responses
+#### Customers API Handling responses
 
-The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<BaseResponse<T>>` instance being an observable eventually returning response in case of success, or an error in case of failure. 
-You can use the `Mono<BaseResponse<T>>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
-BaseResponse- will include the response body and response header. T will be used for the different types of the body response.
+The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
 
 Below you can find primary approach how you can handle responses.
 Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
+```java
+    this.executeAsynchronous("PreMatch Async Get Fixtures",
+        new GetFixtureRequest(.....),
+        preMatchClient::getFixtures);
+```
+
+#### Customers API Error handling
+Error handling depends on which approach is used – synchronous or asynchronous:
+For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
 ```java
     exception -> {
         System.err.println("[" + newExampleName + "] - Failed: " + exception.getMessage());
         if (exception instanceof Trade360Exception) {
             var trade360Exception = (Trade360Exception) exception;
-               System.out.println("[" + newExampleName + "] - Errors:");
-               trade360Exception.getErrors().forEach(error -> System.out.println("[" + newExampleName + "]\t- " + error));
-               System.out.flush();}
-    }
+            System.out.println("[" + newExampleName + "] - Errors:");
+            trade360Exception.getErrors().forEach(error -> System.out.println("[" + newExampleName + "]\t- " + error));
+            System.out.flush();}
+        }
 ```
+
 The `Trade360Exception` class does contain a detailed message which may help identify the root cause of the issue. To obtain the message call `getMessage()` method. Also sometimes additional detailed errors can be obtained using `getErrors()` method.
 
 Below you can find an example how an exception may look like. In this case it means incorrect credentials have been provided.
 ![Trade360Exception example](/docs/static/trade360exception_example.png)
+
+
+
 
 ## Links
 Spring AMQP documentation:
