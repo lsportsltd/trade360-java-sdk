@@ -23,8 +23,9 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
         // Printout error message after error
         System.out.println(MessageFormat.format("{0}: Unable to process message amqpMessage header: {1}", connectionName, amqpMessage.getMessageProperties().toString()));
         System.out.println(MessageFormat.format("{0}: Unable to process due to exception cause: {1} ", connectionName, exception.getCause()));
-        System.out.println(MessageFormat.format("{0}: message: {1} ", connectionName, message.getPayload()));
-
+       if(message!= null) {
+           System.out.println(MessageFormat.format("{0}: message: {1} ", connectionName, message.getPayload()));
+       }
         // Further message handling can be added here, e.g. send to DLQ
 
         return RabbitListenerErrorHandler.super.handleError(amqpMessage, channel, message, exception);
