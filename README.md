@@ -337,8 +337,8 @@ Asynchronous method - this is the recommended approach to the high load and thro
 
 #### Snapshot API Error handling
 
-Error handling depends on which approach is used – synchronous or asynchronous:
- For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
+Error handling depends on asynchronous approach is used.
+For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
 ```java
     exception -> {
         System.err.println("[" + newExampleName + "] - Failed: " + exception.getMessage());
@@ -361,8 +361,8 @@ Below you can find an example how an exception may look like. In this case it me
 
 The Customers API SDK is made up of three parts: Package Distribution, Metadata, and Subscription. It provides a simplified HTTP client with request and response handling for various operations.
 
-Package Distribution: Start, stop, and get distribution status.
-Metadata: Exposes endpoints to get leagues, sports, locations, markets, and translations.
+Package Distribution: Start, stop, and get distribution status. 
+Metadata: Exposes endpoints to get leagues, sports, locations, markets, and translations. 
 Subscription: Allows subscribing and unsubscribing to a fixture or by league. It also includes manual suspension actions and quota retrieval.
 
 It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_customer_api_example/CustomerApiExampleApplication.java).
@@ -384,9 +384,9 @@ In order to create a client instance a `CustomersApiClientFactory` interface ins
 
 Available `CustomersApiClientFactory` implementations:
 
-- `SpringBootCustomersApiClientFactory` - an implementation comptatible with Spring Framework, as it uses flux `WebClient`.
+- `SpringBootCustomersApiClientFactory` - an implementation compatible with Spring Framework, as it uses flux `WebClient`.
 
-In case you use `SpringBootCustomersApiClientFactory` we will have spreate implination for each type of apis- PackageDistributionApiClient, MetadataApiClient, SubscriptionApiClient. Below you can find an example of proper registration of the factory.
+In case you use `SpringBootCustomersApiClientFactory` we will have separate implementation for each type of apis- PackageDistributionApiClient, MetadataApiClient, SubscriptionApiClient. Below you can find an example of proper registration of the factory.
 
 ```java
   @Override
@@ -429,7 +429,7 @@ Having the configured client instance one can use it by invoking requests with p
 
 #### Customers API Handling responses
 
-The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
+Same as on snapshot api, The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
 
 Below you can find primary approach how you can handle responses.
 Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
@@ -441,7 +441,7 @@ Asynchronous method - this is the recommended approach to the high load and thro
 
 #### Customers API Error handling
 
-Error handling depends on which approach is used – synchronous or asynchronous:
+same as on Snapshot Api, Error handling depends on asynchronous approach is used.
 For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
 ```java
     exception -> {
