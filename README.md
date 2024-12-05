@@ -369,6 +369,7 @@ It can be found in this [sample application](/samples/trade360-samples/src/main/
 
 #### Customers API Example Configuration (`application.properties`)
 
+
 ```yaml
 customersapi.base_customers_api:https://stm-api.lsports.eu
 customersapi.inplay.package_id:430
