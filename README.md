@@ -19,7 +19,7 @@
   - [Using Customers API](#using-customers-api)
     - [Example Configuration (`application.properties`)](#customers-api-example-configuration-applicationproperties)
       - [Handling responses](#customers-api-handling-responses)
-      - [Error handling](#customers-api-error-handling)
+    - [Error handling](#customers-api-error-handling)
 - [Links](#links)
 - [Contributing](#contributing)
 - [License](#license)
