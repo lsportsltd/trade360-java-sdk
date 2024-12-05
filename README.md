@@ -284,6 +284,7 @@ Full working example of using Snapshot API SDK in Spring Framework, which provid
 It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_snapshot_api_example/SnapshotApiExampleApplication.java).
 
 #### Snapshot API Example Configuration (`application.properties`)
+
 ```yaml
 snapshotapi.base_snapshot_api:https://stm-snapshot.lsports.eu
 snapshotapi.inplay.package_id:430
