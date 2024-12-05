@@ -368,6 +368,7 @@ Subscription: Allows subscribing and unsubscribing to a fixture or by league. It
 It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_customer_api_example/CustomerApiExampleApplication.java).
 
 #### Customers API Example Configuration (`application.properties`)
+
 ```yaml
 customersapi.base_customers_api:https://stm-api.lsports.eu
 customersapi.inplay.package_id:430
