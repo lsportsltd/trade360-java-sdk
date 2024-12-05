@@ -336,6 +336,7 @@ Asynchronous method - this is the recommended approach to the high load and thro
 ```
 
 #### Snapshot API Error handling
+
 Error handling depends on which approach is used – synchronous or asynchronous:
  For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
 ```java
