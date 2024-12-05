@@ -88,6 +88,7 @@ This is an example usage of the feed SDK, which gives you the ability to create 
 
 ```yaml
 spring.application.name:trade360-feed-example
+spring.codec.max-in-memory-size=1MB
 
 rabbitmq.inplay.name: inplay
 rabbitmq.inplay.rabbit_listener_container_factory_name: inPlaySimpleRabbitListenerContainerFactory
@@ -108,6 +109,8 @@ rabbitmq.inplay.retry_max_interval: 5000
 rabbitmq.inplay.concurrent_consumers: 1
 rabbitmq.inplay.max_concurrent_consumers: 1
 ```
+spring.application.name- name of the application
+spring.codec.max-in-memory-size - maximum size of the in-memory buffer for encoding and decoding messages
 name - name for a RabbitMQ connection 
 rabbit_listener_container_factory_name - name of the RabbitMQ listener container factory
 package_id - LSports package id/used to create RabbitMQ queue name
@@ -127,8 +130,26 @@ retry_max_interval - RabbitMQ retry max interval
 concurrent_consumers - RabbitMQ concurrent consumers (prefered 1)
 max_concurrent_consumers - RabbitMQ max concurrent consumers (prefered 1)
 
-
-
+same need to define for prematch feed
+```yaml
+rabbitmq.prematch.name:prematch
+rabbitmq.prematch.rabbit_listener_container_factory_name: preMatchSimpleRabbitListenerContainerFactory
+rabbitmq.prematch.package_id:431
+rabbitmq.prematch.host:localhost
+rabbitmq.prematch.port:5672
+rabbitmq.prematch.virtual_host:/
+rabbitmq.prematch.user_name:<username>
+rabbitmq.prematch.password:<password>
+rabbitmq.prematch.prefetch_count:100
+rabbitmq.prematch.auto_ack:true
+rabbitmq.prematch.network_recovery_interval:30
+rabbitmq.prematch.retry_attempts:3
+rabbitmq.prematch.retry_initial_interval:1000
+rabbitmq.prematch.retry_multiple:2
+rabbitmq.prematch.retry_max_interval:5000
+rabbitmq.prematch.concurrent_consumers:1
+rabbitmq.prematch.max_concurrent_consumers:1
+```
 ```yaml
 #### Implementing the connection
 
