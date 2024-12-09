@@ -132,23 +132,23 @@ max_concurrent_consumers - RabbitMQ max concurrent consumers (prefered 1)
 
 same need to define for prematch feed
 ```yaml
-rabbitmq.prematch.name:prematch
+rabbitmq.prematch.name: prematch
 rabbitmq.prematch.rabbit_listener_container_factory_name: preMatchSimpleRabbitListenerContainerFactory
-rabbitmq.prematch.package_id:431
-rabbitmq.prematch.host:localhost
-rabbitmq.prematch.port:5672
-rabbitmq.prematch.virtual_host:/
-rabbitmq.prematch.user_name:<username>
-rabbitmq.prematch.password:<password>
-rabbitmq.prematch.prefetch_count:100
-rabbitmq.prematch.auto_ack:true
-rabbitmq.prematch.network_recovery_interval:30
-rabbitmq.prematch.retry_attempts:3
-rabbitmq.prematch.retry_initial_interval:1000
-rabbitmq.prematch.retry_multiple:2
-rabbitmq.prematch.retry_max_interval:5000
-rabbitmq.prematch.concurrent_consumers:1
-rabbitmq.prematch.max_concurrent_consumers:1
+rabbitmq.prematch.package_id: your-packageid
+rabbitmq.prematch.host: trade360-prematch-rabbitmq-host
+rabbitmq.prematch.port: trade360-prematch-rabbitmq-port
+rabbitmq.prematch.virtual_host: trade360-prematch-rabbitmq-virtual-host
+rabbitmq.prematch.user_name: your-username
+rabbitmq.prematch.password: your-password
+rabbitmq.prematch.prefetch_count: 100
+rabbitmq.prematch.auto_ack: true
+rabbitmq.prematch.network_recovery_interval: 30
+rabbitmq.prematch.retry_attempts: 3
+rabbitmq.prematch.retry_initial_interval: 1000
+rabbitmq.prematch.retry_multiple: 2
+rabbitmq.prematch.retry_max_interval: 5000
+rabbitmq.prematch.concurrent_consumers: 1
+rabbitmq.prematch.max_concurrent_consumers: 1
 ```
 ```yaml
 #### Implementing the connection
@@ -307,13 +307,13 @@ It can be found in this [sample application](/samples/trade360-samples/src/main/
 #### Snapshot API Example Configuration (`application.properties`)
 
 ```yaml
-snapshotapi.base_snapshot_api:https://stm-snapshot.lsports.eu
-snapshotapi.inplay.package_id:430
-snapshotapi.inplay.user_name:<username>
-snapshotapi.inplay.password:<password>
-snapshotapi.prematch.package_id:431
-snapshotapi.prematch.user_name:<username>
-snapshotapi.prematch.password:<password>
+snapshotapi.base_snapshot_api: https://stm-snapshot.lsports.eu
+snapshotapi.inplay.package_id: your-password
+snapshotapi.inplay.user_name: your-username
+snapshotapi.inplay.password: your-password
+snapshotapi.prematch.package_id: your-packageid
+snapshotapi.prematch.user_name: your-username
+snapshotapi.prematch.password: your-password
 ```
 After setting the correct configuration, add the following:
 In order to create a client instance a `SnapshotApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation. 
@@ -392,13 +392,13 @@ It can be found in this [sample application](/samples/trade360-samples/src/main/
 
 
 ```yaml
-customersapi.base_customers_api:https://stm-api.lsports.eu
-customersapi.inplay.package_id:430
-customersapi.inplay.user_name:<username>
-customersapi.inplay.password:<password>
-customersapi.prematch.package_id:431
-customersapi.prematch.user_name:<username>
-customersapi.prematch.password:<password>
+customersapi.base_customers_api: https://stm-api.lsports.eu
+customersapi.inplay.package_id: your-packageid
+customersapi.inplay.user_name: your-username
+customersapi.inplay.password: your-password
+customersapi.prematch.package_id: your-packageid
+customersapi.prematch.user_name: your-username
+customersapi.prematch.password: your-password
 ```
 After setting the correct configuration, add the following:
 In order to create a client instance a `CustomersApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation.
