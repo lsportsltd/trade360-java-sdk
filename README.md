@@ -308,7 +308,7 @@ It can be found in this [sample application](/samples/trade360-samples/src/main/
 
 ```yaml
 snapshotapi.base_snapshot_api: https://stm-snapshot.lsports.eu
-snapshotapi.inplay.package_id: your-password
+snapshotapi.inplay.package_id: your-packageid
 snapshotapi.inplay.user_name: your-username
 snapshotapi.inplay.password: your-password
 snapshotapi.prematch.package_id: your-packageid
