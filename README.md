@@ -109,6 +109,7 @@ rabbitmq.inplay.retry_max_interval: 5000
 rabbitmq.inplay.concurrent_consumers: 1
 rabbitmq.inplay.max_concurrent_consumers: 1
 ```
+
 - spring.application.name- name of the application
 - spring.codec.max-in-memory-size - maximum size of the in-memory buffer for encoding and decoding messages
 - name - name for a RabbitMQ connection
