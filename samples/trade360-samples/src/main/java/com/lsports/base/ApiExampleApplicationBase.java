@@ -7,11 +7,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import com.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 import reactor.core.publisher.Mono;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class ApiExampleApplicationBase {
     private final Semaphore asyncBarrierSemaphore = new Semaphore(0);
     private int asyncOperationsCount = 0;
     private JsonApiSerializer jsonApiSerializer;
+
+    protected static final Logger logger = LogManager.getLogger();
 
     protected void setJsonApiSerializerForExampleOutputs(JsonApiSerializer jsonApiSerializer) {
         this.jsonApiSerializer = jsonApiSerializer;
@@ -23,22 +27,21 @@ public abstract class ApiExampleApplicationBase {
 
     protected <T, R> void executeSynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
         var newExampleName = "SYNC - " + exampleName;
-        System.out.println("--------------------------------");
         try {
             if (request == null) {
-                System.out.println("[" + newExampleName + "] - Executing request");
+                logger.info("[" + newExampleName + "] - Executing request");
             } else {
-                System.out.println("[" + newExampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serializeToString(request));
+                logger.info("[" + newExampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serializeToString(request));
             }
             var responseMono = executeFunction.apply(request);
             var response = responseMono.block();
-            System.out.println("[" + newExampleName + "] - Response received: " + this.jsonApiSerializer.serializeToString(response));
+            logger.info("[" + newExampleName + "] - Response received: " + this.jsonApiSerializer.serializeToString(response));
         } catch (Trade360Exception ex) {
-            System.out.println("[" + newExampleName + "] - Failed: " + ex.getMessage());
-            System.out.println("[" + newExampleName + "] - Errors:");
-            ex.getErrors().forEach(error -> System.out.println("[" + newExampleName + "]\t- " + error));
+            logger.error("[" + newExampleName + "] - Failed: " + ex.getMessage());
+            logger.error("[" + newExampleName + "] - Errors:");
+            ex.getErrors().forEach(error ->logger.error("[" + newExampleName + "]\t- " + error));
         } catch (Exception ex) {
-            System.err.println("[" + newExampleName + "] - Unhandled exception: " + ex.getMessage());
+            logger.error("[" + newExampleName + "] - Unhandled exception: " + ex.getMessage());
         }
 
         System.out.flush();
@@ -51,10 +54,10 @@ public abstract class ApiExampleApplicationBase {
     protected <T, R> void executeAsynchronous(String exampleName, T request, Function<T, Mono<R>> executeFunction) {
         var newExampleName = "ASYNC - " + exampleName;
         if (request == null) {
-            System.out.println("--------------------------------\n[" + newExampleName + "] - Executing request");
+            logger.info("[" + newExampleName + "] - Executing request");
         } else {
             try {
-                System.out.println("[" + newExampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serializeToString(request));
+                logger.info("[" + newExampleName + "] - Executing request - Parameters: " + this.jsonApiSerializer.serializeToString(request));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -66,7 +69,7 @@ public abstract class ApiExampleApplicationBase {
             .subscribe(
                 response -> {
                     try {
-                        System.out.println("--------------------------------\n[" + newExampleName + "] - Got response: " + this.jsonApiSerializer.serializeToString(response));
+                        logger.info("[" + newExampleName + "] - Got response: " + this.jsonApiSerializer.serializeToString(response));
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -74,11 +77,11 @@ public abstract class ApiExampleApplicationBase {
                     this.asyncBarrierSemaphore.release();
                 },
                 exception -> {
-                    System.err.println("[" + newExampleName + "] - Failed: " + exception.getMessage());
+                    logger.error("[" + newExampleName + "] - Failed: " + exception.getMessage());
                     if (exception instanceof Trade360Exception) {
                         var trade360Exception = (Trade360Exception) exception;
-                        System.out.println("[" + newExampleName + "] - Errors:");
-                        trade360Exception.getErrors().forEach(error -> System.out.println("[" + newExampleName + "]\t- " + error));
+                        logger.error("[" + newExampleName + "] - Errors:");
+                        trade360Exception.getErrors().forEach(error -> logger.error("[" + newExampleName + "]\t- " + error));
                         System.out.flush();
                     }
                     this.asyncBarrierSemaphore.release();
@@ -89,7 +92,7 @@ public abstract class ApiExampleApplicationBase {
         try {
             this.asyncBarrierSemaphore.acquire(this.asyncOperationsCount);
         } catch (InterruptedException e) {
-            System.err.println("Failed to wait for all async operations to finish: " + e.getMessage());
+            logger.error("Failed to wait for all async operations to finish: " + e.getMessage());
         }
 
         this.asyncOperationsCount = 0;

@@ -88,7 +88,7 @@ This is an example usage of the feed SDK, which gives you the ability to create 
 
 ```yaml
 spring.application.name:trade360-feed-example
-spring.codec.max-in-memory-size=1MB
+spring.codec.max-in-memory-size=10MB
 
 rabbitmq.inplay.name: inplay
 rabbitmq.inplay.rabbit_listener_container_factory_name: inPlaySimpleRabbitListenerContainerFactory
@@ -109,26 +109,26 @@ rabbitmq.inplay.retry_max_interval: 5000
 rabbitmq.inplay.concurrent_consumers: 1
 rabbitmq.inplay.max_concurrent_consumers: 1
 ```
-spring.application.name- name of the application
-spring.codec.max-in-memory-size - maximum size of the in-memory buffer for encoding and decoding messages
-name - name for a RabbitMQ connection 
-rabbit_listener_container_factory_name - name of the RabbitMQ listener container factory
-package_id - LSports package id/used to create RabbitMQ queue name
-host - RabbitMQ host 
-port - RabbitMQ port
-virtual_host - RabbitMQ virtual host
-user_name - RabbitMQ user name
-password - RabbitMQ password
-prefetch_count - RabbitMQ prefetch count
-auto_ack - RabbitMQ auto ack message flag
-requested_heartbeat_seconds - RabbitMQ requested heartbeat seconds
-network_recovery_interval - RabbitMQ network recovery interval
-retry_attempts - RabbitMQ retry attempts
-retry_initial_interval - RabbitMQ retry initial interval
-retry_multiple - RabbitMQ retry multiple
-retry_max_interval - RabbitMQ retry max interval
-concurrent_consumers - RabbitMQ concurrent consumers (prefered 1)
-max_concurrent_consumers - RabbitMQ max concurrent consumers (prefered 1)
+- spring.application.name- name of the application
+- spring.codec.max-in-memory-size - maximum size of the in-memory buffer for encoding and decoding messages
+- name - name for a RabbitMQ connection
+- rabbit_listener_container_factory_name - name of the RabbitMQ listener container factory
+- package_id - LSports package id/used to create RabbitMQ queue name
+- host - RabbitMQ host 
+- port - RabbitMQ port
+- virtual_host - RabbitMQ virtual host
+- user_name - RabbitMQ user name
+- password - RabbitMQ password
+- prefetch_count - RabbitMQ prefetch count
+- auto_ack - RabbitMQ auto ack message flag
+- requested_heartbeat_seconds - RabbitMQ requested heartbeat seconds
+- network_recovery_interval - RabbitMQ network recovery interval
+- retry_attempts - RabbitMQ retry attempts
+- retry_initial_interval - RabbitMQ retry initial interval
+- retry_multiple - RabbitMQ retry multiple
+- retry_max_interval - RabbitMQ retry max interval
+- concurrent_consumers - RabbitMQ concurrent consumers (prefered 1)
+- max_concurrent_consumers - RabbitMQ max concurrent consumers (prefered 1)
 
 same need to define for prematch feed
 ```yaml
@@ -251,7 +251,7 @@ public class InplayRecoveryMessageResolver implements MessageRecoverer {
     public void recover(Message message, Throwable cause) {
 
         // Printout error message after policy retry fulfilment
-        System.out.print(MessageFormat.format("Unable to process message due to {0} message: {1}", cause.getMessage(), message));
+       logger.error(MessageFormat.format("Unable to process message due to {0} message: {1}", cause.getMessage(), message));
 
         // Further message handling can be added here, e.g. send to DLQ
     }
@@ -271,11 +271,14 @@ import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
 import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
 
 import java.text.MessageFormat;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings("removal")
 public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
-
-    @Override
+  protected static final Logger logger = LogManager.getLogger();
+  
+  @Override
     public Object handleError(Message amqpMessage, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {
         return null;
     }
@@ -286,9 +289,9 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
         String connectionName = channel.getConnection().getAddress().toString();
 
         // Printout error message after error
-        System.out.println(MessageFormat.format("{0}: Unable to process message amqpMessage header: {1}", connectionName, amqpMessage.getMessageProperties().toString()));
-        System.out.println(MessageFormat.format("{0}: Unable to process due to exception cause: {1} ", connectionName, exception.getCause()));
-        System.out.println(MessageFormat.format("{0}: message: {1} ", connectionName, message.getPayload()));
+        logger.error(MessageFormat.format("{0}: Unable to process message amqpMessage header: {1}", connectionName, amqpMessage.getMessageProperties().toString()));
+        logger.error(MessageFormat.format("{0}: Unable to process due to exception cause: {1} ", connectionName, exception.getCause()));
+        logger.error(MessageFormat.format("{0}: message: {1} ", connectionName, message.getPayload()));
 
         // Further message handling can be added here, e.g. send to DLQ
 
@@ -362,11 +365,11 @@ Error handling depends on asynchronous approach is used.
 For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
 ```java
     exception -> {
-        System.err.println("[" + newExampleName + "] - Failed: " + exception.getMessage());
+        logger.error("[" + newExampleName + "] - Failed: " + exception.getMessage());
         if (exception instanceof Trade360Exception) {
             var trade360Exception = (Trade360Exception) exception;
-            System.out.println("[" + newExampleName + "] - Errors:");
-            trade360Exception.getErrors().forEach(error -> System.out.println("[" + newExampleName + "]\t- " + error));
+            logger.error("[" + newExampleName + "] - Errors:");
+            trade360Exception.getErrors().forEach(error ->  logger.error("[" + newExampleName + "]\t- " + error));
             System.out.flush();}
         }
 ```
@@ -466,11 +469,11 @@ same as on Snapshot Api, Error handling depends on asynchronous approach is used
 For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
 ```java
     exception -> {
-        System.err.println("[" + newExampleName + "] - Failed: " + exception.getMessage());
+        logger.error("[" + newExampleName + "] - Failed: " + exception.getMessage());
         if (exception instanceof Trade360Exception) {
             var trade360Exception = (Trade360Exception) exception;
-            System.out.println("[" + newExampleName + "] - Errors:");
-            trade360Exception.getErrors().forEach(error -> System.out.println("[" + newExampleName + "]\t- " + error));
+             logger.error("[" + newExampleName + "] - Errors:");
+            trade360Exception.getErrors().forEach(error ->  logger.error("[" + newExampleName + "]\t- " + error));
             System.out.flush();}
         }
 ```
