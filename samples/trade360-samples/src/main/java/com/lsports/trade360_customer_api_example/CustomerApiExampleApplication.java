@@ -200,7 +200,7 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
     private void getSports(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
         this.executeAsynchronous("GetSports with parameters",
-            new GetSportsRequest(6),
+            new GetSportsRequest(null),
             request -> client.getSports(request));
     }
 

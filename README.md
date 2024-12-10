@@ -13,8 +13,13 @@
     - [Message recover in case of failure](#message-recover-in-case-of-failure)
     - [Message exception handling in case of failure](#message-exception-handling-in-case-of-failure)
   - [Using Snapshot API](#using-snapshot-api)
-    - [Handling responses](#handling-responses)
-    - [Error handling](#error-handling)
+    - [Example Configuration (`application.properties`)](#snapshot-api-example-configuration-applicationproperties)
+    - [Handling responses](#snapshot-api-handling-responses)
+    - [Error handling](#snapshot-api-error-handling)
+  - [Using Customers API](#using-customers-api)
+    - [Example Configuration (`application.properties`)](#customers-api-example-configuration-applicationproperties)
+    - [Handling responses](#customers-api-handling-responses)
+    - [Error handling](#customers-api-error-handling)
 - [Links](#links)
 - [Contributing](#contributing)
 - [License](#license)
@@ -83,20 +88,20 @@ This is an example usage of the feed SDK, which gives you the ability to create 
 
 ```yaml
 spring.application.name:trade360-feed-example
+spring.codec.max-in-memory-size=10MB
 
 rabbitmq.inplay.name: inplay
-rabbitmq.inplay.rabbit_listener_container_factory_name: inplaySimpleRabbitListenerContainerFactory
-rabbitmq.inplay.package_id: 99
-rabbitmq.inplay.host: localhost
-rabbitmq.inplay.port: 5672
-rabbitmq.inplay.virtual_host: /
-rabbitmq.inplay.user_name: guest
-rabbitmq.inplay.password: guest
+rabbitmq.inplay.rabbit_listener_container_factory_name: inPlaySimpleRabbitListenerContainerFactory
+rabbitmq.inplay.package_id: your-packageid
+rabbitmq.inplay.host: trade360-inplay-rabbitmq-host
+rabbitmq.inplay.port: trade360-inplay-rabbitmq-port
+rabbitmq.inplay.virtual_host: trade360-inplay-rabbitmq-virtual-host
+rabbitmq.inplay.user_name: your-username
+rabbitmq.inplay.password: your-password
 rabbitmq.inplay.prefetch_count: 100
-rabbitmq.inplay.auto_ack: false
+rabbitmq.inplay.auto_ack: true
 rabbitmq.inplay.requested_heartbeat_seconds: 30
 rabbitmq.inplay.network_recovery_interval: 30
-rabbitmq.inplay.base_customers_api: https://stm-api.lsports.eu
 rabbitmq.inplay.retry_attempts: 3
 rabbitmq.inplay.retry_initial_interval: 1000
 rabbitmq.inplay.retry_multiple: 2
@@ -104,27 +109,48 @@ rabbitmq.inplay.retry_max_interval: 5000
 rabbitmq.inplay.concurrent_consumers: 1
 rabbitmq.inplay.max_concurrent_consumers: 1
 ```
-name - name for a RabbitMQ connection 
-rabbit_listener_container_factory_name - name of the RabbitMQ listener container factory
-package_id - LSports package id/used to create RabbitMQ queue name
-host - RabbitMQ host 
-port - RabbitMQ port
-virtual_host - RabbitMQ virtual host
-user_name - RabbitMQ user name
-password - RabbitMQ password
-prefetch_count - RabbitMQ prefetch count
-auto_ack - RabbitMQ auto ack message flag
-requested_heartbeat_seconds - RabbitMQ requested heartbeat seconds
-network_recovery_interval - RabbitMQ network recovery interval
-retry_attempts - RabbitMQ retry attempts
-retry_initial_interval - RabbitMQ retry initial interval
-retry_multiple - RabbitMQ retry multiple
-retry_max_interval - RabbitMQ retry max interval
-concurrent_consumers - RabbitMQ concurrent consumers (prefered 1)
-max_concurrent_consumers - RabbitMQ max concurrent consumers (prefered 1)
 
+- spring.application.name- name of the application
+- spring.codec.max-in-memory-size - maximum size of the in-memory buffer for encoding and decoding messages
+- name - name for a RabbitMQ connection
+- rabbit_listener_container_factory_name - name of the RabbitMQ listener container factory
+- package_id - LSports package id/used to create RabbitMQ queue name
+- host - RabbitMQ host 
+- port - RabbitMQ port
+- virtual_host - RabbitMQ virtual host
+- user_name - RabbitMQ user name
+- password - RabbitMQ password
+- prefetch_count - RabbitMQ prefetch count
+- auto_ack - RabbitMQ auto ack message flag
+- requested_heartbeat_seconds - RabbitMQ requested heartbeat seconds
+- network_recovery_interval - RabbitMQ network recovery interval
+- retry_attempts - RabbitMQ retry attempts
+- retry_initial_interval - RabbitMQ retry initial interval
+- retry_multiple - RabbitMQ retry multiple
+- retry_max_interval - RabbitMQ retry max interval
+- concurrent_consumers - RabbitMQ concurrent consumers (prefered 1)
+- max_concurrent_consumers - RabbitMQ max concurrent consumers (prefered 1)
 
-
+same need to define for prematch feed
+```yaml
+rabbitmq.prematch.name: prematch
+rabbitmq.prematch.rabbit_listener_container_factory_name: preMatchSimpleRabbitListenerContainerFactory
+rabbitmq.prematch.package_id: your-packageid
+rabbitmq.prematch.host: trade360-prematch-rabbitmq-host
+rabbitmq.prematch.port: trade360-prematch-rabbitmq-port
+rabbitmq.prematch.virtual_host: trade360-prematch-rabbitmq-virtual-host
+rabbitmq.prematch.user_name: your-username
+rabbitmq.prematch.password: your-password
+rabbitmq.prematch.prefetch_count: 100
+rabbitmq.prematch.auto_ack: true
+rabbitmq.prematch.network_recovery_interval: 30
+rabbitmq.prematch.retry_attempts: 3
+rabbitmq.prematch.retry_initial_interval: 1000
+rabbitmq.prematch.retry_multiple: 2
+rabbitmq.prematch.retry_max_interval: 5000
+rabbitmq.prematch.concurrent_consumers: 1
+rabbitmq.prematch.max_concurrent_consumers: 1
+```
 ```yaml
 #### Implementing the connection
 
@@ -226,7 +252,7 @@ public class InplayRecoveryMessageResolver implements MessageRecoverer {
     public void recover(Message message, Throwable cause) {
 
         // Printout error message after policy retry fulfilment
-        System.out.print(MessageFormat.format("Unable to process message due to {0} message: {1}", cause.getMessage(), message));
+       logger.error(MessageFormat.format("Unable to process message due to {0} message: {1}", cause.getMessage(), message));
 
         // Further message handling can be added here, e.g. send to DLQ
     }
@@ -246,11 +272,14 @@ import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
 import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
 
 import java.text.MessageFormat;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings("removal")
 public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
-
-    @Override
+  protected static final Logger logger = LogManager.getLogger();
+  
+  @Override
     public Object handleError(Message amqpMessage, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {
         return null;
     }
@@ -261,9 +290,9 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
         String connectionName = channel.getConnection().getAddress().toString();
 
         // Printout error message after error
-        System.out.println(MessageFormat.format("{0}: Unable to process message amqpMessage header: {1}", connectionName, amqpMessage.getMessageProperties().toString()));
-        System.out.println(MessageFormat.format("{0}: Unable to process due to exception cause: {1} ", connectionName, exception.getCause()));
-        System.out.println(MessageFormat.format("{0}: message: {1} ", connectionName, message.getPayload()));
+        logger.error(MessageFormat.format("{0}: Unable to process message amqpMessage header: {1}", connectionName, amqpMessage.getMessageProperties().toString()));
+        logger.error(MessageFormat.format("{0}: Unable to process due to exception cause: {1} ", connectionName, exception.getCause()));
+        logger.error(MessageFormat.format("{0}: message: {1} ", connectionName, message.getPayload()));
 
         // Further message handling can be added here, e.g. send to DLQ
 
@@ -275,8 +304,22 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 
 ### Using Snapshot API
 
-Full working example of using Snapshot API in Spring Framework can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_snapshot_api_example/SnapshotApiExampleApplication.java).
+Full working example of using Snapshot API SDK in Spring Framework, which provides an easy way to interact with the Snapshot API for recovery purposes. The SDK offers a simplified HTTP client with request and response handling.
 
+It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_snapshot_api_example/SnapshotApiExampleApplication.java).
+
+#### Snapshot API Example Configuration (`application.properties`)
+
+```yaml
+snapshotapi.base_snapshot_api: https://stm-snapshot.lsports.eu
+snapshotapi.inplay.package_id: your-packageid
+snapshotapi.inplay.user_name: your-username
+snapshotapi.inplay.password: your-password
+snapshotapi.prematch.package_id: your-packageid
+snapshotapi.prematch.user_name: your-username
+snapshotapi.prematch.password: your-password
+```
+After setting the correct configuration, add the following:
 In order to create a client instance a `SnapshotApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation. 
 
 Available `SnapshotApiClientFactory` implementations:
@@ -301,64 +344,148 @@ public SnapshotApiExampleApplication(SnapshotApiClientFactory factory) {
 }
 ```
 
-After factory is obtained, it can be used to create actual API Client instances. When creating an instance, proper settings need to be provided with your package information and credentials.
-For example:
-
-```java
-var preMatchSettings = new PackageCredentials(URI.create("https://stm-snapshot.lsports.eu"), 1234, "yourUsername", "yourPassword");
-var preMatchClient = this.apiClientFactory.createPreMatchApiClient(preMatchSettings);
-```
-
-It's up to integrator how you store the parameters. You can fetch them from application configuration or other source, depending on scenario and your needs.
+After factory is obtained, it can be used to create actual API Client instances. When creating an instance, proper settings will be loaded from application.properties file. 
 
 Having the configured client instance one can use it by invoking requests with proper parameters. The documentation for each request can be found [here](https://docs.lsports.eu/lsports/v/integration/apis/snapshot) - bear in mind that you do not need to provide auth parameters each time as the SDK does it for you.
 
-#### Handling responses
+#### Snapshot API Handling responses
 
 The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
 
-Below you can find two primary approaches how you can handle responses.
+Below you can find primary approach how you can handle responses.
+Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
+```java
+    this.executeAsynchronous("PreMatch Async Get Fixtures",
+        new GetFixtureRequest(.....),
+        preMatchClient::getFixtures);
+```
 
-1. Synchronous method - recommended only for simple use cases when there are not a lot of requests done, as it may lead to bottlenecks (socket saturation etc.).
-    ```java
-    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
-    var getFixturesResponse = getFixturesResponseMono.block();
-    ```
-2. Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
-    ```java
-    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
-    getFixturesResponseMono.subscribe(
-        response -> System.out.println("[" + exampleName + "] - Got response: " + response)));
-    ```
+#### Snapshot API Error handling
 
-#### Error handling
-Error handling depends on which approach is used – synchronous or asynchronous:
-1. In case of synchronous method it's as simple as wrapping invocation in `try`/`catch` and catching [`Trade360Exception`](/sdk/trade360-java-sdk/src/main/java/com/lsports/trade360_java_sdk/common/exceptions/Trade360Exception.java).
-    ```java
-    try {
-        preMatchClient.getFixtures(new GetSnapshotRequest(...))
-            .block();
-    } catch (Trade360Exception ex) {
-        // handle exception
-    }
-    ```
-2. For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
-    ```java
-    var getFixturesResponseMono = preMatchClient.getFixtures(new GetSnapshotRequest(...)));
-    getFixturesResponseMono.subscribe(
-        response -> /* Handle success response */),
-        error -> {
-            if (error instanceof Trade360Exception) {
-                var trade360Exception = (Trade360Exception) error;
-                /* Handle exception */
-            }
-        });
-    ```
+Error handling depends on asynchronous approach is used.
+For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
+```java
+    exception -> {
+        logger.error("[" + newExampleName + "] - Failed: " + exception.getMessage());
+        if (exception instanceof Trade360Exception) {
+            var trade360Exception = (Trade360Exception) exception;
+            logger.error("[" + newExampleName + "] - Errors:");
+            trade360Exception.getErrors().forEach(error ->  logger.error("[" + newExampleName + "]\t- " + error));
+            System.out.flush();}
+        }
+```
 
 The `Trade360Exception` class does contain a detailed message which may help identify the root cause of the issue. To obtain the message call `getMessage()` method. Also sometimes additional detailed errors can be obtained using `getErrors()` method.
 
 Below you can find an example how an exception may look like. In this case it means incorrect credentials have been provided.
 ![Trade360Exception example](/docs/static/trade360exception_example.png)
+
+
+
+### Using Customers API
+
+The Customers API SDK is made up of three parts: Package Distribution, Metadata, and Subscription. It provides a simplified HTTP client with request and response handling for various operations.
+
+Package Distribution: Start, stop, and get distribution status. 
+Metadata: Exposes endpoints to get leagues, sports, locations, markets, and translations. 
+Subscription: Allows subscribing and unsubscribing to a fixture or by league. It also includes manual suspension actions and quota retrieval.
+
+It can be found in this [sample application](/samples/trade360-samples/src/main/java/com/lsports/trade360_customer_api_example/CustomerApiExampleApplication.java).
+
+#### Customers API Example Configuration (`application.properties`)
+
+
+```yaml
+customersapi.base_customers_api: https://stm-api.lsports.eu
+customersapi.inplay.package_id: your-packageid
+customersapi.inplay.user_name: your-username
+customersapi.inplay.password: your-password
+customersapi.prematch.package_id: your-packageid
+customersapi.prematch.user_name: your-username
+customersapi.prematch.password: your-password
+```
+After setting the correct configuration, add the following:
+In order to create a client instance a `CustomersApiClientFactory` interface instance is necessary. You can obtain one by using one of provided implementation.
+
+Available `CustomersApiClientFactory` implementations:
+
+- `SpringBootCustomersApiClientFactory` - an implementation compatible with Spring Framework, as it uses flux `WebClient`.
+
+In case you use `SpringBootCustomersApiClientFactory` we will have separate implementation for each type of apis- PackageDistributionApiClient, MetadataApiClient, SubscriptionApiClient. Below you can find an example of proper registration of the factory.
+
+```java
+  @Override
+public PackageDistributionApiClientImplementation createPackageDistributionHttpClient(URI baseUrl, PackageCredentials packageCredentials) {
+    var client = this.createInternalClient(baseUrl, packageCredentials);
+    return new PackageDistributionApiClientImplementation(client);
+}
+
+/**
+ * {@inheritDoc}
+ */
+@Override
+public MetadataApiClient createMetadataHttpClient(URI baseUrl, PackageCredentials packageCredentials) {
+    var client = this.createInternalClient(baseUrl, packageCredentials);
+    return new MetadataApiClientImplementation(client);
+}
+
+/**
+ * {@inheritDoc}
+ */
+@Override
+public SubscriptionApiClient createSubscriptionApiHttpClient(URI baseUrl, PackageCredentials packageCredentials) {
+    var client = this.createInternalClient(baseUrl, packageCredentials);
+    return new SubscriptionApiClientImplementation(client);
+}
+```
+
+Later, you can inject the factory e.g. via the constructor:
+```java
+private final CustomersApiClientFactory apiClientFactory;
+
+public CustomerApiExampleApplication(CustomersApiClientFactory factory) {
+    apiClientFactory = factory;
+}
+```
+
+After factory is obtained, it can be used to create actual API Client instances. When creating an instance, proper settings will be loaded from application.properties file.
+
+Having the configured client instance one can use it by invoking requests with proper parameters. The documentation for each request can be found [here](https://docs.lsports.eu/lsports/v/integration/apis/snapshot) - bear in mind that you do not need to provide auth parameters each time as the SDK does it for you.
+
+#### Customers API Handling responses
+
+Same as on snapshot api, The client is written in reactive approach using [Reactor](https://projectreactor.io/) library. Each operation returns `Mono<T>` instance being an observable eventually returning response in case of success, or an error in case of failure. You can use the `Mono<T>` object in any way you want according to your needs, you can learn more what you can do with it in the Reactor library documentation linked above.
+
+Below you can find primary approach how you can handle responses.
+Asynchronous method - this is the recommended approach to the high load and throughput scenarios as this prioritizes throughput and minimizes risk of bottlenecks.
+```java
+    this.executeAsynchronous("PreMatch Async Get Fixtures",
+        new GetFixtureRequest(.....),
+        preMatchClient::getFixtures);
+```
+
+#### Customers API Error handling
+
+same as on Snapshot Api, Error handling depends on asynchronous approach is used.
+For asynchronous method a standard approach for reactive paradigm should be used. If error occurs during request processing a `Trade360Exception` exception is emitted to `Mono<T>`. The excessive description how to handle errors in Reactor can be found [here](https://projectreactor.io/docs/core/release/reference/index.html#error.handling). Below you can find one of the most basic approach to handle errors:
+```java
+    exception -> {
+        logger.error("[" + newExampleName + "] - Failed: " + exception.getMessage());
+        if (exception instanceof Trade360Exception) {
+            var trade360Exception = (Trade360Exception) exception;
+             logger.error("[" + newExampleName + "] - Errors:");
+            trade360Exception.getErrors().forEach(error ->  logger.error("[" + newExampleName + "]\t- " + error));
+            System.out.flush();}
+        }
+```
+
+The `Trade360Exception` class does contain a detailed message which may help identify the root cause of the issue. To obtain the message call `getMessage()` method. Also sometimes additional detailed errors can be obtained using `getErrors()` method.
+
+Below you can find an example how an exception may look like. In this case it means incorrect credentials have been provided.
+![Trade360Exception example](/docs/static/trade360exception_example.png)
+
+
+
 
 ## Links
 Spring AMQP documentation:

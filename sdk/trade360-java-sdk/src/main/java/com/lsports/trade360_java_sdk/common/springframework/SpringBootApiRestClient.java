@@ -54,7 +54,7 @@ public class SpringBootApiRestClient implements ApiRestClient {
             })
             .build();
     }
-
+    public static void main(String[] args) { /* Intentionally left empty */ }
     /**
      * {@inheritDoc}
      */

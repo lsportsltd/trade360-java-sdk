@@ -1,0 +1,9 @@
+variables:
+  releaseconfig: 'Release'
+  prereleaseconfig: 'Debug'
+  feedname: 'STM/STMFeed'
+  description: "This SDK provides RabbitMQ feed handling functionality for the Trade360 product."
+  authors: "Shir Ben Ishay"
+  company: "LSports"
+  tags: "RabbitMQ, Trade360, SDK"
+  version: "1.0.0"  # Specify your manual version here
