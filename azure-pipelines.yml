@@ -9,8 +9,6 @@ trigger:
 variables:
   - template: variables.yml
 
-pool:
-  name: k8s-agents-ci
 
 stages:
   - stage: Build
@@ -18,6 +16,8 @@ stages:
     jobs:
       - job: Build
         displayName: Build Maven Project
+        pool:
+          name: k8s-agents-ci
         steps:
           - task: Maven@3
             displayName: 'Maven Package'
