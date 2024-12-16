@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the project
-RUN mvn clean package
+RUN mvn package
 
 # keep container running
 CMD ["tail", "-f", "/dev/null"]
