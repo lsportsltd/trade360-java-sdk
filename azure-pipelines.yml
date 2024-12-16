@@ -10,7 +10,7 @@ variables:
   - template: variables.yml
 
 pool:
-  vmImage: k8s-agents-ci
+  name: k8s-agents-ci
 
 stages:
   - stage: Build
