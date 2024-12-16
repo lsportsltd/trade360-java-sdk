@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.lsports</groupId>
 	<artifactId>trade360-java-sdk</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>trade360-java-sdk</name>
-	<description>Demo project for Spring Boot</description>
+	<description>LSports trade360 java sdk</description>
 	<url/>
 	<licenses>
 		<license/>

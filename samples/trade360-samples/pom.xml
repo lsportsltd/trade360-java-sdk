@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>trade360-samples</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>trade360-samples</name>
-    <description>trade360-samples</description>
+    <description>LSports trade360-samples java sdk</description>
     <properties>
         <java.version>17</java.version>
     </properties>
