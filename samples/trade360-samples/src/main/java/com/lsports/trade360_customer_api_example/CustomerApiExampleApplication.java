@@ -90,6 +90,7 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
             System.out.println("20. Package Distribution API - Get Distribution Status");
             System.out.println("21. Package Distribution API - Start Distribution");
             System.out.println("22. Package Distribution API - Stop Distribution");
+            System.out.println("23. Package Information API - Get ProviderOdds type");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -161,6 +162,10 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
                 case 22:
                     stopDistribution(baseUri,preMatchPackageCredentials);
                     break;
+                case 23:
+                    getProviderOddsType(baseUri,preMatchPackageCredentials);
+                    getProviderOddsType(baseUri,inPlayPackageCredentials);
+                    break;
                 case 0:
                     System.out.println("Exiting...");
                     scanner.close();
@@ -170,6 +175,12 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
             }
             this.waitForAllAsyncFinish();
         }
+    }
+
+    private void getProviderOddsType(URI baseUri, PackageCredentials credentials) {
+        var client = this.apiClientFactory.createPackageQueryApiHttpClient(baseUri, credentials);
+       this.executeAsynchronous("getProviderOddsType without parameters",
+            () -> client.getProviderOddsType());
     }
 
     private void getDistributionStatus(URI baseUri, PackageCredentials credentials) {

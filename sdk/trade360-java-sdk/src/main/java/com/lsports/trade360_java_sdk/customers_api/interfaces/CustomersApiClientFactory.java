@@ -34,4 +34,14 @@ public interface CustomersApiClientFactory {
      * @return A new instance of {@link SubscriptionApiClient}
      */
     SubscriptionApiClient createSubscriptionApiHttpClient(URI baseUrl, PackageCredentials packageCredentials);
+
+    /**
+     * Creates a client for the Package Query API.
+     *
+     * @param baseUrl The base URL of the API
+     * @param packageCredentials The credentials for the package
+     * @return A new instance of {@link PackageQueryApiClient}
+     */
+    PackageQueryApiClient createPackageQueryApiHttpClient(URI baseUrl, PackageCredentials packageCredentials);
+
 }
