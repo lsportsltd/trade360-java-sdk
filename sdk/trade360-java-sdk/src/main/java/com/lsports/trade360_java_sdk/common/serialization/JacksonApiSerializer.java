@@ -42,9 +42,12 @@ public class JacksonApiSerializer implements JsonApiSerializer {
      */
     @Override
     public <R> ObjectNode serializeRequest(R request) {
-        ObjectNode jsonObject = this.jsonMapper.valueToTree(request);
-        if (this.packageCredentials == null) {
-            return jsonObject;
+        ObjectNode jsonObject = this.jsonMapper.createObjectNode();
+        if(request != null) {
+            jsonObject = this.jsonMapper.valueToTree(request);
+            if (this.packageCredentials == null) {
+                return jsonObject;
+            }
         }
 
         jsonObject.put("PackageId", this.packageCredentials.packageId());
