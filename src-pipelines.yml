@@ -14,5 +14,6 @@ stages:
       packageManager: 'maven'
       language: 'java'
       languageVersion: '17'
-      artifactImageLocation: '/app/target'
+      artifactImageLocation: '/app/sdk/trade360-java-sdk/target'
       locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
+      dockerfilePath: 'trade360-java-sdk'
