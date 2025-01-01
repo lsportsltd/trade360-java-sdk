@@ -14,17 +14,18 @@ stages:
       packageManager: 'maven'
       language: 'java'
       languageVersion: '17'
-      artifactImageLocation: '/app/samples/trade360-samples/target'
-      locationToBuild: 'trade360-java-sdk/samples/trade360-samples'
+      artifactImageLocation: '/app/sdk/trade360-java-sdk/target'
+      locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
       dockerfilePath: 'trade360-java-sdk'
-      serviceName: samples
+      serviceName: sdk
       
   - template: general/generic-package-CICD.yaml@pipeline-templates
     parameters:
       packageManager: 'maven'
       language: 'java'
       languageVersion: '17'
-      artifactImageLocation: '/app/sdk/trade360-java-sdk/target'
-      locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
+      artifactImageLocation: '/app/samples/trade360-samples/target'
+      locationToBuild: 'trade360-java-sdk/samples/trade360-samples'
       dockerfilePath: 'trade360-java-sdk'
-      serviceName: sdk
+      serviceName: samples
+      
