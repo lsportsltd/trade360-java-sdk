@@ -56,7 +56,7 @@
     </dependencies>
 
     <build>
-        <directory>../../target/samples</directory>
+        <!-- <directory>../../target/samples</directory> -->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
