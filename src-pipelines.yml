@@ -1,0 +1,17 @@
+resources:
+  repositories:
+    - repository: pipeline-templates
+      type: github
+      name: lsportsltd/devops-pipeline-templates
+      endpoint: lsportsltd
+
+trigger: none
+
+stages:
+  - template: general/generic-package-CICD.yaml@pipeline-templates
+    parameters:
+      packageManager: 'maven'
+      language: 'java'
+      languageVersion: '17'
+      artifactImageLocation: '/app/target'
+      locationToBuild: 'trade360-java-sdk/src'
