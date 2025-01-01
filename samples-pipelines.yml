@@ -16,7 +16,6 @@ stages:
       languageVersion: '17'
       artifactImageLocation: '/app/target'
       locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
-      dockerfilePath: 'trade360-java-sdk'
       serviceName: sdk
       
   - template: general/generic-package-CICD.yaml@pipeline-templates
