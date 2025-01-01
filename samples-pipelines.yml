@@ -17,6 +17,7 @@ stages:
       artifactImageLocation: '/app/samples/trade360-samples/target'
       locationToBuild: 'trade360-java-sdk/samples/trade360-samples'
       dockerfilePath: 'trade360-java-sdk'
+      serviceName: samples
       
   - template: general/generic-package-CICD.yaml@pipeline-templates
     parameters:
@@ -26,3 +27,4 @@ stages:
       artifactImageLocation: '/app/sdk/trade360-java-sdk/target'
       locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
       dockerfilePath: 'trade360-java-sdk'
+      serviceName: sdk
