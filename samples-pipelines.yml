@@ -4,6 +4,7 @@ resources:
       type: github
       name: lsportsltd/devops-pipeline-templates
       endpoint: lsportsltd
+      ref: yehorazl-patch-2
 
 trigger: none
 
@@ -15,3 +16,4 @@ stages:
       languageVersion: '17'
       artifactImageLocation: '/app/target'
       locationToBuild: 'trade360-java-sdk/samples/trade360-samples'
+      dockerfilePath: 'trade360-java-sdk'
