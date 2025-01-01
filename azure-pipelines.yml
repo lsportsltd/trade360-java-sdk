@@ -14,4 +14,4 @@ stages:
       language: 'java'
       languageVersion: '17'
       artifactImageLocation: '/app/target'
-      locationToBuild: 'trade360-java-sdk/samples'
+      locationToBuild: 'trade360-java-sdk'
