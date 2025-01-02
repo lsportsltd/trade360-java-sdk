@@ -240,7 +240,7 @@ In order to handle message recover it is a need to  implements `MessageRecoverer
 
 Example:
 ```java
-package com.lsports.trade360feedexample.handlers.inplay.errors;
+package eu.lsports.trade360feedexample.handlers.inplay.errors;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
@@ -264,7 +264,7 @@ In order to handle message exception it is a need to implement `RabbitListenerEr
 
 Example:
 ```java
-package com.lsports.trade360feedexample.handlers.inplay.errors;
+package eu.lsports.trade360feedexample.handlers.inplay.errors;
 
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;

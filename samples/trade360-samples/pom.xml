@@ -18,7 +18,7 @@
     </parent>
     <dependencies>
         <dependency>
-            <groupId>com.lsports</groupId>
+            <groupId>eu.lsports</groupId>
             <artifactId>trade360-java-sdk</artifactId>
             <version>1.0.2</version>
         </dependency>
@@ -63,7 +63,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.lsports.trade360feedexample.Trade360FeedExampleApplication</mainClass>
+                    <mainClass>eu.lsports.trade360feedexample.Trade360FeedExampleApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
