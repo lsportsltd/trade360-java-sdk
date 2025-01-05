@@ -2,13 +2,14 @@ package eu.lsports.trade360_java_sdk.common.entities.message_types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
+import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEventProviderOdds;
 import eu.lsports.trade360_java_sdk.common.entities.outright_sport.OutrightCompetition;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code OutrightFixtureMarketUpdate} class represents an update to the markets of an outright fixture for trade360 customers.
+ * The {@code OutrightFixtureMarketUpdateProviderOdds} class represents an update to the markets of an outright fixture for providers odds type
  */
-public class OutrightFixtureMarketUpdate {
+public class OutrightFixtureMarketUpdateProviderOdds {
 
     /**
      * The entity key for the outright fixture market update.
@@ -21,5 +22,5 @@ public class OutrightFixtureMarketUpdate {
      * This can be {@code null} if not set.
      */
     @Nullable
-    public OutrightCompetition<MarketEvent> competition;
+    public OutrightCompetition<MarketEventProviderOdds> competition;
 }

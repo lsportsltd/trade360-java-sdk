@@ -3,9 +3,9 @@ package eu.lsports.trade360_java_sdk.common.entities.markets;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code Market} class represents a market in a betting context for trade360 type
+ * The {@code MarketProviderOdds} class represents a market in a betting context for provider odds type
  */
-public class Market {
+public class MarketProviderOdds {
 
     /**
      * The ID of the market.
@@ -19,10 +19,10 @@ public class Market {
     @Nullable public String name;
 
     /**
-     * The bets associated with the market.
+     * The ProviderMarket associated with the market event.
      * This can be {@code null} if not set.
      */
-    @Nullable public Iterable<Bet> bets;
+    @Nullable public Iterable<ProviderMarket> providerMarkets;
 
     /**
      * The main line of the market.
