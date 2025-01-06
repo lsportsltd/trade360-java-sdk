@@ -24,7 +24,7 @@ public class ProviderMarket {
      * The bets associated with the market.
      * This can be {@code null} if not set.
      */
-    @Nullable public Iterable<Bet> bets;
+    @Nullable public Iterable<ProviderMarketBet> bets;
 
     /**
      * The last update time of the fixture in UTC.

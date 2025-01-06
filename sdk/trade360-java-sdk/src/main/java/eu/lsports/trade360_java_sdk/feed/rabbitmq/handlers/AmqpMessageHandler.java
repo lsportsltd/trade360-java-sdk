@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.lsports.trade360_java_sdk.common.entities.enums.MessageType;
+import eu.lsports.trade360_java_sdk.common.entities.enums.ProviderOddsType;
 import eu.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
@@ -48,9 +49,9 @@ public class AmqpMessageHandler implements MessageHandler {
      * {@inheritDoc}
      */
     @Override
-    public void process(Message amqpMessage) throws Exception {
+    public void process(Message amqpMessage, ProviderOddsType providerOddsType) throws Exception {
         int typeId = getTypeIdFromMessage(amqpMessage);
-        Class<?> msgType = getMessageType(typeId);
+        Class<?> msgType = getMessageType(typeId, providerOddsType);
         String body = getBodyFromMessage(amqpMessage);
         Object msg = parseMessage(body, msgType);
         Map<String, String> header = getHeaderFromMessage(amqpMessage);
@@ -59,9 +60,13 @@ public class AmqpMessageHandler implements MessageHandler {
         handler.process(msg, header);
     }
 
-    private @NotNull Class<?> getMessageType(final int typeId) throws ClassNotFoundException, RabbitMQFeedException {
-        val className = MessageType.findMessageType(typeId);
-
+    private @NotNull Class<?> getMessageType(final int typeId, ProviderOddsType providerOddsType) throws ClassNotFoundException, RabbitMQFeedException {
+        MessageType className;
+        if(providerOddsType!=null){
+            className = MessageType.findMessageTypeByProviderOddsType(typeId, providerOddsType) ;
+        }else {
+            className = MessageType.findMessageType(typeId);
+        }
         if (className == null)
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId));
         else
