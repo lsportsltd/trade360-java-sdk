@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.lsports.trade360_java_sdk.common.entities.enums.MessageType;
-import eu.lsports.trade360_java_sdk.common.entities.enums.ProviderOddsType;
 import eu.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
@@ -49,7 +48,7 @@ public class AmqpMessageHandler implements MessageHandler {
      * {@inheritDoc}
      */
     @Override
-    public void process(Message amqpMessage, ProviderOddsType providerOddsType) throws Exception {
+    public void process(Message amqpMessage) throws Exception {
         int typeId = getTypeIdFromMessage(amqpMessage);
         Class<?> msgType = getMessageType(typeId);
         String body = getBodyFromMessage(amqpMessage);
