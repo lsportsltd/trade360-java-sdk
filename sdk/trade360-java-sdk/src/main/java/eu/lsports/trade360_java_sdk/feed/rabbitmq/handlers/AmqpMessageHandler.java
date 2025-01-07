@@ -51,7 +51,7 @@ public class AmqpMessageHandler implements MessageHandler {
     @Override
     public void process(Message amqpMessage, ProviderOddsType providerOddsType) throws Exception {
         int typeId = getTypeIdFromMessage(amqpMessage);
-        Class<?> msgType = getMessageType(typeId, providerOddsType);
+        Class<?> msgType = getMessageType(typeId);
         String body = getBodyFromMessage(amqpMessage);
         Object msg = parseMessage(body, msgType);
         Map<String, String> header = getHeaderFromMessage(amqpMessage);
@@ -60,13 +60,9 @@ public class AmqpMessageHandler implements MessageHandler {
         handler.process(msg, header);
     }
 
-    private @NotNull Class<?> getMessageType(final int typeId, ProviderOddsType providerOddsType) throws ClassNotFoundException, RabbitMQFeedException {
+    private @NotNull Class<?> getMessageType(final int typeId) throws ClassNotFoundException, RabbitMQFeedException {
         MessageType className;
-        if(providerOddsType!=null){
-            className = MessageType.findMessageTypeByProviderOddsType(typeId, providerOddsType) ;
-        }else {
-            className = MessageType.findMessageType(typeId);
-        }
+        className = MessageType.findMessageType(typeId);
         if (className == null)
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId));
         else
