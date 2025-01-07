@@ -1,6 +1,5 @@
 package eu.lsports.trade360feedexample;
 
-import eu.lsports.trade360_customer_api_example.configuration.CustomerApiConfiguration;
 import eu.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import eu.lsports.trade360_java_sdk.common.entities.enums.ProviderOddsType;
 import eu.lsports.trade360_java_sdk.customers_api.entities.base.BaseResponse;
@@ -13,9 +12,7 @@ import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -23,26 +20,20 @@ import reactor.core.publisher.Mono;
 import java.net.URI;
 
 @Component
-@EnableConfigurationProperties(CustomerApiConfiguration.class)
 public class RabbitMQFeed {
-    private final CustomersApiClientFactory apiClientFactory;
     private final MessageHandler inPlayMessageHandler;
     private final MessageHandler preMatchMessageHandler;
     private final RabbitConnectionConfiguration inPlayRabbitConnectionConfiguration;
     private final RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration;
-    @Autowired
-    private CustomerApiConfiguration customerApiConfiguration;
 
     public RabbitMQFeed(@Qualifier("inPlayMessageHandler") MessageHandler inPlayMessageHandler,
                         @Qualifier("preMatchMessageHandler") MessageHandler preMatchMessageHandler,
                         @Qualifier("inPlayRabbitConnectionConfiguration") RabbitConnectionConfiguration inPlayRabbitConnectionConfiguration,
-                        @Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration,
-                        CustomersApiClientFactory factory) {
+                        @Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration) {
         this.inPlayMessageHandler = inPlayMessageHandler;
         this.preMatchMessageHandler = preMatchMessageHandler;
         this.inPlayRabbitConnectionConfiguration = inPlayRabbitConnectionConfiguration;
         this.preMatchRabbitConnectionConfiguration = preMatchRabbitConnectionConfiguration;
-        this.apiClientFactory = factory;
     }
 
     // General notes:
@@ -58,8 +49,7 @@ public class RabbitMQFeed {
     // - Error handler is set by errorHandler annotation properties
     @RabbitListener(containerFactory = "${rabbitmq.inplay.rabbit_listener_container_factory_name}",  queues = "_${rabbitmq.inplay.package_id}_", errorHandler="inplayErrorMessageHandler")
     public void inPlayProcessMessage(final Message amqpMessage, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
-        ProviderOddsType providerOddsType = getInPlayProvideOddType(customerApiConfiguration.base_customers_api, customerApiConfiguration.inplay.package_id, customerApiConfiguration.inplay.user_name, customerApiConfiguration.inplay.password);
-        inPlayMessageHandler.process(amqpMessage, providerOddsType);
+        inPlayMessageHandler.process(amqpMessage);
 
         //in case of manual ACK  - auto_ack:false
         //   channel.basicAck(tag, false);
@@ -73,26 +63,10 @@ public class RabbitMQFeed {
     @RabbitListener(containerFactory = "${rabbitmq.prematch.rabbit_listener_container_factory_name}", queues = "_${rabbitmq.prematch.package_id}_", errorHandler="prematchErrorMessageHandler")
     public void preMatchProcessMessage(final Message message, Channel channel,
                                        @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
-        ProviderOddsType providerOddsType = getInPlayProvideOddType(customerApiConfiguration.base_customers_api, customerApiConfiguration.prematch.package_id, customerApiConfiguration.prematch.user_name, customerApiConfiguration.prematch.password);
-        preMatchMessageHandler.process(message, providerOddsType);
+        preMatchMessageHandler.process(message);
 
         //in case of manual ACK  - auto_ack:false
         //  channel.basicAck(tag, false);
-    }
-
-    private ProviderOddsType getInPlayProvideOddType(String url, Integer packageId, String userName, String password) {
-        URI baseUri = URI.create(url);
-        PackageCredentials packageCredentials = new PackageCredentials(packageId,userName,password);
-        try {
-            PackageQueryApiClient client = apiClientFactory.createPackageQueryApiHttpClient(baseUri, packageCredentials);
-            Mono<BaseResponse<GetProviderOddsTypeResponse>> response = client.getProviderOddsType();
-            if(response.block() == null || response.block().body == null) {
-                throw new RuntimeException("Failed to get provider odds type");
-            }
-            return response.block().body.providerOddsType;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
 
