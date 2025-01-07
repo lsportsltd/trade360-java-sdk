@@ -18,9 +18,8 @@ public class ProviderMarketBet {
 
     /**
      * The name of the bet.
-     * This can be {@code null} if not set.
      */
-    @Nullable public String name;
+    public String name;
 
     /**
      * The line of the bet.

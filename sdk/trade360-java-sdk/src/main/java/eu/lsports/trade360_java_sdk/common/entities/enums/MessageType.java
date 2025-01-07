@@ -164,48 +164,85 @@ public enum MessageType {
      * @return the {@code MessageType} corresponding to the given type ID, or {@code null} if not found
      * @throws ClassNotFoundException if the message type is not found
      */
-    public static MessageType findMessageTypeByProviderOddsType(int typeId ,ProviderOddsType providerOddsType) throws ClassNotFoundException {
-        if(typeId == MarketUpdate.value){
-            if(providerOddsType == ProviderOddsType.AVERAGE){
-                return MarketUpdate;
-            }else if(providerOddsType == ProviderOddsType.PROVIDER_ODDS){
-                return MarketUpdateProviderOdds;
-            }else if(providerOddsType == ProviderOddsType.BOTH) {
-                return MarketUpdateBoth;
-            }
-        } else if(typeId == SettlementUpdate.value){
-            if (providerOddsType == ProviderOddsType.AVERAGE) {
-                return SettlementUpdate;
-            } else if (providerOddsType == ProviderOddsType.PROVIDER_ODDS) {
-                return SettlementUpdateProviderOdds;
-            } else if (providerOddsType == ProviderOddsType.BOTH) {
-                return SettlementUpdateBoth;
-            }
-        }else if(typeId == OutrightLeagueMarketUpdate.value){
-            if(providerOddsType == ProviderOddsType.AVERAGE){
-                return OutrightLeagueMarketUpdate;
-            }else if(providerOddsType == ProviderOddsType.PROVIDER_ODDS){
-                return OutrightLeagueMarketUpdateProviderOdds;
-            }else if(providerOddsType == ProviderOddsType.BOTH){
-                return OutrightLeagueMarketUpdateBoth;
-            }
-        } else if(typeId == OutrightFixtureMarketUpdate.value) {
-            if (providerOddsType == ProviderOddsType.AVERAGE) {
-                return OutrightFixtureMarketUpdate;
-            } else if (providerOddsType == ProviderOddsType.PROVIDER_ODDS) {
-                return OutrightFixtureMarketUpdateProviderOdds;
-            } else if (providerOddsType == ProviderOddsType.BOTH) {
-                return OutrightFixtureMarketUpdateBoth;
-            }
-        }else if(typeId == OutrightSettlementsUpdate.value){
-            if(providerOddsType == ProviderOddsType.AVERAGE){
-                return OutrightSettlementsUpdate;
-            }else if(providerOddsType == ProviderOddsType.PROVIDER_ODDS){
-                return OutrightSettlementsUpdateProviderOdds;
-            }else if(providerOddsType == ProviderOddsType.BOTH){
-                return OutrightSettlementsUpdateBoth;
-            }
+    public static MessageType findMessageTypeByProviderOddsType(int typeId, ProviderOddsType providerOddsType) throws ClassNotFoundException {
+        switch (typeId) {
+            case 3:
+                return getMarketUpdateMessageType(providerOddsType);
+            case 35:
+                return getSettlementUpdateMessageType(providerOddsType);
+            case 40:
+                return getOutrightLeagueMarketUpdateMessageType(providerOddsType);
+            case 41:
+                return getOutrightFixtureMarketUpdateMessageType(providerOddsType);
+            case 42:
+                return getOutrightSettlementsUpdateMessageType(providerOddsType);
+            default:
+                return findMessageType(typeId);
         }
-        return findMessageType(typeId);
+    }
+
+    private static MessageType getMarketUpdateMessageType(ProviderOddsType providerOddsType) {
+        switch (providerOddsType) {
+            case AVERAGE:
+                return MessageType.MarketUpdate;
+            case PROVIDER_ODDS:
+                return MessageType.MarketUpdateProviderOdds;
+            case BOTH:
+                return MessageType.MarketUpdateBoth;
+            default:
+                return null;
+        }
+    }
+
+    private static MessageType getSettlementUpdateMessageType(ProviderOddsType providerOddsType) {
+        switch (providerOddsType) {
+            case AVERAGE:
+                return MessageType.SettlementUpdate;
+            case PROVIDER_ODDS:
+                return MessageType.SettlementUpdateProviderOdds;
+            case BOTH:
+                return MessageType.SettlementUpdateBoth;
+            default:
+                return null;
+        }
+    }
+
+    private static MessageType getOutrightLeagueMarketUpdateMessageType(ProviderOddsType providerOddsType) {
+        switch (providerOddsType) {
+            case AVERAGE:
+                return MessageType.OutrightLeagueMarketUpdate;
+            case PROVIDER_ODDS:
+                return MessageType.OutrightLeagueMarketUpdateProviderOdds;
+            case BOTH:
+                return MessageType.OutrightLeagueMarketUpdateBoth;
+            default:
+                return null;
+        }
+    }
+
+    private static MessageType getOutrightFixtureMarketUpdateMessageType(ProviderOddsType providerOddsType) {
+        switch (providerOddsType) {
+            case AVERAGE:
+                return MessageType.OutrightFixtureMarketUpdate;
+            case PROVIDER_ODDS:
+                return MessageType.OutrightFixtureMarketUpdateProviderOdds;
+            case BOTH:
+                return MessageType.OutrightFixtureMarketUpdateBoth;
+            default:
+                return null;
+        }
+    }
+
+    private static MessageType getOutrightSettlementsUpdateMessageType(ProviderOddsType providerOddsType) {
+        switch (providerOddsType) {
+            case AVERAGE:
+                return MessageType.OutrightSettlementsUpdate;
+            case PROVIDER_ODDS:
+                return MessageType.OutrightSettlementsUpdateProviderOdds;
+            case BOTH:
+                return MessageType.OutrightSettlementsUpdateBoth;
+            default:
+                return null;
+        }
     }
 }

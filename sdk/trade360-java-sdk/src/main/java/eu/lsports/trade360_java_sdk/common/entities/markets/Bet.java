@@ -17,9 +17,8 @@ public class Bet {
 
     /**
      * The name of the bet.
-     * This can be {@code null} if not set.
      */
-    @Nullable public String name;
+    public String name;
 
     /**
      * The line of the bet.
@@ -46,9 +45,8 @@ public class Bet {
 
     /**
      * The current price of the bet.
-     * This can be {@code null} if not set.
      */
-    @Nullable public String price;
+    public String price;
 
     /**
      * The price volume of the bet.
