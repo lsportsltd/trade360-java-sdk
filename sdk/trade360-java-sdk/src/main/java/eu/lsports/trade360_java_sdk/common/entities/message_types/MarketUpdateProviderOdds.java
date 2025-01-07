@@ -2,12 +2,13 @@ package eu.lsports.trade360_java_sdk.common.entities.message_types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
+import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEventProviderOdds;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code MarketUpdate} class represents a market update message for trade360 customers.
+ * The {@code MarketUpdateProviderOdds} class represents a market update message for providers odds type.
  */
-public class MarketUpdate {
+public class MarketUpdateProviderOdds {
 
     /**
      * The entity key for the market update.
@@ -20,5 +21,5 @@ public class MarketUpdate {
      * This can be {@code null} if not set.
      */
     @Nullable
-    public Iterable<MarketEvent> events;
+    public Iterable<MarketEventProviderOdds> events;
 }

@@ -1,14 +1,15 @@
 package eu.lsports.trade360_java_sdk.common.entities.markets;
 
-import java.time.LocalDateTime;
 import eu.lsports.trade360_java_sdk.common.entities.enums.BetStatus;
 import eu.lsports.trade360_java_sdk.common.entities.enums.SettlementType;
 import jakarta.annotation.Nullable;
 
+import java.time.LocalDateTime;
+
 /**
  * The {@code Bet} class represents a bet in a market.
  */
-public class Bet {
+public class ProviderMarketBet {
 
     /**
      * The ID of the bet.
@@ -45,8 +46,9 @@ public class Bet {
 
     /**
      * The current price of the bet.
+     * This can be {@code null} if not set.
      */
-    public String price;
+    @Nullable public String price;
 
     /**
      * The price volume of the bet.
@@ -58,12 +60,6 @@ public class Bet {
      * The settlement type of the bet.
      */
     public SettlementType settlement;
-
-    /**
-     * The provider bet ID.
-     * This can be {@code null} if not set.
-     */
-    @Nullable public String providerBetId;
 
     /**
      * The last update time of the bet in UTC.
