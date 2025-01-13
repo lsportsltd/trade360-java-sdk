@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
  * @param locations The IDs of the locations
  * @param leagues The IDs of the leagues
  * @param fixtures The IDs of the fixtures
- * @param markets The IDs of the markets
  */
 public final record GetMarketRequest(
     @Nullable LocalDateTime timestamp,
