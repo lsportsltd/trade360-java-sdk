@@ -48,7 +48,7 @@ public class PackageDistributionHandler implements DistributionHandler {
             else {
                 Mono<BaseResponse<StartDistributionResponse>> startResponse = client.startDistribution();
                 if (startResponse.block() == null || startResponse.block().body == null) {
-                    throw new RuntimeException("Failed to start distribution");
+                    throw new DistributionException("Failed to start distribution");
                 } else {
                     logger.info("Distribution started");
                 }
