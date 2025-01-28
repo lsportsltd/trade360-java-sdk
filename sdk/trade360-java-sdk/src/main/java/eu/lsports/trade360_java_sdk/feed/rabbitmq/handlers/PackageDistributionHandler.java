@@ -38,7 +38,7 @@ public class PackageDistributionHandler implements DistributionHandler {
         var client = this.apiClientFactory.createPackageDistributionHttpClient(baseUri, packageCredentials);
         Mono<BaseResponse<GetDistributionStatusResponse>> response = client.getDistributionStatus();
         if(response.block() == null || response.block().body == null) {
-            throw new IllegalStateException("Failed to get provider odds type");
+            throw new IllegalStateException("Failed to get distribution status");
         }
         else{
             if(response.block().body.isDistributionOn)
@@ -48,7 +48,7 @@ public class PackageDistributionHandler implements DistributionHandler {
             else {
                 Mono<BaseResponse<StartDistributionResponse>> startResponse = client.startDistribution();
                 if (startResponse.block() == null || startResponse.block().body == null) {
-                    throw new RuntimeException("Failed to start distribution");
+                    throw new IllegalStateException("Failed to start distribution");
                 } else {
                     logger.info("Distribution started");
                 }
