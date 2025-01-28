@@ -5,7 +5,7 @@ import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code MarketUpdate} class represents a market update message.
+ * The {@code MarketUpdate} class represents a market update message for trade360 customers.
  */
 public class MarketUpdate {
 

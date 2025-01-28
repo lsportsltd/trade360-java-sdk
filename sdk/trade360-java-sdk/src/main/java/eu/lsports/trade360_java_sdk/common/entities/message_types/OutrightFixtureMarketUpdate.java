@@ -6,7 +6,7 @@ import eu.lsports.trade360_java_sdk.common.entities.outright_sport.OutrightCompe
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code OutrightFixtureMarketUpdate} class represents an update to the markets of an outright fixture.
+ * The {@code OutrightFixtureMarketUpdate} class represents an update to the markets of an outright fixture for trade360 customers.
  */
 public class OutrightFixtureMarketUpdate {
 

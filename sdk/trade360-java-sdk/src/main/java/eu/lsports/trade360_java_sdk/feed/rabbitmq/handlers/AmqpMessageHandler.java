@@ -60,8 +60,8 @@ public class AmqpMessageHandler implements MessageHandler {
     }
 
     private @NotNull Class<?> getMessageType(final int typeId) throws ClassNotFoundException, RabbitMQFeedException {
-        val className = MessageType.findMessageType(typeId);
-
+        MessageType className;
+        className = MessageType.findMessageType(typeId);
         if (className == null)
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId));
         else

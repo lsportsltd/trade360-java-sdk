@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableConfigurationProperties(CustomerApiConfiguration.class)
 public class RabbitMQFeed {
-
     private final MessageHandler inPlayMessageHandler;
     private final MessageHandler preMatchMessageHandler;
     private final RabbitConnectionConfiguration inPlayRabbitConnectionConfiguration;

@@ -6,7 +6,7 @@ import eu.lsports.trade360_java_sdk.common.entities.outright_sport.OutrightCompe
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code OutrightSettlementsUpdate} class represents an update to the settlements of outright competitions.
+ * The {@code OutrightSettlementsUpdate} class represents an update to the settlements of outright competition for trade360 customers.
  */
 public class OutrightSettlementsUpdate {
 
