@@ -38,7 +38,7 @@ public class PackageDistributionHandler implements DistributionHandler {
         var client = this.apiClientFactory.createPackageDistributionHttpClient(baseUri, packageCredentials);
         Mono<BaseResponse<GetDistributionStatusResponse>> response = client.getDistributionStatus();
         if(response.block() == null || response.block().body == null) {
-            throw new RuntimeException("Failed to get provider odds type");
+            throw new IllegalStateException("Failed to get provider odds type");
         }
         else{
             if(response.block().body.isDistributionOn)
