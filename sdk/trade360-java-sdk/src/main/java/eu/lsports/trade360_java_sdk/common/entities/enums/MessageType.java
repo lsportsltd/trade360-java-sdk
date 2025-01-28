@@ -17,7 +17,7 @@ public enum MessageType {
     LivescoreUpdate(2),
 
     /**
-     * Type indicating a market update message.
+     * Type indicating a market update message for trade360 customer type.
      */
     MarketUpdate(3),
 
@@ -32,37 +32,32 @@ public enum MessageType {
     HeartbeatUpdate(32),
 
     /**
-     * Type indicating a settlement update message.
+     * Type indicating a settlement update message for trade360 customer type.
      */
     SettlementUpdate(35),
-
-    /**
-     * Type indicating an outright fixture market update message.
-     */
-    OutrightFixtureMarketUpdate(41),
-
     /**
      * Type indicating an outright fixture update message.
      */
     OutrightFixtureUpdate(37),
 
     /**
-     * Type indicating an outright league market update message.
-     */
-    OutrightLeagueMarketUpdate(40),
-
-    /**
-     * Type indicating an outright league update message.
+     * Type indicating an outright league update message for trade360 customer type.
      */
     OutrightLeagueUpdate(38),
-
     /**
      * Type indicating an outright score update message.
      */
     OutrightScoreUpdate(39),
-
     /**
-     * Type indicating an outright settlements update message.
+     * Type indicating an outright league market update message for trade360 customer type.
+     */
+    OutrightLeagueMarketUpdate(40),
+    /**
+     * Type indicating an outright fixture market update message for trade360 customer type.
+     */
+    OutrightFixtureMarketUpdate(41),
+    /**
+     * Type indicating an outright settlements update message for trade360 customer type.
      */
     OutrightSettlementsUpdate(42);
 

@@ -2,10 +2,12 @@ package eu.lsports.trade360_java_sdk.common.entities.markets;
 
 import jakarta.annotation.Nullable;
 
+import java.time.LocalDateTime;
+
 /**
- * The {@code Market} class represents a market in a betting context for both customers types
+ * The {@code ProviderMarket} class represents a provider market in a betting context.
  */
-public class Market {
+public class ProviderMarket {
 
     /**
      * The ID of the market.
@@ -22,17 +24,13 @@ public class Market {
      * The bets associated with the market.
      * This can be {@code null} if not set.
      */
-    @Nullable public Iterable<Bet> bets;
+    @Nullable public Iterable<ProviderMarketBet> bets;
 
     /**
-     * The ProviderMarket associated with the market event.
+     * The last update time of the fixture in UTC.
      * This can be {@code null} if not set.
      */
-    @Nullable public Iterable<ProviderMarket> providerMarkets;
+    @Nullable public LocalDateTime lastUpdate;
 
-    /**
-     * The main line of the market.
-     * This can be {@code null} if not set.
-     */
-    @Nullable public String mainLine;
+
 }
