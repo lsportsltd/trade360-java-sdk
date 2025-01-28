@@ -72,6 +72,12 @@ public class RabbitConnectionConfiguration {
     public long network_recovery_interval = 3000;
 
     /**
+     * The base customer api url
+     */
+    @NotNull
+    public String base_customers_api;
+
+    /**
      * The number of retry attempts.
      */
     @NotNull
