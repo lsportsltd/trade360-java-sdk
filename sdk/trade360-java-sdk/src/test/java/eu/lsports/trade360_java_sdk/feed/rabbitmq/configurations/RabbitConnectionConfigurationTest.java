@@ -39,6 +39,7 @@ public class RabbitConnectionConfigurationTest {
         config.setRetry_initial_interval(1000);
         config.setRetry_multiple(2.0);
         config.setRetry_max_interval(5000);
+        config.setBase_customers_api("http://example.com/customers");
         config.setConcurrent_consumers(1);
         config.setMax_concurrent_consumers(20);
         config.setRabbit_listener_container_factory_name("rabbitListenerContainerFactory");
@@ -57,6 +58,6 @@ public class RabbitConnectionConfigurationTest {
 
         Set<ConstraintViolation<RabbitConnectionConfiguration>> violations = validator.validate(config);
         assertFalse(violations.isEmpty());
-        assertEquals(4, violations.size());
+        assertEquals(5, violations.size());
     }
 }
