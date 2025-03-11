@@ -31,4 +31,16 @@ public class Livescore {
      * This can be {@code null} if not set.
      */
     @Nullable public Iterable<NameValuePair> livescoreExtraData;
+
+    /**
+     * The current incident associated with the live score.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public CurrentIncident currentIncident;
+
+    /**
+     * The danger triggers associated with the live score.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public Iterable<DangerIndicator> dangerTriggers;
 }
