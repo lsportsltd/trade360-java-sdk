@@ -1,31 +1,51 @@
 package eu.lsports.trade360feedexample;
 
+import eu.lsports.trade360_customer_api_example.configuration.CustomerApiConfiguration;
+import eu.lsports.trade360_java_sdk.customers_api.interfaces.CustomersApiClientFactory;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations.RabbitConnectionConfiguration;
+import eu.lsports.trade360_java_sdk.feed.rabbitmq.handlers.PackageDistributionHandler;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
 import com.rabbitmq.client.Channel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 @Component
+@EnableConfigurationProperties(CustomerApiConfiguration.class)
 public class RabbitMQFeed {
-
     private final MessageHandler inPlayMessageHandler;
     private final MessageHandler preMatchMessageHandler;
     private final RabbitConnectionConfiguration inPlayRabbitConnectionConfiguration;
     private final RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration;
-
+    private final PackageDistributionHandler inPlayPackageDistributionHandler;
+    private final PackageDistributionHandler preMatchPackageDistributionHandler;
+    protected static final Logger logger = LogManager.getLogger();
+    @Autowired
+    private CustomerApiConfiguration customerApiConfiguration;
     public RabbitMQFeed(@Qualifier("inPlayMessageHandler") MessageHandler inPlayMessageHandler,
                         @Qualifier("preMatchMessageHandler") MessageHandler preMatchMessageHandler,
                         @Qualifier("inPlayRabbitConnectionConfiguration") RabbitConnectionConfiguration inPlayRabbitConnectionConfiguration,
-                        @Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration) {
+                        @Qualifier("preMatchRabbitConnectionConfiguration") RabbitConnectionConfiguration preMatchRabbitConnectionConfiguration,
+                        CustomersApiClientFactory factory) {
         this.inPlayMessageHandler = inPlayMessageHandler;
         this.preMatchMessageHandler = preMatchMessageHandler;
         this.inPlayRabbitConnectionConfiguration = inPlayRabbitConnectionConfiguration;
         this.preMatchRabbitConnectionConfiguration = preMatchRabbitConnectionConfiguration;
+        this.inPlayPackageDistributionHandler = new PackageDistributionHandler(factory, inPlayRabbitConnectionConfiguration);
+        this.preMatchPackageDistributionHandler = new PackageDistributionHandler(factory, preMatchRabbitConnectionConfiguration);
+        try{
+            inPlayPackageDistributionHandler.process();
+            preMatchPackageDistributionHandler.process();
+        }catch(Exception e){
+            logger.info(e.getMessage());
+        }
     }
 
     // General notes:

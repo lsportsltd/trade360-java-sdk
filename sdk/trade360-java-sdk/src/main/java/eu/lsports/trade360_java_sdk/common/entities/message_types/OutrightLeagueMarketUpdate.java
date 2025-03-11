@@ -6,7 +6,7 @@ import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeag
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code OutrightLeagueMarketUpdate} class represents an update to the markets of an outright league.
+ * The {@code OutrightLeagueMarketUpdate} class represents an update to the markets of an outright league for trade360 customers.
  */
 public class OutrightLeagueMarketUpdate {
 
