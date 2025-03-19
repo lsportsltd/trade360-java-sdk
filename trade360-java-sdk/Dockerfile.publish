@@ -1,0 +1,26 @@
+FROM maven:3.9.6-eclipse-temurin-17
+
+WORKDIR /app
+
+# Copy the project files
+COPY . .
+
+# Copy settings.xml
+COPY settings.xml /root/.m2/settings.xml
+
+# Build arguments for Maven credentials
+ARG MAVEN_USERNAME
+ARG MAVEN_PASSWORD
+ARG MAVEN_TOKEN
+ARG MAVEN_AUTH
+ARG MAVEN_NAMESPACE
+
+# Set environment variables
+ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
+    MAVEN_PASSWORD=${MAVEN_PASSWORD} \
+    MAVEN_TOKEN=${MAVEN_TOKEN} \
+    MAVEN_AUTH=${MAVEN_AUTH} \
+    MAVEN_NAMESPACE=${MAVEN_NAMESPACE}
+
+# Run Maven deploy with release profile
+CMD ["mvn", "clean", "deploy", "-P", "release", "-f", "trade360-java-sdk/sdk/trade360-java-sdk/pom.xml"] 
