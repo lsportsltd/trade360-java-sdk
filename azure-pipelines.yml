@@ -39,16 +39,20 @@ stages:
             inputs:
               secureFile: 'settings.xml'
 
+          - task: CopyFiles@2
+            inputs:
+              sourceFiles: '$(mavenSettings.secureFilePath)'
+              targetFolder: '$(Build.SourcesDirectory)/trade360-java-sdk'
+              contents: '**'
+              flattenFolders: true
+              overWrite: true
+              targetFiles: 'settings.xml'
+
           - task: Docker@2
             inputs:
               command: build
               dockerfile: '$(Build.SourcesDirectory)/trade360-java-sdk/Dockerfile.publish'
-              arguments: >
-                --build-arg MAVEN_USERNAME=$(devopsr.maven.username)
-                --build-arg MAVEN_PASSWORD=$(devopsr.maven.password)
-                --build-arg MAVEN_TOKEN=$(devopsr.maven.token)
-                --build-arg MAVEN_AUTH=$(devopsr.maven.auth)
-                --build-arg MAVEN_NAMESPACE=$(devopsr.maven.namespace)
+              context: '$(Build.SourcesDirectory)/trade360-java-sdk'
 
       
       
