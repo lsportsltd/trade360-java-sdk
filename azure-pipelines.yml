@@ -49,15 +49,6 @@ stages:
               command: build
               dockerfile: '$(Build.SourcesDirectory)/trade360-java-sdk/Dockerfile.publish'
               context: '$(Build.SourcesDirectory)/trade360-java-sdk'
-              arguments: '--no-cache'
-              containerregistrytype: 'Container Registry'
-              containerregistry: '$(devopsr.maven.namespace)'
-              repository: 'maven-publish'
-              tags: |
-                $(Build.BuildId)
-                latest
-              outputs: |
-                $(Build.ArtifactStagingDirectory)/build.txt
 
       
       
