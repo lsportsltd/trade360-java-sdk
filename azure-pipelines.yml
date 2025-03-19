@@ -26,4 +26,32 @@ stages:
       locationToBuild: 'trade360-java-sdk/samples/trade360-samples'
       dockerfilePath: 'trade360-java-sdk'
       serviceName: samples
+
+  - stage: PublishToMavenCentral
+    displayName: 'Publish to Maven Central'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: PublishArtifacts
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: DownloadSecureFile@1
+            name: mavenSettings
+            inputs:
+              secureFile: 'settings.xml'
+
+          - task: Maven@3
+            inputs:
+              mavenPomFile: 'trade360-java-sdk/sdk/trade360-java-sdk/pom.xml'
+              goals: 'clean deploy'
+              options: '-P release'
+              publishJUnitResults: false
+            env:
+              MAVEN_USERNAME: $(devopsr.maven.username)
+              MAVEN_PASSWORD: $(devopsr.maven.password)
+              MAVEN_TOKEN: $(devopsr.maven.token)
+              MAVEN_AUTH: $(devopsr.maven.auth)
+              MAVEN_NAMESPACE: $(devopsr.maven.namespace)
+
+      
       
