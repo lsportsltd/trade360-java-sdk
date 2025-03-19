@@ -43,10 +43,6 @@ stages:
             inputs:
               sourceFiles: '$(mavenSettings.secureFilePath)'
               targetFolder: '$(Build.SourcesDirectory)/trade360-java-sdk'
-              contents: '**'
-              flattenFolders: true
-              overWrite: true
-              targetFiles: 'settings.xml'
 
           - task: Docker@2
             inputs:
