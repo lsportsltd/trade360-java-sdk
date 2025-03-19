@@ -29,11 +29,7 @@ stages:
 
   - stage: PublishToMavenCentral
     displayName: 'Publish to Maven Central'
-    condition: and(succeeded(), or(
-      eq(variables['Build.SourceBranch'], 'refs/heads/main'),
-      eq(variables['Build.SourceBranch'], 'refs/heads/publishingSDK'),
-      eq(variables['Build.Reason'], 'PullRequest')
-    ))
+    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/publishingSDK'), eq(variables['Build.Reason'], 'PullRequest')))
     jobs:
       - job: PublishArtifacts
         pool: k8s-agents-ci
