@@ -34,17 +34,6 @@ stages:
       - job: PublishArtifacts
         pool: k8s-agents-ci
         steps:
-          - task: JavaToolInstaller@0
-            inputs:
-              versionSpec: '17'
-              jdkArchitectureOption: 'x64'
-              jdkSourceOption: 'PreInstalled'
-
-          - task: MavenInstaller@1
-            inputs:
-              mavenVersion: '3.9.6'
-              mavenPath: '$(Agent.ToolsDirectory)/maven'
-
           - task: DownloadSecureFile@1
             name: mavenSettings
             inputs:
