@@ -29,7 +29,9 @@ stages:
 
   - stage: PublishToMavenCentral
     displayName: 'Publish to Maven Central'
-    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/master', 'refs/heads/develop'))
+    condition: and(succeeded(), or(
+      in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/master', 'refs/heads/develop'),
+      eq(variables['Build.Reason'], 'PullRequest')))
     jobs:
       - job: PublishArtifacts
         pool:
