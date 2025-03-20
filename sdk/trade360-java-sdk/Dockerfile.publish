@@ -13,10 +13,16 @@ COPY . .
 # Set build arguments
 ARG MAVEN_USERNAME
 ARG MAVEN_PASSWORD
+ARG MAVEN_TOKEN
+ARG MAVEN_AUTH
+ARG MAVEN_NAMESPACE
 
 # Set environment variables
 ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
-    MAVEN_PASSWORD=${MAVEN_PASSWORD}
+    MAVEN_PASSWORD=${MAVEN_PASSWORD} \
+    MAVEN_TOKEN=${MAVEN_TOKEN} \
+    MAVEN_AUTH=${MAVEN_AUTH} \
+    MAVEN_NAMESPACE=${MAVEN_NAMESPACE}
 
 # Run Maven deploy with additional options for better reliability
 RUN mvn clean deploy -P release -f sdk/trade360-java-sdk/pom.xml --batch-mode --no-transfer-progress
