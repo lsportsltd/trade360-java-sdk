@@ -51,12 +51,7 @@ stages:
               dockerfile: '$(Build.SourcesDirectory)/sdk/trade360-java-sdk/Dockerfile.publish'
               buildContext: '$(Build.SourcesDirectory)/trade360-java-sdk'
               tags: 'maven-publisher:latest'
-
-          - task: Docker@2
-            displayName: 'Run Maven Deploy'
-            inputs:
-              command: 'run'
-              arguments: '--rm --env MAVEN_USERNAME="$(devopsr.maven.username)" --env MAVEN_PASSWORD="$(devopsr.maven.password)" --env MAVEN_TOKEN="$(devopsr.maven.token)" --env MAVEN_AUTH="$(devopsr.maven.auth)" --env MAVEN_NAMESPACE="$(devopsr.maven.namespace)"'
+              arguments: '--progress=plain --no-cache --build-arg MAVEN_USERNAME="$(devopsr.maven.username)" --build-arg MAVEN_PASSWORD="$(devopsr.maven.password)" --build-arg MAVEN_TOKEN="$(devopsr.maven.token)" --build-arg MAVEN_AUTH="$(devopsr.maven.auth)" --build-arg MAVEN_NAMESPACE="$(devopsr.maven.namespace)"'
 
       
       

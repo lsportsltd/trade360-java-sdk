@@ -10,5 +10,5 @@ COPY settings.xml /root/.m2/settings.xml
 # Copy the project files
 COPY . .
 
-# Change RUN to CMD and skip Javadoc
-CMD ["mvn", "clean", "deploy", "-P", "release", "-Dmaven.javadoc.skip=true", "-Dmaven.test.skip=true", "-f", "sdk/trade360-java-sdk/pom.xml", "--batch-mode", "--no-transfer-progress"]
+# Run Maven deploy with debug flags
+RUN mvn clean deploy -P release -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -X -e -f sdk/trade360-java-sdk/pom.xml --batch-mode --no-transfer-progress
