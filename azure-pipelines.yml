@@ -56,14 +56,7 @@ stages:
             displayName: 'Run Maven Deploy'
             inputs:
               command: 'run'
-              arguments: '--rm'
-              imageName: 'maven-publisher:latest'
-              env:
-                MAVEN_USERNAME: $(devopsr.maven.username)
-                MAVEN_PASSWORD: $(devopsr.maven.password)
-                MAVEN_TOKEN: $(devopsr.maven.token)
-                MAVEN_AUTH: $(devopsr.maven.auth)
-                MAVEN_NAMESPACE: $(devopsr.maven.namespace)
+              arguments: '--rm --env MAVEN_USERNAME="$(devopsr.maven.username)" --env MAVEN_PASSWORD="$(devopsr.maven.password)" --env MAVEN_TOKEN="$(devopsr.maven.token)" --env MAVEN_AUTH="$(devopsr.maven.auth)" --env MAVEN_NAMESPACE="$(devopsr.maven.namespace)"'
 
       
       
