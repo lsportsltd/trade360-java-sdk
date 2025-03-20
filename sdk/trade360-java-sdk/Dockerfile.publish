@@ -14,13 +14,19 @@ ARG MAVEN_PASSWORD
 ARG MAVEN_TOKEN
 ARG MAVEN_AUTH
 ARG MAVEN_NAMESPACE
+ARG GPG_KEY
+ARG GPG_PASSPHRASE
 
 # Set environment variables
 ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
     MAVEN_PASSWORD=${MAVEN_PASSWORD} \
     MAVEN_TOKEN=${MAVEN_TOKEN} \
     MAVEN_AUTH=${MAVEN_AUTH} \
-    MAVEN_NAMESPACE=${MAVEN_NAMESPACE}
+    MAVEN_NAMESPACE=${MAVEN_NAMESPACE} \
+    GPG_PASSPHRASE=${GPG_PASSPHRASE}
+
+# Import GPG key
+RUN echo "${GPG_KEY}" | base64 -d | gpg --batch --import
 
 # Copy settings.xml first
 COPY settings.xml /root/.m2/settings.xml
@@ -41,4 +47,5 @@ RUN env && \
     -Dserver.password=${MAVEN_PASSWORD} \
     -Dserver.token=${MAVEN_TOKEN} \
     -Dserver.auth=${MAVEN_AUTH} \
-    -Dserver.namespace=${MAVEN_NAMESPACE}
+    -Dserver.namespace=${MAVEN_NAMESPACE} \
+    -Dgpg.passphrase=${GPG_PASSPHRASE}
