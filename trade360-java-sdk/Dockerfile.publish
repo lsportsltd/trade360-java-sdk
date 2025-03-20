@@ -1,12 +1,22 @@
-FROM maven:3.9.6-eclipse-temurin-17
+# Use a multi-stage build
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
 
-WORKDIR /app
+# Set working directory
+WORKDIR /build
 
-# Copy settings.xml first to ensure it exists
+# Copy settings.xml first
 COPY settings.xml /root/.m2/settings.xml
 
 # Copy the project files
 COPY . .
 
-# Run Maven deploy with release profile
-CMD ["mvn", "clean", "deploy", "-P", "release", "-f", "sdk/trade360-java-sdk/pom.xml"] 
+# Set build arguments
+ARG MAVEN_USERNAME
+ARG MAVEN_PASSWORD
+
+# Set environment variables
+ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
+    MAVEN_PASSWORD=${MAVEN_PASSWORD}
+
+# Run Maven deploy
+RUN mvn clean deploy -P release -f sdk/trade360-java-sdk/pom.xml --batch-mode 
