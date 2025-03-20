@@ -45,11 +45,25 @@ stages:
               targetFolder: '$(Build.SourcesDirectory)/trade360-java-sdk'
 
           - task: Docker@2
+            displayName: 'Build Docker Image'
             inputs:
               command: 'build'
               dockerfile: '$(Build.SourcesDirectory)/sdk/trade360-java-sdk/Dockerfile.publish'
               buildContext: '$(Build.SourcesDirectory)/trade360-java-sdk'
-              arguments: '--build-arg MAVEN_USERNAME="$(devopsr.maven.username)" --build-arg MAVEN_PASSWORD="$(devopsr.maven.password)" --build-arg MAVEN_TOKEN="$(devopsr.maven.token)" --build-arg MAVEN_AUTH="$(devopsr.maven.auth)" --build-arg MAVEN_NAMESPACE="$(devopsr.maven.namespace)"'
+              tags: 'maven-publisher:latest'
+
+          - task: Docker@2
+            displayName: 'Run Maven Deploy'
+            inputs:
+              command: 'run'
+              arguments: '--rm'
+              imageName: 'maven-publisher:latest'
+              env:
+                MAVEN_USERNAME: $(devopsr.maven.username)
+                MAVEN_PASSWORD: $(devopsr.maven.password)
+                MAVEN_TOKEN: $(devopsr.maven.token)
+                MAVEN_AUTH: $(devopsr.maven.auth)
+                MAVEN_NAMESPACE: $(devopsr.maven.namespace)
 
       
       
