@@ -39,21 +39,23 @@ stages:
             inputs:
               secureFile: 'settings.xml'
 
-          - task: Bash@3
+          - task: CopyFiles@2
             inputs:
-              targetType: 'inline'
-              script: |
-                # Create a temporary directory for the build
-                mkdir -p $(Build.SourcesDirectory)/maven-publish
-                cp -r $(Build.SourcesDirectory)/trade360-java-sdk/* $(Build.SourcesDirectory)/maven-publish/
-                cp $(mavenSettings.secureFilePath) $(Build.SourcesDirectory)/maven-publish/settings.xml
+              sourceFiles: '$(mavenSettings.secureFilePath)'
+              targetFolder: '$(Build.SourcesDirectory)/trade360-java-sdk'
 
           - task: Docker@2
             inputs:
               command: 'build'
-              dockerfile: '$(Build.SourcesDirectory)/trade360-java-sdk/Dockerfile.publish'
-              buildContext: '$(Build.SourcesDirectory)/maven-publish'
+              dockerfile: '$(Build.SourcesDirectory)/sdk/trade360-java-sdk/Dockerfile.publish'
+              buildContext: '$(Build.SourcesDirectory)/trade360-java-sdk'
               arguments: '--build-arg MAVEN_USERNAME="$(devopsr.maven.username)" --build-arg MAVEN_PASSWORD="$(devopsr.maven.password)"'
+              containerregistrytype: 'Container Registry'
+              containerregistry: '$(devopsr.maven.namespace)'
+              repository: 'maven-publish'
+              tags: |
+                $(Build.BuildId)
+                latest
 
       
       

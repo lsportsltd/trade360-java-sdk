@@ -18,5 +18,5 @@ ARG MAVEN_PASSWORD
 ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
     MAVEN_PASSWORD=${MAVEN_PASSWORD}
 
-# Run Maven deploy
-RUN mvn clean deploy -P release -f sdk/trade360-java-sdk/pom.xml --batch-mode 
+# Run Maven deploy with additional options for better reliability
+RUN mvn clean deploy -P release -f sdk/trade360-java-sdk/pom.xml --batch-mode --no-transfer-progress
