@@ -4,6 +4,10 @@ FROM maven:3.9.6-eclipse-temurin-17 AS builder
 # Set working directory
 WORKDIR /build
 
+# Install GPG
+RUN apt-get update && \
+    apt-get install -y gnupg2
+
 # Declare build arguments
 ARG MAVEN_USERNAME
 ARG MAVEN_PASSWORD
