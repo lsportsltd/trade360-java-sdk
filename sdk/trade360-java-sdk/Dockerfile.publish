@@ -25,8 +25,17 @@ ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
     MAVEN_NAMESPACE=${MAVEN_NAMESPACE} \
     GPG_PASSPHRASE=${GPG_PASSPHRASE}
 
+# Setup GPG
+RUN mkdir -p ~/.gnupg && \
+    chmod 700 ~/.gnupg && \
+    echo "use-agent" > ~/.gnupg/gpg.conf && \
+    echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf && \
+    echo "allow-loopback-pinentry" > ~/.gnupg/gpg-agent.conf
+
 # Import GPG key
-RUN echo "${GPG_KEY}" | base64 -d | gpg --batch --import
+COPY gpg-private-key.asc /tmp/
+RUN gpg --batch --import /tmp/gpg-private-key.asc && \
+    rm /tmp/gpg-private-key.asc
 
 # Copy settings.xml first
 COPY settings.xml /root/.m2/settings.xml
