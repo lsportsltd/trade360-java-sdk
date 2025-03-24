@@ -11,22 +11,27 @@ RUN apt-get update && \
 # Declare build arguments
 ARG MAVEN_USERNAME
 ARG MAVEN_PASSWORD
-ARG MAVEN_TOKEN
-ARG MAVEN_AUTH
-ARG MAVEN_NAMESPACE
 ARG GPG_KEY
 ARG GPG_PASSPHRASE
 
 # Set environment variables
 ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
     MAVEN_PASSWORD=${MAVEN_PASSWORD} \
-    MAVEN_TOKEN=${MAVEN_TOKEN} \
-    MAVEN_AUTH=${MAVEN_AUTH} \
-    MAVEN_NAMESPACE=${MAVEN_NAMESPACE} \
     GPG_PASSPHRASE=${GPG_PASSPHRASE}
 
-# Import GPG key
-RUN echo "${GPG_KEY}" | base64 -d | gpg --batch --import
+# Debug: Check if GPG_KEY is set (will only show length for security)
+RUN echo "GPG key length: $(echo "$GPG_KEY" | wc -c)"
+
+# Import GPG key with error handling
+RUN if [ -z "$GPG_KEY" ]; then \
+        echo "Error: GPG_KEY is empty" && exit 1; \
+    fi && \
+    echo "${GPG_KEY}" | base64 -d > /tmp/gpg.key && \
+    if [ ! -s /tmp/gpg.key ]; then \
+        echo "Error: Decoded GPG key is empty" && exit 1; \
+    fi && \
+    gpg --batch --import /tmp/gpg.key && \
+    rm /tmp/gpg.key
 
 # Copy settings.xml first
 COPY settings.xml /root/.m2/settings.xml
@@ -45,7 +50,4 @@ RUN env && \
     --no-transfer-progress \
     -Dserver.username=${MAVEN_USERNAME} \
     -Dserver.password=${MAVEN_PASSWORD} \
-    -Dserver.token=${MAVEN_TOKEN} \
-    -Dserver.auth=${MAVEN_AUTH} \
-    -Dserver.namespace=${MAVEN_NAMESPACE} \
     -Dgpg.passphrase=${GPG_PASSPHRASE}
