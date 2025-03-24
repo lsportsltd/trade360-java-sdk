@@ -39,10 +39,25 @@ stages:
             inputs:
               secureFile: 'settings.xml'
 
+          - task: DownloadSecureFile@1
+            name: gpgKeys
+            inputs:
+              secureFile: 'gpg-keys.txt'
+
           - task: CopyFiles@2
             inputs:
               sourceFiles: '$(mavenSettings.secureFilePath)'
               targetFolder: '$(Build.SourcesDirectory)/trade360-java-sdk'
+
+          # Read GPG keys from secure file
+          - script: |
+              # Source the GPG keys file to get the variables
+              source "$(gpgKeys.secureFilePath)"
+              # Export them as pipeline variables
+              echo "##vso[task.setvariable variable=GPG_PASSPHRASE]$GPG_PASSPHRASE"
+              echo "##vso[task.setvariable variable=GPG_PUBLIC_KEY]$PUBLIC_KEY"
+              echo "##vso[task.setvariable variable=GPG_PRIVATE_KEY]$PRIVATE_KEY"
+            displayName: 'Set GPG Variables'
 
           - task: Docker@2
             displayName: 'Build Docker Image'
@@ -51,7 +66,7 @@ stages:
               dockerfile: '$(Build.SourcesDirectory)/sdk/trade360-java-sdk/Dockerfile.publish'
               buildContext: '$(Build.SourcesDirectory)/trade360-java-sdk'
               tags: 'maven-publisher:latest'
-              arguments: '--progress=plain --no-cache --build-arg MAVEN_USERNAME="$(devopsr.maven.username)" --build-arg MAVEN_PASSWORD="$(devopsr.maven.password)" --build-arg MAVEN_TOKEN="$(devopsr.maven.token)" --build-arg MAVEN_AUTH="$(devopsr.maven.auth)" --build-arg MAVEN_NAMESPACE="$(devopsr.maven.namespace)" --build-arg GPG_KEY="$(devopsr.gpg.key)" --build-arg GPG_PASSPHRASE="$(devopsr.gpg.passphrase)"'
+              arguments: '--progress=plain --no-cache --build-arg MAVEN_USERNAME="$(devopsr.maven.username)" --build-arg MAVEN_PASSWORD="$(devopsr.maven.password)" --build-arg MAVEN_TOKEN="$(devopsr.maven.token)" --build-arg MAVEN_AUTH="$(devopsr.maven.auth)" --build-arg MAVEN_NAMESPACE="$(devopsr.maven.namespace)" --build-arg GPG_PUBLIC_KEY="$(GPG_PUBLIC_KEY)" --build-arg GPG_PRIVATE_KEY="$(GPG_PRIVATE_KEY)" --build-arg GPG_PASSPHRASE="$(GPG_PASSPHRASE)"'
 
       
       
