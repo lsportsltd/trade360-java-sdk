@@ -11,18 +11,12 @@ RUN apt-get update && \
 # Declare build arguments
 ARG MAVEN_USERNAME
 ARG MAVEN_PASSWORD
-ARG MAVEN_TOKEN
-ARG MAVEN_AUTH
-ARG MAVEN_NAMESPACE
 ARG GPG_KEY
 ARG GPG_PASSPHRASE
 
 # Set environment variables
 ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
     MAVEN_PASSWORD=${MAVEN_PASSWORD} \
-    MAVEN_TOKEN=${MAVEN_TOKEN} \
-    MAVEN_AUTH=${MAVEN_AUTH} \
-    MAVEN_NAMESPACE=${MAVEN_NAMESPACE} \
     GPG_PASSPHRASE=${GPG_PASSPHRASE}
 
 # Setup GPG
@@ -36,6 +30,7 @@ RUN mkdir -p ~/.gnupg && \
 COPY gpg-private-key.asc /tmp/
 RUN gpg --batch --import /tmp/gpg-private-key.asc && \
     rm /tmp/gpg-private-key.asc
+
 
 # Copy settings.xml first
 COPY settings.xml /root/.m2/settings.xml
@@ -54,7 +49,4 @@ RUN env && \
     --no-transfer-progress \
     -Dserver.username=${MAVEN_USERNAME} \
     -Dserver.password=${MAVEN_PASSWORD} \
-    -Dserver.token=${MAVEN_TOKEN} \
-    -Dserver.auth=${MAVEN_AUTH} \
-    -Dserver.namespace=${MAVEN_NAMESPACE} \
     -Dgpg.passphrase=${GPG_PASSPHRASE}
