@@ -6,4 +6,18 @@
       <password>${MAVEN_PASSWORD}</password>
     </server>
   </servers>
+  
+  <profiles>
+    <profile>
+      <id>ossrh</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <gpg.executable>gpg</gpg.executable>
+        <gpg.passphrase>${GPG_PASSPHRASE}</gpg.passphrase>
+        <gpg.keyname>devopsr@lsports.eu</gpg.keyname>
+      </properties>
+    </profile>
+  </profiles>
 </settings> 

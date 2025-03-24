@@ -19,19 +19,18 @@ ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
     MAVEN_PASSWORD=${MAVEN_PASSWORD} \
     GPG_PASSPHRASE=${GPG_PASSPHRASE}
 
-# Debug: Check if GPG_KEY is set (will only show length for security)
-RUN echo "GPG key length: $(echo "$GPG_KEY" | wc -c)"
+# Setup GPG
+RUN mkdir -p ~/.gnupg && \
+    chmod 700 ~/.gnupg && \
+    echo "use-agent" > ~/.gnupg/gpg.conf && \
+    echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf && \
+    echo "allow-loopback-pinentry" > ~/.gnupg/gpg-agent.conf
 
-# Import GPG key with error handling
-RUN if [ -z "$GPG_KEY" ]; then \
-        echo "Error: GPG_KEY is empty" && exit 1; \
-    fi && \
-    echo "${GPG_KEY}" | base64 -d > /tmp/gpg.key && \
-    if [ ! -s /tmp/gpg.key ]; then \
-        echo "Error: Decoded GPG key is empty" && exit 1; \
-    fi && \
-    gpg --batch --import /tmp/gpg.key && \
-    rm /tmp/gpg.key
+# Import GPG key
+COPY gpg-private-key.asc /tmp/
+RUN gpg --batch --import /tmp/gpg-private-key.asc && \
+    rm /tmp/gpg-private-key.asc
+
 
 # Copy settings.xml first
 COPY settings.xml /root/.m2/settings.xml
