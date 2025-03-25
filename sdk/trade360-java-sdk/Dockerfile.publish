@@ -14,13 +14,6 @@ ARG MAVEN_PASSWORD
 ARG GPG_PRIVATE_KEY
 ARG GPG_PASSPHRASE
 
-# Setup GPG
-RUN mkdir -p ~/.gnupg && \
-    chmod 700 ~/.gnupg && \
-    echo "use-agent" > ~/.gnupg/gpg.conf && \
-    echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf && \
-    echo "allow-loopback-pinentry" > ~/.gnupg/gpg-agent.conf
-
 # Import GPG key
 RUN echo "$GPG_PRIVATE_KEY" | base64 -d > /tmp/gpg-private-key.asc
 RUN gpg --batch --import /tmp/gpg-private-key.asc && \
