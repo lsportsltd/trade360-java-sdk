@@ -17,7 +17,8 @@ ARG GPG_PASSPHRASE
 # Set environment variables
 ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
     MAVEN_PASSWORD=${MAVEN_PASSWORD} \
-    GPG_PASSPHRASE=${GPG_PASSPHRASE}
+    GPG_PASSPHRASE=${GPG_PASSPHRASE} \
+    GPG_PRIVATE_KEY=${GPG_PRIVATE_KEY}
 
 # Setup GPG
 RUN mkdir -p ~/.gnupg && \
@@ -27,7 +28,7 @@ RUN mkdir -p ~/.gnupg && \
     echo "allow-loopback-pinentry" > ~/.gnupg/gpg-agent.conf
 
 # Import GPG key
-COPY gpg-private-key.asc /tmp/
+RUN echo "$GPG_PRIVATE_KEY" | base64 -d > /tmp/gpg-private-key.asc
 RUN gpg --batch --import /tmp/gpg-private-key.asc && \
     rm /tmp/gpg-private-key.asc
 
