@@ -5,15 +5,15 @@ import eu.lsports.trade360_java_sdk.common.entities.markets.Bet;
 import jakarta.annotation.Nullable;
 
 /**
- * Represents a market element in a fixture.
- *
- * @param id The ID of the market
- * @param name The name of the market
- * @param bets The bets associated with the market
- * @see Bet
+ * Represents a market element within a fixture.
  */
-public final class FixtureMarketElement {
+public class FixtureMarketElement {
+    /** The unique identifier of the market. */
     public int id;
+
+    /** The name or description of the market. */
     public String name;
+
+    /** The collection of bets associated with this market. */
     @Nullable public Iterable<Bet> bets;
 }

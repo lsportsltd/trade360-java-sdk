@@ -47,6 +47,7 @@ public class SuspensionChangeResponse {
      */
     @Nullable public Iterable<SuspendedMarket> markets;
 
+    /** The date and time when this suspension change was created. */
     @Nullable public LocalDateTime creationDate;
 
 
