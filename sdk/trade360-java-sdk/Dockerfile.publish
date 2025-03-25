@@ -42,6 +42,6 @@ RUN env && \
     -f sdk/trade360-java-sdk/pom.xml \
     --batch-mode \
     --no-transfer-progress \
-    -Dserver.username=${MAVEN_USERNAME} \
-    -Dserver.password=${MAVEN_PASSWORD} \
-    -Dgpg.passphrase=${GPG_PASSPHRASE}
+    -DMAVEN_USERNAME=${MAVEN_USERNAME} \
+    -DMAVEN_PASSWORD=${MAVEN_PASSWORD} \
+    -DGPG_PASSPHRASE=${GPG_PASSPHRASE}
