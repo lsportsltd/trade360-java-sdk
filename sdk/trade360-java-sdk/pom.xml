@@ -175,9 +175,6 @@
                         <executions>
                           <execution>
                             <id>attach-sources</id>
-                            <goals>
-                              <goal>jar-no-fork</goal>
-                            </goals>
                           </execution>
                         </executions>
                     </plugin>
@@ -187,9 +184,6 @@
                         <executions>
                           <execution>
                             <id>attach-javadocs</id>
-                            <goals>
-                              <goal>jar</goal>
-                            </goals>
                           </execution>
                         </executions>
                     </plugin>
@@ -200,9 +194,6 @@
                             <execution>
                                 <id>sign-artifacts</id>
                                 <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
                                 <configuration>
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
