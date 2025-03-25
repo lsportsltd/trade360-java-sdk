@@ -29,12 +29,8 @@ COPY . .
 # Run Maven deploy with debug flags and print environment for debugging
 RUN env && \
     mvn clean deploy -P release \
-    -Dmaven.javadoc.skip=true \
-    -Dmaven.test.skip=true \
-    -X -e \
+    -Dmaven.test.skip=true -e \
     -f sdk/trade360-java-sdk/pom.xml \
-    --batch-mode \
-    --no-transfer-progress \
     -DMAVEN_USERNAME=${MAVEN_USERNAME} \
     -DMAVEN_PASSWORD=${MAVEN_PASSWORD} \
     -DGPG_PASSPHRASE=${GPG_PASSPHRASE}
