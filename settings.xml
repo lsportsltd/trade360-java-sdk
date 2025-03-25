@@ -16,7 +16,6 @@
       <properties>
         <gpg.executable>gpg2</gpg.executable>
         <gpg.passphrase>${GPG_PASSPHRASE}</gpg.passphrase>
-        <gpg.keyname>devopsr@lsports.eu</gpg.keyname>
       </properties>
     </profile>
   </profiles>
