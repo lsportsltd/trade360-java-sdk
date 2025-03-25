@@ -8,24 +8,24 @@ resources:
 trigger: none
 
 stages:
-  - template: general/generic-package-CICD.yaml@pipeline-templates
-    parameters:
-      packageManager: 'maven'
-      language: 'java'
-      languageVersion: '17'
-      artifactImageLocation: '/app/target'
-      locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
-      serviceName: sdk
+  # - template: general/generic-package-CICD.yaml@pipeline-templates
+  #   parameters:
+  #     packageManager: 'maven'
+  #     language: 'java'
+  #     languageVersion: '17'
+  #     artifactImageLocation: '/app/target'
+  #     locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
+  #     serviceName: sdk
       
-  - template: general/generic-package-CICD.yaml@pipeline-templates
-    parameters:
-      packageManager: 'maven'
-      language: 'java'
-      languageVersion: '17'
-      artifactImageLocation: '/app/samples/trade360-samples/target'
-      locationToBuild: 'trade360-java-sdk/samples/trade360-samples'
-      dockerfilePath: 'trade360-java-sdk'
-      serviceName: samples
+  # - template: general/generic-package-CICD.yaml@pipeline-templates
+  #   parameters:
+  #     packageManager: 'maven'
+  #     language: 'java'
+  #     languageVersion: '17'
+  #     artifactImageLocation: '/app/samples/trade360-samples/target'
+  #     locationToBuild: 'trade360-java-sdk/samples/trade360-samples'
+  #     dockerfilePath: 'trade360-java-sdk'
+  #     serviceName: samples
 
   - stage: PublishToMavenCentral
     displayName: 'Publish to Maven Central'
