@@ -14,11 +14,6 @@ ARG MAVEN_PASSWORD
 ARG GPG_PRIVATE_KEY
 ARG GPG_PASSPHRASE
 
-# Set environment variables
-ENV MAVEN_USERNAME=${MAVEN_USERNAME} \
-    MAVEN_PASSWORD=${MAVEN_PASSWORD} \
-    GPG_PASSPHRASE=${GPG_PASSPHRASE}
-
 # Setup GPG
 RUN mkdir -p ~/.gnupg && \
     chmod 700 ~/.gnupg && \
