@@ -54,7 +54,14 @@ public class SpringBootApiRestClient implements ApiRestClient {
             })
             .build();
     }
+
+    /**
+     * Main entry point of the application.
+     *
+     * @param args Command line arguments
+     */
     public static void main(String[] args) { /* Intentionally left empty */ }
+
     /**
      * {@inheritDoc}
      */

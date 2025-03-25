@@ -7,19 +7,18 @@ import eu.lsports.trade360_java_sdk.common.entities.markets.Market;
 import jakarta.annotation.Nullable;
 
 /**
- * Represents an element in the result of a get events request.
- *
- * @param fixtureId The ID of the fixture
- * @param fixture The fixture details
- * @param livescore The livescore details
- * @param markets The markets associated with the fixture
- * @see Fixture
- * @see Livescore
- * @see Market
+ * Represents a result element containing event information.
  */
-public final class GetEventsResultElement {
+public class GetEventsResultElement {
+    /** The unique identifier of the fixture. */
     public int fixtureId;
+
+    /** The detailed fixture information. */
     @Nullable public Fixture fixture;
+
+    /** The live score information for the fixture. */
     @Nullable public Livescore livescore;
+
+    /** The collection of markets associated with this fixture. */
     @Nullable public Iterable<Market> markets;
 }
