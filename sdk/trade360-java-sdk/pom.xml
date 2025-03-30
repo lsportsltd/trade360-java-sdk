@@ -167,6 +167,12 @@
                       <extensions>true</extensions>
                       <configuration>
                           <publishingServerId>central</publishingServerId>
+                          <autoPublish>true</autoPublish>
+                          <deploymentName>trade360-java-sdk</deploymentName>
+                          <waitForPublishCompletion>true</waitForPublishCompletion>
+                          <waitMaxTime>3600</waitMaxTime>
+                          <waitPollingInterval>10</waitPollingInterval>
+                          <waitUntil>published</waitUntil>
                       </configuration>
                    </plugin>
                     <plugin>
