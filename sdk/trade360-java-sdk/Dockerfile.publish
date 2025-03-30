@@ -1,0 +1,38 @@
+# Use a multi-stage build
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+
+# Set working directory
+WORKDIR /build
+
+# Install GPG
+RUN apt-get update && \
+    apt-get install -y gnupg2
+
+# Declare build arguments
+ARG MAVEN_USERNAME
+ARG MAVEN_PASSWORD
+ARG GPG_PRIVATE_KEY
+ARG GPG_PASSPHRASE
+
+# Import GPG key
+RUN echo "$GPG_PRIVATE_KEY" | base64 -d > /tmp/gpg-private-key.asc
+RUN gpg --batch --import /tmp/gpg-private-key.asc && \
+    rm /tmp/gpg-private-key.asc
+
+# Upload public key (fingerprint) to keyserver
+RUN gpg --keyserver keyserver.ubuntu.com --send-keys $(gpg --list-keys --with-colons | grep fpr | head -n 1 | cut -d: -f10)
+
+# Copy settings.xml first
+COPY settings.xml /root/.m2/settings.xml
+
+# Copy the project files
+COPY . .
+
+# Run Maven deploy with debug flags and print environment for debugging
+RUN env && \
+    mvn clean deploy -P release \
+    -Dmaven.test.skip=true -e \
+    -f sdk/trade360-java-sdk/pom.xml \
+    -DMAVEN_USERNAME=${MAVEN_USERNAME} \
+    -DMAVEN_PASSWORD=${MAVEN_PASSWORD} \
+    -DGPG_PASSPHRASE=${GPG_PASSPHRASE}

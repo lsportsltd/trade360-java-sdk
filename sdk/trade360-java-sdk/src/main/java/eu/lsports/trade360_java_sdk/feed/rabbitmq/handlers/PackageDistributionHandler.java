@@ -21,10 +21,17 @@ import java.net.URI;
  */
 @Component
 public class PackageDistributionHandler implements DistributionHandler {
+    /** Logger instance for this class. */
     protected static final Logger logger = LogManager.getLogger();
     private URI baseUri;
     private final CustomersApiClientFactory apiClientFactory;
     private PackageCredentials packageCredentials;
+    /**
+     * Constructs a new PackageDistributionHandler.
+     *
+     * @param apiClientFactory The factory for creating API clients
+     * @param configuration The RabbitMQ connection configuration
+     */
     public PackageDistributionHandler(CustomersApiClientFactory apiClientFactory, RabbitConnectionConfiguration configuration) {
         this.apiClientFactory = apiClientFactory;
         this.baseUri = URI.create(configuration.getBase_customers_api());
