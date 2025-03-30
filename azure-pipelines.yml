@@ -5,8 +5,15 @@ resources:
       name: lsportsltd/devops-pipeline-templates
       endpoint: lsportsltd
 
-trigger: none
-
+pr: none
+trigger:
+  branches:
+    include:
+     - main
+  paths:
+    include:
+    - sdk/
+    
 stages:
   - stage: PublishToMavenCentral
     displayName: 'Publish to Maven Central'
