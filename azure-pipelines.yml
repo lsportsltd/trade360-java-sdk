@@ -15,14 +15,14 @@ trigger:
     - sdk/
     
 stages:
-  - template: general/generic-package-CICD.yaml@pipeline-templates
-    parameters:
-      packageManager: 'maven'
-      language: 'java'
-      languageVersion: '17'
-      artifactImageLocation: '/app/target'
-      locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
-      serviceName: sdk
+  # - template: general/generic-package-CICD.yaml@pipeline-templates
+  #   parameters:
+  #     packageManager: 'maven'
+  #     language: 'java'
+  #     languageVersion: '17'
+  #     artifactImageLocation: '/app/target'
+  #     locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
+  #     serviceName: sdk
       
   - stage: PublishToMavenCentral
     displayName: 'Publish to Maven Central'
