@@ -170,6 +170,7 @@
                           <autoPublish>true</autoPublish>
                           <deploymentName>trade360-java-sdk</deploymentName>
                           <waitForPublishCompletion>true</waitForPublishCompletion>
+                          <waitForPublishCompletion>3600</waitForPublishCompletion>
                           <waitPollingInterval>10</waitPollingInterval>
                           <waitUntil>published</waitUntil>
                       </configuration>
