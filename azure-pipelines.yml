@@ -15,53 +15,66 @@ trigger:
     - sdk/
     
 stages:
+  - template: general/generic-package-CICD.yaml@pipeline-templates
+    parameters:
+      packageManager: 'maven'
+      language: 'java'
+      languageVersion: '17'
+      artifactImageLocation: '/app/target'
+      locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
+      serviceName: sdk
+      
   - stage: PublishToMavenCentral
     displayName: 'Publish to Maven Central'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs:
-      - job: PublishArtifacts
-        pool: k8s-agents-ci
-        steps:
-          - task: DownloadSecureFile@1
-            name: mavenSettings
-            inputs:
-              secureFile: 'settings.xml'
+    - deployment: PublishToMavenCentral
+      environment: prod
+      displayName: 'Publish to Maven Central'
+      timeoutInMinutes: "120"
+      pool: k8s-agents-ci
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: DownloadSecureFile@1
+                name: mavenSettings
+                inputs:
+                  secureFile: 'settings.xml'
 
-          - task: DownloadSecureFile@1
-            name: gpgKeys
-            inputs:
-              secureFile: 'gpg-keys.txt'
+              - task: DownloadSecureFile@1
+                name: gpgKeys
+                inputs:
+                  secureFile: 'gpg-keys.txt'
 
-          - task: CopyFiles@2
-            inputs:
-              sourceFiles: '$(mavenSettings.secureFilePath)'
-              targetFolder: '$(Build.SourcesDirectory)/trade360-java-sdk'
+              - task: CopyFiles@2
+                inputs:
+                  sourceFiles: '$(mavenSettings.secureFilePath)'
+                  targetFolder: '$(Build.SourcesDirectory)/trade360-java-sdk'
 
-          # Read GPG keys from secure file
-          - script: |
-              # Source the GPG keys file to get the variables
-              source "$(gpgKeys.secureFilePath)"
-              # Export them as pipeline variables
-              echo "##vso[task.setvariable variable=GPG_PASSPHRASE]$GPG_PASSPHRASE"
-              echo "##vso[task.setvariable variable=GPG_PRIVATE_KEY]$PRIVATE_KEY"
-            displayName: 'Set GPG Variables'
+              # Read GPG keys from secure file
+              - script: |
+                  # Source the GPG keys file to get the variables
+                  source "$(gpgKeys.secureFilePath)"
+                  # Export them as pipeline variables
+                  echo "##vso[task.setvariable variable=GPG_PASSPHRASE]$GPG_PASSPHRASE"
+                  echo "##vso[task.setvariable variable=GPG_PRIVATE_KEY]$PRIVATE_KEY"
+                displayName: 'Set GPG Variables'
 
-          - script: |
-              mavenUsername=$(aws ssm get-parameter --with-decryption --name /devopsr/maven/token/username | jq -r .Parameter.Value)
-              mavenPassword=$(aws ssm get-parameter --with-decryption --name /devopsr/maven/token/password | jq -r .Parameter.Value)
+              - script: |
+                  mavenUsername=$(aws ssm get-parameter --with-decryption --name /devopsr/maven/token/username | jq -r .Parameter.Value)
+                  mavenPassword=$(aws ssm get-parameter --with-decryption --name /devopsr/maven/token/password | jq -r .Parameter.Value)
 
-              echo "##vso[task.setvariable variable=MAVEN_USERNAME]$mavenUsername"
-              echo "##vso[task.setvariable variable=MAVEN_PASSWORD]$mavenPassword"
-            displayName: 'Set Maven Secret Variables'
+                  echo "##vso[task.setvariable variable=MAVEN_USERNAME]$mavenUsername"
+                  echo "##vso[task.setvariable variable=MAVEN_PASSWORD]$mavenPassword"
+                displayName: 'Set Maven Secret Variables'
 
-          - task: Docker@2
-            displayName: 'Build Docker Image'
-            inputs:
-              command: 'build'
-              dockerfile: '$(Build.SourcesDirectory)/sdk/trade360-java-sdk/Dockerfile.publish'
-              buildContext: '$(Build.SourcesDirectory)/trade360-java-sdk'
-              tags: 'maven-publisher:latest'
-              arguments: '--progress=plain --no-cache --build-arg MAVEN_USERNAME=$(MAVEN_USERNAME) --build-arg MAVEN_PASSWORD=$(MAVEN_PASSWORD) --build-arg GPG_PRIVATE_KEY="$(GPG_PRIVATE_KEY)" --build-arg GPG_PASSPHRASE="$(GPG_PASSPHRASE)"'
-
-      
-      
+              - task: Docker@2
+                displayName: 'Build Docker Image'
+                inputs:
+                  command: 'build'
+                  dockerfile: '$(Build.SourcesDirectory)/sdk/trade360-java-sdk/Dockerfile.publish'
+                  buildContext: '$(Build.SourcesDirectory)/trade360-java-sdk'
+                  tags: 'maven-publisher:latest'
+                  arguments: '--progress=plain --no-cache --build-arg MAVEN_USERNAME=$(MAVEN_USERNAME) --build-arg MAVEN_PASSWORD=$(MAVEN_PASSWORD) --build-arg GPG_PRIVATE_KEY="$(GPG_PRIVATE_KEY)" --build-arg GPG_PASSPHRASE="$(GPG_PASSPHRASE)"'
+        
