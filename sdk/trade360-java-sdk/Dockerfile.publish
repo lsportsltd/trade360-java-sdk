@@ -19,6 +19,8 @@ RUN echo "$GPG_PRIVATE_KEY" | base64 -d > /tmp/gpg-private-key.asc
 RUN gpg --batch --import /tmp/gpg-private-key.asc && \
     rm /tmp/gpg-private-key.asc
 
+# Upload public key (fingerprint) to keyserver
+RUN gpg --keyserver keyserver.ubuntu.com --send-keys $(gpg --list-keys --with-colons | grep fpr | head -n 1 | cut -d: -f10)
 
 # Copy settings.xml first
 COPY settings.xml /root/.m2/settings.xml
