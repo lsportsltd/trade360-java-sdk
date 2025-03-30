@@ -175,6 +175,7 @@
                         <executions>
                           <execution>
                             <id>attach-sources</id>
+                            <phase>package</phase>
                           </execution>
                         </executions>
                     </plugin>
@@ -184,6 +185,7 @@
                         <executions>
                           <execution>
                             <id>attach-javadocs</id>
+                            <phase>package</phase>
                           </execution>
                         </executions>
                     </plugin>
