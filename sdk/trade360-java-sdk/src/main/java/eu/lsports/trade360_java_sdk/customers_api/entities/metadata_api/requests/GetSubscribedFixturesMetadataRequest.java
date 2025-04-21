@@ -17,8 +17,8 @@ import jakarta.annotation.Nullable;
  *  * @param leagueIds the IDs of the leagues to filter by
  */
 public final record GetSubscribedFixturesMetadataRequest(
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") @Nullable LocalDate fromDate,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") @Nullable LocalDate toDate,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") LocalDate fromDate,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") LocalDate toDate,
     @Nullable Iterable<Integer> sportIds,
     @Nullable Iterable<Integer> locationIds,
     @Nullable Integer languageId)
