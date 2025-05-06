@@ -22,7 +22,11 @@ stages:
       languageVersion: '17'
       artifactImageLocation: '/app/target'
       locationToBuild: 'trade360-java-sdk/sdk/trade360-java-sdk'
-      serviceName: sdk
+      serviceName: 'trade360_java_sdk'
+      group: trd
+      domain: trade360-sdk
+      product: stm
+      team: guns-n-roses
       
   - stage: PublishToMavenCentral
     displayName: 'Publish to Maven Central'
