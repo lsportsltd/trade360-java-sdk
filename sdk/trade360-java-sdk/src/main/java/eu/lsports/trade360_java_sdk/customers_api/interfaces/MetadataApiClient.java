@@ -97,4 +97,13 @@ public interface MetadataApiClient {
      * @see GetSubscribedFixturesMetadataResponse
      */
     Mono<BaseResponse<GetSubscribedFixturesMetadataResponse>> getSubscribedFixturesMetadata(GetSubscribedFixturesMetadataRequest request);
+
+    /**
+     * Retrieves a list of incidents based on the specified request.
+     *
+     * @param request A request containing filter parameters for retrieving incidents data
+     * @return a {@link Mono} emitting the response containing the data of selected incidents
+     * @See GetIncidentsResponse
+     */
+    Mono<BaseResponse<GetIncidentsResponse>> getIncidents(GetIncidentsRequest request);
 }

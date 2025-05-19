@@ -6,14 +6,7 @@ import eu.lsports.trade360_java_sdk.common.serialization.JacksonApiSerializer;
 import eu.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import eu.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import eu.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
-import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetCompetitionsRequest;
-import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLeaguesRequest;
-import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetLocationsRequest;
-import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetMarketsRequest;
-import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSportsRequest;
-import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesMetadataRequest;
-import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetSubscribedFixturesRequest;
-import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.GetTranslationsRequest;
+import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.*;
 import eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.CompetitionSubscription;
 import eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.LeagueSubscription;
 import eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.Suspension;
@@ -24,13 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
+import java.util.Arrays;
 
 @SpringBootApplication
 @EnableConfigurationProperties(CustomerApiConfiguration.class)
@@ -62,116 +56,90 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         displayMenu();
     }
 
+    private enum MenuOption {
+        GET_SUBSCRIBED_FIXTURES_METADATA("Metadata API - Get Fixture Metadata", (app) -> app.getSubscribedFixturesMetadata(app.baseUri, app.preMatchPackageCredentials)),
+        GET_COMPETITIONS("Metadata API - Get Competitions", (app) -> app.getCompetitions(app.baseUri, app.preMatchPackageCredentials)),
+        GET_TRANSLATIONS("Metadata API - Get Translations", (app) -> app.getTranslations(app.baseUri, app.preMatchPackageCredentials)),
+        GET_MARKETS("Metadata API - Get Markets", (app) -> app.getMarkets(app.baseUri, app.preMatchPackageCredentials)),
+        GET_SPORTS("Metadata API - Get Sports", (app) -> app.getSports(app.baseUri, app.preMatchPackageCredentials)),
+        GET_LOCATIONS("Metadata API - Get Locations", (app) -> app.getLocations(app.baseUri, app.preMatchPackageCredentials)),
+        GET_LEAGUES("Metadata API - Get Leagues", (app) -> app.getLeagues(app.baseUri, app.preMatchPackageCredentials)),
+        Get_INCIDENTS("Metadata API - Get Incidents", (app) -> app.getIncidents(app.baseUri, app.preMatchPackageCredentials)),
+        SUBSCRIBE_FIXTURE("Subscription API - Subscribe to Fixture", (app) -> app.subscribeByFixture(app.baseUri, app.preMatchPackageCredentials)),
+        UNSUBSCRIBE_FIXTURE("Subscription API - Unsubscribe from Fixture", (app) -> app.unSubscribeByFixture(app.baseUri, app.preMatchPackageCredentials)),
+        SUBSCRIBE_LEAGUE("Subscription API - Subscribe to League", (app) -> app.subscribeByLeague(app.baseUri, app.preMatchPackageCredentials)),
+        UNSUBSCRIBE_LEAGUE("Subscription API - Unsubscribe from League", (app) -> app.unSubscribeByLeague(app.baseUri, app.preMatchPackageCredentials)),
+        GET_SUBSCRIBED_FIXTURES("Subscription API - Get Subscribed Fixtures", (app) -> app.getSubscribedFixtures(app.baseUri, app.preMatchPackageCredentials)),
+        SUBSCRIBE_COMPETITION("Subscription API - Subscribe to Outright Competition", (app) -> app.subscribeByCompetition(app.baseUri, app.preMatchPackageCredentials)),
+        UNSUBSCRIBE_COMPETITION("Subscription API - Unsubscribe from Outright Competition", (app) -> app.unSubscribeByCompetition(app.baseUri, app.preMatchPackageCredentials)),
+        GET_INPLAY_SCHEDULE("Subscription API - Get Inplay Fixture Schedule", (app) -> app.getInPlayFixtureSchedule(app.baseUri, app.inPlayPackageCredentials)),
+        GET_ALL_SUSPENSIONS("Subscription API - Get All Manual Suspensions", (app) -> app.getAllManualSuspensions(app.baseUri, app.preMatchPackageCredentials)),
+        ADD_SUSPENSION("Subscription API - Add Manual Suspension", (app) -> app.addManualSuspension(app.baseUri, app.preMatchPackageCredentials)),
+        REMOVE_SUSPENSION("Subscription API - Remove Manual Suspension", (app) -> app.removeManualSuspension(app.baseUri, app.preMatchPackageCredentials)),
+        GET_QUOTA("Subscription API - Get Package Quota", (app) -> app.getPackageQuota(app.baseUri, app.inPlayPackageCredentials)),
+        GET_DISTRIBUTION_STATUS("Package Distribution API - Get Distribution Status", (app) -> app.getDistributionStatus(app.baseUri, app.preMatchPackageCredentials)),
+        START_DISTRIBUTION("Package Distribution API - Start Distribution", (app) -> app.startDistribution(app.baseUri, app.preMatchPackageCredentials)),
+        STOP_DISTRIBUTION("Package Distribution API - Stop Distribution", (app) -> app.stopDistribution(app.baseUri, app.preMatchPackageCredentials)),
+        EXIT("Exit", (app) -> {
+            System.out.println("Exiting...");
+            System.exit(0);
+        }) {
+            @Override
+            public int getOption() {
+                return 0;
+            }
+        };
+
+        private final String description;
+        private final Consumer<CustomerApiExampleApplication> action;
+
+        MenuOption(String description, Consumer<CustomerApiExampleApplication> action) {
+            this.description = description;
+            this.action = action;
+        }
+
+        public int getOption() {
+            return this.ordinal() + 1;
+        }
+
+        public String getDescription() {
+            return getOption() + ". " + description;
+        }
+
+        public static MenuOption fromOption(int option) {
+            return Arrays.stream(values())
+                    .filter(o -> o.getOption() == option)
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        public void execute(CustomerApiExampleApplication app) {
+            action.accept(app);
+        }
+    }
+
     private void displayMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("===============================================");
             System.out.println("Customer API Example Application");
             System.out.println("===============================================");
-            System.out.println("1. Metadata API - Get Fixture Metadata");
-            System.out.println("2. Metadata API - Get Competitions");
-            System.out.println("3. Metadata API - Get Translations");
-            System.out.println("4. Metadata API - Get Markets");
-            System.out.println("5. Metadata API - Get Sports");
-            System.out.println("6. Metadata API - Get Locations");
-            System.out.println("7. Metadata API - Get Leagues");
-            System.out.println("8. Subscription API - Subscribe to Fixture");
-            System.out.println("9. Subscription API - Unsubscribe from Fixture");
-            System.out.println("10. Subscription API - Subscribe to League");
-            System.out.println("11. Subscription API - Unsubscribe from League");
-            System.out.println("12. Subscription API - Get Subscribed Fixtures");
-            System.out.println("13. Subscription API - Subscribe to Outright Competition");
-            System.out.println("14. Subscription API - Unsubscribe from Outright Competition");
-            System.out.println("15. Subscription API - Get Inplay Fixture Schedule");
-            System.out.println("16. Subscription API - Get All Manual Suspensions");
-            System.out.println("17. Subscription API - Add Manual Suspension");
-            System.out.println("18. Subscription API - Remove Manual Suspension");
-            System.out.println("19. Subscription API - Get Package Quota");
-            System.out.println("20. Package Distribution API - Get Distribution Status");
-            System.out.println("21. Package Distribution API - Start Distribution");
-            System.out.println("22. Package Distribution API - Stop Distribution");
-            System.out.println("0. Exit");
+            for (MenuOption option : MenuOption.values()) {
+                System.out.println(option.getDescription());
+            }
             System.out.print("Enter your choice: ");
-
             int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    getSubscribedFixturesMetadata(baseUri, preMatchPackageCredentials);
-                    break;
-                case 2:
-                    getCompetitions(baseUri, preMatchPackageCredentials);
-                    break;
-                case 3:
-                    getTranslations(baseUri, preMatchPackageCredentials);
-                    break;
-                case 4:
-                    getMarkets(baseUri,preMatchPackageCredentials);
-                    break;
-                case 5:
-                    getSports(baseUri,preMatchPackageCredentials);
-                    break;
-                case 6:
-                    getLocations(baseUri,preMatchPackageCredentials);
-                    break;
-                case 7:
-                    getLeagues(baseUri,preMatchPackageCredentials);
-                    break;
-                case 8:
-                    subscribeByFixture(baseUri,preMatchPackageCredentials);
-                    break;
-                case 9:
-                    unSubscribeByFixture(baseUri,preMatchPackageCredentials);
-                    break;
-                case 10:
-                    subscribeByLeague(baseUri,preMatchPackageCredentials);
-                    break;
-                case 11:
-                    unSubscribeByLeague(baseUri,preMatchPackageCredentials);
-                    break;
-                case 12:
-                    getSubscribedFixtures(baseUri,preMatchPackageCredentials);
-                    break;
-                case 13:
-                    subscribeByCompetition(baseUri,preMatchPackageCredentials);
-                    break;
-                case 14:
-                    unSubscribeByCompetition(baseUri,preMatchPackageCredentials);
-                    break;
-                case 15:
-                    getInPlayFixtureSchedule(baseUri,inPlayPackageCredentials);
-                    break;
-                case 16:
-                    getAllManualSuspensions(baseUri,preMatchPackageCredentials);
-                    break;
-                case 17:
-                    addManualSuspension(baseUri,preMatchPackageCredentials);
-                    break;
-                case 18:
-                    removeManualSuspension(baseUri,preMatchPackageCredentials);
-                    break;
-                case 19:
-                    getPackageQuota(baseUri,inPlayPackageCredentials);
-                    break;
-                case 20:
-                    getDistributionStatus(baseUri,preMatchPackageCredentials);
-                    break;
-                case 21:
-                    startDistribution(baseUri,preMatchPackageCredentials);
-                    break;
-                case 22:
-                    stopDistribution(baseUri,preMatchPackageCredentials);
-                    break;
-                case 0:
-                    System.out.println("Exiting...");
-                    scanner.close();
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+            MenuOption selected = MenuOption.fromOption(choice);
+            if (selected != null) {
+                selected.execute(this);
+            } else {
+                System.out.println("Invalid choice. Please try again.");
             }
             this.waitForAllAsyncFinish();
         }
     }
 
+    // <editor-fold desc="API Methods">
     private void getDistributionStatus(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createPackageDistributionHttpClient(baseUri, credentials);
         this.executeAsynchronous("getDistributionStatus without parameters",
@@ -327,4 +295,12 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
                 new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, LocalDateTime.now(), null))),
                 request -> client.removeManualSuspension(request));
     }
+
+    private void getIncidents(URI baseUri, PackageCredentials credentials){
+        var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
+        this.executeAsynchronous("GetIncidents with parameters",
+                new GetIncidentsRequest(new GetIncidentsRequest.IncidentsFilter(null, List.of(6046), null, null)),
+                request -> client.getIncidents(request));
+    }
+    // </editor-fold>
 }

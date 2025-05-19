@@ -134,4 +134,13 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
             "Fixtures/GetSubscribedMetaData"
         );
     }
+
+    @Override
+    public Mono<BaseResponse<GetIncidentsResponse>> getIncidents(GetIncidentsRequest request) {
+        return this.client.postRequest(
+                request,
+                new TypeReference<BaseResponse<GetIncidentsResponse>>() {},
+                "Incidents/Get"
+        );
+    }
 }
