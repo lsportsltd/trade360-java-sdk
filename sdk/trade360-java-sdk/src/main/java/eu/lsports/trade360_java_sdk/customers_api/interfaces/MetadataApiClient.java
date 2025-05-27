@@ -103,7 +103,7 @@ public interface MetadataApiClient {
      *
      * @param request A request containing filter parameters for retrieving incidents data
      * @return a {@link Mono} emitting the response containing the data of selected incidents
-     * @See GetIncidentsResponse
+     * @see GetIncidentsResponse
      */
     Mono<BaseResponse<GetIncidentsResponse>> getIncidents(GetIncidentsRequest request);
 }
