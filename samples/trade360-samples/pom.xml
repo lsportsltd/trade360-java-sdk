@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.lsports</groupId>
     <artifactId>trade360-samples</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
     <name>trade360-samples</name>
     <description>LSports trade360-samples java sdk</description>
     <properties>
