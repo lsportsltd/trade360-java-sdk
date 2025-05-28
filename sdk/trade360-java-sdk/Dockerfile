@@ -22,6 +22,7 @@ ENV CODACY_USERNAME=lsportsltd
 ENV CODACY_PROJECT_NAME=${SERVICE_NAME}
 
 # Run tests and generate JaCoCo XML report for SDK only
+WORKDIR /app/sdk/trade360-java-sdk
 RUN mvn clean test jacoco:report -pl sdk/trade360-java-sdk
 
 # Send coverage report to Codacy (correct path)
