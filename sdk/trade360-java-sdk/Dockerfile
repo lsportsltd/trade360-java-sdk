@@ -23,13 +23,13 @@ ENV CODACY_PROJECT_NAME=${SERVICE_NAME}
 
 # Run tests and generate JaCoCo XML report for SDK only
 WORKDIR /app/sdk/trade360-java-sdk
-RUN mvn clean test jacoco:report -pl sdk/trade360-java-sdk
+RUN mvn clean test jacoco:report
 
 # Send coverage report to Codacy (correct path)
-RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r sdk/trade360-java-sdk/target/site/jacoco/jacoco.xml
+RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r target/site/jacoco/jacoco.xml
 
 # Build only the SDK module
-RUN mvn package -pl sdk/trade360-java-sdk
+RUN mvn package
 
 # keep container running
 CMD ["tail", "-f", "/dev/null"]
