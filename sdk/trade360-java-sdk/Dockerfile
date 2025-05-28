@@ -7,8 +7,28 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
-# Build the project
-RUN mvn package
+# get and set NPM_TOKEN
+ARG NPM_TOKEN
+ENV NPM_TOKEN=${NPM_TOKEN}
+
+# codacy args
+ARG CODACY_TOKEN
+ARG SERVICE_NAME=trade360-java-sdk
+
+# assign build arguments to environment variables
+ENV CODACY_API_TOKEN=${CODACY_TOKEN}
+ENV CODACY_ORGANIZATION_PROVIDER=gh
+ENV CODACY_USERNAME=lsportsltd
+ENV CODACY_PROJECT_NAME=${SERVICE_NAME}
+
+# Run tests and generate JaCoCo XML report for SDK only
+RUN mvn clean test jacoco:report -pl sdk/trade360-java-sdk
+
+# Send coverage report to Codacy (correct path)
+RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r sdk/trade360-java-sdk/target/site/jacoco/jacoco.xml
+
+# Build only the SDK module
+RUN mvn package -pl sdk/trade360-java-sdk
 
 # keep container running
 CMD ["tail", "-f", "/dev/null"]
