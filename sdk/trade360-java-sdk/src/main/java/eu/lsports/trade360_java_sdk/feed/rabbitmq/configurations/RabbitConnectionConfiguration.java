@@ -2,14 +2,12 @@ package eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 /**
  * Configuration properties for RabbitMQ connection.
  */
 @Validated
-@Data
 public class RabbitConnectionConfiguration {
 
     /**
@@ -124,4 +122,39 @@ public class RabbitConnectionConfiguration {
      */
     @NotNull
     public int requestedHeartBeat = 30;
+
+    // --- Added getters for use in handlers ---
+    public String getBase_customers_api() {
+        return base_customers_api;
+    }
+    public int getPackage_id() {
+        return package_id;
+    }
+    public String getUser_name() {
+        return user_name;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    // --- Added setters for use in tests ---
+    public void setName(String name) { this.name = name; }
+    public void setPackage_id(int package_id) { this.package_id = package_id; }
+    public void setHost(String host) { this.host = host; }
+    public void setPort(int port) { this.port = port; }
+    public void setVirtual_host(String virtual_host) { this.virtual_host = virtual_host; }
+    public void setUser_name(String user_name) { this.user_name = user_name; }
+    public void setPassword(String password) { this.password = password; }
+    public void setPrefetch_count(int prefetch_count) { this.prefetch_count = prefetch_count; }
+    public void setAuto_ack(boolean auto_ack) { this.auto_ack = auto_ack; }
+    public void setNetwork_recovery_interval(long network_recovery_interval) { this.network_recovery_interval = network_recovery_interval; }
+    public void setBase_customers_api(String base_customers_api) { this.base_customers_api = base_customers_api; }
+    public void setRetry_attempts(int retry_attempts) { this.retry_attempts = retry_attempts; }
+    public void setRetry_initial_interval(int retry_initial_interval) { this.retry_initial_interval = retry_initial_interval; }
+    public void setRetry_multiple(double retry_multiple) { this.retry_multiple = retry_multiple; }
+    public void setRetry_max_interval(int retry_max_interval) { this.retry_max_interval = retry_max_interval; }
+    public void setConcurrent_consumers(int concurrent_consumers) { this.concurrent_consumers = concurrent_consumers; }
+    public void setMax_concurrent_consumers(int max_concurrent_consumers) { this.max_concurrent_consumers = max_concurrent_consumers; }
+    public void setRabbit_listener_container_factory_name(String rabbit_listener_container_factory_name) { this.rabbit_listener_container_factory_name = rabbit_listener_container_factory_name; }
+    public void setRequestedHeartBeat(int requestedHeartBeat) { this.requestedHeartBeat = requestedHeartBeat; }
 }
