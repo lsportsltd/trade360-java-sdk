@@ -23,6 +23,6 @@ public class RabbitMQFeedException extends Exception {
      * @param innerException The inner exception
      */
     public RabbitMQFeedException(String message, Exception innerException) {
-        super(MessageFormat.format("{0} Detail Message Error: {1}", message, innerException.getMessage(), innerException.getCause()));
+        super(MessageFormat.format("{0} Detail Message Error: {1}", message, innerException.getMessage()), innerException);
     }
 }
