@@ -4,6 +4,7 @@ resources:
       type: github
       name: lsportsltd/devops-pipeline-templates
       endpoint: lsportsltd
+      ref: feature/PLT-123-shirb-uff
 
 pr: none
 trigger:
@@ -83,5 +84,5 @@ stages:
                   dockerfile: '$(Build.SourcesDirectory)/sdk/trade360-java-sdk/Dockerfile.publish'
                   buildContext: '$(Build.SourcesDirectory)/trade360-java-sdk'
                   tags: 'maven-publisher:latest'
-                  arguments: '--progress=plain --no-cache --build-arg MAVEN_USERNAME=$(MAVEN_USERNAME) --build-arg MAVEN_PASSWORD=$(MAVEN_PASSWORD) --build-arg GPG_PRIVATE_KEY="$(GPG_PRIVATE_KEY)" --build-arg GPG_PASSPHRASE="$(GPG_PASSPHRASE)"'
+                  arguments: '--progress=plain --no-cache --build-arg=$(Build.SourceVersion) --build-arg MAVEN_USERNAME=$(MAVEN_USERNAME) --build-arg MAVEN_PASSWORD=$(MAVEN_PASSWORD) --build-arg GPG_PRIVATE_KEY="$(GPG_PRIVATE_KEY)" --build-arg GPG_PASSPHRASE="$(GPG_PASSPHRASE)"'
         
