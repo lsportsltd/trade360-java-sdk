@@ -18,15 +18,15 @@ ENV CODACY_ORGANIZATION_PROVIDER=gh
 ENV CODACY_USERNAME=lsportsltd
 ENV CODACY_PROJECT_NAME=${SERVICE_NAME}
 
-# Add build argument and environment variable for commit SHA
+# Add build argument and environment variable for Codacy commit ID
 ARG CODACY_COMMIT_ID
 ENV CODACY_COMMIT_ID=${CODACY_COMMIT_ID}
 
 # Run tests and generate JaCoCo XML report
 RUN mvn clean test jacoco:report
 
-# Send coverage report to Codacy (with commit SHA)
-RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r target/site/jacoco/jacoco.xml --commit-uuid $CODACY_COMMIT_ID
+# Send coverage report to Codacy (CODACY_COMMIT_ID will be picked up automatically)
+RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r target/site/jacoco/jacoco.xml
 
 # Build the SDK module
 RUN mvn package
