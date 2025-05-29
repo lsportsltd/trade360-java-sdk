@@ -22,8 +22,14 @@ ENV CODACY_PROJECT_NAME=${SERVICE_NAME}
 ARG CODACY_COMMIT_ID
 ENV CODACY_COMMIT_ID=${CODACY_COMMIT_ID}
 
+# Set working directory to the Maven module
+WORKDIR /app/sdk/trade360-java-sdk
+
 # Run tests and generate JaCoCo XML report
 RUN mvn clean test jacoco:report
+
+# Debug: List coverage directory contents
+RUN ls -l target/site/jacoco/
 
 # Send coverage report to Codacy (CODACY_COMMIT_ID will be picked up automatically)
 RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r target/site/jacoco/jacoco.xml --commit-uuid $CODACY_COMMIT_ID
