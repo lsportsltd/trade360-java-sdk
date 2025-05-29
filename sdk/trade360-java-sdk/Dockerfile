@@ -26,7 +26,7 @@ ENV CODACY_COMMIT_ID=${CODACY_COMMIT_ID}
 RUN mvn clean test jacoco:report
 
 # Send coverage report to Codacy (CODACY_COMMIT_ID will be picked up automatically)
-RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r target/site/jacoco/jacoco.xml
+RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r target/site/jacoco/jacoco.xml --commit-uuid $CODACY_COMMIT_ID
 
 # Build the SDK module
 RUN mvn package
