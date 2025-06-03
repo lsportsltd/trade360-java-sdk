@@ -71,7 +71,7 @@ class AmqpMessageHandlerTest {
     }
 
     @Test
-    void testGetTypeIdFromMessage_InvalidHeader_ThrowsException() throws Exception {
+    void testGetTypeIdFromMessageInvalidHeaderThrowsException() throws Exception {
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{}}";
         Message message = mock(Message.class);
         when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
