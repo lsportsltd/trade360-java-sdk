@@ -47,7 +47,7 @@ class AmqpMessageHandlerTest {
     }
 
     @Test
-    void testProcess_EntityHandlerNotFound_ThrowsException() throws Exception {
+    void process_entityHandlerNotFound_throwsException() throws Exception {
         int typeId = 1;
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\"}}";
         Message message = mock(Message.class);
