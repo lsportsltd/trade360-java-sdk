@@ -61,7 +61,7 @@ class PackageDistributionHandlerTest {
     }
 
     @Test
-    void testProcess_DistributionStatusNull_Throws() {
+    void testProcessDistributionStatusNullThrows() {
         when(client.getDistributionStatus()).thenReturn(Mono.just(new BaseResponse<>()));
         assertThrows(IllegalStateException.class, () -> handler.process());
     }
