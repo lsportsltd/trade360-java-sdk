@@ -151,7 +151,7 @@ public class RabbitConnectionConfiguration {
     public void setBase_customers_api(String base_customers_api) { this.base_customers_api = base_customers_api; }
     public void setRetryAttempts(int retry_attempts) { this.retry_attempts = retry_attempts; }
     public void setRetryInitialInterval(int retry_initial_interval) { this.retry_initial_interval = retry_initial_interval; }
-    public void setRetry_multiple(double retry_multiple) { this.retry_multiple = retry_multiple; }
+    public void setRetryMultiple(double retry_multiple) { this.retry_multiple = retry_multiple; }
     public void setRetry_max_interval(int retry_max_interval) { this.retry_max_interval = retry_max_interval; }
     public void setConcurrent_consumers(int concurrent_consumers) { this.concurrent_consumers = concurrent_consumers; }
     public void setMaxConcurrentConsumers(int max_concurrent_consumers) { this.max_concurrent_consumers = max_concurrent_consumers; }
