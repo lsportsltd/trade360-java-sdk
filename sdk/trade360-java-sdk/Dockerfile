@@ -28,7 +28,7 @@ RUN mvn clean test jacoco:report
 # Debug: List coverage directory contents
 RUN ls -l target/site/jacoco/
 
-# Send coverage report to Codacy (CODACY_COMMIT_ID will be picked up automatically)
+# Send coverage report to Codacy
 RUN wget -qO - https://coverage.codacy.com/get.sh | bash -s report -l Java -r target/site/jacoco/jacoco.xml --commit-uuid $CODACY_COMMIT_ID
 
 # Build the SDK module
