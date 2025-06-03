@@ -1,6 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.serialization;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,9 +9,10 @@ import java.util.List;
 import eu.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import org.junit.Test;
 import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class JacksonApiSerializerTest {
-        private final PackageCredentials packageCredentials = new PackageCredentials(
+    private final PackageCredentials packageCredentials = new PackageCredentials(
         1234,
         "testUser",
         "testPassword");
@@ -65,5 +67,24 @@ public class JacksonApiSerializerTest {
             "{\"Timestamp\":1722816000000,\"FromDate\":1722470400000,\"ToDate\":1722988800000,\"Sports\":[1,2,3],\"Locations\":[4,5,6],\"Leagues\":[7,8,9],\"Tournaments\":[10,11,12],\"Fixtures\":[13,14,15],\"Markets\":[16,17,18],\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\",\"MessageFormat\":\"json\"}",
             result.toString()
         );
+    }
+
+    @Test
+    void testSerializeAndDeserialize() throws Exception {
+        PackageCredentials creds = new PackageCredentials(1, "user", "pass");
+        JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
+        SimplePojo pojo = new SimplePojo("hello", 42);
+        String json = serializer.serializeToString(pojo);
+        assertTrue(json.contains("hello"));
+        JsonNode node = serializer.deserializeToTree(json);
+        assertEquals("hello", node.get("foo").asText());
+        assertEquals(42, node.get("bar").asInt());
+    }
+
+    static class SimplePojo {
+        public String foo;
+        public int bar;
+        public SimplePojo() {}
+        public SimplePojo(String foo, int bar) { this.foo = foo; this.bar = bar; }
     }
 }

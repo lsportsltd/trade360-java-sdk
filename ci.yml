@@ -4,7 +4,8 @@ resources:
       type: github
       name: lsportsltd/devops-pipeline-templates
       endpoint: lsportsltd
-
+      ref: refs/heads/shir-amir-test
+      
 pr: none
 trigger:
   branches:

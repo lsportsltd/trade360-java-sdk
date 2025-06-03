@@ -34,8 +34,8 @@ public class PackageDistributionHandler implements DistributionHandler {
      */
     public PackageDistributionHandler(CustomersApiClientFactory apiClientFactory, RabbitConnectionConfiguration configuration) {
         this.apiClientFactory = apiClientFactory;
-        this.baseUri = URI.create(configuration.getBase_customers_api());
-        this.packageCredentials = new PackageCredentials(configuration.getPackage_id(), configuration.getUser_name(), configuration.getPassword());
+        this.baseUri = URI.create(configuration.getBaseCustomersApi());
+        this.packageCredentials = new PackageCredentials(configuration.getPackageId(), configuration.getUserName(), configuration.getPassword());
     }
     /**
      * {@inheritDoc}

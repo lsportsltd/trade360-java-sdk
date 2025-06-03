@@ -48,11 +48,11 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
 
             // Connection configuration
             CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-            connectionFactory.setVirtualHost(rabbitConnectionConfiguration.virtual_host);
-            connectionFactory.setHost(rabbitConnectionConfiguration.host);
-            connectionFactory.setUsername(rabbitConnectionConfiguration.user_name);
-            connectionFactory.setPassword(rabbitConnectionConfiguration.password);
-            connectionFactory.setRequestedHeartBeat(rabbitConnectionConfiguration.requestedHeartBeat);
+            connectionFactory.setVirtualHost(rabbitConnectionConfiguration.getVirtualHost());
+            connectionFactory.setHost(rabbitConnectionConfiguration.getHost());
+            connectionFactory.setUsername(rabbitConnectionConfiguration.getUserName());
+            connectionFactory.setPassword(rabbitConnectionConfiguration.getPassword());
+            connectionFactory.setRequestedHeartBeat(rabbitConnectionConfiguration.getRequestedHeartBeat());
 
             factory.setConnectionFactory(connectionFactory);
 
@@ -61,27 +61,27 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
 
             // Message recoverer configuration
             RetryOperationsInterceptor retryInterceptor =
-                    RetryInterceptorBuilder.stateless().maxAttempts(rabbitConnectionConfiguration.retry_attempts)
-                            .backOffOptions(rabbitConnectionConfiguration.retry_initial_interval,
-                                    rabbitConnectionConfiguration.retry_multiple,
-                                    rabbitConnectionConfiguration.retry_max_interval)
+                    RetryInterceptorBuilder.stateless().maxAttempts(rabbitConnectionConfiguration.getRetryAttempts())
+                            .backOffOptions(rabbitConnectionConfiguration.getRetryInitialInterval(),
+                                    rabbitConnectionConfiguration.getRetryMultiple(),
+                                    rabbitConnectionConfiguration.getRetryMaxInterval())
                             .recoverer(messageRecoverer)
                             .build();
 
             // Configure Rabbit Listener Container Factory
-            factory.setAcknowledgeMode(rabbitConnectionConfiguration.auto_ack ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
+            factory.setAcknowledgeMode(rabbitConnectionConfiguration.isAutoAck() ? AcknowledgeMode.AUTO : AcknowledgeMode.MANUAL);
             factory.setAdviceChain(retryInterceptor);
             factory.setDefaultRequeueRejected(false);
             factory.setMessageConverter(converter);
-            factory.setConcurrentConsumers(rabbitConnectionConfiguration.concurrent_consumers);
-            factory.setMaxConcurrentConsumers(rabbitConnectionConfiguration.max_concurrent_consumers);
-            factory.setPrefetchCount(rabbitConnectionConfiguration.prefetch_count);
-            factory.setRecoveryInterval(rabbitConnectionConfiguration.network_recovery_interval);
+            factory.setConcurrentConsumers(rabbitConnectionConfiguration.getConcurrentConsumers());
+            factory.setMaxConcurrentConsumers(rabbitConnectionConfiguration.getMaxConcurrentConsumers());
+            factory.setPrefetchCount(rabbitConnectionConfiguration.getPrefetchCount());
+            factory.setRecoveryInterval(rabbitConnectionConfiguration.getNetworkRecoveryInterval());
             factory.setMissingQueuesFatal(false);
             return factory;
         });
 
         // Register Bean for Rabbit Listener Container Factory - Bean name taken from application properties
-        registry.registerBeanDefinition(rabbitConnectionConfiguration.rabbit_listener_container_factory_name, beanDefinition);
+        registry.registerBeanDefinition(rabbitConnectionConfiguration.getRabbitListenerContainerFactoryName(), beanDefinition);
     }
 }
