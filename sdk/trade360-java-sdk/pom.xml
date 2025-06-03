@@ -155,17 +155,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
-                <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${project.basedir}/../../test/java</additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <testSourceDirectory>${project.basedir}/../../test/java</testSourceDirectory>
-                </configuration>
-            </plugin>
             <!-- JaCoCo plugin for code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
