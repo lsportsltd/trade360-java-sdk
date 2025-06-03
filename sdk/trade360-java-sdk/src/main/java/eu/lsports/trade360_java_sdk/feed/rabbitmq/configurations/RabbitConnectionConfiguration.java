@@ -124,7 +124,7 @@ public class RabbitConnectionConfiguration {
     public int requestedHeartBeat = 30;
 
     // --- Added getters for use in handlers ---
-    public String getBase_customers_api() {
+    public String getBaseCustomersApi() {
         return base_customers_api;
     }
     public int getPackage_id() {
