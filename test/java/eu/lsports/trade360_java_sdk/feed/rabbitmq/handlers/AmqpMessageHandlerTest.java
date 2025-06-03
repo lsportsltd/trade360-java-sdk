@@ -32,7 +32,7 @@ class AmqpMessageHandlerTest {
     }
 
     @Test
-    void testProcess_ValidMessage_CallsEntityHandler() throws Exception {
+    void test_process_ValidMessage_CallsEntityHandler() throws Exception {
         int typeId = 1;
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\"}}";
         Message message = mock(Message.class);
