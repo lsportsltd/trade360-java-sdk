@@ -22,9 +22,6 @@ ENV CODACY_PROJECT_NAME=${SERVICE_NAME}
 ARG CODACY_COMMIT_ID
 ENV CODACY_COMMIT_ID=${CODACY_COMMIT_ID}
 
-# Set working directory to the Maven module
-WORKDIR /app/sdk/trade360-java-sdk
-
 # Run tests and generate JaCoCo XML report
 RUN mvn clean test jacoco:report
 
