@@ -67,7 +67,7 @@ class PackageDistributionHandlerTest {
     }
 
     @Test
-    void testProcess_StartDistributionNull_Throws() {
+    void testProcessStartDistributionNullThrows() {
         GetDistributionStatusResponse status = new GetDistributionStatusResponse();
         status.isDistributionOn = false;
         BaseResponse<GetDistributionStatusResponse> baseResponse = new BaseResponse<>();
