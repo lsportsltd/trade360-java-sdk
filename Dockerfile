@@ -8,7 +8,13 @@ WORKDIR /app
 COPY . .
 
 # Build the project
-RUN mvn package
+RUN mvn clean install -pl sdk/trade360-java-sdk -am
+
+# Generate JaCoCo report for the sdk module
+RUN mvn test jacoco:report -pl sdk/trade360-java-sdk
+
+# List the JaCoCo coverage directory for debugging
+RUN ls -l sdk/trade360-java-sdk/target/site/jacoco/
 
 # keep container running
 CMD ["tail", "-f", "/dev/null"]
