@@ -139,7 +139,7 @@ public class RabbitConnectionConfiguration {
 
     // --- Added setters for use in tests ---
     public void setName(String name) { this.name = name; }
-    public void setPackage_id(int package_id) { this.package_id = package_id; }
+    public void setPackageId(int package_id) { this.package_id = package_id; }
     public void setHost(String host) { this.host = host; }
     public void setPort(int port) { this.port = port; }
     public void setVirtualHost(String virtual_host) { this.virtual_host = virtual_host; }
