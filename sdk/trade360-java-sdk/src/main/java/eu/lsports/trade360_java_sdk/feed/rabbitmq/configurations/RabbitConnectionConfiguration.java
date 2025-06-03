@@ -143,7 +143,7 @@ public class RabbitConnectionConfiguration {
     public void setHost(String host) { this.host = host; }
     public void setPort(int port) { this.port = port; }
     public void setVirtualHost(String virtual_host) { this.virtual_host = virtual_host; }
-    public void setUser_name(String user_name) { this.user_name = user_name; }
+    public void setUserName(String user_name) { this.user_name = user_name; }
     public void setPassword(String password) { this.password = password; }
     public void setPrefetchCount(int prefetch_count) { this.prefetch_count = prefetch_count; }
     public void setAuto_ack(boolean auto_ack) { this.auto_ack = auto_ack; }
