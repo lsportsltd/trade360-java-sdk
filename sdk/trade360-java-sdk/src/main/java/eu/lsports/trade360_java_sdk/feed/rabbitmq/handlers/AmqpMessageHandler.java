@@ -10,6 +10,7 @@ import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedExcepti
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
 
+import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
@@ -68,10 +69,8 @@ public class AmqpMessageHandler implements MessageHandler {
     }
 
     private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
-        Map<String, Object> headerMap = (Map<String, Object>) map.get(headerPropertyName);
-        Object typeIdHeaderValueObj = headerMap.get(typeIdPropertyHeaderName);
-        String typeIdHeaderValue = (typeIdHeaderValueObj != null) ? typeIdHeaderValueObj.toString() : null;
+        val map = objectMapper.readValue(message.getBody(), Map.class);
+        val typeIdHeaderValue = ((Map) map.get(headerPropertyName)).get(typeIdPropertyHeaderName).toString();
 
         if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity, Due to: Wrong or lack of 'type' property in Rabbit message header.", typeIdHeaderValue));
@@ -80,14 +79,12 @@ public class AmqpMessageHandler implements MessageHandler {
     }
 
     private String getBodyFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
-        Object body = map.get(bodyPropertyName);
+        val body = objectMapper.readValue(message.getBody(), Map.class).get(bodyPropertyName);
         return objectMapper.writeValueAsString(body);
     }
 
     private Map<String, String> getHeaderFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        Map<String, Object> map = objectMapper.readValue(message.getBody(), HashMap.class);
-        Map<String, String> header = (Map<String, String>) map.get(headerPropertyName);
+        val header = (Map) objectMapper.readValue(message.getBody(), HashMap.class).get(headerPropertyName);
         return header;
     }
 
