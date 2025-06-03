@@ -15,113 +15,151 @@ public class RabbitConnectionConfiguration {
     /**
      * The name of the connection.
      */
-    public String name;
+    private String name;
 
     /**
      * The ID of the package.
      */
     @NotNull
-    public int package_id;
+    private int packageId;
 
     /**
      * The host of the RabbitMQ server.
      */
     @NotBlank
-    public String host = "localhost";
+    private String host = "localhost";
 
     /**
      * The port of the RabbitMQ server.
      */
     @NotNull
-    public int port = 5672;
+    private int port = 5672;
 
     /**
      * The virtual host to use.
      */
     @NotBlank
-    public String virtual_host = "/";
+    private String virtualHost = "/";
 
     /**
      * The username for authentication.
      */
     @NotBlank
-    public String user_name = "guest";
+    private String userName = "guest";
 
     /**
      * The password for authentication.
      */
     @NotBlank
-    public String password = "guest";
+    private String password = "guest";
 
     /**
      * The prefetch count for the connection.
      */
     @NotNull
-    public int prefetch_count;
+    private int prefetchCount;
 
     /**
      * Indicates whether automatic acknowledgment is enabled.
      */
     @NotNull
-    public boolean auto_ack = true;
+    private boolean autoAck = true;
 
     /**
      * The network recovery interval in milliseconds.
      */
     @NotNull
-    public long network_recovery_interval = 3000;
+    private long networkRecoveryInterval = 3000;
 
     /**
      * The base customer api url
      */
     @NotNull
-    public String base_customers_api;
+    private String baseCustomersApi;
 
     /**
      * The number of retry attempts.
      */
     @NotNull
-    public int retry_attempts = 3;
+    private int retryAttempts = 3;
 
     /**
      * The initial interval for retries in milliseconds.
      */
     @NotNull
-    public int retry_initial_interval = 1000;
+    private int retryInitialInterval = 1000;
 
     /**
      * The multiplier for the retry interval.
      */
     @NotNull
-    public double retry_multiple = 2;
+    private double retryMultiple = 2;
 
     /**
      * The maximum interval for retries in milliseconds.
      */
     @NotNull
-    public int retry_max_interval = 5000;
+    private int retryMaxInterval = 5000;
 
     /**
      * The number of concurrent consumers.
      */
     @NotNull
-    public int concurrent_consumers = 1;
+    private int concurrentConsumers = 1;
 
     /**
      * The maximum number of concurrent consumers.
      */
     @NotNull
-    public int max_concurrent_consumers = 20;
+    private int maxConcurrentConsumers = 20;
 
     /**
      * The name of the Rabbit listener container factory.
      */
     @NotBlank
-    public String rabbit_listener_container_factory_name;
+    private String rabbitListenerContainerFactoryName;
 
     /**
      * The requested heartbeat interval in seconds.
      */
     @NotNull
-    public int requestedHeartBeat = 30;
+    private int requestedHeartBeat = 30;
+
+    public String getBaseCustomersApi() { return baseCustomersApi; }
+    public int getPackageId() { return packageId; }
+    public String getUserName() { return userName; }
+    public String getPassword() { return password; }
+    public String getVirtualHost() { return virtualHost; }
+    public String getHost() { return host; }
+    public int getRequestedHeartBeat() { return requestedHeartBeat; }
+    public int getRetryAttempts() { return retryAttempts; }
+    public int getRetryInitialInterval() { return retryInitialInterval; }
+    public double getRetryMultiple() { return retryMultiple; }
+    public int getRetryMaxInterval() { return retryMaxInterval; }
+    public boolean isAutoAck() { return autoAck; }
+    public int getConcurrentConsumers() { return concurrentConsumers; }
+    public int getMaxConcurrentConsumers() { return maxConcurrentConsumers; }
+    public int getPrefetchCount() { return prefetchCount; }
+    public long getNetworkRecoveryInterval() { return networkRecoveryInterval; }
+    public String getRabbitListenerContainerFactoryName() { return rabbitListenerContainerFactoryName; }
+
+    public void setName(String name) { this.name = name; }
+    public void setPackageId(int packageId) { this.packageId = packageId; }
+    public void setHost(String host) { this.host = host; }
+    public void setPort(int port) { this.port = port; }
+    public void setVirtualHost(String virtualHost) { this.virtualHost = virtualHost; }
+    public void setUserName(String userName) { this.userName = userName; }
+    public void setPassword(String password) { this.password = password; }
+    public void setPrefetchCount(int prefetchCount) { this.prefetchCount = prefetchCount; }
+    public void setAutoAck(boolean autoAck) { this.autoAck = autoAck; }
+    public void setNetworkRecoveryInterval(long networkRecoveryInterval) { this.networkRecoveryInterval = networkRecoveryInterval; }
+    public void setRetryAttempts(int retryAttempts) { this.retryAttempts = retryAttempts; }
+    public void setRetryInitialInterval(int retryInitialInterval) { this.retryInitialInterval = retryInitialInterval; }
+    public void setRetryMultiple(double retryMultiple) { this.retryMultiple = retryMultiple; }
+    public void setRetryMaxInterval(int retryMaxInterval) { this.retryMaxInterval = retryMaxInterval; }
+    public void setBaseCustomersApi(String baseCustomersApi) { this.baseCustomersApi = baseCustomersApi; }
+    public void setConcurrentConsumers(int concurrentConsumers) { this.concurrentConsumers = concurrentConsumers; }
+    public void setMaxConcurrentConsumers(int maxConcurrentConsumers) { this.maxConcurrentConsumers = maxConcurrentConsumers; }
+    public void setRabbitListenerContainerFactoryName(String rabbitListenerContainerFactoryName) { this.rabbitListenerContainerFactoryName = rabbitListenerContainerFactoryName; }
+    public void setRequestedHeartBeat(int requestedHeartBeat) { this.requestedHeartBeat = requestedHeartBeat; }
 }
