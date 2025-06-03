@@ -62,8 +62,8 @@ A step-by-step series of instructions to set up your development environment.
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/yourusername/trade360sdk-feed-example.git
-    cd trade360sdk-feed-example
+    git clone https://github.com/lsportsltd/trade360-java-sdk.git
+    cd trade360-java-sdk/samples/trade360-samples
     ```
 
 2. **Restore dependencies:**
