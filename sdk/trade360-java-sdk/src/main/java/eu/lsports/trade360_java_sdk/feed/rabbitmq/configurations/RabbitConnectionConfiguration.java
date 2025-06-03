@@ -127,7 +127,7 @@ public class RabbitConnectionConfiguration {
     public String getBaseCustomersApi() {
         return base_customers_api;
     }
-    public int getPackage_id() {
+    public int getPackageId() {
         return package_id;
     }
     public String getUserName() {
