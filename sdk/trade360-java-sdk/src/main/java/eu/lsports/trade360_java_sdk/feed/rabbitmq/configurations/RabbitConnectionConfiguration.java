@@ -155,6 +155,6 @@ public class RabbitConnectionConfiguration {
     public void setRetry_max_interval(int retry_max_interval) { this.retry_max_interval = retry_max_interval; }
     public void setConcurrent_consumers(int concurrent_consumers) { this.concurrent_consumers = concurrent_consumers; }
     public void setMax_concurrent_consumers(int max_concurrent_consumers) { this.max_concurrent_consumers = max_concurrent_consumers; }
-    public void setRabbit_listener_container_factory_name(String rabbit_listener_container_factory_name) { this.rabbit_listener_container_factory_name = rabbit_listener_container_factory_name; }
+    public void setRabbitListenerContainerFactoryName(String rabbit_listener_container_factory_name) { this.rabbit_listener_container_factory_name = rabbit_listener_container_factory_name; }
     public void setRequestedHeartBeat(int requestedHeartBeat) { this.requestedHeartBeat = requestedHeartBeat; }
 }
