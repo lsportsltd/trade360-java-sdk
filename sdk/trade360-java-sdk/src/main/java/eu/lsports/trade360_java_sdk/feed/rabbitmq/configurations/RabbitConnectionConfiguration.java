@@ -130,7 +130,7 @@ public class RabbitConnectionConfiguration {
     public int getPackage_id() {
         return package_id;
     }
-    public String getUser_name() {
+    public String getUserName() {
         return user_name;
     }
     public String getPassword() {
