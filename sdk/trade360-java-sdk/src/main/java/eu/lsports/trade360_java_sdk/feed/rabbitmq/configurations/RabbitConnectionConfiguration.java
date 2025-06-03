@@ -145,7 +145,7 @@ public class RabbitConnectionConfiguration {
     public void setVirtualHost(String virtual_host) { this.virtual_host = virtual_host; }
     public void setUser_name(String user_name) { this.user_name = user_name; }
     public void setPassword(String password) { this.password = password; }
-    public void setPrefetch_count(int prefetch_count) { this.prefetch_count = prefetch_count; }
+    public void setPrefetchCount(int prefetch_count) { this.prefetch_count = prefetch_count; }
     public void setAuto_ack(boolean auto_ack) { this.auto_ack = auto_ack; }
     public void setNetwork_recovery_interval(long network_recovery_interval) { this.network_recovery_interval = network_recovery_interval; }
     public void setBase_customers_api(String base_customers_api) { this.base_customers_api = base_customers_api; }
