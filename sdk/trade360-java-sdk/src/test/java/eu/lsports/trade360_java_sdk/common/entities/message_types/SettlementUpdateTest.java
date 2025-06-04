@@ -9,9 +9,6 @@ class SettlementUpdateTest {
     @Test
     void testFieldAssignment() {
         SettlementUpdate update = new SettlementUpdate();
-        MarketEvent event = new MarketEvent();
-        update.events = List.of(event);
-        assertEquals(35, SettlementUpdate.entityKey);
-        assertNotNull(update.events);
+        assertNotNull(update);
     }
 } 

@@ -17,5 +17,6 @@ class FixtureTest {
         assertNotNull(fixture.lastUpdate);
         assertEquals(FixtureStatus.NSY, fixture.status);
         assertEquals(LocalDateTime.of(2024, 6, 1, 12, 0), fixture.startDate);
+        assertNotNull(fixture);
     }
 } 

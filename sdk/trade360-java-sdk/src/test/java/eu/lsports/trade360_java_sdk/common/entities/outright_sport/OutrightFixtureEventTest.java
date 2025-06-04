@@ -1,14 +1,12 @@
 package eu.lsports.trade360_java_sdk.common.entities.outright_sport;
 
-import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import org.junit.jupiter.api.Test;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-class OutrightScoreTest {
+class OutrightFixtureEventTest {
     @Test
     void testFieldAssignment() {
-        OutrightScore score = new OutrightScore();
-        assertNotNull(score);
+        OutrightFixtureEvent event = new OutrightFixtureEvent();
+        assertNotNull(event);
     }
 } 

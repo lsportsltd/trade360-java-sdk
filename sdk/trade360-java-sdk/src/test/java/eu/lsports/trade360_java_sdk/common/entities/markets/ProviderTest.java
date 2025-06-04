@@ -3,10 +3,10 @@ package eu.lsports.trade360_java_sdk.common.entities.markets;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class BetTest {
+class ProviderTest {
     @Test
     void testFieldAssignment() {
-        Bet bet = new Bet();
-        assertNotNull(bet);
+        Provider provider = new Provider();
+        assertNotNull(provider);
     }
 } 
