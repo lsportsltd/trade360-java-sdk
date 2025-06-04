@@ -23,5 +23,6 @@ class IncidentTest {
         assertEquals("A goal was scored.", incident.description);
         assertNotNull(incident.lastUpdate);
         assertEquals(LocalDateTime.of(2024, 1, 1, 0, 0), incident.creationDate);
+        assertNotNull(incident);
     }
 } 
