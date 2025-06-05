@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightFixtureTest {
     @Test
-    void testFieldAssignment() {
+    void testInstantiation() {
         OutrightFixture fixture = new OutrightFixture();
         assertNotNull(fixture);
     }

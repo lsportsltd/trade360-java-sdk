@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightScoreTest {
     @Test
-    void testFieldAssignment() {
+    void testInstantiation() {
         OutrightScore score = new OutrightScore();
         assertNotNull(score);
     }

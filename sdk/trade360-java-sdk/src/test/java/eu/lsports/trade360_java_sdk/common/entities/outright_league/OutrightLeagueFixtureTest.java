@@ -21,4 +21,10 @@ class OutrightLeagueFixtureTest {
         assertEquals(FixtureStatus.FINISHED, fixture.status);
         assertNotNull(fixture.extraData);
     }
+
+    @Test
+    void testInstantiation() {
+        OutrightLeagueFixture fixture = new OutrightLeagueFixture();
+        assertNotNull(fixture);
+    }
 } 

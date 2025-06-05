@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightScoreEventTest {
     @Test
-    void testFieldAssignment() {
+    void testInstantiation() {
         OutrightScoreEvent event = new OutrightScoreEvent();
         assertNotNull(event);
     }

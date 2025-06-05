@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightParticipantResultTest {
     @Test
-    void testFieldAssignment() {
+    void testInstantiation() {
         OutrightParticipantResult result = new OutrightParticipantResult();
         assertNotNull(result);
     }

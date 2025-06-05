@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightCompetitionTest {
     @Test
-    void testFieldAssignment() {
+    void testInstantiation() {
         OutrightCompetition competition = new OutrightCompetition();
         assertNotNull(competition);
     }
