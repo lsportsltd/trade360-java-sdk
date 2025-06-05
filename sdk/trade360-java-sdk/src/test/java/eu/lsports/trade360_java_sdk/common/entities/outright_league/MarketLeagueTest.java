@@ -20,4 +20,10 @@ class MarketLeagueTest {
         assertNotNull(league.bets);
         assertEquals("main", league.mainLine);
     }
+
+    @Test
+    void testInstantiation() {
+        MarketLeague league = new MarketLeague();
+        assertNotNull(league);
+    }
 } 

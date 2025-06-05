@@ -17,4 +17,10 @@ class OutrightLeagueCompetitionsTest {
         assertEquals(1, comp.type);
         assertNotNull(comp.events);
     }
+
+    @Test
+    void testInstantiation() {
+        OutrightLeagueCompetitions competitions = new OutrightLeagueCompetitions();
+        assertNotNull(competitions);
+    }
 } 

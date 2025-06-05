@@ -13,4 +13,10 @@ class OutrightLeagueFixtureEventTest {
         assertEquals(42, event.fixtureId);
         assertEquals(fixture, event.outrightLeague);
     }
+
+    @Test
+    void testInstantiation() {
+        OutrightLeagueFixtureEvent event = new OutrightLeagueFixtureEvent();
+        assertNotNull(event);
+    }
 } 

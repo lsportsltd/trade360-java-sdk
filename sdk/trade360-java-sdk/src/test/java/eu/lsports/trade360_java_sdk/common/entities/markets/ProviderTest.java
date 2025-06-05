@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProviderTest {
     @Test
-    void testFieldAssignment() {
+    void testInstantiation() {
         Provider provider = new Provider();
         assertNotNull(provider);
     }

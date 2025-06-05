@@ -25,4 +25,10 @@ class IncidentTest {
         assertEquals(LocalDateTime.of(2024, 1, 1, 0, 0), incident.creationDate);
         assertNotNull(incident);
     }
+
+    @Test
+    void testInstantiation() {
+        Incident incident = new Incident();
+        assertNotNull(incident);
+    }
 } 

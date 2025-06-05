@@ -60,4 +60,10 @@ public class RabbitConnectionConfigurationTest {
         assertFalse(violations.isEmpty());
         assertEquals(5, violations.size());
     }
+
+    @Test
+    void testInstantiation() {
+        RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        assertNotNull(config);
+    }
 }

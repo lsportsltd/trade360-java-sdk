@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightLeagueTest {
     @Test
-    void testFieldAssignment() {
+    void testInstantiation() {
         OutrightLeague league = new OutrightLeague();
         assertNotNull(league);
     }

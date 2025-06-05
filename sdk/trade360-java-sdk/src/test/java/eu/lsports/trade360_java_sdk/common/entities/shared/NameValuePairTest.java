@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NameValuePairTest {
     @Test
-    void testFieldAssignment() {
-        NameValuePair nvp = new NameValuePair();
-        assertNotNull(nvp);
+    void testInstantiation() {
+        NameValuePair pair = new NameValuePair();
+        assertNotNull(pair);
     }
 } 

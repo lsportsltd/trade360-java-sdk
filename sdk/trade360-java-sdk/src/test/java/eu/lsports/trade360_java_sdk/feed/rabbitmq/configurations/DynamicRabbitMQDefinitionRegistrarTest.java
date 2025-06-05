@@ -56,4 +56,5 @@ class DynamicRabbitMQDefinitionRegistrarTest {
             verify(registry, atLeastOnce()).registerBeanDefinition(eq("testFactory"), any());
         }
     }
+
 } 
