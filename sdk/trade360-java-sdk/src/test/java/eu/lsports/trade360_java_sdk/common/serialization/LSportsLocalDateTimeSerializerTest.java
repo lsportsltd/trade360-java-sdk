@@ -1,20 +1,31 @@
 package eu.lsports.trade360_java_sdk.common.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class LSportsLocalDateTimeSerializerTest {
     @Test
-    void testSerialize() throws IOException {
+    void serialize_LocalDateTimeToEpochMillis() throws IOException {
         LSportsLocalDateTimeSerializer serializer = new LSportsLocalDateTimeSerializer();
+        LocalDateTime dateTime = LocalDateTime.of(2024, 6, 1, 12, 0);
+        long expectedMillis = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli();
         JsonGenerator gen = mock(JsonGenerator.class);
-        LocalDateTime now = LocalDateTime.of(2024, 1, 2, 3, 4, 5);
-        serializer.serialize(now, gen, null);
-        verify(gen).writeNumber(anyLong());
+        SerializerProvider provider = mock(SerializerProvider.class);
+
+        serializer.serialize(dateTime, gen, provider);
+        verify(gen).writeNumber(expectedMillis);
+    }
+
+    @Test
+    void testHandledType() {
+        LSportsLocalDateTimeSerializer serializer = new LSportsLocalDateTimeSerializer();
+        assertEquals(LocalDateTime.class, serializer.handledType());
     }
 } 

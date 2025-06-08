@@ -19,6 +19,7 @@ import java.net.URI;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import java.lang.reflect.InvocationTargetException;
 
 class SpringBootApiRestClientErrorHandlingTest {
     
@@ -57,9 +58,12 @@ class SpringBootApiRestClientErrorHandlingTest {
         
         reactor.core.publisher.SynchronousSink<Object> sink = mock(reactor.core.publisher.SynchronousSink.class);
         
-        method.invoke(client, new TypeReference<BaseResponse<String>>() {}, null, sink);
-        
-        verify(sink).error(any(Trade360Exception.class));
+        InvocationTargetException ex = assertThrows(InvocationTargetException.class, () -> {
+            method.invoke(client, new TypeReference<BaseResponse<String>>() {}, null, sink);
+        });
+        Throwable cause = ex.getCause();
+        assertTrue(cause instanceof Trade360Exception);
+        assertTrue(cause.getMessage().contains("No correct response received"));
     }
     
     @Test
@@ -73,9 +77,12 @@ class SpringBootApiRestClientErrorHandlingTest {
         
         reactor.core.publisher.SynchronousSink<Object> sink = mock(reactor.core.publisher.SynchronousSink.class);
         
-        method.invoke(client, new TypeReference<BaseResponse<String>>() {}, response, sink);
-        
-        verify(sink).error(any(Trade360Exception.class));
+        InvocationTargetException ex = assertThrows(InvocationTargetException.class, () -> {
+            method.invoke(client, new TypeReference<BaseResponse<String>>() {}, response, sink);
+        });
+        Throwable cause = ex.getCause();
+        assertTrue(cause instanceof Trade360Exception);
+        assertTrue(cause.getMessage().contains("'Header' property is missing"));
     }
     
     @Test
@@ -90,9 +97,12 @@ class SpringBootApiRestClientErrorHandlingTest {
         
         reactor.core.publisher.SynchronousSink<Object> sink = mock(reactor.core.publisher.SynchronousSink.class);
         
-        method.invoke(client, new TypeReference<BaseResponse<String>>() {}, response, sink);
-        
-        verify(sink).error(any(Trade360Exception.class));
+        InvocationTargetException ex = assertThrows(InvocationTargetException.class, () -> {
+            method.invoke(client, new TypeReference<BaseResponse<String>>() {}, response, sink);
+        });
+        Throwable cause = ex.getCause();
+        assertTrue(cause instanceof Trade360Exception);
+        assertTrue(cause.getMessage().contains("'Body' property is missing"));
     }
     
     @Test

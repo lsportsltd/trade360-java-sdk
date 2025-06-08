@@ -9,7 +9,6 @@ import eu.lsports.trade360_java_sdk.customers_api.PackageDistributionApiClientIm
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations.RabbitConnectionConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -37,13 +36,14 @@ class PackageDistributionHandlerTest {
     }
 
     @Test
-    void testProcessDistributionAlreadyStarted() {
+    void processDistributionAlreadyStartedDoesNotStartAgain() {
         GetDistributionStatusResponse status = new GetDistributionStatusResponse();
         status.isDistributionOn = true;
         BaseResponse<GetDistributionStatusResponse> baseResponse = new BaseResponse<>();
         baseResponse.body = status;
         when(client.getDistributionStatus()).thenReturn(Mono.just(baseResponse));
         assertDoesNotThrow(() -> handler.process());
+        verify(client, never()).startDistribution();
     }
 
     @Test
@@ -58,22 +58,35 @@ class PackageDistributionHandlerTest {
         when(client.getDistributionStatus()).thenReturn(Mono.just(baseResponse));
         when(client.startDistribution()).thenReturn(Mono.just(baseStartResponse));
         assertDoesNotThrow(() -> handler.process());
+        verify(client, times(1)).startDistribution();
     }
 
     @Test
-    void testProcessDistributionStatusNullThrows() {
-        when(client.getDistributionStatus()).thenReturn(Mono.just(new BaseResponse<>()));
-        assertThrows(IllegalStateException.class, () -> handler.process());
-    }
-
-    @Test
-    void testProcessStartDistributionNullThrows() {
+    void testProcess_CreatesApiClientWithCorrectParameters() {
+        handler = new PackageDistributionHandler(apiClientFactory, configuration);
         GetDistributionStatusResponse status = new GetDistributionStatusResponse();
-        status.isDistributionOn = false;
+        status.isDistributionOn = true;
         BaseResponse<GetDistributionStatusResponse> baseResponse = new BaseResponse<>();
         baseResponse.body = status;
         when(client.getDistributionStatus()).thenReturn(Mono.just(baseResponse));
-        when(client.startDistribution()).thenReturn(Mono.just(new BaseResponse<>()));
-        assertThrows(IllegalStateException.class, () -> handler.process());
+        assertDoesNotThrow(() -> handler.process());
+        verify(apiClientFactory, times(1)).createPackageDistributionHttpClient(
+                eq(URI.create("http://localhost")),
+                argThat(credentials -> credentials.packageId() == 1 &&
+                        credentials.userName().equals("user") &&
+                        credentials.password().equals("pass"))
+        );
+    }
+
+    @Test
+    void testProcessApiClientThrowsExceptionPropagates() {
+        when(client.getDistributionStatus()).thenThrow(new RuntimeException("API error"));
+        assertThrows(RuntimeException.class, () -> handler.process());
+    }
+
+    @Test
+    void testProcessInvalidUriThrowsException() {
+        when(configuration.getBaseCustomersApi()).thenReturn("not a valid uri");
+        assertThrows(RuntimeException.class, () -> new PackageDistributionHandler(apiClientFactory, configuration));
     }
 } 

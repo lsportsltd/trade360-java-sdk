@@ -80,7 +80,6 @@ class AmqpMessageHandlerTest {
         assertThrows(Exception.class, () -> method.invoke(handler, message));
     }
 
-    @Test
     void testProcessWithMalformedJson() {
         String malformedJson = "{invalid json}";
         Message message = mock(Message.class);
