@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 class LSportsLocalDateTimeSerializerTest {
     @Test
-    void testSerialize_LocalDateTimeToEpochMillis() throws IOException {
+    void serialize_LocalDateTimeToEpochMillis() throws IOException {
         LSportsLocalDateTimeSerializer serializer = new LSportsLocalDateTimeSerializer();
         LocalDateTime dateTime = LocalDateTime.of(2024, 6, 1, 12, 0);
         long expectedMillis = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli();
