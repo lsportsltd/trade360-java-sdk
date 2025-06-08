@@ -167,7 +167,7 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    void testSerializeRequest_NullRequest() {
+    void testSerializeRequestNullRequest() {
         ObjectNode node = serializer.serializeRequest(null);
         assertEquals(123, node.get("PackageId").asInt());
         assertEquals("user", node.get("UserName").asText());
