@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 
 import java.net.URI;
+import java.lang.reflect.InvocationTargetException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -57,9 +58,12 @@ class SpringBootApiRestClientErrorHandlingTest {
         
         reactor.core.publisher.SynchronousSink<Object> sink = mock(reactor.core.publisher.SynchronousSink.class);
         
-        method.invoke(client, new TypeReference<BaseResponse<String>>() {}, null, sink);
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> 
+            method.invoke(client, new TypeReference<BaseResponse<String>>() {}, null, sink));
         
-        verify(sink).error(any(Trade360Exception.class));
+        assertTrue(exception.getCause() instanceof Trade360Exception);
+        assertEquals("No correct response received. Ensure that correct Trade360 URL is configured.", 
+            exception.getCause().getMessage());
     }
     
     @Test
@@ -73,9 +77,12 @@ class SpringBootApiRestClientErrorHandlingTest {
         
         reactor.core.publisher.SynchronousSink<Object> sink = mock(reactor.core.publisher.SynchronousSink.class);
         
-        method.invoke(client, new TypeReference<BaseResponse<String>>() {}, response, sink);
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> 
+            method.invoke(client, new TypeReference<BaseResponse<String>>() {}, response, sink));
         
-        verify(sink).error(any(Trade360Exception.class));
+        assertTrue(exception.getCause() instanceof Trade360Exception);
+        assertEquals("'Header' property is missing. Please, ensure that you use the correct URL.", 
+            exception.getCause().getMessage());
     }
     
     @Test
@@ -90,9 +97,12 @@ class SpringBootApiRestClientErrorHandlingTest {
         
         reactor.core.publisher.SynchronousSink<Object> sink = mock(reactor.core.publisher.SynchronousSink.class);
         
-        method.invoke(client, new TypeReference<BaseResponse<String>>() {}, response, sink);
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> 
+            method.invoke(client, new TypeReference<BaseResponse<String>>() {}, response, sink));
         
-        verify(sink).error(any(Trade360Exception.class));
+        assertTrue(exception.getCause() instanceof Trade360Exception);
+        assertEquals("'Body' property is missing. Please, ensure that you use the correct URL.", 
+            exception.getCause().getMessage());
     }
     
     @Test
