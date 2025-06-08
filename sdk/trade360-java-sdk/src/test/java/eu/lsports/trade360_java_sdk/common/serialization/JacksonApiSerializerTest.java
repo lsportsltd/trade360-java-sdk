@@ -10,17 +10,28 @@ import eu.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import org.junit.Test;
 import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.junit.jupiter.api.BeforeEach;
+import static org.mockito.Mockito.*;
 
 public class JacksonApiSerializerTest {
-    private final PackageCredentials packageCredentials = new PackageCredentials(
-        1234,
-        "testUser",
-        "testPassword");
+    private PackageCredentials credentials;
+    private JacksonApiSerializer serializer;
+
+    @BeforeEach
+    void setUp() {
+        credentials = mock(PackageCredentials.class);
+        when(credentials.packageId()).thenReturn(123);
+        when(credentials.userName()).thenReturn("user");
+        when(credentials.password()).thenReturn("pass");
+        when(credentials.messageFormat()).thenReturn("json");
+        serializer = new JacksonApiSerializer(credentials);
+    }
 
     @Test
     public void serializeRequest_whenEmptyRequestProvided_appendsCredentialsToFinalJson() {
         // Arrange
-        var serializer = new JacksonApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
             null,
             null,
@@ -38,15 +49,26 @@ public class JacksonApiSerializerTest {
 
         // Assert
         assertEquals(
-            "{\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\",\"MessageFormat\":\"json\"}",
-            result.toString()
+            123,
+            result.get("PackageId").asInt()
+        );
+        assertEquals(
+            "user",
+            result.get("UserName").asText()
+        );
+        assertEquals(
+            "pass",
+            result.get("Password").asText()
+        );
+        assertEquals(
+            "json",
+            result.get("MessageFormat").asText()
         );
     }
 
     @Test
     public void serializeRequest_whenNonEmptyRequestProvided_appendsCredentialsToFinalJson() {
         // Arrange
-        var serializer = new JacksonApiSerializer(this.packageCredentials);
         var request = new GetSnapshotRequest(
             LocalDateTime.of(2024, 8, 5, 0, 0),
             LocalDateTime.of(2024, 8, 1, 0, 0),
@@ -64,15 +86,61 @@ public class JacksonApiSerializerTest {
 
         // Assert
         assertEquals(
-            "{\"Timestamp\":1722816000000,\"FromDate\":1722470400000,\"ToDate\":1722988800000,\"Sports\":[1,2,3],\"Locations\":[4,5,6],\"Leagues\":[7,8,9],\"Tournaments\":[10,11,12],\"Fixtures\":[13,14,15],\"Markets\":[16,17,18],\"PackageId\":1234,\"UserName\":\"testUser\",\"Password\":\"testPassword\",\"MessageFormat\":\"json\"}",
-            result.toString()
+            123,
+            result.get("PackageId").asInt()
+        );
+        assertEquals(
+            "user",
+            result.get("UserName").asText()
+        );
+        assertEquals(
+            "pass",
+            result.get("Password").asText()
+        );
+        assertEquals(
+            "json",
+            result.get("MessageFormat").asText()
+        );
+        assertEquals(
+            1722816000000L,
+            result.get("Timestamp").asLong()
+        );
+        assertEquals(
+            1722470400000L,
+            result.get("FromDate").asLong()
+        );
+        assertEquals(
+            1722988800000L,
+            result.get("ToDate").asLong()
+        );
+        assertEquals(
+            "[1,2,3]",
+            result.get("Sports").toString()
+        );
+        assertEquals(
+            "[4,5,6]",
+            result.get("Locations").toString()
+        );
+        assertEquals(
+            "[7,8,9]",
+            result.get("Leagues").toString()
+        );
+        assertEquals(
+            "[10,11,12]",
+            result.get("Tournaments").toString()
+        );
+        assertEquals(
+            "[13,14,15]",
+            result.get("Fixtures").toString()
+        );
+        assertEquals(
+            "[16,17,18]",
+            result.get("Markets").toString()
         );
     }
 
     @Test
     void testSerializeAndDeserialize() throws Exception {
-        PackageCredentials creds = new PackageCredentials(1, "user", "pass");
-        JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
         SimplePojo pojo = new SimplePojo("hello", 42);
         String json = serializer.serializeToString(pojo);
         assertTrue(json.contains("hello"));
@@ -81,10 +149,41 @@ public class JacksonApiSerializerTest {
         assertEquals(42, node.get("bar").asInt());
     }
 
+    @Test
+    void testSerializeRequest_WithCredentials() {
+        ObjectNode node = serializer.serializeRequest(new DummyRequest("foo"));
+        assertEquals(123, node.get("PackageId").asInt());
+        assertEquals("user", node.get("UserName").asText());
+        assertEquals("pass", node.get("Password").asText());
+        assertEquals("json", node.get("MessageFormat").asText());
+        assertEquals("foo", node.get("value").asText());
+    }
+
+    @Test
+    void testSerializeToString_Valid() throws JsonProcessingException {
+        DummyRequest req = new DummyRequest("bar");
+        String json = serializer.serializeToString(req);
+        assertTrue(json.contains("bar"));
+    }
+
+    @Test
+    void testSerializeRequest_NullRequest() {
+        ObjectNode node = serializer.serializeRequest(null);
+        assertEquals(123, node.get("PackageId").asInt());
+        assertEquals("user", node.get("UserName").asText());
+        assertEquals("pass", node.get("Password").asText());
+        assertEquals("json", node.get("MessageFormat").asText());
+    }
+
     static class SimplePojo {
         public String foo;
         public int bar;
         public SimplePojo() {}
         public SimplePojo(String foo, int bar) { this.foo = foo; this.bar = bar; }
+    }
+
+    static class DummyRequest {
+        public String value;
+        DummyRequest(String value) { this.value = value; }
     }
 }

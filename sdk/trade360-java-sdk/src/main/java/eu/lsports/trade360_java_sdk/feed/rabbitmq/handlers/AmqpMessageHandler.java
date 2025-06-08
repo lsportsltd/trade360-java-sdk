@@ -67,31 +67,46 @@ public class AmqpMessageHandler implements MessageHandler {
             return Class.forName(messageTypeClassPath + className);
     }
 
-    private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
-        Map<String, Object> headerMap = (Map<String, Object>) map.get(headerPropertyName);
-        Object typeIdHeaderValueObj = headerMap.get(typeIdPropertyHeaderName);
-        String typeIdHeaderValue = (typeIdHeaderValueObj != null) ? typeIdHeaderValueObj.toString() : null;
+    private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
+            Map<String, Object> headerMap = (Map<String, Object>) map.get(headerPropertyName);
+            Object typeIdHeaderValueObj = headerMap.get(typeIdPropertyHeaderName);
+            String typeIdHeaderValue = (typeIdHeaderValueObj != null) ? typeIdHeaderValueObj.toString() : null;
 
-        if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
-            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity, Due to: Wrong or lack of 'type' property in Rabbit message header.", typeIdHeaderValue));
-        else
-            return Integer.parseInt(typeIdHeaderValue);
+            if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
+                throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity, Due to: Wrong or lack of 'type' property in Rabbit message header.", typeIdHeaderValue));
+            else
+                return Integer.parseInt(typeIdHeaderValue);
+        } catch (Exception ex) {
+            throw new RabbitMQFeedException("Failed to parse typeId from message.", ex);
+        }
     }
 
-    private String getBodyFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
-        Object body = map.get(bodyPropertyName);
-        return objectMapper.writeValueAsString(body);
+    private String getBodyFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
+            if (!map.containsKey(bodyPropertyName) || map.get(bodyPropertyName) == null) {
+                throw new RabbitMQFeedException("Message body is missing or null.");
+            }
+            Object body = map.get(bodyPropertyName);
+            return objectMapper.writeValueAsString(body);
+        } catch (Exception ex) {
+            throw new RabbitMQFeedException("Failed to parse body from message.", ex);
+        }
     }
 
-    private Map<String, String> getHeaderFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> map = objectMapper.readValue(message.getBody(), HashMap.class);
-        Map<String, String> header = (Map<String, String>) map.get(headerPropertyName);
-        return header;
+    private Map<String, String> getHeaderFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> map = objectMapper.readValue(message.getBody(), HashMap.class);
+            Map<String, String> header = (Map<String, String>) map.get(headerPropertyName);
+            return header;
+        } catch (Exception ex) {
+            throw new RabbitMQFeedException("Failed to parse header from message.", ex);
+        }
     }
 
     private Object parseMessage(final String json, final Class<?> clazz) throws Exception {

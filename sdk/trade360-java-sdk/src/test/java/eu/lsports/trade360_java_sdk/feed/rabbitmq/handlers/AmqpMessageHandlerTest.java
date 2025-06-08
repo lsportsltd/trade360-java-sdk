@@ -79,4 +79,58 @@ class AmqpMessageHandlerTest {
         method.setAccessible(true);
         assertThrows(Exception.class, () -> method.invoke(handler, message));
     }
+
+    @Test
+    void test_process_InvalidJson_ThrowsRabbitMQFeedException() throws Exception {
+        int typeId = 1;
+        String bodyJson = "{invalid json}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
+        try (var mt = Mockito.mockStatic(MessageType.class)) {
+            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
+            assertThrows(RabbitMQFeedException.class, () -> handler.process(message));
+        }
+    }
+
+    @Test
+    void test_process_MissingBody_ThrowsException() throws Exception {
+        int typeId = 1;
+        String bodyJson = "{\"Header\":{\"Type\":\"1\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
+        try (var mt = Mockito.mockStatic(MessageType.class)) {
+            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
+            assertThrows(Exception.class, () -> handler.process(message));
+        }
+    }
+
+    @Test
+    void test_process_MissingHeader_ThrowsException() throws Exception {
+        int typeId = 1;
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
+        try (var mt = Mockito.mockStatic(MessageType.class)) {
+            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
+            assertThrows(Exception.class, () -> handler.process(message));
+        }
+    }
+
+    @Test
+    void test_process_CorrectArgumentsPassedToHandler() throws Exception {
+        int typeId = 1;
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\",\"Custom\":\"value\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
+        try (var mt = Mockito.mockStatic(MessageType.class)) {
+            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
+            doNothing().when(entityHandler).process(any(), any());
+            handler.process(message);
+            verify(entityHandler, times(1)).process(any(), argThat(header -> ((Map<?, ?>)header).get("Custom").equals("value")));
+        }
+    }
 } 
