@@ -85,7 +85,7 @@ class PackageDistributionHandlerTest {
     }
 
     @Test
-    void testProcess_InvalidUri_ThrowsException() {
+    void testProcessInvalidUriThrowsException() {
         when(configuration.getBaseCustomersApi()).thenReturn("not a valid uri");
         assertThrows(RuntimeException.class, () -> new PackageDistributionHandler(apiClientFactory, configuration));
     }
