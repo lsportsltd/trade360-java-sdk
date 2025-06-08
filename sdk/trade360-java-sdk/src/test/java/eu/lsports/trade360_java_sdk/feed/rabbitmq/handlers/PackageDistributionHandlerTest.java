@@ -36,7 +36,7 @@ class PackageDistributionHandlerTest {
     }
 
     @Test
-    void testProcess_DistributionAlreadyStarted_DoesNotStartAgain() {
+    void processDistributionAlreadyStartedDoesNotStartAgain() {
         GetDistributionStatusResponse status = new GetDistributionStatusResponse();
         status.isDistributionOn = true;
         BaseResponse<GetDistributionStatusResponse> baseResponse = new BaseResponse<>();
