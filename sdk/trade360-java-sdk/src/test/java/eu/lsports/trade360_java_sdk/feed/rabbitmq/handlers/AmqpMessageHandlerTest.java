@@ -79,4 +79,88 @@ class AmqpMessageHandlerTest {
         method.setAccessible(true);
         assertThrows(Exception.class, () -> method.invoke(handler, message));
     }
-} 
+
+    @Test
+    void testProcessWithMalformedJson() {
+        String malformedJson = "{invalid json}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(malformedJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testProcessWithMissingBodyProperty() {
+        String bodyJson = "{\"Header\":{\"Type\":\"1\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testProcessWithMissingHeaderProperty() {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testProcessWithNullTypeInHeader() {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":null}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testProcessWithEmptyTypeInHeader() {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testProcessWithInvalidTypeFormat() {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"invalid\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testGetBodyFromMessage() throws Exception {
+        String bodyJson = "{\"Body\":{\"testField\":\"testValue\"},\"Header\":{\"Type\":\"1\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        var method = handler.getClass().getDeclaredMethod("getBodyFromMessage", Message.class);
+        method.setAccessible(true);
+        String result = (String) method.invoke(handler, message);
+        
+        assertNotNull(result);
+        assertTrue(result.contains("testField"));
+        assertTrue(result.contains("testValue"));
+    }
+
+    @Test
+    void testGetHeaderFromMessage() throws Exception {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\",\"CustomHeader\":\"value\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        var method = handler.getClass().getDeclaredMethod("getHeaderFromMessage", Message.class);
+        method.setAccessible(true);
+        Map<String, String> result = (Map<String, String>) method.invoke(handler, message);
+        
+        assertNotNull(result);
+        assertEquals("1", result.get("Type"));
+        assertEquals("value", result.get("CustomHeader"));
+    }
+}  
