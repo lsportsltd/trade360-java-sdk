@@ -150,7 +150,7 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    void testSerializeRequest_WithCredentials() {
+    void testSerializeRequestWithCredentials() {
         ObjectNode node = serializer.serializeRequest(new DummyRequest("foo"));
         assertEquals(123, node.get("PackageId").asInt());
         assertEquals("user", node.get("UserName").asText());
