@@ -17,4 +17,12 @@ class DangerIndicatorTest {
         assertEquals(DangerIndicatorStatus.SAFE, indicator.status);
         assertEquals(LocalDateTime.of(2024, 6, 1, 12, 0), indicator.lastUpdate);
     }
+
+    @Test
+    void testFieldAssignmentAndNullability() {
+        DangerIndicator indicator = new DangerIndicator();
+        assertNull(indicator.type);
+        assertNull(indicator.status);
+        assertNull(indicator.lastUpdate);
+    }
 } 

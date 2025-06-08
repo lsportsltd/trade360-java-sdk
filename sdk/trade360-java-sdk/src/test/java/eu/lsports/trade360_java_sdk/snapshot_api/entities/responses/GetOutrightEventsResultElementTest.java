@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Collections;
 
-class OutrightLeagueMarketsCompetitionTest {
+class GetOutrightEventsResultElementTest {
     @Test
     void testConstructorAndFields() {
-        OutrightLeagueMarketsCompetition element = new OutrightLeagueMarketsCompetition();
+        GetOutrightEventsResultElement element = new GetOutrightEventsResultElement();
         element.id = 1;
-        element.name = "competition";
+        element.name = "event";
         element.type = 2;
         element.events = Collections.emptyList();
         assertEquals(1, element.id);
-        assertEquals("competition", element.name);
+        assertEquals("event", element.name);
         assertEquals(2, element.type);
         assertNotNull(element.events);
     }

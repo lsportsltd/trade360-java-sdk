@@ -5,8 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MarketEventTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         MarketEvent event = new MarketEvent();
-        assertNotNull(event);
+        assertEquals(0, event.fixtureId);
+        assertNull(event.markets);
+
+        event.fixtureId = 42;
+        event.markets = null;
+        assertEquals(42, event.fixtureId);
+        assertNull(event.markets);
     }
 } 

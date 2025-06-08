@@ -22,4 +22,14 @@ class ScoreboardTest {
         assertEquals("90:00", scoreboard.time);
         assertNotNull(scoreboard.results);
     }
+
+    @Test
+    void testFieldAssignmentAndNullability() {
+        Scoreboard scoreboard = new Scoreboard();
+        assertNull(scoreboard.status);
+        assertNull(scoreboard.description);
+        assertEquals(0, scoreboard.currentPeriod);
+        assertNull(scoreboard.time);
+        assertNull(scoreboard.results);
+    }
 } 

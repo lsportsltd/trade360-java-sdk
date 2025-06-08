@@ -5,8 +5,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LocationTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         Location location = new Location();
-        assertNotNull(location);
+        assertEquals(0, location.id);
+        assertNull(location.name);
+
+        location.id = 5;
+        location.name = "London";
+
+        assertEquals(5, location.id);
+        assertEquals("London", location.name);
     }
 } 

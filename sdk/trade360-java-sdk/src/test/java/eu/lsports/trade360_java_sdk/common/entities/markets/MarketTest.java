@@ -118,4 +118,25 @@ class MarketTest {
         assertEquals(1, ((List<Bet>) market.bets).size());
         assertEquals(1, ((List<ProviderMarket>) market.providerMarkets).size());
     }
+
+    @Test
+    void testFieldAssignmentAndNullability() {
+        assertEquals(0, market.id);
+        assertNull(market.name);
+        assertNull(market.bets);
+        assertNull(market.providerMarkets);
+        assertNull(market.mainLine);
+
+        market.id = 1;
+        market.name = "MarketName";
+        market.bets = null;
+        market.providerMarkets = null;
+        market.mainLine = "MainLine";
+
+        assertEquals(1, market.id);
+        assertEquals("MarketName", market.name);
+        assertNull(market.bets);
+        assertNull(market.providerMarkets);
+        assertEquals("MainLine", market.mainLine);
+    }
 }   

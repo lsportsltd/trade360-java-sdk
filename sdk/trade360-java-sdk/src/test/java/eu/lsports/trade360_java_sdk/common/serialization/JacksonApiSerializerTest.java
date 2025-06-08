@@ -14,14 +14,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.BeforeEach;
 import static org.mockito.Mockito.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 public class JacksonApiSerializerTest {
-    private PackageCredentials credentials;
     private JacksonApiSerializer serializer;
 
     @BeforeEach
     void setUp() {
-        credentials = mock(PackageCredentials.class);
+        PackageCredentials credentials = mock(PackageCredentials.class);
         when(credentials.packageId()).thenReturn(123);
         when(credentials.userName()).thenReturn("user");
         when(credentials.password()).thenReturn("pass");
@@ -30,7 +30,7 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    public void serializeRequest_whenEmptyRequestProvided_appendsCredentialsToFinalJson() {
+    public void serializeRequestWithEmptyRequestAppendsCredentialsToFinalJson() {
         // Arrange
         var request = new GetSnapshotRequest(
             null,
@@ -67,7 +67,7 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    public void serializeRequest_whenNonEmptyRequestProvided_appendsCredentialsToFinalJson() {
+    public void serializeRequestWithNonEmptyRequestAppendsCredentialsToFinalJson() {
         // Arrange
         var request = new GetSnapshotRequest(
             LocalDateTime.of(2024, 8, 5, 0, 0),
@@ -160,7 +160,7 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    void testSerializeToString_Valid() throws JsonProcessingException {
+    void serializeToStringValid() throws JsonProcessingException {
         DummyRequest req = new DummyRequest("bar");
         String json = serializer.serializeToString(req);
         assertTrue(json.contains("bar"));
@@ -175,6 +175,39 @@ public class JacksonApiSerializerTest {
         assertEquals("json", node.get("MessageFormat").asText());
     }
 
+    @Test
+    void testSerializeRequestWithoutCredentials() {
+        JacksonApiSerializer serializer = new JacksonApiSerializer(null);
+        SimpleDto dto = new SimpleDto(42, "foo");
+        ObjectNode node = serializer.serializeRequest(dto);
+        assertEquals(42, node.get("Id").asInt());
+        assertEquals("foo", node.get("Name").asText());
+        assertNull(node.get("PackageId"));
+    }
+
+    @Test
+    void testSerializeToStringAndDeserializeToTree() throws JsonProcessingException {
+        PackageCredentials creds = new PackageCredentials(1, "user", "pass");
+        JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
+        SimpleDto dto = new SimpleDto(7, "bar");
+        String json = serializer.serializeToString(dto);
+        assertTrue(json.contains("\"Id\":7"));
+        assertTrue(json.contains("\"Name\":\"bar\""));
+        JsonNode node = serializer.deserializeToTree(json);
+        assertEquals(7, node.get("Id").asInt());
+        assertEquals("bar", node.get("Name").asText());
+    }
+
+    @Test
+    void testConvertValue() {
+        PackageCredentials creds = new PackageCredentials(1, "user", "pass");
+        JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
+        SimpleDto dto = new SimpleDto(99, "baz");
+        SimpleDto result = serializer.convertValue(dto, new TypeReference<SimpleDto>(){});
+        assertEquals(99, result.id);
+        assertEquals("baz", result.name);
+    }
+
     static class SimplePojo {
         public String foo;
         public int bar;
@@ -185,5 +218,12 @@ public class JacksonApiSerializerTest {
     static class DummyRequest {
         public String value;
         DummyRequest(String value) { this.value = value; }
+    }
+
+    static class SimpleDto {
+        public int id;
+        public String name;
+        public SimpleDto() {}
+        public SimpleDto(int id, String name) { this.id = id; this.name = name; }
     }
 }

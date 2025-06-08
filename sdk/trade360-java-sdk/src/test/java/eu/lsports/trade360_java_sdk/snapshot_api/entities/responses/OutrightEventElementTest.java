@@ -4,13 +4,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Collections;
 
-class OutrightFixtureMarketsElementTest {
+class OutrightEventElementTest {
     @Test
     void testConstructorAndFields() {
-        OutrightFixtureMarketsElement element = new OutrightFixtureMarketsElement();
+        OutrightEventElement element = new OutrightEventElement();
         element.fixtureId = 1;
+        element.outrightFixture = null;
+        element.outrightScore = null;
         element.markets = Collections.emptyList();
         assertEquals(1, element.fixtureId);
+        assertNull(element.outrightFixture);
+        assertNull(element.outrightScore);
         assertNotNull(element.markets);
     }
 } 

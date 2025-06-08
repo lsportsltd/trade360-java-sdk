@@ -6,7 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class OutrightScoreEventElementTest {
     @Test
     void testConstructorAndFields() {
-        OutrightScoreEventElement obj = new OutrightScoreEventElement();
-        assertNotNull(obj);
+        OutrightScoreEventElement element = new OutrightScoreEventElement();
+        element.fixtureId = 1;
+        element.outrightScore = null;
+        assertEquals(1, element.fixtureId);
+        assertNull(element.outrightScore);
     }
 } 

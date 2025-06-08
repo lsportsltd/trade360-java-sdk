@@ -5,8 +5,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LeagueTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         League league = new League();
-        assertNotNull(league);
+        assertEquals(0, league.id);
+        assertNull(league.name);
+
+        league.id = 7;
+        league.name = "Premier League";
+
+        assertEquals(7, league.id);
+        assertEquals("Premier League", league.name);
     }
 } 

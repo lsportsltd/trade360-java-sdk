@@ -28,4 +28,15 @@ class LivescoreTest {
         assertNotNull(livescore.currentIncident);
         assertNotNull(livescore.dangerTriggers);
     }
+
+    @Test
+    void testFieldAssignmentAndNullability() {
+        Livescore livescore = new Livescore();
+        assertNull(livescore.scoreboard);
+        assertNull(livescore.periods);
+        assertNull(livescore.statistics);
+        assertNull(livescore.livescoreExtraData);
+        assertNull(livescore.currentIncident);
+        assertNull(livescore.dangerTriggers);
+    }
 } 
