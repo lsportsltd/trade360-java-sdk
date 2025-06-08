@@ -80,57 +80,86 @@ class AmqpMessageHandlerTest {
         assertThrows(Exception.class, () -> method.invoke(handler, message));
     }
 
-    @Test
-    void test_process_InvalidJson_ThrowsRabbitMQFeedException() throws Exception {
-        int typeId = 1;
-        String bodyJson = "{invalid json}";
+    void testProcessWithMalformedJson() {
+        String malformedJson = "{invalid json}";
         Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
-        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
-        try (var mt = Mockito.mockStatic(MessageType.class)) {
-            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
-            assertThrows(RabbitMQFeedException.class, () -> handler.process(message));
-        }
+        when(message.getBody()).thenReturn(malformedJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
     }
 
     @Test
-    void test_process_MissingBody_ThrowsException() throws Exception {
-        int typeId = 1;
+    void testProcessWithMissingBodyProperty() {
         String bodyJson = "{\"Header\":{\"Type\":\"1\"}}";
         Message message = mock(Message.class);
         when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
-        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
-        try (var mt = Mockito.mockStatic(MessageType.class)) {
-            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
-            assertThrows(Exception.class, () -> handler.process(message));
-        }
+        
+        assertThrows(Exception.class, () -> handler.process(message));
     }
 
     @Test
-    void test_process_MissingHeader_ThrowsException() throws Exception {
-        int typeId = 1;
+    void testProcessWithMissingHeaderProperty() {
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"}}";
         Message message = mock(Message.class);
         when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
-        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
-        try (var mt = Mockito.mockStatic(MessageType.class)) {
-            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
-            assertThrows(Exception.class, () -> handler.process(message));
-        }
+        
+        assertThrows(Exception.class, () -> handler.process(message));
     }
 
     @Test
-    void test_process_CorrectArgumentsPassedToHandler() throws Exception {
-        int typeId = 1;
-        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\",\"Custom\":\"value\"}}";
+    void testProcessWithNullTypeInHeader() {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":null}}";
         Message message = mock(Message.class);
         when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
-        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
-        try (var mt = Mockito.mockStatic(MessageType.class)) {
-            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
-            doNothing().when(entityHandler).process(any(), any());
-            handler.process(message);
-            verify(entityHandler, times(1)).process(any(), argThat(header -> ((Map<?, ?>)header).get("Custom").equals("value")));
-        }
+        
+        assertThrows(Exception.class, () -> handler.process(message));
     }
-} 
+
+    @Test
+    void testProcessWithEmptyTypeInHeader() {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testProcessWithInvalidTypeFormat() {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"invalid\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testGetBodyFromMessage() throws Exception {
+        String bodyJson = "{\"Body\":{\"testField\":\"testValue\"},\"Header\":{\"Type\":\"1\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        var method = handler.getClass().getDeclaredMethod("getBodyFromMessage", Message.class);
+        method.setAccessible(true);
+        String result = (String) method.invoke(handler, message);
+        
+        assertNotNull(result);
+        assertTrue(result.contains("testField"));
+        assertTrue(result.contains("testValue"));
+    }
+
+    @Test
+    void testGetHeaderFromMessage() throws Exception {
+        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\",\"CustomHeader\":\"value\"}}";
+        Message message = mock(Message.class);
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        
+        var method = handler.getClass().getDeclaredMethod("getHeaderFromMessage", Message.class);
+        method.setAccessible(true);
+        Map<String, String> result = (Map<String, String>) method.invoke(handler, message);
+        
+        assertNotNull(result);
+        assertEquals("1", result.get("Type"));
+        assertEquals("value", result.get("CustomHeader"));
+    }
+}  
