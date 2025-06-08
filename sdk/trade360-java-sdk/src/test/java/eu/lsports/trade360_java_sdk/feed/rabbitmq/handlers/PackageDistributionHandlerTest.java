@@ -79,7 +79,7 @@ class PackageDistributionHandlerTest {
     }
 
     @Test
-    void testProcess_ApiClientThrowsException_Propagates() {
+    void testProcessApiClientThrowsExceptionPropagates() {
         when(client.getDistributionStatus()).thenThrow(new RuntimeException("API error"));
         assertThrows(RuntimeException.class, () -> handler.process());
     }
