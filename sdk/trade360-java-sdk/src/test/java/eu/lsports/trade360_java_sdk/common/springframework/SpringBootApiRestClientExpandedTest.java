@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -60,9 +60,8 @@ class SpringBootApiRestClientExpandedTest {
         
         Mono<BaseResponse> result = client.post("/test", request, BaseResponse.class);
         
-        StepVerifier.create(result)
-            .expectNext(expectedResponse)
-            .verifyComplete();
+        BaseResponse actualResponse = result.block();
+        assertEquals(expectedResponse, actualResponse);
         
         verify(serializer).serialize(request);
         verify(serializer).deserialize(responseJson, BaseResponse.class);
@@ -84,9 +83,8 @@ class SpringBootApiRestClientExpandedTest {
         
         Mono<BaseResponse> result = client.post("/test", null, BaseResponse.class);
         
-        StepVerifier.create(result)
-            .expectNext(expectedResponse)
-            .verifyComplete();
+        BaseResponse actualResponse = result.block();
+        assertEquals(expectedResponse, actualResponse);
         
         verify(serializer).serialize(null);
     }
@@ -104,9 +102,7 @@ class SpringBootApiRestClientExpandedTest {
         
         Mono<BaseResponse> result = client.post("/test", request, BaseResponse.class);
         
-        StepVerifier.create(result)
-            .expectError(RuntimeException.class)
-            .verify();
+        assertThrows(RuntimeException.class, () -> result.block());
     }
 
     @Test
@@ -122,9 +118,8 @@ class SpringBootApiRestClientExpandedTest {
         
         Mono<BaseResponse> result = client.get("/test", BaseResponse.class);
         
-        StepVerifier.create(result)
-            .expectNext(expectedResponse)
-            .verifyComplete();
+        BaseResponse actualResponse = result.block();
+        assertEquals(expectedResponse, actualResponse);
         
         verify(serializer).deserialize(responseJson, BaseResponse.class);
     }

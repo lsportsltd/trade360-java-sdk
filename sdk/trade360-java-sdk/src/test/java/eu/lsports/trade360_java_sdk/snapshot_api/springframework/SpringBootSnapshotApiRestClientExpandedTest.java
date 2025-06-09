@@ -2,14 +2,14 @@ package eu.lsports.trade360_java_sdk.snapshot_api.springframework;
 
 import eu.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
 import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResponse;
+import eu.lsports.trade360_java_sdk.customers_api.entities.base.BaseResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -45,23 +45,22 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         GetLivescoreRequest request = new GetLivescoreRequest();
         request.setFixtureId(123);
         
-        GetLivescoreResponse expectedResponse = new GetLivescoreResponse();
+        BaseResponse expectedResponse = new BaseResponse();
         String responseJson = "{\"success\":true}";
         
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(String.class)).thenReturn(Mono.just(responseJson));
-        when(serializer.deserialize(responseJson, GetLivescoreResponse.class)).thenReturn(expectedResponse);
+        when(serializer.deserialize(responseJson, BaseResponse.class)).thenReturn(expectedResponse);
         
-        Mono<GetLivescoreResponse> result = client.getLivescore(request);
+        Mono<BaseResponse> result = client.getLivescore(request);
         
-        StepVerifier.create(result)
-            .expectNext(expectedResponse)
-            .verifyComplete();
+        BaseResponse actualResponse = result.block();
+        assertEquals(expectedResponse, actualResponse);
         
         verify(webClient).get();
-        verify(serializer).deserialize(responseJson, GetLivescoreResponse.class);
+        verify(serializer).deserialize(responseJson, BaseResponse.class);
     }
 
     @Test
@@ -70,13 +69,12 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(String.class)).thenReturn(Mono.just("{}"));
-        when(serializer.deserialize(anyString(), any())).thenReturn(new GetLivescoreResponse());
+        when(serializer.deserialize(anyString(), any())).thenReturn(new BaseResponse());
         
-        Mono<GetLivescoreResponse> result = client.getLivescore(null);
+        Mono<BaseResponse> result = client.getLivescore(null);
         
-        StepVerifier.create(result)
-            .expectNextCount(1)
-            .verifyComplete();
+        BaseResponse actualResponse = result.block();
+        assertNotNull(actualResponse);
         
         verify(webClient).get();
     }
@@ -90,11 +88,9 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(String.class)).thenReturn(Mono.error(new RuntimeException("Network error")));
         
-        Mono<GetLivescoreResponse> result = client.getLivescore(request);
+        Mono<BaseResponse> result = client.getLivescore(request);
         
-        StepVerifier.create(result)
-            .expectError(RuntimeException.class)
-            .verify();
+        assertThrows(RuntimeException.class, () -> result.block());
         
         verify(webClient).get();
     }
@@ -108,15 +104,13 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(String.class)).thenReturn(Mono.just(responseJson));
-        when(serializer.deserialize(responseJson, GetLivescoreResponse.class))
+        when(serializer.deserialize(responseJson, BaseResponse.class))
             .thenThrow(new RuntimeException("Serialization error"));
         
-        Mono<GetLivescoreResponse> result = client.getLivescore(request);
+        Mono<BaseResponse> result = client.getLivescore(request);
         
-        StepVerifier.create(result)
-            .expectError(RuntimeException.class)
-            .verify();
+        assertThrows(RuntimeException.class, () -> result.block());
         
-        verify(serializer).deserialize(responseJson, GetLivescoreResponse.class);
+        verify(serializer).deserialize(responseJson, BaseResponse.class);
     }
 }
