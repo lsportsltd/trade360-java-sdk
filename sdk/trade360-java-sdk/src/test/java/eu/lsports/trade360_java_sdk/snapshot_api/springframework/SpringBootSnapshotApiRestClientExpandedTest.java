@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
 import java.net.URI;
 import java.util.List;
@@ -101,9 +100,9 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         TypeReference<String> typeRef = new TypeReference<String>() {};
         Mono<String> result = client.postRequest(requestBody, typeRef, "/test");
         
-        StepVerifier.create(result)
-            .expectNext("test result")
-            .verifyComplete();
+        assertNotNull(result);
+        String actualResult = result.block();
+        assertEquals("test result", actualResult);
     }
 
     @Test
@@ -126,9 +125,9 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         TypeReference<String> typeRef = new TypeReference<String>() {};
         Mono<String> result = client.postRequest(typeRef, "/test");
         
-        StepVerifier.create(result)
-            .expectNext("test result")
-            .verifyComplete();
+        assertNotNull(result);
+        String actualResult = result.block();
+        assertEquals("test result", actualResult);
     }
 
     @Test
@@ -177,9 +176,7 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         TypeReference<String> typeRef = new TypeReference<String>() {};
         Mono<String> result = client.postRequest(typeRef, "/test");
         
-        StepVerifier.create(result)
-            .expectError(Trade360Exception.class)
-            .verify();
+        assertThrows(Trade360Exception.class, () -> result.block());
     }
 
     @Test
@@ -200,9 +197,7 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         TypeReference<String> typeRef = new TypeReference<String>() {};
         Mono<String> result = client.postRequest(typeRef, "/test");
         
-        StepVerifier.create(result)
-            .expectError(Trade360Exception.class)
-            .verify();
+        assertThrows(Trade360Exception.class, () -> result.block());
     }
 
     @Test
@@ -218,8 +213,6 @@ class SpringBootSnapshotApiRestClientExpandedTest {
         TypeReference<String> typeRef = new TypeReference<String>() {};
         Mono<String> result = client.postRequest(typeRef, "/test");
         
-        StepVerifier.create(result)
-            .expectError(Trade360Exception.class)
-            .verify();
+        assertThrows(Trade360Exception.class, () -> result.block());
     }
 }
