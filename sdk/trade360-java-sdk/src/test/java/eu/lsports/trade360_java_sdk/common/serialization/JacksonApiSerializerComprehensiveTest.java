@@ -20,7 +20,7 @@ class JacksonApiSerializerComprehensiveTest {
 
     @Test
     void testConstructorWithValidCredentials() {
-        PackageCredentials credentials = new PackageCredentials("testPackage", "testUser", "testPass", "json");
+        PackageCredentials credentials = new PackageCredentials(123, "testUser", "testPass", "json");
         
         JacksonApiSerializer serializer = new JacksonApiSerializer(credentials);
         
@@ -38,13 +38,13 @@ class JacksonApiSerializerComprehensiveTest {
 
     @Test
     void testSerializeRequestWithNullRequest() {
-        PackageCredentials credentials = new PackageCredentials("testPackage", "testUser", "testPass", "json");
+        PackageCredentials credentials = new PackageCredentials(456, "testUser", "testPass", "json");
         JacksonApiSerializer serializer = new JacksonApiSerializer(credentials);
         
         ObjectNode result = serializer.serializeRequest(null);
         
         assertNotNull(result);
-        assertEquals("testPackage", result.get("PackageId").asText());
+        assertEquals(456, result.get("PackageId").asInt());
         assertEquals("testUser", result.get("UserName").asText());
         assertEquals("testPass", result.get("Password").asText());
         assertEquals("json", result.get("MessageFormat").asText());
@@ -52,7 +52,7 @@ class JacksonApiSerializerComprehensiveTest {
 
     @Test
     void testSerializeRequestWithValidRequest() {
-        PackageCredentials credentials = new PackageCredentials("testPackage", "testUser", "testPass", "json");
+        PackageCredentials credentials = new PackageCredentials(789, "testUser", "testPass", "json");
         JacksonApiSerializer serializer = new JacksonApiSerializer(credentials);
         TestRequest request = new TestRequest("testValue");
         
@@ -60,7 +60,7 @@ class JacksonApiSerializerComprehensiveTest {
         
         assertNotNull(result);
         assertEquals("testValue", result.get("TestField").asText());
-        assertEquals("testPackage", result.get("PackageId").asText());
+        assertEquals(789, result.get("PackageId").asInt());
         assertEquals("testUser", result.get("UserName").asText());
         assertEquals("testPass", result.get("Password").asText());
         assertEquals("json", result.get("MessageFormat").asText());
@@ -178,7 +178,7 @@ class JacksonApiSerializerComprehensiveTest {
 
     @Test
     void testSerializeRequestWithComplexObject() {
-        PackageCredentials credentials = new PackageCredentials("testPackage", "testUser", "testPass", "json");
+        PackageCredentials credentials = new PackageCredentials(101, "testUser", "testPass", "json");
         JacksonApiSerializer serializer = new JacksonApiSerializer(credentials);
         ComplexTestRequest request = new ComplexTestRequest("testValue", 123, true);
         
@@ -188,12 +188,12 @@ class JacksonApiSerializerComprehensiveTest {
         assertEquals("testValue", result.get("StringField").asText());
         assertEquals(123, result.get("IntField").asInt());
         assertTrue(result.get("BooleanField").asBoolean());
-        assertEquals("testPackage", result.get("PackageId").asText());
+        assertEquals(101, result.get("PackageId").asInt());
     }
 
     @Test
     void testSerializeRequestWithEmptyCredentials() {
-        PackageCredentials credentials = new PackageCredentials("", "", "", "");
+        PackageCredentials credentials = new PackageCredentials(0, "", "", "");
         JacksonApiSerializer serializer = new JacksonApiSerializer(credentials);
         TestRequest request = new TestRequest("testValue");
         
@@ -201,7 +201,7 @@ class JacksonApiSerializerComprehensiveTest {
         
         assertNotNull(result);
         assertEquals("testValue", result.get("TestField").asText());
-        assertEquals("", result.get("PackageId").asText());
+        assertEquals(0, result.get("PackageId").asInt());
         assertEquals("", result.get("UserName").asText());
         assertEquals("", result.get("Password").asText());
         assertEquals("", result.get("MessageFormat").asText());
@@ -220,7 +220,7 @@ class JacksonApiSerializerComprehensiveTest {
 
     @Test
     void testSerializeRequestPreservesOriginalObject() {
-        PackageCredentials credentials = new PackageCredentials("testPackage", "testUser", "testPass", "json");
+        PackageCredentials credentials = new PackageCredentials(202, "testUser", "testPass", "json");
         JacksonApiSerializer serializer = new JacksonApiSerializer(credentials);
         TestRequest originalRequest = new TestRequest("originalValue");
         

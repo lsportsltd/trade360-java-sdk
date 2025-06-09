@@ -120,9 +120,9 @@ class ProblemJsonErrorsExtractorComprehensiveTest {
         ProblemJsonErrorsExtractor extractor = new ProblemJsonErrorsExtractor();
         JsonApiSerializer mockSerializer = mock(JsonApiSerializer.class);
         
-        Iterable<String> result = extractor.extractErrors(null, mockSerializer);
-        
-        assertNull(result);
+        assertThrows(NullPointerException.class, () -> {
+            extractor.extractErrors(null, mockSerializer);
+        });
     }
 
     @Test

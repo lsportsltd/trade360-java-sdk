@@ -32,10 +32,11 @@ class LSportsHeaderErrorsExtractorComprehensiveTest {
         when(mockHeaderNode.get("Errors")).thenReturn(mockErrorsNode);
         when(mockErrorsNode.traverse()).thenReturn(mockParser);
         
-        List<Error> errors = List.of(
-            new Error("Error 1"),
-            new Error("Error 2")
-        );
+        Error error1 = new Error();
+        error1.message = "Error 1";
+        Error error2 = new Error();
+        error2.message = "Error 2";
+        List<Error> errors = List.of(error1, error2);
         when(mockSerializer.deserializeToValue(eq(mockParser), any(TypeReference.class))).thenReturn(errors);
         
         Iterable<String> result = extractor.extractErrors(mockBodyNode, mockSerializer);
@@ -114,7 +115,9 @@ class LSportsHeaderErrorsExtractorComprehensiveTest {
         when(mockHeaderNode.get("Errors")).thenReturn(mockErrorsNode);
         when(mockErrorsNode.traverse()).thenReturn(mockParser);
         
-        List<Error> errors = List.of(new Error("Single error"));
+        Error error = new Error();
+        error.message = "Single error";
+        List<Error> errors = List.of(error);
         when(mockSerializer.deserializeToValue(eq(mockParser), any(TypeReference.class))).thenReturn(errors);
         
         Iterable<String> result = extractor.extractErrors(mockBodyNode, mockSerializer);
@@ -140,7 +143,9 @@ class LSportsHeaderErrorsExtractorComprehensiveTest {
         when(mockHeaderNode.get("Errors")).thenReturn(mockErrorsNode);
         when(mockErrorsNode.traverse()).thenReturn(mockParser);
         
-        List<Error> errors = List.of(new Error(null));
+        Error error = new Error();
+        error.message = null;
+        List<Error> errors = List.of(error);
         when(mockSerializer.deserializeToValue(eq(mockParser), any(TypeReference.class))).thenReturn(errors);
         
         Iterable<String> result = extractor.extractErrors(mockBodyNode, mockSerializer);
@@ -222,11 +227,13 @@ class LSportsHeaderErrorsExtractorComprehensiveTest {
         when(mockHeaderNode.get("Errors")).thenReturn(mockErrorsNode);
         when(mockErrorsNode.traverse()).thenReturn(mockParser);
         
-        List<Error> errors = List.of(
-            new Error("Valid error"),
-            new Error(null),
-            new Error("Another valid error")
-        );
+        Error error1 = new Error();
+        error1.message = "Valid error";
+        Error error2 = new Error();
+        error2.message = null;
+        Error error3 = new Error();
+        error3.message = "Another valid error";
+        List<Error> errors = List.of(error1, error2, error3);
         when(mockSerializer.deserializeToValue(eq(mockParser), any(TypeReference.class))).thenReturn(errors);
         
         Iterable<String> result = extractor.extractErrors(mockBodyNode, mockSerializer);
@@ -254,13 +261,17 @@ class LSportsHeaderErrorsExtractorComprehensiveTest {
         when(mockHeaderNode.get("Errors")).thenReturn(mockErrorsNode);
         when(mockErrorsNode.traverse()).thenReturn(mockParser);
         
-        List<Error> errors = List.of(
-            new Error("Error 1"),
-            new Error("Error 2"),
-            new Error("Error 3"),
-            new Error("Error 4"),
-            new Error("Error 5")
-        );
+        Error error1 = new Error();
+        error1.message = "Error 1";
+        Error error2 = new Error();
+        error2.message = "Error 2";
+        Error error3 = new Error();
+        error3.message = "Error 3";
+        Error error4 = new Error();
+        error4.message = "Error 4";
+        Error error5 = new Error();
+        error5.message = "Error 5";
+        List<Error> errors = List.of(error1, error2, error3, error4, error5);
         when(mockSerializer.deserializeToValue(eq(mockParser), any(TypeReference.class))).thenReturn(errors);
         
         Iterable<String> result = extractor.extractErrors(mockBodyNode, mockSerializer);
