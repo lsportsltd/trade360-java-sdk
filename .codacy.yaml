@@ -1,0 +1,4 @@
+exclude_paths:
+  - "samples/**"
+  - "sdk/trade360-java-sdk/src/test/**"
+  - "README.md"
