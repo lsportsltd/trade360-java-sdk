@@ -5,13 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightLeagueFixtureEventTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         OutrightLeagueFixtureEvent event = new OutrightLeagueFixtureEvent();
+        assertEquals(0, event.fixtureId);
+        assertNull(event.outrightLeague);
+
         event.fixtureId = 42;
-        OutrightLeagueFixture fixture = new OutrightLeagueFixture();
-        event.outrightLeague = fixture;
+        OutrightLeagueFixture league = new OutrightLeagueFixture();
+        event.outrightLeague = league;
         assertEquals(42, event.fixtureId);
-        assertEquals(fixture, event.outrightLeague);
+        assertSame(league, event.outrightLeague);
     }
 
     @Test

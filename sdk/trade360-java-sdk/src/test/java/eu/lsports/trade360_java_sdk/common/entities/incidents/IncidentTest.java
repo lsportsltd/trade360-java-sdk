@@ -6,24 +6,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IncidentTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         Incident incident = new Incident();
+        assertNull(incident.sportId);
+        assertNull(incident.sportName);
+        assertNull(incident.incidentId);
+        assertNull(incident.incidentName);
+        assertNull(incident.description);
+        assertNull(incident.lastUpdate);
+        assertNull(incident.creationDate);
+
         incident.sportId = 1;
         incident.sportName = "Soccer";
         incident.incidentId = 100;
         incident.incidentName = "Goal";
-        incident.description = "A goal was scored.";
-        incident.lastUpdate = LocalDateTime.now();
-        incident.creationDate = LocalDateTime.of(2024, 1, 1, 0, 0);
+        incident.description = "Scored a goal";
+        LocalDateTime now = LocalDateTime.now();
+        incident.lastUpdate = now;
+        incident.creationDate = now;
 
         assertEquals(1, incident.sportId);
         assertEquals("Soccer", incident.sportName);
         assertEquals(100, incident.incidentId);
         assertEquals("Goal", incident.incidentName);
-        assertEquals("A goal was scored.", incident.description);
-        assertNotNull(incident.lastUpdate);
-        assertEquals(LocalDateTime.of(2024, 1, 1, 0, 0), incident.creationDate);
-        assertNotNull(incident);
+        assertEquals("Scored a goal", incident.description);
+        assertEquals(now, incident.lastUpdate);
+        assertEquals(now, incident.creationDate);
     }
 
     @Test

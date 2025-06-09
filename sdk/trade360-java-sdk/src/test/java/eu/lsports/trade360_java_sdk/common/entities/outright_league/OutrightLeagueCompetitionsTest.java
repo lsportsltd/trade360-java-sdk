@@ -1,21 +1,27 @@
 package eu.lsports.trade360_java_sdk.common.entities.outright_league;
 
 import org.junit.jupiter.api.Test;
-import java.util.List;
+import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightLeagueCompetitionsTest {
     @Test
-    void testFieldAssignment() {
-        OutrightLeagueCompetitions<String> comp = new OutrightLeagueCompetitions<>();
-        comp.id = 5;
-        comp.name = "Champions";
-        comp.type = 1;
-        comp.events = List.of("event1", "event2");
-        assertEquals(5, comp.id);
-        assertEquals("Champions", comp.name);
-        assertEquals(1, comp.type);
-        assertNotNull(comp.events);
+    void testFieldAssignmentAndNullability() {
+        OutrightLeagueCompetitions<String> competitions = new OutrightLeagueCompetitions<>();
+        assertEquals(0, competitions.id);
+        assertNull(competitions.name);
+        assertEquals(0, competitions.type);
+        assertNull(competitions.events);
+
+        competitions.id = 7;
+        competitions.name = "CompetitionName";
+        competitions.type = 2;
+        competitions.events = Arrays.asList("event1", "event2");
+
+        assertEquals(7, competitions.id);
+        assertEquals("CompetitionName", competitions.name);
+        assertEquals(2, competitions.type);
+        assertNotNull(competitions.events);
     }
 
     @Test

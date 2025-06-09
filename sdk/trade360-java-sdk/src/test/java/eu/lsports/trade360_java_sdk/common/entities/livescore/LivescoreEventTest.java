@@ -6,15 +6,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LivescoreEventTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         LivescoreEvent event = new LivescoreEvent();
-        event.fixtureId = 123;
+        assertEquals(0, event.fixtureId);
+        assertNull(event.fixture);
+        assertNull(event.livescore);
+
+        event.fixtureId = 77;
         Fixture fixture = new Fixture();
         Livescore livescore = new Livescore();
         event.fixture = fixture;
         event.livescore = livescore;
-        assertEquals(123, event.fixtureId);
-        assertNotNull(event.fixture);
-        assertNotNull(event.livescore);
+
+        assertEquals(77, event.fixtureId);
+        assertSame(fixture, event.fixture);
+        assertSame(livescore, event.livescore);
     }
 } 

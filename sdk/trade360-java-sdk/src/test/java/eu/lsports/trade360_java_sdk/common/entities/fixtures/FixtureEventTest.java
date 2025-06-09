@@ -5,8 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FixtureEventTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         FixtureEvent event = new FixtureEvent();
-        assertNotNull(event);
+        assertEquals(0, event.fixtureId);
+        assertNull(event.fixture);
+
+        event.fixtureId = 42;
+        Fixture fixture = new Fixture();
+        event.fixture = fixture;
+
+        assertEquals(42, event.fixtureId);
+        assertSame(fixture, event.fixture);
     }
 } 

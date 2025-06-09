@@ -2,23 +2,27 @@ package eu.lsports.trade360_java_sdk.common.entities.outright_league;
 
 import eu.lsports.trade360_java_sdk.common.entities.markets.Bet;
 import org.junit.jupiter.api.Test;
-import java.util.List;
+import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MarketLeagueTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         MarketLeague league = new MarketLeague();
-        league.id = 7;
-        league.name = "Premier League";
-        Bet bet = new Bet();
-        bet.providerBetId = "betX";
-        league.bets = List.of(bet);
-        league.mainLine = "main";
-        assertEquals(7, league.id);
-        assertEquals("Premier League", league.name);
+        assertEquals(0, league.id);
+        assertNull(league.name);
+        assertNull(league.bets);
+        assertNull(league.mainLine);
+
+        league.id = 5;
+        league.name = "LeagueName";
+        league.bets = Arrays.asList(new Bet());
+        league.mainLine = "MainLine";
+
+        assertEquals(5, league.id);
+        assertEquals("LeagueName", league.name);
         assertNotNull(league.bets);
-        assertEquals("main", league.mainLine);
+        assertEquals("MainLine", league.mainLine);
     }
 
     @Test

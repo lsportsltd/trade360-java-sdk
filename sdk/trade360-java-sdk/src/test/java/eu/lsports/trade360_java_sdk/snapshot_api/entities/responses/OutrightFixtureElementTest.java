@@ -5,21 +5,23 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-class OutrightLeagueFixtureSnapshotTest {
+class OutrightFixtureElementTest {
     @Test
     void testConstructorAndFields() {
-        OutrightLeagueFixtureSnapshot element = new OutrightLeagueFixtureSnapshot();
-        element.subscription = null;
+        OutrightFixtureElement element = new OutrightFixtureElement();
         element.sport = null;
         element.location = null;
+        element.startDate = LocalDateTime.now();
         element.lastUpdate = LocalDateTime.now();
         element.status = null;
-        element.extraData = Collections.emptyList();
-        assertNull(element.subscription);
+        element.participants = Collections.emptyList();
+        element.subscription = null;
         assertNull(element.sport);
         assertNull(element.location);
+        assertNotNull(element.startDate);
         assertNotNull(element.lastUpdate);
         assertNull(element.status);
-        assertNotNull(element.extraData);
+        assertNotNull(element.participants);
+        assertNull(element.subscription);
     }
 } 

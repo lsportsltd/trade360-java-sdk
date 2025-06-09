@@ -6,7 +6,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class OutrightParticipantResultTest {
     @Test
     void testConstructorAndFields() {
-        OutrightParticipantResult obj = new OutrightParticipantResult();
-        assertNotNull(obj);
+        OutrightParticipantResult element = new OutrightParticipantResult();
+        element.participantId = 1;
+        element.name = "participant";
+        element.result = 2;
+        assertEquals(1, element.participantId);
+        assertEquals("participant", element.name);
+        assertEquals(2, element.result);
     }
 } 

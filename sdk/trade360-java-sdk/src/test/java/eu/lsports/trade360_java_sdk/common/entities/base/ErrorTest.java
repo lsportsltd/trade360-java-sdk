@@ -9,4 +9,12 @@ class ErrorTest {
         Error error = new Error();
         assertNotNull(error);
     }
+
+    @Test
+    void testFieldAssignmentAndNullability() {
+        Error error = new Error();
+        assertNull(error.message);
+        error.message = "Something went wrong";
+        assertEquals("Something went wrong", error.message);
+    }
 } 

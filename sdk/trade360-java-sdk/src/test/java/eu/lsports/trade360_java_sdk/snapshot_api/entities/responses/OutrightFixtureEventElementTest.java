@@ -2,15 +2,14 @@ package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Collections;
 
-class OutrightFixtureMarketsElementTest {
+class OutrightFixtureEventElementTest {
     @Test
     void testConstructorAndFields() {
-        OutrightFixtureMarketsElement element = new OutrightFixtureMarketsElement();
+        OutrightFixtureEventElement element = new OutrightFixtureEventElement();
         element.fixtureId = 1;
-        element.markets = Collections.emptyList();
+        element.outrightFixture = null;
         assertEquals(1, element.fixtureId);
-        assertNotNull(element.markets);
+        assertNull(element.outrightFixture);
     }
 } 

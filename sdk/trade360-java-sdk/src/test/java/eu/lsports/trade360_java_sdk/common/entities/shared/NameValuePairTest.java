@@ -9,4 +9,16 @@ class NameValuePairTest {
         NameValuePair pair = new NameValuePair();
         assertNotNull(pair);
     }
+
+    @Test
+    void testFieldAssignmentAndNullability() {
+        NameValuePair pair = new NameValuePair();
+        assertNull(pair.name);
+        assertNull(pair.value);
+
+        pair.name = "key";
+        pair.value = "value";
+        assertEquals("key", pair.name);
+        assertEquals("value", pair.value);
+    }
 } 

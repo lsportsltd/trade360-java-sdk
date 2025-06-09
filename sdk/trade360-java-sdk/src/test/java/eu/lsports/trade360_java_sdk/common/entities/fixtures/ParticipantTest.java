@@ -92,4 +92,26 @@ class ParticipantTest {
         assertEquals(1, participant.rotationId);
         assertEquals(1, participant.isActive);
     }
+
+    @Test
+    void testFieldAssignmentAndNullability() {
+        Participant participant = new Participant();
+        assertEquals(0, participant.id);
+        assertNull(participant.name);
+        assertNull(participant.position);
+        assertNull(participant.rotationId);
+        assertEquals(-1, participant.isActive);
+
+        participant.id = 10;
+        participant.name = "John Doe";
+        participant.position = "Forward";
+        participant.rotationId = 99;
+        participant.isActive = 1;
+
+        assertEquals(10, participant.id);
+        assertEquals("John Doe", participant.name);
+        assertEquals("Forward", participant.position);
+        assertEquals(99, participant.rotationId);
+        assertEquals(1, participant.isActive);
+    }
 }   

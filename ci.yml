@@ -5,14 +5,21 @@ resources:
       name: lsportsltd/devops-pipeline-templates
       endpoint: lsportsltd
       
-pr: none
+pr:
+  branches:
+    include:
+      - "*"
+  paths:
+    include:
+      - sdk/
+
 trigger:
   branches:
     include:
-     - main
+      - main
   paths:
     include:
-    - sdk/
+      - sdk/
     
 stages:
   - template: general/generic-package-CICD.yaml@pipeline-templates

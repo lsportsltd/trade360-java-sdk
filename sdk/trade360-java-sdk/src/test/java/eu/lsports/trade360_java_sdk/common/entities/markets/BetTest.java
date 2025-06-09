@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BetTest {
     @Test
-    void testFieldAssignment() {
+    void testFieldAssignmentAndNullability() {
         Bet bet = new Bet();
-        assertNotNull(bet);
+        assertNull(bet.providerBetId);
+        bet.providerBetId = "bet123";
+        assertEquals("bet123", bet.providerBetId);
     }
 } 

@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 class LSportsLocalDateTimeSerializerTest {
     @Test
-    void serialize_LocalDateTimeToEpochMillis() throws IOException {
+    void serializeLocalDateTimeToEpochMillis() throws IOException {
         LSportsLocalDateTimeSerializer serializer = new LSportsLocalDateTimeSerializer();
         LocalDateTime dateTime = LocalDateTime.of(2024, 6, 1, 12, 0);
         long expectedMillis = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -27,5 +27,18 @@ class LSportsLocalDateTimeSerializerTest {
     void testHandledType() {
         LSportsLocalDateTimeSerializer serializer = new LSportsLocalDateTimeSerializer();
         assertEquals(LocalDateTime.class, serializer.handledType());
+    }
+
+    @Test
+    void testSerializeToEpochMillisUTC() throws IOException {
+        LSportsLocalDateTimeSerializer serializer = new LSportsLocalDateTimeSerializer();
+        LocalDateTime dateTime = LocalDateTime.of(2024, 6, 10, 12, 0, 0);
+        long expectedMillis = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli();
+
+        JsonGenerator gen = mock(JsonGenerator.class);
+        SerializerProvider provider = mock(SerializerProvider.class);
+
+        serializer.serialize(dateTime, gen, provider);
+        verify(gen).writeNumber(expectedMillis);
     }
 } 
