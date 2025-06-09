@@ -11,4 +11,4 @@ class SpringBootSnapshotApiClientFactoryTest {
         WebClient.Builder builder = mock(WebClient.Builder.class);
         assertDoesNotThrow(() -> new SpringBootSnapshotApiClientFactory(builder));
     }
-} 
+}      

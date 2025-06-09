@@ -208,6 +208,33 @@ public class JacksonApiSerializerTest {
         assertEquals("baz", result.name);
     }
 
+    @Test
+    void testGetObjectMapper() {
+        PackageCredentials creds = new PackageCredentials(1, "user", "pass");
+        JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
+        assertNotNull(serializer.getObjectMapper());
+    }
+
+    @Test
+    void testDeserializeToValueWithJsonParser() throws Exception {
+        PackageCredentials creds = new PackageCredentials(1, "user", "pass");
+        JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
+        String json = "{\"id\":42,\"name\":\"test\"}";
+        JsonNode node = serializer.deserializeToTree(json);
+        com.fasterxml.jackson.core.JsonParser parser = serializer.getObjectMapper().treeAsTokens(node);
+        SimpleDto result = serializer.deserializeToValue(parser, new TypeReference<SimpleDto>(){});
+        assertEquals(42, result.id);
+        assertEquals("test", result.name);
+    }
+
+    @Test
+    void testSerializeToStringWithNullObject() throws JsonProcessingException {
+        PackageCredentials creds = new PackageCredentials(1, "user", "pass");
+        JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
+        String result = serializer.serializeToString(null);
+        assertEquals("null", result);
+    }
+
     static class SimplePojo {
         public String foo;
         public int bar;
