@@ -2,7 +2,6 @@ package eu.lsports.trade360_java_sdk.common.exceptions;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -12,67 +11,40 @@ import static org.junit.jupiter.api.Assertions.*;
 class Trade360ExceptionComprehensiveTest {
 
     @Test
-    void testConstructorWithMessage() {
-        String message = "Test error message";
-        Trade360Exception exception = new Trade360Exception(message);
+    void testTrade360ExceptionMessageConstructor() {
+        String testMessage = "Test error message";
+        Trade360Exception exception = new Trade360Exception(testMessage);
         
-        assertEquals(message, exception.getMessage());
+        assertEquals(testMessage, exception.getMessage());
+        assertNull(exception.getCause());
         assertNotNull(exception.getErrors());
-        assertFalse(exception.getErrors().iterator().hasNext());
+        assertEquals(Collections.emptyList(), exception.getErrors());
     }
 
     @Test
-    void testConstructorWithMessageAndErrors() {
-        String message = "Test error with details";
-        List<String> errors = Arrays.asList("Error 1", "Error 2", "Error 3");
+    void testTrade360ExceptionMessageAndErrorsConstructor() {
+        String testMessage = "Test error with errors";
+        List<String> testErrors = Arrays.asList("Error 1", "Error 2");
         
-        Trade360Exception exception = new Trade360Exception(message, errors);
+        Trade360Exception exception = new Trade360Exception(testMessage, testErrors);
         
-        assertEquals(message, exception.getMessage());
-        assertEquals(errors, exception.getErrors());
-        
-        List<String> errorList = new ArrayList<>();
-        exception.getErrors().forEach(errorList::add);
-        assertEquals(3, errorList.size());
-        assertTrue(errorList.contains("Error 1"));
-        assertTrue(errorList.contains("Error 2"));
-        assertTrue(errorList.contains("Error 3"));
+        assertEquals(testMessage, exception.getMessage());
+        assertNull(exception.getCause());
+        assertEquals(testErrors, exception.getErrors());
     }
 
     @Test
-    void testConstructorWithEmptyErrors() {
-        String message = "Test with empty errors";
-        List<String> emptyErrors = Collections.emptyList();
+    void testTrade360ExceptionMessageWithNullErrorsList() {
+        String testMessage = "Test message with null errors";
+        Trade360Exception exception = new Trade360Exception(testMessage, null);
         
-        Trade360Exception exception = new Trade360Exception(message, emptyErrors);
-        
-        assertEquals(message, exception.getMessage());
-        assertNotNull(exception.getErrors());
-        assertFalse(exception.getErrors().iterator().hasNext());
-    }
-
-    @Test
-    void testConstructorWithNullErrors() {
-        String message = "Test with null errors";
-        
-        Trade360Exception exception = new Trade360Exception(message, null);
-        
-        assertEquals(message, exception.getMessage());
+        assertEquals(testMessage, exception.getMessage());
+        assertNull(exception.getCause());
         assertNull(exception.getErrors());
     }
 
     @Test
-    void testConstructorWithNullMessage() {
-        List<String> errors = Arrays.asList("Error 1", "Error 2");
-        
-        Trade360Exception exception = new Trade360Exception(null, errors);
-        
-        assertNull(exception.getMessage());
-        assertEquals(errors, exception.getErrors());
-    }
-
-    @Test
-    void testExceptionInheritance() {
+    void testTrade360ExceptionInheritance() {
         Trade360Exception exception = new Trade360Exception("Test");
         
         assertTrue(exception instanceof RuntimeException);
@@ -81,57 +53,68 @@ class Trade360ExceptionComprehensiveTest {
     }
 
     @Test
-    void testErrorsImmutability() {
-        List<String> originalErrors = Arrays.asList("Error 1", "Error 2");
-        Trade360Exception exception = new Trade360Exception("Test", originalErrors);
+    void testTrade360ExceptionEmptyErrorsList() {
+        List<String> emptyErrors = Collections.emptyList();
+        Trade360Exception exception = new Trade360Exception("Test message", emptyErrors);
         
-        Iterable<String> retrievedErrors = exception.getErrors();
-        assertEquals(originalErrors, retrievedErrors);
-        
-        if (retrievedErrors instanceof List) {
-            List<String> errorList = (List<String>) retrievedErrors;
-            assertThrows(UnsupportedOperationException.class, () -> {
-                errorList.add("New Error");
-            });
-        }
+        assertEquals("Test message", exception.getMessage());
+        assertEquals(emptyErrors, exception.getErrors());
+        assertTrue(((List<?>) exception.getErrors()).isEmpty());
     }
 
     @Test
-    void testLargeErrorsList() {
-        String message = "Test with many errors";
-        List<String> manyErrors = Arrays.asList(
-            "Error 1", "Error 2", "Error 3", "Error 4", "Error 5",
-            "Error 6", "Error 7", "Error 8", "Error 9", "Error 10"
-        );
+    void testTrade360ExceptionMultipleErrors() {
+        String testMessage = "Multiple errors";
+        List<String> testErrors = Arrays.asList("Error 1", "Error 2", "Error 3");
         
-        Trade360Exception exception = new Trade360Exception(message, manyErrors);
+        Trade360Exception exception = new Trade360Exception(testMessage, testErrors);
         
-        assertEquals(message, exception.getMessage());
-        
-        List<String> errorList = new ArrayList<>();
-        exception.getErrors().forEach(errorList::add);
-        assertEquals(10, errorList.size());
-        assertEquals(manyErrors, exception.getErrors());
+        assertEquals(testMessage, exception.getMessage());
+        assertEquals(testErrors, exception.getErrors());
+        assertEquals(3, ((List<?>) exception.getErrors()).size());
     }
 
     @Test
-    void testSpecialCharactersInMessage() {
-        String specialMessage = "Error with special chars: ñáéíóú @#$%^&*()";
-        Trade360Exception exception = new Trade360Exception(specialMessage);
+    void testTrade360ExceptionSingleError() {
+        String testMessage = "Single error";
+        List<String> testErrors = Collections.singletonList("Single error message");
+        
+        Trade360Exception exception = new Trade360Exception(testMessage, testErrors);
+        
+        assertEquals(testMessage, exception.getMessage());
+        assertEquals(testErrors, exception.getErrors());
+        assertEquals(1, ((List<?>) exception.getErrors()).size());
+    }
+
+    @Test
+    void testTrade360ExceptionErrorsConsistency() {
+        String testMessage = "Consistency test";
+        List<String> testErrors = Arrays.asList("Error A", "Error B");
+        
+        Trade360Exception exception1 = new Trade360Exception(testMessage, testErrors);
+        Trade360Exception exception2 = new Trade360Exception(testMessage, testErrors);
+        
+        assertEquals(exception1.getMessage(), exception2.getMessage());
+        assertEquals(exception1.getErrors(), exception2.getErrors());
+    }
+
+    @Test
+    void testTrade360ExceptionDifferentMessages() {
+        Trade360Exception exception1 = new Trade360Exception("Message 1");
+        Trade360Exception exception2 = new Trade360Exception("Message 2");
+        
+        assertNotEquals(exception1.getMessage(), exception2.getMessage());
+        assertEquals(exception1.getErrors(), exception2.getErrors());
+    }
+
+    @Test
+    void testTrade360ExceptionWithSpecialCharacters() {
+        String specialMessage = "Error with special chars: !@#$%^&*()";
+        List<String> specialErrors = Arrays.asList("Error with unicode: ñáéíóú", "Error with symbols: <>?");
+        
+        Trade360Exception exception = new Trade360Exception(specialMessage, specialErrors);
         
         assertEquals(specialMessage, exception.getMessage());
-    }
-
-    @Test
-    void testSpecialCharactersInErrors() {
-        List<String> specialErrors = Arrays.asList(
-            "Error with unicode: ñáéíóú",
-            "Error with symbols: @#$%^&*()",
-            "Error with newlines:\nLine 2\nLine 3"
-        );
-        
-        Trade360Exception exception = new Trade360Exception("Test", specialErrors);
-        
         assertEquals(specialErrors, exception.getErrors());
     }
 }

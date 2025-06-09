@@ -11,310 +11,211 @@ class RabbitConnectionConfigurationComprehensiveTest {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
         
         assertNotNull(config);
-        assertNull(config.host);
-        assertNull(config.port);
-        assertNull(config.username);
-        assertNull(config.password);
-        assertNull(config.virtualHost);
+        assertNull(config.getName());
+        assertEquals("localhost", config.getHost());
+        assertEquals(5672, config.getPort());
+        assertEquals("guest", config.getUserName());
+        assertEquals("guest", config.getPassword());
+        assertEquals("/", config.getVirtualHost());
+        assertEquals(0, config.getPackageId());
+        assertEquals(0, config.getPrefetchCount());
+        assertTrue(config.isAutoAck());
+        assertEquals(3000, config.getNetworkRecoveryInterval());
+        assertEquals(3, config.getRetryAttempts());
+        assertEquals(1000, config.getRetryInitialInterval());
+        assertEquals(2.0, config.getRetryMultiple());
+        assertEquals(5000, config.getRetryMaxInterval());
+        assertEquals(1, config.getConcurrentConsumers());
+        assertEquals(20, config.getMaxConcurrentConsumers());
+        assertEquals(30, config.getRequestedHeartBeat());
+    }
+
+    @Test
+    void testRabbitConnectionConfigurationNameAssignment() {
+        RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        String testName = "test-connection";
+        
+        config.setName(testName);
+        
+        assertEquals(testName, config.getName());
     }
 
     @Test
     void testRabbitConnectionConfigurationHostAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        String testHost = "localhost";
+        String testHost = "rabbitmq.example.com";
         
-        config.host = testHost;
+        config.setHost(testHost);
         
-        assertEquals(testHost, config.host);
-        assertNull(config.port);
-        assertNull(config.username);
-        assertNull(config.password);
-        assertNull(config.virtualHost);
+        assertEquals(testHost, config.getHost());
     }
 
     @Test
     void testRabbitConnectionConfigurationPortAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        Integer testPort = 5672;
+        int testPort = 15672;
         
-        config.port = testPort;
+        config.setPort(testPort);
         
-        assertEquals(testPort, config.port);
-        assertNull(config.host);
-        assertNull(config.username);
-        assertNull(config.password);
-        assertNull(config.virtualHost);
+        assertEquals(testPort, config.getPort());
     }
 
     @Test
-    void testRabbitConnectionConfigurationUsernameAssignment() {
+    void testRabbitConnectionConfigurationUserNameAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        String testUsername = "guest";
+        String testUserName = "admin";
         
-        config.username = testUsername;
+        config.setUserName(testUserName);
         
-        assertEquals(testUsername, config.username);
-        assertNull(config.host);
-        assertNull(config.port);
-        assertNull(config.password);
-        assertNull(config.virtualHost);
+        assertEquals(testUserName, config.getUserName());
     }
 
     @Test
     void testRabbitConnectionConfigurationPasswordAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        String testPassword = "guest";
+        String testPassword = "password123";
         
-        config.password = testPassword;
+        config.setPassword(testPassword);
         
-        assertEquals(testPassword, config.password);
-        assertNull(config.host);
-        assertNull(config.port);
-        assertNull(config.username);
-        assertNull(config.virtualHost);
+        assertEquals(testPassword, config.getPassword());
     }
 
     @Test
     void testRabbitConnectionConfigurationVirtualHostAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        String testVirtualHost = "/";
+        String testVirtualHost = "/test";
         
-        config.virtualHost = testVirtualHost;
+        config.setVirtualHost(testVirtualHost);
         
-        assertEquals(testVirtualHost, config.virtualHost);
-        assertNull(config.host);
-        assertNull(config.port);
-        assertNull(config.username);
-        assertNull(config.password);
+        assertEquals(testVirtualHost, config.getVirtualHost());
     }
 
     @Test
-    void testRabbitConnectionConfigurationAllFieldsAssignment() {
+    void testRabbitConnectionConfigurationPackageIdAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        String testHost = "rabbitmq.example.com";
-        Integer testPort = 5672;
-        String testUsername = "admin";
-        String testPassword = "secret";
-        String testVirtualHost = "/production";
+        int testPackageId = 12345;
         
-        config.host = testHost;
-        config.port = testPort;
-        config.username = testUsername;
-        config.password = testPassword;
-        config.virtualHost = testVirtualHost;
+        config.setPackageId(testPackageId);
         
-        assertEquals(testHost, config.host);
-        assertEquals(testPort, config.port);
-        assertEquals(testUsername, config.username);
-        assertEquals(testPassword, config.password);
-        assertEquals(testVirtualHost, config.virtualHost);
+        assertEquals(testPackageId, config.getPackageId());
     }
 
     @Test
-    void testRabbitConnectionConfigurationNullAssignments() {
+    void testRabbitConnectionConfigurationPrefetchCountAssignment() {
+        RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        int testPrefetchCount = 100;
+        
+        config.setPrefetchCount(testPrefetchCount);
+        
+        assertEquals(testPrefetchCount, config.getPrefetchCount());
+    }
+
+    @Test
+    void testRabbitConnectionConfigurationAutoAckAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
         
-        config.host = null;
-        config.port = null;
-        config.username = null;
-        config.password = null;
-        config.virtualHost = null;
+        config.setAutoAck(false);
         
-        assertNull(config.host);
-        assertNull(config.port);
-        assertNull(config.username);
-        assertNull(config.password);
-        assertNull(config.virtualHost);
+        assertFalse(config.isAutoAck());
     }
 
     @Test
-    void testRabbitConnectionConfigurationEmptyStringAssignments() {
+    void testRabbitConnectionConfigurationNetworkRecoveryIntervalAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        long testInterval = 5000L;
         
-        config.host = "";
-        config.username = "";
-        config.password = "";
-        config.virtualHost = "";
+        config.setNetworkRecoveryInterval(testInterval);
         
-        assertEquals("", config.host);
-        assertEquals("", config.username);
-        assertEquals("", config.password);
-        assertEquals("", config.virtualHost);
+        assertEquals(testInterval, config.getNetworkRecoveryInterval());
     }
 
     @Test
-    void testRabbitConnectionConfigurationSpecialCharacters() {
+    void testRabbitConnectionConfigurationRetryAttemptsAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        String specialHost = "rabbit-mq.test-env.com";
-        String specialUsername = "user@domain.com";
-        String specialPassword = "p@ssw0rd!#$%";
-        String specialVirtualHost = "/test-env";
+        int testRetryAttempts = 5;
         
-        config.host = specialHost;
-        config.username = specialUsername;
-        config.password = specialPassword;
-        config.virtualHost = specialVirtualHost;
+        config.setRetryAttempts(testRetryAttempts);
         
-        assertEquals(specialHost, config.host);
-        assertEquals(specialUsername, config.username);
-        assertEquals(specialPassword, config.password);
-        assertEquals(specialVirtualHost, config.virtualHost);
+        assertEquals(testRetryAttempts, config.getRetryAttempts());
     }
 
     @Test
-    void testRabbitConnectionConfigurationPortEdgeCases() {
+    void testRabbitConnectionConfigurationRetryInitialIntervalAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        int testRetryInitialInterval = 2000;
         
-        config.port = 0;
-        assertEquals(Integer.valueOf(0), config.port);
+        config.setRetryInitialInterval(testRetryInitialInterval);
         
-        config.port = 65535;
-        assertEquals(Integer.valueOf(65535), config.port);
-        
-        config.port = -1;
-        assertEquals(Integer.valueOf(-1), config.port);
+        assertEquals(testRetryInitialInterval, config.getRetryInitialInterval());
     }
 
     @Test
-    void testRabbitConnectionConfigurationLongStrings() {
+    void testRabbitConnectionConfigurationRetryMultipleAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        String longHost = "very-long-hostname-that-might-be-used-in-some-environments.example.com";
-        String longUsername = "very-long-username-that-contains-lots-of-characters";
-        String longPassword = "very-long-password-with-many-special-characters-and-numbers-123456789";
-        String longVirtualHost = "/very-long-virtual-host-name-for-testing-purposes";
+        double testRetryMultiple = 1.5;
         
-        config.host = longHost;
-        config.username = longUsername;
-        config.password = longPassword;
-        config.virtualHost = longVirtualHost;
+        config.setRetryMultiple(testRetryMultiple);
         
-        assertEquals(longHost, config.host);
-        assertEquals(longUsername, config.username);
-        assertEquals(longPassword, config.password);
-        assertEquals(longVirtualHost, config.virtualHost);
+        assertEquals(testRetryMultiple, config.getRetryMultiple());
     }
 
     @Test
-    void testRabbitConnectionConfigurationUnicodeCharacters() {
+    void testRabbitConnectionConfigurationRetryMaxIntervalAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
-        String unicodeHost = "хост.пример.рф";
-        String unicodeUsername = "пользователь";
-        String unicodePassword = "пароль123";
-        String unicodeVirtualHost = "/виртуальный-хост";
+        int testRetryMaxInterval = 10000;
         
-        config.host = unicodeHost;
-        config.username = unicodeUsername;
-        config.password = unicodePassword;
-        config.virtualHost = unicodeVirtualHost;
+        config.setRetryMaxInterval(testRetryMaxInterval);
         
-        assertEquals(unicodeHost, config.host);
-        assertEquals(unicodeUsername, config.username);
-        assertEquals(unicodePassword, config.password);
-        assertEquals(unicodeVirtualHost, config.virtualHost);
+        assertEquals(testRetryMaxInterval, config.getRetryMaxInterval());
     }
 
     @Test
-    void testRabbitConnectionConfigurationReassignment() {
+    void testRabbitConnectionConfigurationConcurrentConsumersAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        int testConcurrentConsumers = 5;
         
-        config.host = "first-host";
-        config.port = 5672;
-        config.username = "first-user";
-        config.password = "first-pass";
-        config.virtualHost = "/first";
+        config.setConcurrentConsumers(testConcurrentConsumers);
         
-        assertEquals("first-host", config.host);
-        assertEquals(Integer.valueOf(5672), config.port);
-        assertEquals("first-user", config.username);
-        assertEquals("first-pass", config.password);
-        assertEquals("/first", config.virtualHost);
-        
-        config.host = "second-host";
-        config.port = 5673;
-        config.username = "second-user";
-        config.password = "second-pass";
-        config.virtualHost = "/second";
-        
-        assertEquals("second-host", config.host);
-        assertEquals(Integer.valueOf(5673), config.port);
-        assertEquals("second-user", config.username);
-        assertEquals("second-pass", config.password);
-        assertEquals("/second", config.virtualHost);
+        assertEquals(testConcurrentConsumers, config.getConcurrentConsumers());
     }
 
     @Test
-    void testRabbitConnectionConfigurationMultipleInstances() {
-        RabbitConnectionConfiguration config1 = new RabbitConnectionConfiguration();
-        RabbitConnectionConfiguration config2 = new RabbitConnectionConfiguration();
-        
-        config1.host = "host1";
-        config1.port = 5672;
-        config1.username = "user1";
-        config1.password = "pass1";
-        config1.virtualHost = "/vhost1";
-        
-        config2.host = "host2";
-        config2.port = 5673;
-        config2.username = "user2";
-        config2.password = "pass2";
-        config2.virtualHost = "/vhost2";
-        
-        assertEquals("host1", config1.host);
-        assertEquals("host2", config2.host);
-        assertNotEquals(config1.host, config2.host);
-        assertNotEquals(config1.port, config2.port);
-        assertNotEquals(config1.username, config2.username);
-        assertNotEquals(config1.password, config2.password);
-        assertNotEquals(config1.virtualHost, config2.virtualHost);
-    }
-
-    @Test
-    void testRabbitConnectionConfigurationWhitespaceHandling() {
+    void testRabbitConnectionConfigurationMaxConcurrentConsumersAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        int testMaxConcurrentConsumers = 50;
         
-        config.host = "  host-with-spaces  ";
-        config.username = "  username  ";
-        config.password = "  password  ";
-        config.virtualHost = "  /vhost  ";
+        config.setMaxConcurrentConsumers(testMaxConcurrentConsumers);
         
-        assertEquals("  host-with-spaces  ", config.host);
-        assertEquals("  username  ", config.username);
-        assertEquals("  password  ", config.password);
-        assertEquals("  /vhost  ", config.virtualHost);
+        assertEquals(testMaxConcurrentConsumers, config.getMaxConcurrentConsumers());
     }
 
     @Test
-    void testRabbitConnectionConfigurationDefaultValues() {
-        RabbitConnectionConfiguration config1 = new RabbitConnectionConfiguration();
-        RabbitConnectionConfiguration config2 = new RabbitConnectionConfiguration();
-        
-        assertEquals(config1.host, config2.host);
-        assertEquals(config1.port, config2.port);
-        assertEquals(config1.username, config2.username);
-        assertEquals(config1.password, config2.password);
-        assertEquals(config1.virtualHost, config2.virtualHost);
-    }
-
-    @Test
-    void testRabbitConnectionConfigurationFieldIndependence() {
+    void testRabbitConnectionConfigurationRequestedHeartBeatAssignment() {
         RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        int testRequestedHeartBeat = 60;
         
-        config.host = "test-host";
-        assertNull(config.port);
-        assertNull(config.username);
-        assertNull(config.password);
-        assertNull(config.virtualHost);
+        config.setRequestedHeartBeat(testRequestedHeartBeat);
         
-        config.port = 1234;
-        assertEquals("test-host", config.host);
-        assertNull(config.username);
-        assertNull(config.password);
-        assertNull(config.virtualHost);
+        assertEquals(testRequestedHeartBeat, config.getRequestedHeartBeat());
+    }
+
+    @Test
+    void testRabbitConnectionConfigurationBaseCustomersApiAssignment() {
+        RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        String testBaseCustomersApi = "https://api.example.com";
         
-        config.username = "test-user";
-        assertEquals("test-host", config.host);
-        assertEquals(Integer.valueOf(1234), config.port);
-        assertNull(config.password);
-        assertNull(config.virtualHost);
+        config.setBaseCustomersApi(testBaseCustomersApi);
+        
+        assertEquals(testBaseCustomersApi, config.getBaseCustomersApi());
+    }
+
+    @Test
+    void testRabbitConnectionConfigurationRabbitListenerContainerFactoryNameAssignment() {
+        RabbitConnectionConfiguration config = new RabbitConnectionConfiguration();
+        String testFactoryName = "customRabbitListenerContainerFactory";
+        
+        config.setRabbitListenerContainerFactoryName(testFactoryName);
+        
+        assertEquals(testFactoryName, config.getRabbitListenerContainerFactoryName());
     }
 }
