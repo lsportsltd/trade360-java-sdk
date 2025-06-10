@@ -96,12 +96,6 @@ public abstract class BaseBet {
     @Nullable public String priceHK;
 
     /**
-     * Indicates whether the bet has changed.
-     * Default value is -1.
-     */
-    public int isChanged = -1;
-
-    /**
      * The probability of the bet.
      */
     public double probability;
