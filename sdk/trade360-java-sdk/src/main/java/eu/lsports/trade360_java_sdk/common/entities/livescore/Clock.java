@@ -5,7 +5,7 @@ import jakarta.annotation.Nullable;
 import eu.lsports.trade360_java_sdk.common.entities.enums.ClockStatus;
 
 /**
- * The {@code Clock} class represents a clock in a livescore event.
+ * The {@code Clock} class represents a clock in a live score event.
  */
 public class Clock {
 
