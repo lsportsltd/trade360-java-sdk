@@ -27,7 +27,6 @@ class BaseBetBusinessTest {
         bet.priceUK = "1/1";
         bet.priceMA = "0.95";
         bet.priceHK = "1.00";
-        bet.isChanged = 1;
         bet.probability = 0.55;
         bet.participantId = 7;
         bet.playerName = "Player X";
@@ -45,7 +44,6 @@ class BaseBetBusinessTest {
     @Test
     void testEdgeCasesAndDefaults() {
         TestBaseBet bet = new TestBaseBet();
-        assertEquals(-1, bet.isChanged);
         assertNull(bet.line);
         assertNull(bet.baseLine);
         assertNull(bet.startPrice);
