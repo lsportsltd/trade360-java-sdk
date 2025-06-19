@@ -61,6 +61,11 @@ public abstract class BaseBet {
     public SettlementType settlement;
 
     /**
+     * The Suspension Reason of the bet.
+     */
+    @Nullable public int SuspensionReason;
+
+    /**
      * The last update time of the bet in UTC.
      */
     public LocalDateTime lastUpdate;
