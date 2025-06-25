@@ -31,6 +31,12 @@ public class Scoreboard {
     @Nullable public String time;
 
     /**
+     * The clock associated with the scoreboard.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public Clock clock;
+
+    /**
      * The results associated with the scoreboard.
      * This can be {@code null} if not set.
      */

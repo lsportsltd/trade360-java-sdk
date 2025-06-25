@@ -14,12 +14,16 @@ class ScoreboardTest {
         scoreboard.description = StatusDescription.NONE;
         scoreboard.currentPeriod = 2;
         scoreboard.time = "90:00";
+        Clock clock = new Clock();
+        scoreboard.clock = clock;
         Result result = new Result();
         scoreboard.results = List.of(result);
         assertEquals(FixtureStatus.FINISHED, scoreboard.status);
         assertEquals(StatusDescription.NONE, scoreboard.description);
         assertEquals(2, scoreboard.currentPeriod);
         assertEquals("90:00", scoreboard.time);
+        assertNotNull(scoreboard.clock);
+        assertEquals(clock, scoreboard.clock);
         assertNotNull(scoreboard.results);
     }
 
@@ -31,5 +35,6 @@ class ScoreboardTest {
         assertEquals(0, scoreboard.currentPeriod);
         assertNull(scoreboard.time);
         assertNull(scoreboard.results);
+        assertNull(scoreboard.clock);
     }
 } 

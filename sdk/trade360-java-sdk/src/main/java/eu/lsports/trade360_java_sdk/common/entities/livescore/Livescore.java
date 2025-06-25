@@ -27,6 +27,12 @@ public class Livescore {
     @Nullable public Iterable<Statistic> statistics;
 
     /**
+     * The player statistics associated with the live score.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public Iterable<PlayerStatistic> playerStatistics;
+
+    /**
      * Extra data associated with the live score.
      * This can be {@code null} if not set.
      */
