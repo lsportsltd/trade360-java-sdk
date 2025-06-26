@@ -58,6 +58,7 @@ public class AmqpMessageHandler implements MessageHandler {
      */
     @Override
     public void process(Message amqpMessage) throws Exception {
+        long messageConsumptionTime = System.currentTimeMillis();
         int typeId = getTypeIdFromMessage(amqpMessage);
         Class<?> msgType = getMessageType(typeId);
         String body = getBodyFromMessage(amqpMessage);
@@ -65,21 +66,20 @@ public class AmqpMessageHandler implements MessageHandler {
         Map<String, String> header = getHeaderFromMessage(amqpMessage);
         EntityHandler handler = getEntityHandler(typeId);
 
-        calculateConsumptionLatency(header);
+        calculateConsumptionLatency(header, messageConsumptionTime);
 
         handler.process(msg, header);
     }
 
-    private void calculateConsumptionLatency(Map<String, String> header) {
+    private void calculateConsumptionLatency(Map<String, String> header, long messageConsumptionTimeMs) {
         if (header.containsKey(MESSAGE_BROKER_TIMESTAMP_HEADER_NAME) && header.containsKey(MESSAGE_BROKER_MESSAGE_GUID_HEADER_NAME)){
-            long messageConsumptionTimeMs = System.currentTimeMillis();
             long messageBrokerTimestamp = Long.parseLong(header.get(MESSAGE_BROKER_TIMESTAMP_HEADER_NAME));
             String messageGuid = header.get(MESSAGE_BROKER_MESSAGE_GUID_HEADER_NAME);
             long consumptionLatency = messageConsumptionTimeMs - messageBrokerTimestamp;
 
             logger.info("Message {} was consumed within {} milliseconds. [broker:{}, consumption:{}]", messageGuid, consumptionLatency, messageBrokerTimestamp, messageConsumptionTimeMs);
         } else {
-            logger.warn("Unable to check message consumption delay: missing message timestamp");
+            logger.warn("Unable to check message consumption delay: timestamp_in_ms is missing from message_properties");
         }
     }
 
@@ -129,7 +129,7 @@ public class AmqpMessageHandler implements MessageHandler {
             Map<String, Object> map = objectMapper.readValue(message.getBody(), HashMap.class);
             Map<String, String> header = (Map<String, String>) map.get(headerPropertyName);
 
-            if (message.getMessageProperties().getHeaders().containsKey(MESSAGE_BROKER_TIMESTAMP_IN_MS)){
+            if (message.getMessageProperties() != null && message.getMessageProperties().getHeaders().containsKey(MESSAGE_BROKER_TIMESTAMP_IN_MS)){
                 long timestampInMs = message.getMessageProperties().getHeader(MESSAGE_BROKER_TIMESTAMP_IN_MS);
                 header.put(MESSAGE_BROKER_TIMESTAMP_HEADER_NAME, Long.toString(timestampInMs));
             }
