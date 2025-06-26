@@ -33,4 +33,9 @@ public class MessageHeader {
      * The server timestamp of the message.
      */
     public long serverTimestamp;
+
+    /***
+     * A timestamp (ms, UTC) representing the exact time the message was pushed into the broker queue on the server side.
+     */
+    public long messageBroketTimestamp;
 }
