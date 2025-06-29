@@ -1,13 +1,12 @@
 package eu.lsports.trade360_java_sdk.common.serialization;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import eu.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetSnapshotRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -140,34 +139,33 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    void testSerializeAndDeserialize() throws Exception {
+    public void testSerializeAndDeserialize() throws Exception {
         SimplePojo pojo = new SimplePojo("hello", 42);
         String json = serializer.serializeToString(pojo);
         assertTrue(json.contains("hello"));
         JsonNode node = serializer.deserializeToTree(json);
-        assertEquals("hello", node.get("foo").asText());
-        assertEquals(42, node.get("bar").asInt());
+        assertEquals("hello", node.get("Foo").asText());
+        assertEquals(42, node.get("Bar").asInt());
     }
 
     @Test
-    void testSerializeRequestWithCredentials() {
+    public void testSerializeRequestWithCredentials() {
         ObjectNode node = serializer.serializeRequest(new DummyRequest("foo"));
         assertEquals(123, node.get("PackageId").asInt());
         assertEquals("user", node.get("UserName").asText());
         assertEquals("pass", node.get("Password").asText());
         assertEquals("json", node.get("MessageFormat").asText());
-        assertEquals("foo", node.get("value").asText());
+        assertEquals("foo", node.get("Value").asText());
     }
 
     @Test
-    void serializeToStringValid() throws JsonProcessingException {
-        DummyRequest req = new DummyRequest("bar");
-        String json = serializer.serializeToString(req);
+    public void serializeToStringValid() throws JsonProcessingException {
+        String json = serializer.serializeRequest(new DummyRequest("bar")).toString();
         assertTrue(json.contains("bar"));
     }
 
     @Test
-    void testSerializeRequestNullRequest() {
+    public void testSerializeRequestNullRequest() {
         ObjectNode node = serializer.serializeRequest(null);
         assertEquals(123, node.get("PackageId").asInt());
         assertEquals("user", node.get("UserName").asText());
@@ -176,7 +174,7 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    void testSerializeRequestWithoutCredentials() {
+    public void testSerializeRequestWithoutCredentials() {
         JacksonApiSerializer serializer = new JacksonApiSerializer(null);
         SimpleDto dto = new SimpleDto(42, "foo");
         ObjectNode node = serializer.serializeRequest(dto);
@@ -186,7 +184,7 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    void testSerializeToStringAndDeserializeToTree() throws JsonProcessingException {
+    public void testSerializeToStringAndDeserializeToTree() throws JsonProcessingException {
         PackageCredentials creds = new PackageCredentials(1, "user", "pass");
         JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
         SimpleDto dto = new SimpleDto(7, "bar");
@@ -199,7 +197,7 @@ public class JacksonApiSerializerTest {
     }
 
     @Test
-    void testConvertValue() {
+    public void testConvertValue() {
         PackageCredentials creds = new PackageCredentials(1, "user", "pass");
         JacksonApiSerializer serializer = new JacksonApiSerializer(creds);
         SimpleDto dto = new SimpleDto(99, "baz");

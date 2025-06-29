@@ -10,11 +10,14 @@ import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedExcepti
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,12 +26,19 @@ import java.util.Map;
  */
 @Component
 public class AmqpMessageHandler implements MessageHandler {
-    private final EntityRegistry entityRegister;
+
     private final String messageTypeClassPath = "eu.lsports.trade360_java_sdk.common.entities.message_types.";
     private final String typeIdPropertyHeaderName = "Type";
     private final String headerPropertyName = "Header";
     private final String bodyPropertyName = "Body";
+
+    public static final String MESSAGE_BROKER_MESSAGE_GUID_HEADER_NAME = "MsgGuid";
+    public static final String MESSAGE_BROKER_TIMESTAMP_IN_MS = "timestamp_in_ms";
+    public static final String MESSAGE_BROKER_TIMESTAMP_HEADER_NAME = "MessageBrokerTimestamp";
+
+    private final EntityRegistry entityRegister;
     private final ObjectMapper objectMapper;
+    protected final Logger logger = LogManager.getLogger();
 
     /**
      * Constructs a new AmqpMessageHandler with the given entity registry.
@@ -103,6 +113,14 @@ public class AmqpMessageHandler implements MessageHandler {
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> map = objectMapper.readValue(message.getBody(), HashMap.class);
             Map<String, String> header = (Map<String, String>) map.get(headerPropertyName);
+
+            if (message.getMessageProperties() != null && message.getMessageProperties().getHeaders().containsKey(MESSAGE_BROKER_TIMESTAMP_IN_MS)){
+                long timestampInMs = message.getMessageProperties().getHeader(MESSAGE_BROKER_TIMESTAMP_IN_MS);
+                header.put(MESSAGE_BROKER_TIMESTAMP_HEADER_NAME, Long.toString(timestampInMs));
+            } else {
+                logger.warn("AMQP message properties is missing a header [timestamp_in_ms]");
+            }
+
             return header;
         } catch (Exception ex) {
             throw new RabbitMQFeedException("Failed to parse header from message.", ex);

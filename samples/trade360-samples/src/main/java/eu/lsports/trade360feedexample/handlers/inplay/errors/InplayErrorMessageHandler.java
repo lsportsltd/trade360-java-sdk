@@ -19,7 +19,6 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 
     @Override
     public Object handleError(Message amqpMessage, Channel channel, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {
-
         String connectionName = channel.getConnection().getAddress().toString();
 
         // Printout error message after error
