@@ -19,12 +19,12 @@ public class InplayErrorMessageHandler implements RabbitListenerErrorHandler {
 
     @Override
     public Object handleError(Message amqpMessage, Channel channel, org.springframework.messaging.Message<?> message, ListenerExecutionFailedException exception) throws Exception {
-
         String connectionName = channel.getConnection().getAddress().toString();
 
-        logger.error("{}: Unable to process message amqpMessage header: {}", connectionName, amqpMessage.getMessageProperties().toString());
-        logger.error("{}: Unable to process due to exception cause: {} ", connectionName, exception.getCause());
-        logger.error("{}: message: {} ", connectionName, message.getPayload());
+        // Printout error message after error	        logger.error("{}: Unable to process message amqpMessage header: {}", connectionName, amqpMessage.getMessageProperties().toString());
+        logger.error(MessageFormat.format("{0}: Unable to process message amqpMessage header: {1}", connectionName, amqpMessage.getMessageProperties().toString()));	        logger.error("{}: Unable to process due to exception cause: {} ", connectionName, exception.getCause());
+        logger.error("{0}: Unable to process due to exception cause: {1} ", connectionName, exception.getCause());	        logger.error("{}: message: {} ", connectionName, message.getPayload());
+        logger.error("{0}: message: {1} ", connectionName, message.getPayload());
 
         // Further message handling can be added here, e.g. send to DLQ
 
