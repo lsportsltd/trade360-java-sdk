@@ -17,7 +17,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,13 +67,16 @@ public class AmqpMessageHandler implements MessageHandler {
         handler.process(msg, header);
     }
 
-    private @NotNull Class<?> getMessageType(final int typeId) throws ClassNotFoundException, RabbitMQFeedException {
-        MessageType className;
-        className = MessageType.findMessageType(typeId);
-        if (className == null)
-            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId));
-        else
-            return Class.forName(messageTypeClassPath + className);
+    private @NotNull Class<?> getMessageType(final int typeId) throws RabbitMQFeedException {
+        try {
+            MessageType messageType = MessageType.findMessageType(typeId);
+            if (messageType == null) {
+                throw new RabbitMQFeedException(MessageFormat.format("Failed to find message type for typeId: {0}", typeId));
+            }
+            return messageType.getMessageClass();
+        } catch (ClassNotFoundException e) {
+            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId), e);
+        }
     }
 
     private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
