@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Component
 public class AmqpMessageHandler implements MessageHandler {
-    private final EntityRegistry entityRegister;
+
     private final String messageTypeClassPath = "eu.lsports.trade360_java_sdk.common.entities.message_types.";
     private final String typeIdPropertyHeaderName = "Type";
     private final String headerPropertyName = "Header";
@@ -67,13 +67,16 @@ public class AmqpMessageHandler implements MessageHandler {
         handler.process(msg, header);
     }
 
-    private @NotNull Class<?> getMessageType(final int typeId) throws ClassNotFoundException, RabbitMQFeedException {
-        MessageType className;
-        className = MessageType.findMessageType(typeId);
-        if (className == null)
-            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId));
-        else
-            return Class.forName(messageTypeClassPath + className);
+    private @NotNull Class<?> getMessageType(final int typeId) throws RabbitMQFeedException {
+        try {
+            MessageType messageType = MessageType.findMessageType(typeId);
+            if (messageType == null) {
+                throw new RabbitMQFeedException(MessageFormat.format("Failed to find message type for typeId: {0}", typeId));
+            }
+            return messageType.getMessageClass();
+        } catch (ClassNotFoundException e) {
+            throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId), e);
+        }
     }
 
     private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException {

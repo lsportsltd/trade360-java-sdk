@@ -1,6 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import eu.lsports.trade360_java_sdk.common.entities.message_types.*;
 
 /**
  * The {@code MessageType} enum represents the various types of messages.
@@ -9,62 +10,64 @@ public enum MessageType {
     /**
      * Type indicating a fixture metadata update message.
      */
-    FixtureMetadataUpdate(1),
+    FixtureMetadataUpdate(1, FixtureMetadataUpdate.class),
 
     /**
      * Type indicating a livescore update message.
      */
-    LivescoreUpdate(2),
+    LivescoreUpdate(2, LivescoreUpdate.class),
 
     /**
      * Type indicating a market update message for trade360 customer type.
      */
-    MarketUpdate(3),
+    MarketUpdate(3, MarketUpdate.class),
 
     /**
      * Type indicating a keep-alive update message.
      */
-    KeepAliveUpdate(31),
+    KeepAliveUpdate(31, KeepAliveUpdate.class),
 
     /**
      * Type indicating a heartbeat update message.
      */
-    HeartbeatUpdate(32),
+    HeartbeatUpdate(32, HeartbeatUpdate.class),
 
     /**
      * Type indicating a settlement update message for trade360 customer type.
      */
-    SettlementUpdate(35),
+    SettlementUpdate(35, SettlementUpdate.class),
     /**
      * Type indicating an outright fixture update message.
      */
-    OutrightFixtureUpdate(37),
+    OutrightFixtureUpdate(37, OutrightFixtureUpdate.class),
 
     /**
      * Type indicating an outright league update message for trade360 customer type.
      */
-    OutrightLeagueUpdate(38),
+    OutrightLeagueUpdate(38, OutrightLeagueUpdate.class),
     /**
      * Type indicating an outright score update message.
      */
-    OutrightScoreUpdate(39),
+    OutrightScoreUpdate(39, OutrightScoreUpdate.class),
     /**
      * Type indicating an outright league market update message for trade360 customer type.
      */
-    OutrightLeagueMarketUpdate(40),
+    OutrightLeagueMarketUpdate(40, OutrightLeagueMarketUpdate.class),
     /**
      * Type indicating an outright fixture market update message for trade360 customer type.
      */
-    OutrightFixtureMarketUpdate(41),
+    OutrightFixtureMarketUpdate(41, OutrightFixtureMarketUpdate.class),
     /**
      * Type indicating an outright settlements update message for trade360 customer type.
      */
-    OutrightSettlementsUpdate(42);
+    OutrightSettlementsUpdate(42, OutrightSettlementsUpdate.class);
 
     private int value;
+    private final Class<?> clazz;
 
-    MessageType(int value) {
+    MessageType(int value, Class<?> clazz) {
         this.value = value;
+        this.clazz = clazz;
     }
 
     /**
@@ -84,6 +87,10 @@ public enum MessageType {
     @JsonValue
     public int getValue() {
         return this.value;
+    }
+
+    public Class<?> getMessageClass() {
+        return clazz;
     }
 
     /**
