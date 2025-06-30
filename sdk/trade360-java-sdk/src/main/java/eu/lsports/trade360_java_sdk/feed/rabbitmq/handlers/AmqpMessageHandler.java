@@ -9,13 +9,11 @@ import eu.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,23 +55,33 @@ public class AmqpMessageHandler implements MessageHandler {
      */
     @Override
     public void process(Message amqpMessage) throws Exception {
-        int typeId = getTypeIdFromMessage(amqpMessage);
-        Class<?> msgType = getMessageType(typeId);
-        String body = getBodyFromMessage(amqpMessage);
-        Object msg = parseMessage(body, msgType);
-        Map<String, String> header = getHeaderFromMessage(amqpMessage);
-        EntityHandler handler = getEntityHandler(typeId);
+        try {
+            int typeId = getTypeIdFromMessage(amqpMessage);
+            MessageType messageType = getMessageType(typeId);
+            Class<?> msgType = messageType.getMessageClass();
+            String body = "";
+            Object msg = null;
 
-        handler.process(msg, header);
+            if (messageType.hasBody()){
+                body = getBodyFromMessage(amqpMessage);
+                msg = parseMessage(body, msgType);
+            }
+
+            Map<String, String> header = getHeaderFromMessage(amqpMessage);
+            EntityHandler handler = getEntityHandler(typeId);
+
+            handler.process(msg, header);
+        }
+        catch (Exception e){
+            if (!e.getMessage().contains("Entity Handler not found")){
+                logger.error(e.getCause());
+            }
+        }
     }
 
-    private @NotNull Class<?> getMessageType(final int typeId) throws RabbitMQFeedException {
+    private @NotNull MessageType getMessageType(final int typeId) throws RabbitMQFeedException {
         try {
-            MessageType messageType = MessageType.findMessageType(typeId);
-            if (messageType == null) {
-                throw new RabbitMQFeedException(MessageFormat.format("Failed to find message type for typeId: {0}", typeId));
-            }
-            return messageType.getMessageClass();
+            return MessageType.findMessageType(typeId);
         } catch (ClassNotFoundException e) {
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId), e);
         }
