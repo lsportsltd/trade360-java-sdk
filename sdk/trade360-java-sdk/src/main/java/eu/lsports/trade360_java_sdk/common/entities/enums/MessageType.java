@@ -3,6 +3,8 @@ package eu.lsports.trade360_java_sdk.common.entities.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 import eu.lsports.trade360_java_sdk.common.entities.message_types.*;
 
+import java.text.MessageFormat;
+
 /**
  * The {@code MessageType} enum represents the various types of messages.
  */
@@ -30,7 +32,7 @@ public enum MessageType {
     /**
      * Type indicating a heartbeat update message.
      */
-    HeartbeatUpdate(32, HeartbeatUpdate.class),
+    HeartbeatUpdate(32, HeartbeatUpdate.class, false),
 
     /**
      * Type indicating a settlement update message for trade360 customer type.
@@ -64,10 +66,18 @@ public enum MessageType {
 
     private int value;
     private final Class<?> clazz;
+    private final boolean hasBody;
 
     MessageType(int value, Class<?> clazz) {
         this.value = value;
         this.clazz = clazz;
+        this.hasBody = true;
+    }
+
+    MessageType(int value, Class<?> clazz, boolean hasBody) {
+        this.value = value;
+        this.clazz = clazz;
+        this.hasBody = hasBody;
     }
 
     /**
@@ -89,6 +99,15 @@ public enum MessageType {
         return this.value;
     }
 
+    /**
+     *
+     * @return the boolean value indicating if the entity has a body
+     */
+    @JsonValue
+    public boolean hasBody() {
+        return this.hasBody;
+    }
+
     public Class<?> getMessageClass() {
         return clazz;
     }
@@ -106,6 +125,6 @@ public enum MessageType {
                 return v;
             }
         }
-        return null;
+        throw new ClassNotFoundException(MessageFormat.format("Requested class for typeId {0}", typeId)) ;
     }
 }
