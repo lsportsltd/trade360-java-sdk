@@ -55,28 +55,21 @@ public class AmqpMessageHandler implements MessageHandler {
      */
     @Override
     public void process(Message amqpMessage) throws Exception {
-        try {
-            int typeId = getTypeIdFromMessage(amqpMessage);
-            MessageType messageType = getMessageType(typeId);
-            Class<?> msgType = messageType.getMessageClass();
-            String body = "";
-            Object msg = null;
+        int typeId = getTypeIdFromMessage(amqpMessage);
+        MessageType messageType = getMessageType(typeId);
+        Class<?> msgType = messageType.getMessageClass();
+        String body = "";
+        Object msg = null;
 
-            if (messageType.hasBody()){
-                body = getBodyFromMessage(amqpMessage);
-                msg = parseMessage(body, msgType);
-            }
-
-            Map<String, String> header = getHeaderFromMessage(amqpMessage);
-            EntityHandler handler = getEntityHandler(typeId);
-
-            handler.process(msg, header);
+        if (messageType.hasBody()){
+            body = getBodyFromMessage(amqpMessage);
+            msg = parseMessage(body, msgType);
         }
-        catch (Exception e){
-            if (!e.getMessage().contains("Entity Handler not found")){
-                logger.error(e.getCause());
-            }
-        }
+
+        Map<String, String> header = getHeaderFromMessage(amqpMessage);
+        EntityHandler handler = getEntityHandler(typeId);
+
+        handler.process(msg, header);
     }
 
     private @NotNull MessageType getMessageType(final int typeId) throws RabbitMQFeedException {
