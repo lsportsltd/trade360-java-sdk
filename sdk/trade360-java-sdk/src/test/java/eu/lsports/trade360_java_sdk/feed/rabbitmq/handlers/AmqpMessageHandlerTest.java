@@ -1,6 +1,5 @@
 package eu.lsports.trade360_java_sdk.feed.rabbitmq.handlers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.lsports.trade360_java_sdk.common.entities.enums.MessageType;
 import eu.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
