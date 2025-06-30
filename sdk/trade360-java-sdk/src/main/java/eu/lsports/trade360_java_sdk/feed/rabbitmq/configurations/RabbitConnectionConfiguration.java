@@ -125,6 +125,8 @@ public class RabbitConnectionConfiguration {
     @NotNull
     private int requestedHeartBeat = 30;
 
+    public String getName() { return name; }
+    public int getPort() { return port; }
     public String getBaseCustomersApi() { return baseCustomersApi; }
     public int getPackageId() { return packageId; }
     public String getUserName() { return userName; }
