@@ -40,15 +40,10 @@ class MessageTypeEnumComprehensiveTest {
     }
 
     @Test
-    void testFindMessageTypeWithInvalidId() throws ClassNotFoundException {
-        MessageType result1 = MessageType.findMessageType(-1);
-        assertNull(result1);
-        
-        MessageType result2 = MessageType.findMessageType(99999);
-        assertNull(result2);
-        
-        MessageType result3 = MessageType.findMessageType(0);
-        assertNull(result3);
+    void testFindMessageTypeWithInvalidId() {
+        assertThrows(ClassNotFoundException.class, () -> MessageType.findMessageType(-1));
+        assertThrows(ClassNotFoundException.class, () -> MessageType.findMessageType(99999));
+        assertThrows(ClassNotFoundException.class, () -> MessageType.findMessageType(0));
     }
 
     @Test

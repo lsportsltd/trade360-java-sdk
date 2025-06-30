@@ -64,7 +64,7 @@ class AmqpMessageHandlerTest {
         var method = handler.getClass().getDeclaredMethod("getMessageType", int.class);
         method.setAccessible(true);
         try (var mt = Mockito.mockStatic(MessageType.class)) {
-            mt.when(() -> MessageType.findMessageType(999)).thenReturn(null);
+            mt.when(() -> MessageType.findMessageType(999)).thenThrow(new ClassNotFoundException());
             InvocationTargetException ex = assertThrows(InvocationTargetException.class, () -> method.invoke(handler, 999));
             assertTrue(ex.getCause() instanceof RabbitMQFeedException);
         }
