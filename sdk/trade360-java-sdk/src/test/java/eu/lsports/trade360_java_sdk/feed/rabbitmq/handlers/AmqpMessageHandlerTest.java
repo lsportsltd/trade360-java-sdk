@@ -6,8 +6,9 @@ import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedExcepti
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 class AmqpMessageHandlerTest {
     private EntityRegistry entityRegistry;
     private AmqpMessageHandler handler;
-    private EntityHandler entityHandler;
+    private EntityHandler<Object> entityHandler;
 
     @BeforeEach
     void setUp() {
@@ -30,42 +31,55 @@ class AmqpMessageHandlerTest {
         handler = new AmqpMessageHandler(entityRegistry);
     }
 
+    private Message createMockMessage(String bodyJson) {
+        Message message = mock(Message.class);
+        MessageProperties messageProperties = mock(MessageProperties.class);
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("MessageGuid", "test-guid-123");
+        headers.put("MessageType", "TestMessage");
+        headers.put("timestamp_in_ms", 1234567890L);
+        
+        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        when(message.getMessageProperties()).thenReturn(messageProperties);
+        when(messageProperties.getHeaders()).thenReturn(headers);
+        when(messageProperties.getHeader("timestamp_in_ms")).thenReturn(1234567890L);
+        return message;
+    }
+
     @Test
-    void test_process_ValidMessage_CallsEntityHandler() throws Exception {
+    void testProcessValidMessageCallsEntityHandler() throws Exception {
         int typeId = 1;
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\"}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        Message message = createMockMessage(bodyJson);
         when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
         // Mock static method
-        try (var mt = Mockito.mockStatic(MessageType.class)) {
+        try (var mt = mockStatic(MessageType.class)) {
             mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
-            doNothing().when(entityHandler).process(any(), any());
+            doNothing().when(entityHandler).process(any(), any(), any());
             assertDoesNotThrow(() -> handler.process(message));
         }
     }
 
     @Test
-    void process_entityHandlerNotFound_throwsException() throws Exception {
+    void processEntityHandlerNotFoundThrowsException() throws Exception {
         int typeId = 1;
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\"}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        Message message = createMockMessage(bodyJson);
         when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(null);
-        try (var mt = Mockito.mockStatic(MessageType.class)) {
+        try (var mt = mockStatic(MessageType.class)) {
             mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
             assertThrows(Trade360Exception.class, () -> handler.process(message));
         }
     }
 
     @Test
-    void testGetMessageType_InvalidType_ThrowsException() throws Exception {
+    void testGetMessageTypeInvalidTypeThrowsException() throws Exception {
         var method = handler.getClass().getDeclaredMethod("getMessageType", int.class);
         method.setAccessible(true);
-        try (var mt = Mockito.mockStatic(MessageType.class)) {
+        try (var mt = mockStatic(MessageType.class)) {
             mt.when(() -> MessageType.findMessageType(999)).thenThrow(new ClassNotFoundException());
             InvocationTargetException ex = assertThrows(InvocationTargetException.class, () -> method.invoke(handler, 999));
-            assertTrue(ex.getCause() instanceof RabbitMQFeedException);
+            assertInstanceOf(RabbitMQFeedException.class, ex.getCause());
         }
     }
 
@@ -79,10 +93,10 @@ class AmqpMessageHandlerTest {
         assertThrows(Exception.class, () -> method.invoke(handler, message));
     }
 
+    @Test
     void testProcessWithMalformedJson() {
         String malformedJson = "{invalid json}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(malformedJson.getBytes(StandardCharsets.UTF_8));
+        Message message = createMockMessage(malformedJson);
         
         assertThrows(Exception.class, () -> handler.process(message));
     }
@@ -90,8 +104,7 @@ class AmqpMessageHandlerTest {
     @Test
     void testProcessWithMissingBodyProperty() {
         String bodyJson = "{\"Header\":{\"Type\":\"1\"}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        Message message = createMockMessage(bodyJson);
         
         assertThrows(Exception.class, () -> handler.process(message));
     }
@@ -99,8 +112,7 @@ class AmqpMessageHandlerTest {
     @Test
     void testProcessWithMissingHeaderProperty() {
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        Message message = createMockMessage(bodyJson);
         
         assertThrows(Exception.class, () -> handler.process(message));
     }
@@ -108,8 +120,7 @@ class AmqpMessageHandlerTest {
     @Test
     void testProcessWithNullTypeInHeader() {
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":null}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        Message message = createMockMessage(bodyJson);
         
         assertThrows(Exception.class, () -> handler.process(message));
     }
@@ -117,8 +128,7 @@ class AmqpMessageHandlerTest {
     @Test
     void testProcessWithEmptyTypeInHeader() {
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"\"}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        Message message = createMockMessage(bodyJson);
         
         assertThrows(Exception.class, () -> handler.process(message));
     }
@@ -126,8 +136,7 @@ class AmqpMessageHandlerTest {
     @Test
     void testProcessWithInvalidTypeFormat() {
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"invalid\"}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+        Message message = createMockMessage(bodyJson);
         
         assertThrows(Exception.class, () -> handler.process(message));
     }
@@ -155,6 +164,7 @@ class AmqpMessageHandlerTest {
         
         var method = handler.getClass().getDeclaredMethod("getHeaderFromMessage", Message.class);
         method.setAccessible(true);
+        @SuppressWarnings("unchecked")
         Map<String, String> result = (Map<String, String>) method.invoke(handler, message);
         
         assertNotNull(result);

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EntityRegisterTest {
     static class DummyEntityHandler implements EntityHandler<Object> {
-        @Override public void process(Object entity, java.util.Map<String, String> messageProperties) {}
+        @Override public void process(Object entity, java.util.Map<String, String> messageHeaders, java.util.Map<String, String> transportMessageHeaders) {}
         @Override public int getEntityKey() { return 1; }
     }
     static class DummyEntityRegister implements EntityRegister {
