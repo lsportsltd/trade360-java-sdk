@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 public class OutrightLeagueUpdateHandlerPrematch implements EntityHandler<OutrightLeagueUpdate> {
     protected static final Logger logger = LogManager.getLogger();
     @Override
-    public void process(OutrightLeagueUpdate entity, Map<String, String> messageProperties) {
+    public void process(OutrightLeagueUpdate entity, Map<String, String> messageHeaders, Map<String, String> transportMessageHeaders) {
         logger.info("Received: " + this.getClass().getSimpleName());
     }
 
