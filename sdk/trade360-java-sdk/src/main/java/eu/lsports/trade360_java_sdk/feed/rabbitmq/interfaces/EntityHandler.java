@@ -13,9 +13,10 @@ public interface EntityHandler<T> {
      * Processes the given entity with the provided message properties.
      *
      * @param entity The entity to process
-     * @param messageProperties The properties of the message
+     * @param messageHeaders The headers of the message
+     * @param transportMessageHeaders The headers of the transport message
      */
-    void process(T entity, Map<String, String> messageProperties);
+    void process(T entity, Map<String, String> messageHeaders, Map<String, String> transportMessageHeaders);
 
     /**
      * Returns the key of the handled entity.
