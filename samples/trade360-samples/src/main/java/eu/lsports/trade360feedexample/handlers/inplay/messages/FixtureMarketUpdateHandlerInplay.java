@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 public class FixtureMarketUpdateHandlerInplay implements EntityHandler<MarketUpdate> {
     protected static final Logger logger = LogManager.getLogger();
     @Override
-    public void process(MarketUpdate entity, Map<String, String> messageProperties) {
+    public void process(MarketUpdate entity, Map<String, String> messageHeaders, Map<String, String> transportMessageHeaders) {
         logger.info("Received: " + this.getClass().getSimpleName());
     }
 
@@ -18,5 +18,4 @@ public class FixtureMarketUpdateHandlerInplay implements EntityHandler<MarketUpd
     public int getEntityKey() {
         return MarketUpdate.entityKey;
     }
-
 }

@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 public class SettlementUpdateHandlerInplay implements EntityHandler<SettlementUpdate> {
     protected static final Logger logger = LogManager.getLogger();
     @Override
-    public void process(SettlementUpdate entity, Map<String, String> messageProperties) {
+    public void process(SettlementUpdate entity, Map<String, String> messageHeaders, Map<String, String> transportMessageHeaders) {
         logger.info("Received: " + this.getClass().getSimpleName());
     }
 

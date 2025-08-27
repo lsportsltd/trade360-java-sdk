@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.lsports.trade360_java_sdk.common.entities.enums.MessageType;
 import eu.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
+import eu.lsports.trade360_java_sdk.common.models.TransportMessageHeaders;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
@@ -28,10 +29,6 @@ public class AmqpMessageHandler implements MessageHandler {
     private final String typeIdPropertyHeaderName = "Type";
     private final String headerPropertyName = "Header";
     private final String bodyPropertyName = "Body";
-
-    public static final String MESSAGE_BROKER_MESSAGE_GUID_HEADER_NAME = "MsgGuid";
-    public static final String MESSAGE_BROKER_TIMESTAMP_IN_MS = "timestamp_in_ms";
-    public static final String MESSAGE_BROKER_TIMESTAMP_HEADER_NAME = "MessageBrokerTimestamp";
 
     private final EntityRegistry entityRegister;
     private final ObjectMapper objectMapper;
@@ -67,9 +64,10 @@ public class AmqpMessageHandler implements MessageHandler {
         }
 
         Map<String, String> header = getHeaderFromMessage(amqpMessage);
+        Map<String, String> transportHeaders = TransportMessageHeaders.createFromProperties(amqpMessage.getMessageProperties().getHeaders()).getAsMap();
         EntityHandler handler = getEntityHandler(typeId);
 
-        handler.process(msg, header);
+        handler.process(msg, header, transportHeaders);
     }
 
     private @NotNull MessageType getMessageType(final int typeId) throws RabbitMQFeedException {
@@ -116,13 +114,6 @@ public class AmqpMessageHandler implements MessageHandler {
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> map = objectMapper.readValue(message.getBody(), HashMap.class);
             Map<String, String> header = (Map<String, String>) map.get(headerPropertyName);
-
-            if (message.getMessageProperties() != null && message.getMessageProperties().getHeaders().containsKey(MESSAGE_BROKER_TIMESTAMP_IN_MS)){
-                long timestampInMs = message.getMessageProperties().getHeader(MESSAGE_BROKER_TIMESTAMP_IN_MS);
-                header.put(MESSAGE_BROKER_TIMESTAMP_HEADER_NAME, Long.toString(timestampInMs));
-            } else {
-                logger.warn("AMQP message properties is missing a header [timestamp_in_ms]");
-            }
 
             return header;
         } catch (Exception ex) {
