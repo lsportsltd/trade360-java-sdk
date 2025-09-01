@@ -34,6 +34,7 @@ public class PrematchTrade360SdkConfiguration {
         entityRegistry.setEntityHandler(new OutrightScoreUpdateHandlerPrematch());
         entityRegistry.setEntityHandler(new OutrightSettlementsUpdateHandlerPrematch());
         entityRegistry.setEntityHandler(new SettlementUpdateHandlerPrematch());
+        entityRegistry.setEntityHandler(new OutrightLeagueSettlementsUpdateHandlerPrematch());
         return entityRegistry;
     }
 
