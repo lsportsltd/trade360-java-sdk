@@ -6,4 +6,4 @@ variables:
   authors: "Shir Ben Ishay"
   company: "LSports"
   tags: "RabbitMQ, Trade360, SDK"
-  version: "1.0.0"  # Specify your manual version here
+  version: "2.1.0"  # Specify your manual version here

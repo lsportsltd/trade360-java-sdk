@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.1.0]
+
+### Added
+
+- **New Outright League Support** - Added comprehensive support for outright league functionality:
+  - `OutrightLeagueEvent` - New entity class for outright league events with fixture ID, outright league fixture, and markets
+  - `OutrightLeagueSettlementUpdate` - New message type (entity key 43) for outright league settlement updates
+  - `GetOutrightLeagueEventsRequest` - New snapshot API request for retrieving outright league events with filtering by timestamp, date range, sports, locations, leagues, fixtures, and markets
+  - `GetOutrightLeagueEventsResultElement` - New response wrapper for outright league events results
+  - `OutrightLeagueCompetitionsWrapper` - New response wrapper for outright league competitions
+- **New Snapshot API Method** - `getOutrightLeagueEvents()` method added to `PreMatchSnapshotApiClient` interface for retrieving outright league event snapshots
+- Enhanced outright league market and settlement processing capabilities
+
+### Changed
+
+- Extended `PreMatchSnapshotApiClient` interface with outright league events functionality
+- Updated `PreMatchSnapshotApiClientImplementation` to support outright league events retrieval
+- Enhanced Spring Boot REST client configuration for outright league endpoints
+
 ## [Release Version 2.0.0]
 
 ### Added
@@ -107,4 +126,5 @@ Map<String, String> headersMap = transportHeaders.getAsMap();
 - **Fixture Context**: Direct access to fixture IDs where applicable
 - **Type Safety**: Structured access to transport headers instead of raw map lookups
 
+[Release Version 2.1.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.1.0
 [Release Version 2.0.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.0.0
