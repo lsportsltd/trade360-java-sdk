@@ -1,6 +1,8 @@
 package eu.lsports.trade360_java_sdk.snapshot_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.OutrightLeagueCompetitionsWrapper;
+import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueEvent;
 import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
 import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.*;
 import eu.lsports.trade360_java_sdk.snapshot_api.springframework.SnapshotApiRestClient;
@@ -125,9 +127,22 @@ public class PreMatchSnapshotApiClientImplementation implements PreMatchSnapshot
      */
     @Override
     public Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetOutrightLeagueMarketRequest getOutrightLeagueMarketsRequest) {
-        return this.client.postRequest(
+        var result = this.client.postRequest(
             getOutrightLeagueMarketsRequest,
             new TypeReference<Iterable<GetOutrightLeagueMarketsResultElement>>() {},
             "/Prematch/GetOutrightLeagueMarkets");
+
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<Iterable<GetOutrightLeagueEventsResultElement>> getOutrightLeagueEvents(GetOutrightLeagueEventsRequest getOutrightLeagueEventsRequest) {
+        return this.client.postRequest(
+                getOutrightLeagueEventsRequest,
+                new TypeReference<Iterable<GetOutrightLeagueEventsResultElement>>() {},
+                "/Prematch/GetOutrightLeagueEvents");
     }
 }

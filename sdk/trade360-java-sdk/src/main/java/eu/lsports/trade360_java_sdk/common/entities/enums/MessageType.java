@@ -62,7 +62,11 @@ public enum MessageType {
     /**
      * Type indicating an outright settlements update message for trade360 customer type.
      */
-    OutrightSettlementsUpdate(42, OutrightSettlementsUpdate.class);
+    OutrightSettlementsUpdate(42, OutrightSettlementsUpdate.class),
+    /**
+     * Type indicating an outright league settlements update message for trade360 customer type.
+     */
+    OutrightLeagueSettlementsUpdate(43, OutrightLeagueSettlementUpdate.class);
 
     private int value;
     private final Class<?> clazz;

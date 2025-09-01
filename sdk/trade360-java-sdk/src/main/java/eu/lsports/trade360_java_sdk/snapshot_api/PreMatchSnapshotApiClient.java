@@ -98,4 +98,13 @@ public interface PreMatchSnapshotApiClient {
      * @see GetOutrightLeagueMarketsResultElement
      */
     Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetOutrightLeagueMarketRequest getOutrightLeaguesMarketsRequest);
+
+    /**
+     * Gets the outright league events based on the provided request.
+     *
+     * @param getOutrightLeagueEventsRequest The request containing the parameters
+     * @return A {@link Mono} emitting the outright league markets
+     * @see GetOutrightLeagueEventsResultElement
+     */
+    Mono<Iterable<GetOutrightLeagueEventsResultElement>> getOutrightLeagueEvents(GetOutrightLeagueEventsRequest getOutrightLeagueEventsRequest);
 }

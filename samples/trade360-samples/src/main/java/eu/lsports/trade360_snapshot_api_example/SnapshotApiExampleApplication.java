@@ -69,6 +69,7 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
             System.out.println("8. Snapshot API - Get Outright Events");
             System.out.println("9. Snapshot API - Get Outright Leagues Fixtures");
             System.out.println("10. Snapshot API - Get Outright Leagues Markets");
+            System.out.println("11. Snapshot API - Get Outright Leagues Events");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -104,6 +105,9 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
                 case 10:
                     getOutrightLeagueMarkets(baseUri,preMatchPackageCredentials);
                     break;
+                case 11:
+                    getOutrightLeagueEvents(baseUri,preMatchPackageCredentials);
+                    break;
                 case 0:
                     System.out.println("Exiting...");
                     scanner.close();
@@ -119,13 +123,13 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
     private void getFixtures(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
         this.executeAsynchronous("PreMatch Async Get Fixtures",
-                new GetFixtureRequest(null, null, null, List.of(35232), List.of(73), List.of(4003), List.of(14299207)),
+                new GetFixtureRequest(null, null, null, List.of(6046), null, null, null),
                 preMatchClient::getFixtures);
 
-        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
-        this.executeAsynchronous("InPlay Async Get Fixtures",
-                new GetFixtureRequest(null, null, null, List.of(6046), List.of(171), List.of(170), List.of(13903501)),
-                inPlayClient::getFixtures);
+//        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+//        this.executeAsynchronous("InPlay Async Get Fixtures",
+//                new GetFixtureRequest(null, null, null, List.of(6046), List.of(171), List.of(170), List.of(13903501)),
+//                inPlayClient::getFixtures);
     }
 
     private void getLivescore(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
@@ -207,5 +211,12 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
         this.executeAsynchronous("PreMatch Async Get Outright League Markets",
         new GetOutrightLeagueMarketRequest(null, null, null, List.of(6046), List.of(161), null, null , null),
                 preMatchClient::getOutrightLeagueMarkets);
+    }
+
+    private void getOutrightLeagueEvents(URI baseUrl, PackageCredentials settings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+        this.executeAsynchronous("PreMatch Async Get Outright League Events",
+                new GetOutrightLeagueEventsRequest(null, null, null, List.of(6046), null, null, null , null),
+                preMatchClient::getOutrightLeagueEvents);
     }
 }
