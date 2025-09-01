@@ -73,4 +73,17 @@ class PreMatchSnapshotApiClientImplementationTest {
         assertNotNull(result);
         assertEquals(expectedResponse, result.block());
     }
+
+    @Test
+    void testGetOutrightLeagueEvents() {
+        Iterable<GetOutrightLeagueEventsResultElement> expectedResponse = List.of();
+        when(snapshotApiRestClient.postRequest(any(GetOutrightLeagueEventsRequest.class), any(TypeReference.class), eq("/Prematch/GetOutrightLeagueEvents")))
+                .thenReturn(Mono.just(expectedResponse));
+
+        GetOutrightLeagueEventsRequest request = new GetOutrightLeagueEventsRequest(null, null, null, null, null, null, null, null);
+        Mono<Iterable<GetOutrightLeagueEventsResultElement>> result = client.getOutrightLeagueEvents(request);
+
+        assertNotNull(result);
+        assertEquals(expectedResponse, result.block());
+    }
 }
