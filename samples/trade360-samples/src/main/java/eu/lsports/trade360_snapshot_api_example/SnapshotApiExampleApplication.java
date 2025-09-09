@@ -195,7 +195,7 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
     private void getOutrightFixtureMarkets(URI baseUrl, PackageCredentials settings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
         this.executeAsynchronous("PreMatch Async Get Outright Fixture Markets",
-        new GetOutrightMarketRequest(null, null, null, List.of(6046), List.of(171), null, List.of(13903501), null ),
+        new GetOutrightMarketRequest(null, null, null, null, null, null, List.of(16670634), null ),
                 preMatchClient::getOutrightFixtureMarkets);
     }
 
