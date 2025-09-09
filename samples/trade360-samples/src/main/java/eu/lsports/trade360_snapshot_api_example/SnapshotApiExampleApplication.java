@@ -174,28 +174,28 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
     private void getOutrightEvents(URI baseUrl, PackageCredentials settings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
         this.executeAsynchronous("PreMatch Async Get Outright Events",
-                new GetOutrightEventRequest(null, null, null, List.of(6046),null, null, null, List.of(12003961), null ),
+                new GetOutrightEventRequest(null, null, null, null,null, null, null,null, null ),
                 preMatchClient::getOutrightEvents);
     }
 
     private void getOutrightFixture(URI baseUrl, PackageCredentials settings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
         this.executeAsynchronous("PreMatch Async Get Outright Fixture",
-                new GetOutrightFixtureRequest(null, null, null, List.of(6046), null, null, List.of(12003961) ),
+                new GetOutrightFixtureRequest(null, null, null, null, null, null,null ),
                 preMatchClient::getOutrightFixture);
     }
 
     private void getOutrightScores(URI baseUrl, PackageCredentials settings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
         this.executeAsynchronous("PreMatch Async Get Outright Scores",
-                new GetOutrightLivescoreRequest(null, null, null, List.of(6046), null, null, List.of(12003961) ),
+                new GetOutrightLivescoreRequest(null, null, null, null, null, null,null ),
                 preMatchClient::getOutrightScores);
     }
 
     private void getOutrightFixtureMarkets(URI baseUrl, PackageCredentials settings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
         this.executeAsynchronous("PreMatch Async Get Outright Fixture Markets",
-        new GetOutrightMarketRequest(null, null, null, List.of(6046), List.of(171), null, List.of(13903501), null ),
+        new GetOutrightMarketRequest(null, null, null, null, null, null, List.of(16670634), null ),
                 preMatchClient::getOutrightFixtureMarkets);
     }
 
