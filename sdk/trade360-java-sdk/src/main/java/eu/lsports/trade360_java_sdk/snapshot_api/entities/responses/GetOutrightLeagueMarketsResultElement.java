@@ -6,6 +6,6 @@ import jakarta.annotation.Nullable;
 /**
  * Represents an element of the result for outright league markets.
  */
-public final class GetOutrightLeagueMarketsResultElement extends OutrightLeagueCompetitionsWrapper<OutrightLeagueEvent>{
+public final class GetOutrightLeagueMarketsResultElement extends OutrightLeagueCompetitionsWrapper<OutrightLeagueMarketsCompetition>{
 
 }
