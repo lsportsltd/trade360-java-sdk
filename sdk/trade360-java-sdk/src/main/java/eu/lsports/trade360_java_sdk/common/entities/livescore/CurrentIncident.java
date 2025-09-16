@@ -1,5 +1,6 @@
 package eu.lsports.trade360_java_sdk.common.entities.livescore;
 
+import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentConfirmation;
 import jakarta.annotation.Nullable;
 
 import java.time.LocalDateTime;
@@ -23,5 +24,11 @@ public class CurrentIncident {
      * The last update time of the current incident in UTC.
      */
     public LocalDateTime lastUpdate;
+
+    /**
+     * The confirmation status of current incident
+     */
+    public IncidentConfirmation confirmation;
+
 
 }
