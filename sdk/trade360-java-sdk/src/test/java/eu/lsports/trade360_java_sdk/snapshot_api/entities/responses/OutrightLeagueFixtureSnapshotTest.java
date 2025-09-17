@@ -15,11 +15,13 @@ class OutrightLeagueFixtureSnapshotTest {
         element.lastUpdate = LocalDateTime.now();
         element.status = null;
         element.extraData = Collections.emptyList();
+        element.endDate = LocalDateTime.now().plusDays(1);
         assertNull(element.subscription);
         assertNull(element.sport);
         assertNull(element.location);
         assertNotNull(element.lastUpdate);
         assertNull(element.status);
         assertNotNull(element.extraData);
+        assertNotNull(element.endDate);
     }
 } 
