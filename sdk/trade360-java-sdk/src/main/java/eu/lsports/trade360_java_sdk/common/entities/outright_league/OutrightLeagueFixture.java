@@ -38,6 +38,7 @@ public class OutrightLeagueFixture {
      */
     @Nullable public LocalDateTime lastUpdate;
 
+
     /**
      * The status of the fixture.
      * This can be {@code null} if not set.
@@ -49,4 +50,11 @@ public class OutrightLeagueFixture {
      * This can be {@code null} if not set.
      */
     @Nullable public Iterable<NameValuePair> extraData;
+
+    /**
+     * The End Date time of the fixture in UTC.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public LocalDateTime endDate;
+
 }
