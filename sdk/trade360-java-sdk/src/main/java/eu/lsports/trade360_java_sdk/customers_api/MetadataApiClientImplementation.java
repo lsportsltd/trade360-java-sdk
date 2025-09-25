@@ -143,4 +143,40 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
                 "Incidents/Get"
         );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<BaseResponse<GetVenuesResponse>> getVenues(GetVenuesRequest request) {
+        return this.client.postRequest(
+            request,
+            new TypeReference<BaseResponse<GetVenuesResponse>>() {},
+            "Venues/Get"
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<BaseResponse<GetCitiesResponse>> getCities(GetCitiesRequest request) {
+        return this.client.postRequest(
+            request,
+            new TypeReference<BaseResponse<GetCitiesResponse>>() {},
+            "Cities/Get"
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<BaseResponse<GetStatesResponse>> getStates(GetStatesRequest request) {
+        return this.client.postRequest(
+            request,
+            new TypeReference<BaseResponse<GetStatesResponse>>() {},
+            "States/Get"
+        );
+    }
 }
