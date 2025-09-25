@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
+import eu.lsports.trade360_java_sdk.common.entities.fixtures.FixtureVenue;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
+import jakarta.annotation.Nullable;
 
 /**
  * The {@code OutrightFixture} class represents a fixture in an outright sport.
@@ -21,6 +23,12 @@ public class OutrightFixture {
      * The location of the fixture.
      */
     public Location location;
+
+    /**
+     * The venue of the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public FixtureVenue venue;
 
     /**
      * The start date and time of the fixture in UTC.
