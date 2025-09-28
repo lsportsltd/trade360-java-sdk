@@ -43,31 +43,23 @@ class FixtureVenueTest {
     void testLocationFieldAssignment() {
         FixtureVenue venue = new FixtureVenue();
         
-        IdNamePair city = new IdNamePair();
-        city.id = 1;
-        city.name = "New York";
-        
-        IdNamePair state = new IdNamePair();
-        state.id = 2;
-        state.name = "New York State";
-        
-        IdNamePair country = new IdNamePair();
-        country.id = 3;
-        country.name = "USA";
-        
+        IdNamePair city = new IdNamePair(1, "New York");
+        IdNamePair state = new IdNamePair(2, "New York State");
+        IdNamePair country = new IdNamePair(3, "USA");
+
         venue.city = city;
         venue.state = state;
         venue.country = country;
-        
+
         assertEquals(city, venue.city);
         assertEquals(state, venue.state);
         assertEquals(country, venue.country);
-        assertEquals(1, venue.city.id);
-        assertEquals("New York", venue.city.name);
-        assertEquals(2, venue.state.id);
-        assertEquals("New York State", venue.state.name);
-        assertEquals(3, venue.country.id);
-        assertEquals("USA", venue.country.name);
+        assertEquals(1, venue.city.id());
+        assertEquals("New York", venue.city.name());
+        assertEquals(2, venue.state.id());
+        assertEquals("New York State", venue.state.name());
+        assertEquals(3, venue.country.id());
+        assertEquals("USA", venue.country.name());
     }
 
     @Test
@@ -129,20 +121,9 @@ class FixtureVenueTest {
         venue.id = 456;
         venue.name = "Wimbledon Centre Court";
         
-        IdNamePair city = new IdNamePair();
-        city.id = 10;
-        city.name = "London";
-        venue.city = city;
-        
-        IdNamePair state = new IdNamePair();
-        state.id = 20;
-        state.name = "England";
-        venue.state = state;
-        
-        IdNamePair country = new IdNamePair();
-        country.id = 30;
-        country.name = "United Kingdom";
-        venue.country = country;
+        venue.city = new IdNamePair(10, "London");
+        venue.state = new IdNamePair(20, "England");
+        venue.country = new IdNamePair(30, "United Kingdom");
         
         venue.capacity = 15000;
         venue.courtSurface = CourtSurface.GRASS;
@@ -151,12 +132,12 @@ class FixtureVenueTest {
         
         assertEquals(456, venue.id);
         assertEquals("Wimbledon Centre Court", venue.name);
-        assertEquals(10, venue.city.id);
-        assertEquals("London", venue.city.name);
-        assertEquals(20, venue.state.id);
-        assertEquals("England", venue.state.name);
-        assertEquals(30, venue.country.id);
-        assertEquals("United Kingdom", venue.country.name);
+        assertEquals(10, venue.city.id());
+        assertEquals("London", venue.city.name());
+        assertEquals(20, venue.state.id());
+        assertEquals("England", venue.state.name());
+        assertEquals(30, venue.country.id());
+        assertEquals("United Kingdom", venue.country.name());
         assertEquals(15000, venue.capacity);
         assertEquals(CourtSurface.GRASS, venue.courtSurface);
         assertEquals(VenueEnvironment.OUTDOORS, venue.environment);

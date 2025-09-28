@@ -32,14 +32,8 @@ class FixtureTest {
         fixture.location = new Location();
         fixture.venue = new FixtureVenue();
         fixture.league = new League();
-        IdNamePair stage = new IdNamePair();
-        stage.id = 1;
-        stage.name = "Group Stage";
-        fixture.stage = stage;
-        IdNamePair round = new IdNamePair();
-        round.id = 2;
-        round.name = "Round 1";
-        fixture.round = round;
+        fixture.stage = new IdNamePair(1, "Group Stage");
+        fixture.round = new IdNamePair(2, "Round 1");
         fixture.startDate = now;
         fixture.participants = Arrays.asList(new Participant());
         NameValuePair nvp = new NameValuePair();
@@ -56,11 +50,11 @@ class FixtureTest {
         assertNotNull(fixture.venue);
         assertNotNull(fixture.league);
         assertNotNull(fixture.stage);
-        assertEquals(1, fixture.stage.id);
-        assertEquals("Group Stage", fixture.stage.name);
+        assertEquals(1, fixture.stage.id());
+        assertEquals("Group Stage", fixture.stage.name());
         assertNotNull(fixture.round);
-        assertEquals(2, fixture.round.id);
-        assertEquals("Round 1", fixture.round.name);
+        assertEquals(2, fixture.round.id());
+        assertEquals("Round 1", fixture.round.name());
         assertEquals(now, fixture.startDate);
         assertNotNull(fixture.participants);
         assertNotNull(fixture.fixtureExtraData);
@@ -85,29 +79,21 @@ class FixtureTest {
     @Test
     void testStageFieldAssignment() {
         Fixture fixture = new Fixture();
-        IdNamePair stage = new IdNamePair();
-        stage.id = 5;
-        stage.name = "Knockout Stage";
-        
-        fixture.stage = stage;
+        fixture.stage = new IdNamePair(5, "Knockout Stage");
         
         assertNotNull(fixture.stage);
-        assertEquals(5, fixture.stage.id);
-        assertEquals("Knockout Stage", fixture.stage.name);
+        assertEquals(5, fixture.stage.id());
+        assertEquals("Knockout Stage", fixture.stage.name());
     }
 
     @Test
     void testRoundFieldAssignment() {
         Fixture fixture = new Fixture();
-        IdNamePair round = new IdNamePair();
-        round.id = 10;
-        round.name = "Final";
-        
-        fixture.round = round;
+        fixture.round = new IdNamePair(10, "Final");
         
         assertNotNull(fixture.round);
-        assertEquals(10, fixture.round.id);
-        assertEquals("Final", fixture.round.name);
+        assertEquals(10, fixture.round.id());
+        assertEquals("Final", fixture.round.name());
     }
 
     @Test
