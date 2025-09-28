@@ -49,7 +49,7 @@ public class FixtureVenue {
      * The court surface type of the venue.
      * This can be {@code null} if not set.
      */
-    @Nullable public CourtSurface courtSurface;
+    @Nullable public CourtSurface courtSurfaceType;
 
     /**
      * The environment type of the venue (indoors/outdoors).

@@ -20,7 +20,7 @@ class FixtureVenueTest {
         assertNull(venue.state);
         assertNull(venue.country);
         assertNull(venue.capacity);
-        assertNull(venue.courtSurface);
+        assertNull(venue.courtSurfaceType);
         assertNull(venue.environment);
         assertNull(venue.assignment);
     }
@@ -69,7 +69,7 @@ class FixtureVenueTest {
         venue.capacity = 50000;
         
         assertEquals(50000, venue.capacity);
-        assertNull(venue.courtSurface);
+        assertNull(venue.courtSurfaceType);
         assertNull(venue.environment);
         assertNull(venue.assignment);
     }
@@ -78,11 +78,11 @@ class FixtureVenueTest {
     void testEnumFieldAssignment() {
         FixtureVenue venue = new FixtureVenue();
         
-        venue.courtSurface = CourtSurface.GRASS;
+        venue.courtSurfaceType = CourtSurface.GRASS;
         venue.environment = VenueEnvironment.OUTDOORS;
         venue.assignment = VenueAssignment.HOME;
         
-        assertEquals(CourtSurface.GRASS, venue.courtSurface);
+        assertEquals(CourtSurface.GRASS, venue.courtSurfaceType);
         assertEquals(VenueEnvironment.OUTDOORS, venue.environment);
         assertEquals(VenueAssignment.HOME, venue.assignment);
     }
@@ -90,26 +90,26 @@ class FixtureVenueTest {
     @Test
     void testAllEnumValues() {
         FixtureVenue venue1 = new FixtureVenue();
-        venue1.courtSurface = CourtSurface.HARD;
+        venue1.courtSurfaceType = CourtSurface.HARD;
         venue1.environment = VenueEnvironment.INDOORS;
         venue1.assignment = VenueAssignment.AWAY;
         
         FixtureVenue venue2 = new FixtureVenue();
-        venue2.courtSurface = CourtSurface.CLAY;
+        venue2.courtSurfaceType = CourtSurface.CLAY;
         venue2.assignment = VenueAssignment.NEUTRAL;
         
         FixtureVenue venue3 = new FixtureVenue();
-        venue3.courtSurface = CourtSurface.ARTIFICIAL_GRASS;
+        venue3.courtSurfaceType = CourtSurface.ARTIFICIAL_GRASS;
         
-        assertEquals(CourtSurface.HARD, venue1.courtSurface);
+        assertEquals(CourtSurface.HARD, venue1.courtSurfaceType);
         assertEquals(VenueEnvironment.INDOORS, venue1.environment);
         assertEquals(VenueAssignment.AWAY, venue1.assignment);
         
-        assertEquals(CourtSurface.CLAY, venue2.courtSurface);
+        assertEquals(CourtSurface.CLAY, venue2.courtSurfaceType);
         assertEquals(VenueAssignment.NEUTRAL, venue2.assignment);
         assertNull(venue2.environment);
         
-        assertEquals(CourtSurface.ARTIFICIAL_GRASS, venue3.courtSurface);
+        assertEquals(CourtSurface.ARTIFICIAL_GRASS, venue3.courtSurfaceType);
         assertNull(venue3.environment);
         assertNull(venue3.assignment);
     }
@@ -126,7 +126,7 @@ class FixtureVenueTest {
         venue.country = new IdNamePair(30, "United Kingdom");
         
         venue.capacity = 15000;
-        venue.courtSurface = CourtSurface.GRASS;
+        venue.courtSurfaceType = CourtSurface.GRASS;
         venue.environment = VenueEnvironment.OUTDOORS;
         venue.assignment = VenueAssignment.NEUTRAL;
         
@@ -139,7 +139,7 @@ class FixtureVenueTest {
         assertEquals(30, venue.country.id());
         assertEquals("United Kingdom", venue.country.name());
         assertEquals(15000, venue.capacity);
-        assertEquals(CourtSurface.GRASS, venue.courtSurface);
+        assertEquals(CourtSurface.GRASS, venue.courtSurfaceType);
         assertEquals(VenueEnvironment.OUTDOORS, venue.environment);
         assertEquals(VenueAssignment.NEUTRAL, venue.assignment);
     }
@@ -154,7 +154,7 @@ class FixtureVenueTest {
         venue.state = null;
         venue.country = null;
         venue.capacity = null;
-        venue.courtSurface = null;
+        venue.courtSurfaceType = null;
         venue.environment = null;
         venue.assignment = null;
         
@@ -164,7 +164,7 @@ class FixtureVenueTest {
         assertNull(venue.state);
         assertNull(venue.country);
         assertNull(venue.capacity);
-        assertNull(venue.courtSurface);
+        assertNull(venue.courtSurfaceType);
         assertNull(venue.environment);
         assertNull(venue.assignment);
     }
@@ -193,26 +193,26 @@ class FixtureVenueTest {
         
         venue.id = 100;
         venue.name = "Initial Name";
-        venue.courtSurface = CourtSurface.HARD;
+        venue.courtSurfaceType = CourtSurface.HARD;
         
         assertEquals(100, venue.id);
         assertEquals("Initial Name", venue.name);
-        assertEquals(CourtSurface.HARD, venue.courtSurface);
+        assertEquals(CourtSurface.HARD, venue.courtSurfaceType);
         
         venue.id = 200;
         venue.name = "Updated Name";
-        venue.courtSurface = CourtSurface.CLAY;
+        venue.courtSurfaceType = CourtSurface.CLAY;
         
         assertEquals(200, venue.id);
         assertEquals("Updated Name", venue.name);
-        assertEquals(CourtSurface.CLAY, venue.courtSurface);
+        assertEquals(CourtSurface.CLAY, venue.courtSurfaceType);
         
         venue.name = null;
-        venue.courtSurface = null;
+        venue.courtSurfaceType = null;
         
         assertEquals(200, venue.id);
         assertNull(venue.name);
-        assertNull(venue.courtSurface);
+        assertNull(venue.courtSurfaceType);
     }
 }
 
