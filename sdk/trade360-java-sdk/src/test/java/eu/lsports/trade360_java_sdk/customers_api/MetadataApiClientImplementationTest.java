@@ -74,4 +74,48 @@ class MetadataApiClientImplementationTest {
         assertNotNull(result);
         assertEquals(expectedResponse, result.block());
     }
+
+    @Test
+    void testGetVenues() {
+        BaseResponse<GetVenuesResponse> expectedResponse = new BaseResponse<>();
+        when(apiRestClient.postRequest(any(GetVenuesRequest.class), any(TypeReference.class), eq("Venues/Get")))
+                .thenReturn(Mono.just(expectedResponse));
+
+        GetVenuesRequest.VenuesFilter filter = new GetVenuesRequest.VenuesFilter(
+            List.of(1, 2), List.of(10), List.of(100), List.of(1000), List.of(10000)
+        );
+        GetVenuesRequest request = new GetVenuesRequest(filter);
+        Mono<BaseResponse<GetVenuesResponse>> result = client.getVenues(request);
+
+        assertNotNull(result);
+        assertEquals(expectedResponse, result.block());
+    }
+
+    @Test
+    void testGetCities() {
+        BaseResponse<GetCitiesResponse> expectedResponse = new BaseResponse<>();
+        when(apiRestClient.postRequest(any(GetCitiesRequest.class), any(TypeReference.class), eq("Cities/Get")))
+                .thenReturn(Mono.just(expectedResponse));
+
+        GetCitiesRequest.CitiesFilter filter = new GetCitiesRequest.CitiesFilter(List.of(1, 2), List.of(100));
+        GetCitiesRequest request = new GetCitiesRequest(filter);
+        Mono<BaseResponse<GetCitiesResponse>> result = client.getCities(request);
+
+        assertNotNull(result);
+        assertEquals(expectedResponse, result.block());
+    }
+
+    @Test
+    void testGetStates() {
+        BaseResponse<GetStatesResponse> expectedResponse = new BaseResponse<>();
+        when(apiRestClient.postRequest(any(GetStatesRequest.class), any(TypeReference.class), eq("States/Get")))
+                .thenReturn(Mono.just(expectedResponse));
+
+        GetStatesRequest.CountriesFilter filter = new GetStatesRequest.CountriesFilter(List.of(1, 2, 3));
+        GetStatesRequest request = new GetStatesRequest(filter);
+        Mono<BaseResponse<GetStatesResponse>> result = client.getStates(request);
+
+        assertNotNull(result);
+        assertEquals(expectedResponse, result.block());
+    }
 }
