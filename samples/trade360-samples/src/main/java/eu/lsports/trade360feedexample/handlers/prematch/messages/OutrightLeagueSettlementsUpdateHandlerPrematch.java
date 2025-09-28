@@ -1,7 +1,6 @@
 package eu.lsports.trade360feedexample.handlers.prematch.messages;
 
 import eu.lsports.trade360_java_sdk.common.entities.message_types.OutrightLeagueSettlementUpdate;
-import eu.lsports.trade360_java_sdk.common.entities.message_types.OutrightSettlementsUpdate;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

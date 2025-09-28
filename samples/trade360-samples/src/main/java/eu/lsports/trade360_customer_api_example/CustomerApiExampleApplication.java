@@ -73,6 +73,7 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         SUBSCRIBE_LEAGUE("Subscription API - Subscribe to League", (app) -> app.subscribeByLeague(app.baseUri, app.preMatchPackageCredentials)),
         UNSUBSCRIBE_LEAGUE("Subscription API - Unsubscribe from League", (app) -> app.unSubscribeByLeague(app.baseUri, app.preMatchPackageCredentials)),
         GET_SUBSCRIBED_FIXTURES("Subscription API - Get Subscribed Fixtures", (app) -> app.getSubscribedFixtures(app.baseUri, app.preMatchPackageCredentials)),
+        GET_SUBSCRIPTIONS("Subscription API - Get Subscriptions", (app) -> app.getSubscriptions(app.baseUri, app.preMatchPackageCredentials)),
         SUBSCRIBE_COMPETITION("Subscription API - Subscribe to Outright Competition", (app) -> app.subscribeByCompetition(app.baseUri, app.preMatchPackageCredentials)),
         UNSUBSCRIBE_COMPETITION("Subscription API - Unsubscribe from Outright Competition", (app) -> app.unSubscribeByCompetition(app.baseUri, app.preMatchPackageCredentials)),
         GET_INPLAY_SCHEDULE("Subscription API - Get Inplay Fixture Schedule", (app) -> app.getInPlayFixtureSchedule(app.baseUri, app.inPlayPackageCredentials)),
@@ -309,22 +310,22 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
     private void getVenues(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
         this.executeAsynchronous("GetVenues with parameters",
-        new GetVenuesRequest(new GetVenuesRequest.VenuesFilter(null, null, null, null, null)),
-            request -> client.getVenues(request));
+                new GetVenuesRequest(new GetVenuesRequest.VenuesFilter(null, null, null, null, null)),
+                request -> client.getVenues(request));
     }
 
     private void getCities(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
         this.executeAsynchronous("GetCities with parameters",
-            new GetCitiesRequest(new GetCitiesRequest.CitiesFilter(null, null)),
-            request -> client.getCities(request));
+                new GetCitiesRequest(new GetCitiesRequest.CitiesFilter(null, null)),
+                request -> client.getCities(request));
     }
 
     private void getStates(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
         this.executeAsynchronous("GetStates with parameters",
-            new GetStatesRequest(new GetStatesRequest.CountriesFilter(null)),
-            request -> client.getStates(request));
+                new GetStatesRequest(new GetStatesRequest.CountriesFilter(null)),
+                request -> client.getStates(request));
     }
     // </editor-fold>
 }
