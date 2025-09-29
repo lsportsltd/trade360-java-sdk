@@ -5,6 +5,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.2.0]
+
+### Added
+
+- **Venue, City, and State Metadata APIs**
+  - `getVenues()` - New endpoint to fetch venue information with filtering capabilities
+  - `getCities()` - New endpoint to fetch city information with filtering capabilities  
+  - `getStates()` - New endpoint to fetch state information with filtering capabilities
+  - `GetVenuesRequest` / `VenuesFilter` - Request DTOs for venue filtering by venue IDs, country IDs, state IDs, and city IDs
+  - `GetCitiesRequest` / `CitiesFilter` - Request DTOs for city filtering by country IDs and state IDs
+  - `GetStatesRequest` / `CountriesFilter` - Request DTOs for state filtering by country IDs
+  - `VenueMetadata` - Response structure for venue data including country, state, and city information
+  - `CityMetadata` - Response structure for city data including country and state information
+  - `StateMetadata` - Response structure for state data including country information
+  - `GetVenuesResponse` / `GetCitiesResponse` / `GetStatesResponse` - Collection response wrappers
+
+- **Enhanced Fixture Entities**
+  - **`FixtureVenue`** - New comprehensive venue entity with:
+    - Basic venue information (ID, name, capacity, attendance)
+    - Court surface type, environment (indoor/outdoor), and assignment (home/away/neutral)
+    - Geographic information (country, state, city)
+  - **`Fixture`** - Enhanced with:
+    - `venue` property of type `FixtureVenue`
+    - `stage` property of type `IdNamePair` for tournament stage information
+    - `round` property of type `IdNamePair` for tournament round information
+  - **`OutrightFixture`** - Enhanced with:
+    - `venue` property of type `FixtureVenue`
+
+- **New Venue-Related Enums**
+  - `CourtSurface` - Enum for court surface types (Grass, Hard, Clay, ArtificialGrass)
+  - `VenueAssignment` - Enum for venue assignment (Home, Away, Neutral)
+  - `VenueEnvironment` - Enum for venue environment (Indoors, Outdoors)
+
+- **Enhanced Sample Projects**
+  - **customer-api-sample**: Added menu options and examples for venues, cities, and states metadata APIs
+  - **feed-sample**: Updated to demonstrate enhanced fixture entities with venue information
+
+### Changed
+
+- Extended `MetadataApiClient` interface with venues, cities, and states functionality
+- Updated `MetadataApiClientImplementation` to support new metadata endpoints
+- Enhanced Spring Boot REST client configuration for new metadata endpoints
+
+### Backward Compatibility
+
+All changes are backward compatible. Existing code will continue to work without modification. The new venue, stage, and round properties are optional additions to existing entities.
+
 ## [Release Version 2.1.0]
 
 ### Added
@@ -126,5 +173,6 @@ Map<String, String> headersMap = transportHeaders.getAsMap();
 - **Fixture Context**: Direct access to fixture IDs where applicable
 - **Type Safety**: Structured access to transport headers instead of raw map lookups
 
+[Release Version 2.2.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.2.0
 [Release Version 2.1.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.1.0
 [Release Version 2.0.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.0.0
