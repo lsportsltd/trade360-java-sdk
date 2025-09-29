@@ -20,6 +20,7 @@ class FixtureVenueTest {
         assertNull(venue.state);
         assertNull(venue.country);
         assertNull(venue.capacity);
+        assertNull(venue.attendance);
         assertNull(venue.courtSurfaceType);
         assertNull(venue.environment);
         assertNull(venue.assignment);
@@ -75,6 +76,15 @@ class FixtureVenueTest {
     }
 
     @Test
+    void testAttendanceAssignment() {
+        FixtureVenue venue = new FixtureVenue();
+
+        venue.attendance = 75000;
+
+        assertEquals(75000, venue.attendance);
+    }
+
+    @Test
     void testEnumFieldAssignment() {
         FixtureVenue venue = new FixtureVenue();
         
@@ -126,6 +136,7 @@ class FixtureVenueTest {
         venue.country = new IdNamePair(30, "United Kingdom");
         
         venue.capacity = 15000;
+        venue.attendance = 14000;
         venue.courtSurfaceType = CourtSurface.GRASS;
         venue.environment = VenueEnvironment.OUTDOORS;
         venue.assignment = VenueAssignment.NEUTRAL;
@@ -139,6 +150,7 @@ class FixtureVenueTest {
         assertEquals(30, venue.country.id());
         assertEquals("United Kingdom", venue.country.name());
         assertEquals(15000, venue.capacity);
+        assertEquals(14000, venue.attendance);
         assertEquals(CourtSurface.GRASS, venue.courtSurfaceType);
         assertEquals(VenueEnvironment.OUTDOORS, venue.environment);
         assertEquals(VenueAssignment.NEUTRAL, venue.assignment);
@@ -154,6 +166,7 @@ class FixtureVenueTest {
         venue.state = null;
         venue.country = null;
         venue.capacity = null;
+        venue.attendance = null;
         venue.courtSurfaceType = null;
         venue.environment = null;
         venue.assignment = null;
@@ -164,6 +177,7 @@ class FixtureVenueTest {
         assertNull(venue.state);
         assertNull(venue.country);
         assertNull(venue.capacity);
+        assertNull(venue.attendance);
         assertNull(venue.courtSurfaceType);
         assertNull(venue.environment);
         assertNull(venue.assignment);

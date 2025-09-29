@@ -46,6 +46,12 @@ public class FixtureVenue {
     @Nullable public Integer capacity;
 
     /**
+     * The attendance for the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public Integer attendance;
+
+    /**
      * The court surface type of the venue.
      * This can be {@code null} if not set.
      */
