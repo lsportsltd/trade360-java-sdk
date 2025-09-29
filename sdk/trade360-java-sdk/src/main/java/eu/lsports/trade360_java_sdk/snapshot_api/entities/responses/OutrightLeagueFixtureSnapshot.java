@@ -57,4 +57,10 @@ public final class OutrightLeagueFixtureSnapshot {
      * @see NameValuePair
      */
     @Nullable public Iterable<NameValuePair> extraData;
+
+
+    /**
+     * The end date of the outright league fixture snapshot in UTC.
+     */
+    public LocalDateTime endDate;
 }
