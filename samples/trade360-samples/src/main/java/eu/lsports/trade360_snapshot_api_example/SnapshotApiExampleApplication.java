@@ -123,13 +123,13 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
     private void getFixtures(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
         this.executeAsynchronous("PreMatch Async Get Fixtures",
-                new GetFixtureRequest(null, null, null, List.of(6046), null, null, null),
+                new GetFixtureRequest(null, null, null, List.of(6046), List.of(4), null, null),
                 preMatchClient::getFixtures);
 
-        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
-        this.executeAsynchronous("InPlay Async Get Fixtures",
-                new GetFixtureRequest(null, null, null, List.of(6046), List.of(171), List.of(170), List.of(13903501)),
-                inPlayClient::getFixtures);
+//        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+//        this.executeAsynchronous("InPlay Async Get Fixtures",
+//                new GetFixtureRequest(null, null, null, List.of(6046), List.of(171), List.of(170), List.of(13903501)),
+//                inPlayClient::getFixtures);
     }
 
     private void getLivescore(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
