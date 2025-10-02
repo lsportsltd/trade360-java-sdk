@@ -32,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `round` property of type `IdNamePair` for tournament round information
   - **`OutrightFixture`** - Enhanced with:
     - `venue` property of type `FixtureVenue`
+  - **`OutrightFixtureElement`** - Enhanced with:
+    - `venue` property of type `FixtureVenue`
 
 - **New Venue-Related Enums**
   - `CourtSurface` - Enum for court surface types (Grass, Hard, Clay, ArtificialGrass)
