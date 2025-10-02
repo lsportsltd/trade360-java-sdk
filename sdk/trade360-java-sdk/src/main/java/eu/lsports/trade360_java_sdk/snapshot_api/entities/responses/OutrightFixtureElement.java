@@ -3,6 +3,7 @@ package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 import java.time.LocalDateTime;
 
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
+import eu.lsports.trade360_java_sdk.common.entities.fixtures.FixtureVenue;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Participant;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
@@ -63,4 +64,10 @@ public final class OutrightFixtureElement {
      * @see Subscription
      */
     @Nullable public Subscription subscription;
+
+    /**
+     * The venue of the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public FixtureVenue venue;
 }
