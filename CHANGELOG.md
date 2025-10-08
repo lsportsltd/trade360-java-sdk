@@ -192,6 +192,7 @@ Map<String, String> headersMap = transportHeaders.getAsMap();
 - **Fixture Context**: Direct access to fixture IDs where applicable
 - **Type Safety**: Structured access to transport headers instead of raw map lookups
 
+[Release Version 2.3.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.3.0
 [Release Version 2.2.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.2.0
 [Release Version 2.1.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.1.0
 [Release Version 2.0.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.0.0
