@@ -16,6 +16,7 @@ class OutrightFixtureElementTest {
         element.status = null;
         element.participants = Collections.emptyList();
         element.subscription = null;
+        element.venue = null;
         assertNull(element.sport);
         assertNull(element.location);
         assertNotNull(element.startDate);
@@ -23,5 +24,6 @@ class OutrightFixtureElementTest {
         assertNull(element.status);
         assertNotNull(element.participants);
         assertNull(element.subscription);
+        assertNull(element.venue);
     }
 } 

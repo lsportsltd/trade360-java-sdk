@@ -22,8 +22,11 @@ class MetadataApiClientTest {
             public Mono<BaseResponse<GetSubscribedFixturesResponse>> getSubscribedFixtures(GetSubscribedFixturesRequest r) { return null; }
             public Mono<BaseResponse<GetSubscribedFixturesMetadataResponse>> getSubscribedFixturesMetadata(GetSubscribedFixturesMetadataRequest r) { return null; }
             public Mono<BaseResponse<GetIncidentsResponse>> getIncidents(GetIncidentsRequest r) { return null; }
+            public Mono<BaseResponse<GetVenuesResponse>> getVenues(GetVenuesRequest r) { return null; }
+            public Mono<BaseResponse<GetCitiesResponse>> getCities(GetCitiesRequest r) { return null; }
+            public Mono<BaseResponse<GetStatesResponse>> getStates(GetStatesRequest r) { return null; }
         }
-        new Impl();
-        assertTrue(true); // Satisfy linter: test includes an assertion
+        Impl impl = new Impl();
+        assertTrue(impl instanceof MetadataApiClient);
     }
 } 

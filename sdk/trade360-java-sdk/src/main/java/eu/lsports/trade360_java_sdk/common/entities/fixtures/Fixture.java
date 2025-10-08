@@ -5,6 +5,7 @@ import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import java.time.LocalDateTime;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
+import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import jakarta.annotation.Nullable;
 
 /**
@@ -25,10 +26,28 @@ public class Fixture {
     @Nullable public Location location;
 
     /**
+     * The venue of the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public FixtureVenue venue;
+
+    /**
      * The league associated with the fixture.
      * This can be {@code null} if not set.
      */
     @Nullable public League league;
+
+    /**
+     * The stage associated with the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public IdNamePair stage;
+
+    /**
+     * The round associated with the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public IdNamePair round;
 
     /**
      * The start date and time of the fixture in UTC.

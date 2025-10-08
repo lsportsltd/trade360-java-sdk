@@ -3,6 +3,7 @@ package eu.lsports.trade360_java_sdk.common.entities.outright_sport;
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
+import eu.lsports.trade360_java_sdk.common.entities.fixtures.FixtureVenue;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ class OutrightFixtureTest {
         OutrightFixture fixture = new OutrightFixture();
         assertNull(fixture.sport);
         assertNull(fixture.location);
+        assertNull(fixture.venue);
         assertNull(fixture.startDate);
         assertNull(fixture.lastUpdate);
         assertNull(fixture.status);
@@ -31,6 +33,7 @@ class OutrightFixtureTest {
 
         fixture.sport = new Sport();
         fixture.location = new Location();
+        fixture.venue = new FixtureVenue();
         LocalDateTime now = LocalDateTime.now();
         fixture.startDate = now;
         fixture.lastUpdate = now;
@@ -44,6 +47,7 @@ class OutrightFixtureTest {
 
         assertNotNull(fixture.sport);
         assertNotNull(fixture.location);
+        assertNotNull(fixture.venue);
         assertEquals(now, fixture.startDate);
         assertEquals(now, fixture.lastUpdate);
         assertEquals(FixtureStatus.FINISHED, fixture.status);
@@ -51,4 +55,27 @@ class OutrightFixtureTest {
         assertNotNull(fixture.extraData);
         assertNotNull(fixture.subscription);
     }
-} 
+
+    @Test
+    void testVenueFieldAssignment() {
+        OutrightFixture fixture = new OutrightFixture();
+        FixtureVenue venue = new FixtureVenue();
+        venue.id = 200;
+        venue.name = "Outright Venue";
+        
+        fixture.venue = venue;
+        
+        assertNotNull(fixture.venue);
+        assertEquals(200, fixture.venue.id);
+        assertEquals("Outright Venue", fixture.venue.name);
+    }
+
+    @Test
+    void testVenueNullability() {
+        OutrightFixture fixture = new OutrightFixture();
+        
+        fixture.venue = null;
+        
+        assertNull(fixture.venue);
+    }
+}

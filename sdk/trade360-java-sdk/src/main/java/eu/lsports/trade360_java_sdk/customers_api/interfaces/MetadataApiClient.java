@@ -106,4 +106,31 @@ public interface MetadataApiClient {
      * @see GetIncidentsResponse
      */
     Mono<BaseResponse<GetIncidentsResponse>> getIncidents(GetIncidentsRequest request);
+
+    /**
+     * Retrieves the list of venues based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of venues
+     * @return a {@link Mono} emitting the response containing the list of venues
+     * @see GetVenuesResponse
+     */
+    Mono<BaseResponse<GetVenuesResponse>> getVenues(GetVenuesRequest request);
+
+    /**
+     * Retrieves the list of cities based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of cities
+     * @return a {@link Mono} emitting the response containing the list of cities
+     * @see GetCitiesResponse
+     */
+    Mono<BaseResponse<GetCitiesResponse>> getCities(GetCitiesRequest request);
+
+    /**
+     * Retrieves the list of states based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of states
+     * @return a {@link Mono} emitting the response containing the list of states
+     * @see GetStatesResponse
+     */
+    Mono<BaseResponse<GetStatesResponse>> getStates(GetStatesRequest request);
 }

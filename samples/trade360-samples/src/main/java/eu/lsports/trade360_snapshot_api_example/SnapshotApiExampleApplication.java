@@ -123,7 +123,7 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
     private void getFixtures(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
         this.executeAsynchronous("PreMatch Async Get Fixtures",
-                new GetFixtureRequest(null, null, null, List.of(6046), null, null, null),
+                new GetFixtureRequest(null, null, null, List.of(6046), List.of(4), null, null),
                 preMatchClient::getFixtures);
 
         var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
