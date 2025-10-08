@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Release Version 2.2.0]
+## [Release Version 2.3.0]
 
 ### Added
 
@@ -53,6 +53,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Backward Compatibility
 
 All changes are backward compatible. Existing code will continue to work without modification. The new venue, stage, and round properties are optional additions to existing entities.
+
+## [Release Version 2.2.0]
+
+### Added
+
+- **Enhanced Livescore Functionality**
+  - `IncidentConfirmation` - New enum for incident confirmation status with values for confirmed/unconfirmed incidents
+  - Enhanced `CurrentIncident` entity with additional incident confirmation capabilities
+
+- **Enhanced Outright League Features**
+  - Enhanced `OutrightLeagueFixture` entity with additional fixture properties
+  - Improved `OutrightLeagueFixtureSnapshot` response structure
+
+### Changed
+
+- Updated livescore processing to support incident confirmation workflows
+- Enhanced outright league fixture handling with additional metadata
 
 ## [Release Version 2.1.0]
 
