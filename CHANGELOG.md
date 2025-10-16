@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.4.0]
+
+### Added
+
+- **Participants Metadata API**
+  - `getParticipants()` - New endpoint to fetch participant information with filtering and pagination capabilities
+  - `GetParticipantsRequest` - Request DTO with pagination parameters (page, pageSize) and ParticipantsFilter for comprehensive filtering
+  - `ParticipantsFilter` - Request filter supporting:
+    - Participant IDs filtering
+    - Sport IDs filtering
+    - Location IDs filtering
+    - Partial name matching
+    - Gender filtering
+    - Age category filtering
+    - Participant type filtering
+  - `GetParticipantsResponse` - Response structure containing:
+    - `data` - Collection of participant metadata
+    - `totalItems` - Total count of items across all pages for pagination support
+  - `ParticipantMetadata` - Response structure for participant data including ID, sport ID, location ID, name, and optional gender, age category, and type
+
+- **New Participant-Related Enums**
+  - `Gender` - Enum for gender categories (Men=1, Women=2, Mix=3)
+  - `AgeCategory` - Enum for age categories (Regular=0, Youth=1, Reserves=2)
+  - `ParticipantType` - Enum for participant types (Club=1, National=2, Individual=3, Virtual=4, Esports=5, VirtuReal=6, Doubles=7)
+
+- **Enhanced Sample Projects**
+  - **customer-api-sample**: Added menu option and example for participants metadata API with filtering and pagination
+
+### Changed
+
+- Extended `MetadataApiClient` interface with participants functionality
+- Updated `MetadataApiClientImplementation` to support new participants endpoint
+
+### Backward Compatibility
+
+All changes are backward compatible. Existing code will continue to work without modification. The new participants endpoint is an addition to the existing metadata API.
+
 ## [Release Version 2.3.0]
 
 ### Added
@@ -192,6 +229,7 @@ Map<String, String> headersMap = transportHeaders.getAsMap();
 - **Fixture Context**: Direct access to fixture IDs where applicable
 - **Type Safety**: Structured access to transport headers instead of raw map lookups
 
+[Release Version 2.4.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.4.0
 [Release Version 2.3.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.3.0
 [Release Version 2.2.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.2.0
 [Release Version 2.1.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.1.0

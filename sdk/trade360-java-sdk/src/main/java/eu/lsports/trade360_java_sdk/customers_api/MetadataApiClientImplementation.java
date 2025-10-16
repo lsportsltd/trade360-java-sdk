@@ -179,4 +179,16 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
             "States/Get"
         );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<BaseResponse<GetParticipantsResponse>> getParticipants(GetParticipantsRequest request) {
+        return this.client.postRequest(
+            request,
+            new TypeReference<BaseResponse<GetParticipantsResponse>>() {},
+            "Participants/Get"
+        );
+    }
 }
