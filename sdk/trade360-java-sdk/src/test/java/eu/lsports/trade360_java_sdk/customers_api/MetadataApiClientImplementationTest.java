@@ -118,4 +118,20 @@ class MetadataApiClientImplementationTest {
         assertNotNull(result);
         assertEquals(expectedResponse, result.block());
     }
+
+    @Test
+    void testGetParticipants() {
+        BaseResponse<GetParticipantsResponse> expectedResponse = new BaseResponse<>();
+        when(apiRestClient.postRequest(any(GetParticipantsRequest.class), any(TypeReference.class), eq("Participants/Get")))
+                .thenReturn(Mono.just(expectedResponse));
+
+        GetParticipantsRequest.ParticipantsFilter filter = new GetParticipantsRequest.ParticipantsFilter(
+            List.of(1, 2, 3), List.of(10, 20), List.of(100, 200), "Team", null, null, null
+        );
+        GetParticipantsRequest request = new GetParticipantsRequest(filter, 1, 50);
+        Mono<BaseResponse<GetParticipantsResponse>> result = client.getParticipants(request);
+
+        assertNotNull(result);
+        assertEquals(expectedResponse, result.block());
+    }
 }
