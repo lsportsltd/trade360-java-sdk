@@ -133,4 +133,13 @@ public interface MetadataApiClient {
      * @see GetStatesResponse
      */
     Mono<BaseResponse<GetStatesResponse>> getStates(GetStatesRequest request);
+
+    /**
+     * Retrieves the list of participants based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of participants
+     * @return a {@link Mono} emitting the response containing the list of participants
+     * @see GetParticipantsResponse
+     */
+    Mono<BaseResponse<GetParticipantsResponse>> getParticipants(GetParticipantsRequest request);
 }
