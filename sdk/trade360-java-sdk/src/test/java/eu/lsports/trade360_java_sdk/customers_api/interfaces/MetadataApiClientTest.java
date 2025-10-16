@@ -25,6 +25,7 @@ class MetadataApiClientTest {
             public Mono<BaseResponse<GetVenuesResponse>> getVenues(GetVenuesRequest r) { return null; }
             public Mono<BaseResponse<GetCitiesResponse>> getCities(GetCitiesRequest r) { return null; }
             public Mono<BaseResponse<GetStatesResponse>> getStates(GetStatesRequest r) { return null; }
+            public Mono<BaseResponse<GetParticipantsResponse>> getParticipants(GetParticipantsRequest r) { return null; }
         }
         Impl impl = new Impl();
         assertTrue(impl instanceof MetadataApiClient);
