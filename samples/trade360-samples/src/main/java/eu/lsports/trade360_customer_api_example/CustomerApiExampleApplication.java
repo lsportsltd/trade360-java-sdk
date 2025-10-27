@@ -68,6 +68,7 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         GET_CITIES("Metadata API - Get Cities", (app) -> app.getCities(app.baseUri, app.preMatchPackageCredentials)),
         GET_STATES("Metadata API - Get States", (app) -> app.getStates(app.baseUri, app.preMatchPackageCredentials)),
         Get_INCIDENTS("Metadata API - Get Incidents", (app) -> app.getIncidents(app.baseUri, app.preMatchPackageCredentials)),
+        GET_PARTICIPANTS("Metadata API - Get Participants", (app) -> app.getParticipants(app.baseUri, app.preMatchPackageCredentials)),
         SUBSCRIBE_FIXTURE("Subscription API - Subscribe to Fixture", (app) -> app.subscribeByFixture(app.baseUri, app.preMatchPackageCredentials)),
         UNSUBSCRIBE_FIXTURE("Subscription API - Unsubscribe from Fixture", (app) -> app.unSubscribeByFixture(app.baseUri, app.preMatchPackageCredentials)),
         SUBSCRIBE_LEAGUE("Subscription API - Subscribe to League", (app) -> app.subscribeByLeague(app.baseUri, app.preMatchPackageCredentials)),
@@ -326,6 +327,13 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         this.executeAsynchronous("GetStates with parameters",
                 new GetStatesRequest(new GetStatesRequest.CountriesFilter(null)),
                 request -> client.getStates(request));
+    }
+
+    private void getParticipants(URI baseUri, PackageCredentials credentials) {
+        var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
+        this.executeAsynchronous("GetParticipants with parameters",
+                new GetParticipantsRequest(new GetParticipantsRequest.ParticipantsFilter(null, List.of(6046), null, null, null, null, null), 1, 50),
+                request -> client.getParticipants(request));
     }
     // </editor-fold>
 }
