@@ -10,7 +10,6 @@ import com.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedExcept
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
 import com.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.MessageHandler;
 
-import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
@@ -60,7 +59,7 @@ public class AmqpMessageHandler implements MessageHandler {
     }
 
     private @NotNull Class<?> getMessageType(final int typeId) throws ClassNotFoundException, RabbitMQFeedException {
-        val className = MessageType.findMessageType(typeId);
+        MessageType className = MessageType.findMessageType(typeId);
 
         if (className == null)
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize typeId: {0} entity", typeId));
@@ -69,8 +68,8 @@ public class AmqpMessageHandler implements MessageHandler {
     }
 
     private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        val map = objectMapper.readValue(message.getBody(), Map.class);
-        val typeIdHeaderValue = ((Map) map.get(headerPropertyName)).get(typeIdPropertyHeaderName).toString();
+        Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
+        String typeIdHeaderValue = ((Map<String, Object>) map.get(headerPropertyName)).get(typeIdPropertyHeaderName).toString();
 
         if (typeIdHeaderValue == null || typeIdHeaderValue.isEmpty())
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity, Due to: Wrong or lack of 'type' property in Rabbit message header.", typeIdHeaderValue));
@@ -79,12 +78,12 @@ public class AmqpMessageHandler implements MessageHandler {
     }
 
     private String getBodyFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        val body = objectMapper.readValue(message.getBody(), Map.class).get(bodyPropertyName);
+        Object body = objectMapper.readValue(message.getBody(), Map.class).get(bodyPropertyName);
         return objectMapper.writeValueAsString(body);
     }
 
     private Map<String, String> getHeaderFromMessage(final @NotNull Message message) throws RabbitMQFeedException, IOException {
-        val header = (Map) objectMapper.readValue(message.getBody(), HashMap.class).get(headerPropertyName);
+        Map<String, String> header = (Map<String, String>) objectMapper.readValue(message.getBody(), HashMap.class).get(headerPropertyName);
         return header;
     }
 
