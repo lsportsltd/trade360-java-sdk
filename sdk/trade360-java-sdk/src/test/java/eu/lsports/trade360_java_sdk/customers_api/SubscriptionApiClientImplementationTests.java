@@ -177,9 +177,8 @@ public class SubscriptionApiClientImplementationTests {
 
         var mockedClient = mock(ApiRestClient.class);
         var client = new SubscriptionApiClientImplementation(mockedClient);
-        // Use real Suspension instance instead of mock (records are final and can't be mocked)
-        var suspension = new Suspension(true, 1, 2, 3, 4, java.time.LocalDateTime.now(), null);
-        List<Suspension> suspensions = Arrays.asList(suspension);
+        var mockedSuspension = mock(Suspension.class);
+        List<Suspension> suspensions = Arrays.asList(mockedSuspension);
         var request = new ChangeManualSuspensionRequest(suspensions);
 
         //Act
@@ -195,9 +194,8 @@ public class SubscriptionApiClientImplementationTests {
 
         var mockedClient = mock(ApiRestClient.class);
         var client = new SubscriptionApiClientImplementation(mockedClient);
-        // Use real Suspension instance instead of mock (records are final and can't be mocked)
-        var suspension = new Suspension(true, 1, 2, 3, 4, java.time.LocalDateTime.now(), null);
-        List<Suspension> suspensions = Arrays.asList(suspension);
+        var mockedSuspension = mock(Suspension.class);
+        List<Suspension> suspensions = Arrays.asList(mockedSuspension);
         var request = new ChangeManualSuspensionRequest(suspensions);
 
         //Act
