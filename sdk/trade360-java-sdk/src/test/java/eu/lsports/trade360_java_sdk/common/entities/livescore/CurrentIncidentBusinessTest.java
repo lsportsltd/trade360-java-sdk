@@ -11,10 +11,11 @@ class CurrentIncidentBusinessTest {
     void testFullFieldAssignment() {
         CurrentIncident ci = new CurrentIncident();
         ci.id = IncidentType.GOAL;
-        ci.name = IncidentType.GOAL.getIncidentName();
+        ci.name = "Goal";
         ci.lastUpdate = LocalDateTime.of(2024, 7, 1, 15, 30);
         ci.confirmation = IncidentConfirmation.CONFIRMED;
-        assertEquals(100L, ci.id);
+        
+        assertEquals(IncidentType.GOAL, ci.id);
         assertEquals("Goal", ci.name);
         assertEquals(LocalDateTime.of(2024, 7, 1, 15, 30), ci.lastUpdate);
         assertEquals(IncidentConfirmation.CONFIRMED, ci.confirmation);
@@ -32,6 +33,6 @@ class CurrentIncidentBusinessTest {
     @Test
     void testDefaultId() {
         CurrentIncident ci = new CurrentIncident();
-        assertEquals(0L, ci.id);
+        assertNull(ci.id);
     }
 } 
