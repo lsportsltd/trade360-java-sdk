@@ -1,6 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.livescore;
 
 import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentConfirmation;
+import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentType;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,8 +10,8 @@ class CurrentIncidentBusinessTest {
     @Test
     void testFullFieldAssignment() {
         CurrentIncident ci = new CurrentIncident();
-        ci.id = 100L;
-        ci.name = "Goal";
+        ci.id = IncidentType.GOAL;
+        ci.name = IncidentType.GOAL.getIncidentName();
         ci.lastUpdate = LocalDateTime.of(2024, 7, 1, 15, 30);
         ci.confirmation = IncidentConfirmation.CONFIRMED;
         assertEquals(100L, ci.id);
