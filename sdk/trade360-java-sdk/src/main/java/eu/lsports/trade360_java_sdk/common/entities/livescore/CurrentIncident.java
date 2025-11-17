@@ -1,6 +1,9 @@
 package eu.lsports.trade360_java_sdk.common.entities.livescore;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentConfirmation;
+import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentType;
 import jakarta.annotation.Nullable;
 
 import java.time.LocalDateTime;
@@ -12,11 +15,10 @@ public class CurrentIncident {
     /**
      * The ID of the current incident.
      */
-    public long id;
+    public IncidentType id;
 
     /**
      * The name of the current incident.
-     * This can be {@code null} if not set.
      */
     @Nullable public String name;
 
@@ -29,6 +31,4 @@ public class CurrentIncident {
      * The confirmation status of current incident
      */
     public IncidentConfirmation confirmation;
-
-
 }

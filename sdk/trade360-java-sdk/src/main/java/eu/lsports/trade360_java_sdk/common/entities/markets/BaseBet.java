@@ -111,8 +111,18 @@ public abstract class BaseBet {
     public int participantId;
 
     /**
+     * The player ID associated with the bet.
+     */
+    public int playerId;
+
+    /**
      * The name of the player associated with the bet.
      * This can be {@code null} if not set.
      */
     @Nullable public String playerName;
+
+    /**
+     * The order associated with the bet.
+     */
+    public int order;
 }
