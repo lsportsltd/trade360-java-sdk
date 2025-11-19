@@ -89,7 +89,7 @@ class InPlaySnapshotApiClientImplementationTest {
     }
 
     @Test
-    void testGetOutrightLeagueEventsInPlay() {
+    void testGetOutrightLeagueEvents() {
         Iterable<GetOutrightLeagueEventsResultElement> expectedResponse = List.of();
         when(snapshotApiRestClient.postRequest(any(GetOutrightLeagueEventsRequest.class), any(TypeReference.class), eq("/Inplay/GetOutrightLeagueEvents")))
                 .thenReturn(Mono.just(expectedResponse));
