@@ -40,9 +40,11 @@ class MarketTest {
         List<Bet> bets = new ArrayList<>();
         Bet bet1 = new Bet();
         bet1.providerBetId = "bet1";
+        bet1.calculatedMargin = 3.0f;
         Bet bet2 = new Bet();
         bet2.providerBetId = "bet2";
-        
+        bet2.calculatedMargin = 4.0f;
+
         bets.add(bet1);
         bets.add(bet2);
         

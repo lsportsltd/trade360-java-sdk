@@ -13,8 +13,10 @@ class MarketLeagueBusinessTest {
         league.name = "Championship";
         Bet bet1 = new Bet();
         bet1.providerBetId = "bet1";
+        bet1.calculatedMargin = 5.0f;
         Bet bet2 = new Bet();
         bet2.providerBetId = "bet2";
+        bet2.calculatedMargin = 6.0f;
         league.bets = List.of(bet1, bet2);
         league.mainLine = "mainLineValue";
         assertEquals(10, league.id);
