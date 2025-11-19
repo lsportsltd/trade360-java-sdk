@@ -9,6 +9,8 @@ class BetTest {
         Bet bet = new Bet();
         assertNull(bet.providerBetId);
         bet.providerBetId = "bet123";
+        bet.calculatedMargin = 5.5f;
         assertEquals("bet123", bet.providerBetId);
+        assertEquals(5.5f, bet.calculatedMargin);
     }
 } 

@@ -12,4 +12,7 @@ public class Bet extends BaseBet {
      */
     @Nullable
     public String providerBetId;
+
+    @Nullable
+    public float calculatedMargin;
 }

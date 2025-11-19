@@ -28,6 +28,9 @@ public class InplayTrade360SdkConfiguration {
         entityRegistry.setEntityHandler(new FixtureMetadataUpdateHandlerInplay());
         entityRegistry.setEntityHandler(new KeepAliveUpdateHandlerInplay());
         entityRegistry.setEntityHandler(new SettlementUpdateHandlerInplay());
+        entityRegistry.setEntityHandler(new OutrightLeagueMarketsUpdateHandlerInplay());
+        entityRegistry.setEntityHandler(new OutrightLeagueSettlementsUpdateHandlerInplay());
+        entityRegistry.setEntityHandler(new OutrightLeagueUpdateHandlerInplay());
         return entityRegistry;
     }
 

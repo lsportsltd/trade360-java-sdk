@@ -58,7 +58,7 @@ public abstract class BaseBet {
     /**
      * The settlement type of the bet.
      */
-    public SettlementType settlement;
+    @Nullable public SettlementType settlement;
 
     /**
      * The Suspension Reason of the bet.
@@ -103,17 +103,17 @@ public abstract class BaseBet {
     /**
      * The probability of the bet.
      */
-    public double probability;
+    @Nullable public double probability;
 
     /**
      * The participant ID associated with the bet.
      */
-    public int participantId;
+    @Nullable public int participantId;
 
     /**
      * The player ID associated with the bet.
      */
-    public int playerId;
+    @Nullable public int playerId;
 
     /**
      * The name of the player associated with the bet.
@@ -124,5 +124,5 @@ public abstract class BaseBet {
     /**
      * The order associated with the bet.
      */
-    public int order;
+    @Nullable public int order;
 }

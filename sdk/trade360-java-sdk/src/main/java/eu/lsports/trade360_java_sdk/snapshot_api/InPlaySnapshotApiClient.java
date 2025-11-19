@@ -1,13 +1,7 @@
 package eu.lsports.trade360_java_sdk.snapshot_api;
 
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixtureRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetInPlayEventRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetMarketRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetEventsResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureMarketsResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
+import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
+import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.*;
 
 import reactor.core.publisher.Mono;
 
@@ -51,4 +45,30 @@ public interface InPlaySnapshotApiClient {
      * @see GetEventsResultElement
      */
     Mono<Iterable<GetEventsResultElement>> getEvents(GetInPlayEventRequest getEventsRequest);
+    /**
+     * Gets the outright leagues based on the provided request.
+     *
+     * @param getOutrightLeaguesRequest The request containing the parameters
+     * @return A {@link Mono} emitting the outright leagues
+     * @see GetOutrightLeaguesResultElement
+     */
+    Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetOutrightLeaguesRequest getOutrightLeaguesRequest);
+
+    /**
+     * Gets the outright league markets based on the provided request.
+     *
+     * @param getOutrightLeaguesMarketsRequest The request containing the parameters
+     * @return A {@link Mono} emitting the outright league markets
+     * @see GetOutrightLeagueMarketsResultElement
+     */
+    Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetOutrightLeagueMarketRequest getOutrightLeaguesMarketsRequest);
+
+    /**
+     * Gets the outright league events based on the provided request.
+     *
+     * @param getOutrightLeagueEventsRequest The request containing the parameters
+     * @return A {@link Mono} emitting the outright league markets
+     * @see GetOutrightLeagueEventsResultElement
+     */
+    Mono<Iterable<GetOutrightLeagueEventsResultElement>> getOutrightLeagueEvents(GetOutrightLeagueEventsRequest getOutrightLeagueEventsRequest);
 }
