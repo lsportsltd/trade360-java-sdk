@@ -89,9 +89,9 @@ class InPlaySnapshotApiClientImplementationTest {
     }
 
     @Test
-    void testGetOutrightLeagueEvents() {
+    void testGetOutrightLeagueEventsInPlay() {
         Iterable<GetOutrightLeagueEventsResultElement> expectedResponse = List.of();
-        when(snapshotApiRestClient.postRequest(any(GetOutrightLeagueEventsRequest.class), any(TypeReference.class), eq("/Prematch/GetOutrightLeagueEvents")))
+        when(snapshotApiRestClient.postRequest(any(GetOutrightLeagueEventsRequest.class), any(TypeReference.class), eq("/Inplay/GetOutrightLeagueEvents")))
                 .thenReturn(Mono.just(expectedResponse));
 
         GetOutrightLeagueEventsRequest request = new GetOutrightLeagueEventsRequest(null, null, null, null, null, null, null, null);
