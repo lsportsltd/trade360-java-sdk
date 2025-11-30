@@ -45,4 +45,10 @@ public class Incident {
      * This can be {@code null} if not set.
      */
     @Nullable public Iterable<Result> results;
+
+    /**
+     * The players involved in a substitution incident.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public SubstitutionPlayers players;
 }
