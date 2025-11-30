@@ -3,12 +3,11 @@ package eu.lsports.trade360_java_sdk.common.entities.livescore;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class SubstitutionPlayersTest {
+class PlayerTest {
     @Test
     void testFieldAssignmentAndNullability() {
-        SubstitutionPlayers players = new SubstitutionPlayers();
-        assertNull(players.item1);
-        assertNull(players.item2);
+        Player player = new Player();
+        assertEquals(0, player.id);
+        assertNull(player.name);
     }
 }
-

@@ -3,9 +3,9 @@ package eu.lsports.trade360_java_sdk.common.entities.livescore;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code SubstitutionPlayer} class represents a player involved in a substitution.
+ * The {@code Player} class represents a player involved in an incident.
  */
-public class SubstitutionPlayer {
+public class Player {
 
     /**
      * The ID of the player.
@@ -18,4 +18,3 @@ public class SubstitutionPlayer {
      */
     @Nullable public String name;
 }
-
