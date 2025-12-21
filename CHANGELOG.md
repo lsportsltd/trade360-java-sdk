@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.6.2] - 2025-12-21
+
+### Fixed
+
+- **Performance Optimization in AmqpMessageHandler** (TR-21255)
+  - **Issue**: RabbitMQ message processing throughput was limited to ~2,700 msg/s (vs ~5,000 msg/s without SDK) due to redundant JSON parsing
+  - **Root Cause**: `AmqpMessageHandler.process()` was calling `ObjectMapper.readValue()` three times per message:
+    - Once in `getTypeIdFromMessage()`
+    - Once in `getBodyFromMessage()`
+    - Once in `getHeaderFromMessage()`
+  - Additionally, each call was creating a new `ObjectMapper` instance instead of reusing the class-level singleton
+  - **Solution**:
+    - Refactored to parse message body only once using new `parseMessageOnce()` method
+    - Created new internal methods that accept pre-parsed `Map<String, Object>`:
+      - `getTypeIdFromParsedMessage()`
+      - `getBodyFromParsedMessage()`
+      - `getHeaderFromParsedMessage()`
+    - All methods now reuse the class-level `ObjectMapper` instance
+  - **Impact**:
+    - ~66% reduction in JSON parsing overhead per message
+    - Significant throughput improvement for single-threaded RabbitMQ consumers
+    - Reduced CPU usage and GC pressure in high-throughput scenarios
+  - **Customer**: SportBet (via 10Bet) - reported production concerns with high-rate Prematch queue processing
+
+### Changed
+
+- Updated `AmqpMessageHandlerTest` to reflect new internal method signatures
+- Tests now validate the optimized parsing behavior
+
+### Backward Compatibility
+
+Fully backward compatible. Public API (`process(Message)`) remains unchanged. Only internal implementation optimized.
+
 ## [Release Version 2.4.0]
 
 ### Added

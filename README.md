@@ -543,7 +543,7 @@ Add the SDK as a dependency in your `pom.xml`:
 <dependency>
     <groupId>eu.lsports</groupId>
     <artifactId>trade360-java-sdk</artifactId>
-    <version>2.4.0</version>
+    <version>2.6.2</version>
 </dependency>
 ```
 
@@ -861,6 +861,6 @@ For support, please contact:
 
 ---
 
-**Version**: 2.4.0  
-**Last Updated**: November 2025  
+**Version**: 2.6.2  
+**Last Updated**: December 2025  
 **Maintained by**: LSports Development Team
