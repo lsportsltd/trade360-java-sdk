@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Message;
 import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -52,18 +51,20 @@ public class AmqpMessageHandler implements MessageHandler {
      */
     @Override
     public void process(Message amqpMessage) throws Exception {
-        int typeId = getTypeIdFromMessage(amqpMessage);
+        // Parse the message body only once to avoid redundant JSON deserialization
+        Map<String, Object> parsedMessage = parseMessageOnce(amqpMessage);
+        
+        int typeId = getTypeIdFromParsedMessage(parsedMessage);
         MessageType messageType = getMessageType(typeId);
         Class<?> msgType = messageType.getMessageClass();
-        String body = "";
         Object msg = null;
 
         if (messageType.hasBody()){
-            body = getBodyFromMessage(amqpMessage);
+            String body = getBodyFromParsedMessage(parsedMessage);
             msg = parseMessage(body, msgType);
         }
 
-        Map<String, String> header = getHeaderFromMessage(amqpMessage);
+        Map<String, String> header = getHeaderFromParsedMessage(parsedMessage);
         Map<String, String> transportHeaders = TransportMessageHeaders.createFromProperties(amqpMessage.getMessageProperties().getHeaders()).getAsMap();
         EntityHandler handler = getEntityHandler(typeId);
 
@@ -78,11 +79,21 @@ public class AmqpMessageHandler implements MessageHandler {
         }
     }
 
-    private int getTypeIdFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
+    private Map<String, Object> parseMessageOnce(final @NotNull Message message) throws RabbitMQFeedException {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
-            Map<String, Object> headerMap = (Map<String, Object>) map.get(headerPropertyName);
+            return objectMapper.readValue(message.getBody(), Map.class);
+        } catch (Exception ex) {
+            throw new RabbitMQFeedException("Failed to parse message.", ex);
+        }
+    }
+
+    private int getTypeIdFromParsedMessage(final @NotNull Map<String, Object> parsedMessage) throws RabbitMQFeedException {
+        try {
+            Map<String, Object> headerMap = (Map<String, Object>) parsedMessage.get(headerPropertyName);
+            if (headerMap == null) {
+                throw new RabbitMQFeedException("Message header is missing.");
+            }
+            
             Object typeIdHeaderValueObj = headerMap.get(typeIdPropertyHeaderName);
             String typeIdHeaderValue = (typeIdHeaderValueObj != null) ? typeIdHeaderValueObj.toString() : null;
 
@@ -95,26 +106,24 @@ public class AmqpMessageHandler implements MessageHandler {
         }
     }
 
-    private String getBodyFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
+    private String getBodyFromParsedMessage(final @NotNull Map<String, Object> parsedMessage) throws RabbitMQFeedException {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> map = objectMapper.readValue(message.getBody(), Map.class);
-            if (!map.containsKey(bodyPropertyName) || map.get(bodyPropertyName) == null) {
+            if (!parsedMessage.containsKey(bodyPropertyName) || parsedMessage.get(bodyPropertyName) == null) {
                 throw new RabbitMQFeedException("Message body is missing or null.");
             }
-            Object body = map.get(bodyPropertyName);
+            Object body = parsedMessage.get(bodyPropertyName);
             return objectMapper.writeValueAsString(body);
         } catch (Exception ex) {
             throw new RabbitMQFeedException("Failed to parse body from message.", ex);
         }
     }
 
-    private Map<String, String> getHeaderFromMessage(final @NotNull Message message) throws RabbitMQFeedException {
+    private Map<String, String> getHeaderFromParsedMessage(final @NotNull Map<String, Object> parsedMessage) throws RabbitMQFeedException {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> map = objectMapper.readValue(message.getBody(), HashMap.class);
-            Map<String, String> header = (Map<String, String>) map.get(headerPropertyName);
-
+            Map<String, String> header = (Map<String, String>) parsedMessage.get(headerPropertyName);
+            if (header == null) {
+                throw new RabbitMQFeedException("Message header is missing.");
+            }
             return header;
         } catch (Exception ex) {
             throw new RabbitMQFeedException("Failed to parse header from message.", ex);

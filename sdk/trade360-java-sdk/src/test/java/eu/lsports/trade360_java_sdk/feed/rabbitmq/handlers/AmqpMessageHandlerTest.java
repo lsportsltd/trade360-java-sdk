@@ -84,13 +84,14 @@ class AmqpMessageHandlerTest {
     }
 
     @Test
-    void testGetTypeIdFromMessageInvalidHeaderThrowsException() throws Exception {
-        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
-        var method = handler.getClass().getDeclaredMethod("getTypeIdFromMessage", Message.class);
+    void testGetTypeIdFromParsedMessageInvalidHeaderThrowsException() throws Exception {
+        Map<String, Object> parsedMessage = new HashMap<>();
+        parsedMessage.put("Body", Map.of("foo", "bar"));
+        parsedMessage.put("Header", new HashMap<>());
+        
+        var method = handler.getClass().getDeclaredMethod("getTypeIdFromParsedMessage", Map.class);
         method.setAccessible(true);
-        assertThrows(Exception.class, () -> method.invoke(handler, message));
+        assertThrows(Exception.class, () -> method.invoke(handler, parsedMessage));
     }
 
     @Test
@@ -142,14 +143,16 @@ class AmqpMessageHandlerTest {
     }
 
     @Test
-    void testGetBodyFromMessage() throws Exception {
-        String bodyJson = "{\"Body\":{\"testField\":\"testValue\"},\"Header\":{\"Type\":\"1\"}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+    void testGetBodyFromParsedMessage() throws Exception {
+        Map<String, Object> parsedMessage = new HashMap<>();
+        Map<String, String> bodyContent = new HashMap<>();
+        bodyContent.put("testField", "testValue");
+        parsedMessage.put("Body", bodyContent);
+        parsedMessage.put("Header", Map.of("Type", "1"));
         
-        var method = handler.getClass().getDeclaredMethod("getBodyFromMessage", Message.class);
+        var method = handler.getClass().getDeclaredMethod("getBodyFromParsedMessage", Map.class);
         method.setAccessible(true);
-        String result = (String) method.invoke(handler, message);
+        String result = (String) method.invoke(handler, parsedMessage);
         
         assertNotNull(result);
         assertTrue(result.contains("testField"));
@@ -157,15 +160,18 @@ class AmqpMessageHandlerTest {
     }
 
     @Test
-    void testGetHeaderFromMessage() throws Exception {
-        String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\",\"CustomHeader\":\"value\"}}";
-        Message message = mock(Message.class);
-        when(message.getBody()).thenReturn(bodyJson.getBytes(StandardCharsets.UTF_8));
+    void testGetHeaderFromParsedMessage() throws Exception {
+        Map<String, Object> parsedMessage = new HashMap<>();
+        Map<String, String> headerContent = new HashMap<>();
+        headerContent.put("Type", "1");
+        headerContent.put("CustomHeader", "value");
+        parsedMessage.put("Body", Map.of("foo", "bar"));
+        parsedMessage.put("Header", headerContent);
         
-        var method = handler.getClass().getDeclaredMethod("getHeaderFromMessage", Message.class);
+        var method = handler.getClass().getDeclaredMethod("getHeaderFromParsedMessage", Map.class);
         method.setAccessible(true);
         @SuppressWarnings("unchecked")
-        Map<String, String> result = (Map<String, String>) method.invoke(handler, message);
+        Map<String, String> result = (Map<String, String>) method.invoke(handler, parsedMessage);
         
         assertNotNull(result);
         assertEquals("1", result.get("Type"));
