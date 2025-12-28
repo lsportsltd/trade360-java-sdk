@@ -14,46 +14,67 @@ import jakarta.annotation.Nullable;
 public class Fixture {
 
     /**
+     * The name of the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public String fixtureName;
+
+    /**
      * The sport associated with the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public Sport sport;
+    @Nullable
+    public Sport sport;
 
     /**
      * The location of the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public Location location;
+    @Nullable
+    public Location location;
 
     /**
      * The venue of the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public FixtureVenue venue;
+    @Nullable
+    public FixtureVenue venue;
 
     /**
      * The league associated with the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public League league;
+    @Nullable
+    public League league;
 
     /**
      * The stage associated with the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public IdNamePair stage;
+    @Nullable
+    public IdNamePair stage;
 
     /**
      * The round associated with the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public IdNamePair round;
+    @Nullable
+    public IdNamePair round;
+
+    /**
+     * The season associated with the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public IdNamePair season;
 
     /**
      * The start date and time of the fixture in UTC.
      * This can be {@code null} if not set.
      */
-    @Nullable public LocalDateTime startDate;
+    @Nullable
+    public LocalDateTime startDate;
 
     /**
      * The last update date and time of the fixture in UTC.
@@ -69,23 +90,27 @@ public class Fixture {
      * The participants in the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public Iterable<Participant> participants;
+    @Nullable
+    public Iterable<Participant> participants;
 
     /**
      * Extra data associated with the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public Iterable<NameValuePair> fixtureExtraData;
+    @Nullable
+    public Iterable<NameValuePair> fixtureExtraData;
 
     /**
      * The external ID of the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public String externalFixtureId;
+    @Nullable
+    public String externalFixtureId;
 
     /**
      * The subscription associated with the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public Subscription subscription;
+    @Nullable
+    public Subscription subscription;
 }

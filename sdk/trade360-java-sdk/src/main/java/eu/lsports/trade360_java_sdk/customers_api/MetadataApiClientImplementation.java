@@ -191,4 +191,44 @@ public class MetadataApiClientImplementation implements MetadataApiClient {
             "Participants/Get"
         );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<BaseResponse<GetSeasonsResponse>> getSeasons() {
+        return this.getSeasons(new GetSeasonsRequest());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<BaseResponse<GetSeasonsResponse>> getSeasons(GetSeasonsRequest request) {
+        return this.client.postRequest(
+            request,
+            new TypeReference<BaseResponse<GetSeasonsResponse>>() {},
+            "Seasons/Get"
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<BaseResponse<GetToursResponse>> getTours() {
+        return this.getTours(new GetToursRequest());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<BaseResponse<GetToursResponse>> getTours(GetToursRequest request) {
+        return this.client.postRequest(
+            request,
+            new TypeReference<BaseResponse<GetToursResponse>>() {},
+            "Tours/Get"
+        );
+    }
 }

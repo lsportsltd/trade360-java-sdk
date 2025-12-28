@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.7.0] - 2025-12-25
+
+### Added
+
+- **Seasons Metadata API**
+  - `getSeasons()` - New endpoint to fetch season information with optional filtering
+  - `GetSeasonsRequest` - Request DTO with optional `seasonId` parameter
+  - `GetSeasonsResponse` - Response structure containing collection of seasons
+  - `SeasonMetadata` - Response structure for season data including `seasonId` and `seasonName`
+
+- **Tours Metadata API**
+  - `getTours()` - New endpoint to fetch tour information with optional filtering
+  - `GetToursRequest` - Request DTO with optional `tourId` and `sportId` parameters
+  - `GetToursResponse` - Response structure containing collection of tours
+  - `TourMetadata` - Response structure for tour data including `tourId`, `tourName`, `sportId`, and `sportName`
+
+- **Enhanced Sample Projects**
+  - **customer-api-sample**: Added menu options and examples for seasons and tours metadata APIs
+
+### Changed
+
+- Extended `MetadataApiClient` interface with seasons and tours functionality
+- Updated `MetadataApiClientImplementation` to support new seasons and tours endpoints
+
+### Backward Compatibility
+
+All changes are backward compatible. Existing code will continue to work without modification. The new seasons and tours endpoints are additions to the existing metadata API.
+
 ## [Release Version 2.6.2] - 2025-12-21
 
 ### Fixed

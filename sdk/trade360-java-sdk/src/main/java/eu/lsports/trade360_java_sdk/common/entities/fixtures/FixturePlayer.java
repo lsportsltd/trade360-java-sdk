@@ -4,61 +4,57 @@ import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code League} class represents a sports league.
+ * The {@code FixturePlayer} class represents a player in a fixture's lineup.
  */
-public class League {
+public class FixturePlayer {
 
     /**
-     * The ID of the league.
-     */
-    public int id;
-
-    /**
-     * The name of the league.
+     * The ID of the player.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public String name;
+    public Integer playerId;
 
     /**
-     * The tour associated with the league.
+     * The shirt number of the player.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public IdNamePair tour;
+    public String shirtNumber;
 
     /**
-     * The age category of the league.
+     * Indicates whether the player is the captain.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public Integer ageCategory;
+    public Boolean isCaptain;
 
     /**
-     * The gender category of the league.
+     * Indicates whether the player is in the starting lineup.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public Integer gender;
+    public Boolean isStartingLineup;
 
     /**
-     * The type of the league.
+     * The position of the player.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public Integer type;
+    public IdNamePair position;
 
     /**
-     * The number of periods in the league's fixtures.
+     * The state of the player.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public Integer numberOfPeriods;
+    public IdNamePair state;
 
     /**
-     * The sport category associated with the league.
+     * Detailed information about the player.
      * This can be {@code null} if not set.
      */
     @Nullable
-    public IdNamePair sportCategory;
+    public FixturePlayerInfo player;
 }
+
