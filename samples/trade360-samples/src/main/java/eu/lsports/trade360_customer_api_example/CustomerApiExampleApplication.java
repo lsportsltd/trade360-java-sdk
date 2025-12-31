@@ -7,6 +7,7 @@ import eu.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
 import eu.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import eu.lsports.trade360_java_sdk.common.entities.enums.SubscriptionState;
 import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests.*;
+import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.*;
 import eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.CompetitionSubscription;
 import eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.LeagueSubscription;
 import eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.Suspension;
@@ -69,6 +70,8 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         GET_STATES("Metadata API - Get States", (app) -> app.getStates(app.baseUri, app.preMatchPackageCredentials)),
         Get_INCIDENTS("Metadata API - Get Incidents", (app) -> app.getIncidents(app.baseUri, app.preMatchPackageCredentials)),
         GET_PARTICIPANTS("Metadata API - Get Participants", (app) -> app.getParticipants(app.baseUri, app.preMatchPackageCredentials)),
+        GET_SEASONS("Metadata API - Get Seasons", (app) -> app.getSeasons(app.baseUri, app.preMatchPackageCredentials)),
+        GET_TOURS("Metadata API - Get Tours", (app) -> app.getTours(app.baseUri, app.preMatchPackageCredentials)),
         SUBSCRIBE_FIXTURE("Subscription API - Subscribe to Fixture", (app) -> app.subscribeByFixture(app.baseUri, app.preMatchPackageCredentials)),
         UNSUBSCRIBE_FIXTURE("Subscription API - Unsubscribe from Fixture", (app) -> app.unSubscribeByFixture(app.baseUri, app.preMatchPackageCredentials)),
         SUBSCRIBE_LEAGUE("Subscription API - Subscribe to League", (app) -> app.subscribeByLeague(app.baseUri, app.preMatchPackageCredentials)),
@@ -334,6 +337,18 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
         this.executeAsynchronous("GetParticipants with parameters",
                 new GetParticipantsRequest(new GetParticipantsRequest.ParticipantsFilter(null, List.of(6046), null, null, null, null, null), 1, 50),
                 request -> client.getParticipants(request));
+    }
+
+    private void getSeasons(URI baseUri, PackageCredentials credentials) {
+        var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
+        this.executeAsynchronous("GetSeasons without parameters",
+                () -> client.getSeasons());
+    }
+
+    private void getTours(URI baseUri, PackageCredentials credentials) {
+        var client = this.apiClientFactory.createMetadataHttpClient(baseUri, credentials);
+        this.executeAsynchronous("GetTours without parameters",
+                () -> client.getTours());
     }
     // </editor-fold>
 }
