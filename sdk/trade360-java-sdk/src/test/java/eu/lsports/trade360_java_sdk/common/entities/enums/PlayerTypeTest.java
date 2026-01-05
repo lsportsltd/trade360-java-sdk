@@ -8,9 +8,9 @@ class PlayerTypeTest {
 
     @Test
     void testPlayerTypeValues() {
-        assertEquals(1, PlayerType.PLAYER.getValue());
-        assertEquals(2, PlayerType.OTHER.getValue());
-        assertEquals(3, PlayerType.COACH.getValue());
+        assertEquals(0, PlayerType.PLAYER.getValue());
+        assertEquals(1, PlayerType.OTHER.getValue());
+        assertEquals(2, PlayerType.COACH.getValue());
     }
 
     @Test

@@ -9,17 +9,17 @@ public enum PlayerType {
     /**
      * Type indicating a regular player.
      */
-    PLAYER(1),
+    PLAYER(0),
 
     /**
      * Type indicating other personnel.
      */
-    OTHER(2),
+    OTHER(1),
 
     /**
      * Type indicating a coach.
      */
-    COACH(3);
+    COACH(2);
 
     private final int value;
 
