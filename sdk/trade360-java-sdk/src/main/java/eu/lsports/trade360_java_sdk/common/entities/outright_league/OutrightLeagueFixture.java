@@ -3,6 +3,7 @@ package eu.lsports.trade360_java_sdk.common.entities.outright_league;
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
+import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import jakarta.annotation.Nullable;
@@ -15,10 +16,18 @@ import java.time.LocalDateTime;
 public class OutrightLeagueFixture {
 
     /**
+     * The name of the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public String fixtureName;
+
+    /**
      * The subscription associated with the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public Subscription subscription;
+    @Nullable
+    public Subscription subscription;
 
     /**
      * The sport associated with the fixture.
@@ -55,6 +64,13 @@ public class OutrightLeagueFixture {
      * The End Date time of the fixture in UTC.
      * This can be {@code null} if not set.
      */
-    @Nullable public LocalDateTime endDate;
+    @Nullable
+    public LocalDateTime endDate;
 
+    /**
+     * The season associated with the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public IdNamePair season;
 }

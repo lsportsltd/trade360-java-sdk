@@ -3,6 +3,7 @@ package eu.lsports.trade360_java_sdk.common.entities.outright_league;
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
+import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import org.junit.jupiter.api.Test;
@@ -48,5 +49,35 @@ class OutrightLeagueFixtureTest {
     void testInstantiation() {
         OutrightLeagueFixture fixture = new OutrightLeagueFixture();
         assertNotNull(fixture);
+    }
+
+    @Test
+    void testFixtureNameAndSeasonFields() {
+        OutrightLeagueFixture fixture = new OutrightLeagueFixture();
+
+        assertNull(fixture.fixtureName);
+        assertNull(fixture.season);
+
+        fixture.fixtureName = "Test League Fixture Name";
+        IdNamePair season = new IdNamePair();
+        season.id = 2024;
+        season.name = "Season 2024";
+        fixture.season = season;
+
+        assertEquals("Test League Fixture Name", fixture.fixtureName);
+        assertNotNull(fixture.season);
+        assertEquals(2024, fixture.season.id);
+        assertEquals("Season 2024", fixture.season.name);
+    }
+
+    @Test
+    void testFixtureNameAndSeasonNullability() {
+        OutrightLeagueFixture fixture = new OutrightLeagueFixture();
+
+        fixture.fixtureName = null;
+        fixture.season = null;
+
+        assertNull(fixture.fixtureName);
+        assertNull(fixture.season);
     }
 } 

@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.8.0] - 2026-01-25
+
+### Added
+
+- **Enhanced Outright Fixture Entities**
+  - `OutrightFixture` - Enhanced with:
+    - `fixtureName` property for the name of the fixture
+    - `season` property of type `IdNamePair` for season information
+  - `OutrightLeagueFixture` - Enhanced with:
+    - `fixtureName` property for the name of the fixture
+    - `season` property of type `IdNamePair` for season information
+  - `OutrightParticipant` - Enhanced with:
+    - `form` property for recent form (e.g., "WWDLW")
+    - `formation` property for formation (e.g., "4-3-3")
+    - `fixturePlayers` property of type `Iterable<FixturePlayer>` for player information
+    - `gender` property for gender category
+    - `ageCategory` property for age category
+    - `type` property for participant type
+
+- **Enhanced Outright Snapshot Response Entities**
+  - `OutrightFixtureElement` - Enhanced with:
+    - `fixtureName` property for the name of the fixture
+    - `season` property of type `IdNamePair` for season information
+  - `OutrightLeagueFixtureSnapshot` - Enhanced with:
+    - `fixtureName` property for the name of the fixture
+    - `season` property of type `IdNamePair` for season information
+
+### Backward Compatibility
+
+All changes are backward compatible. Existing code will continue to work without modification. The new properties are optional additions to existing entities.
+
 ## [Release Version 2.7.0] - 2025-12-25
 
 ### Added
@@ -290,6 +321,9 @@ Map<String, String> headersMap = transportHeaders.getAsMap();
 - **Fixture Context**: Direct access to fixture IDs where applicable
 - **Type Safety**: Structured access to transport headers instead of raw map lookups
 
+[Release Version 2.8.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.8.0
+[Release Version 2.7.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.7.0
+[Release Version 2.6.2]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.6.2
 [Release Version 2.4.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.4.0
 [Release Version 2.3.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.3.0
 [Release Version 2.2.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.2.0
