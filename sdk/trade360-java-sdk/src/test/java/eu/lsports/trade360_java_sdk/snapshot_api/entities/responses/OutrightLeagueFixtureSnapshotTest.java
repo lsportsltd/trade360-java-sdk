@@ -34,15 +34,12 @@ class OutrightLeagueFixtureSnapshotTest {
         assertNull(element.season);
 
         element.fixtureName = "Test League Fixture Name";
-        IdNamePair season = new IdNamePair();
-        season.id = 2024;
-        season.name = "Season 2024";
-        element.season = season;
+        element.season = new IdNamePair(2024, "Season 2024");
 
         assertEquals("Test League Fixture Name", element.fixtureName);
         assertNotNull(element.season);
-        assertEquals(2024, element.season.id);
-        assertEquals("Season 2024", element.season.name);
+        assertEquals(2024, element.season.id());
+        assertEquals("Season 2024", element.season.name());
     }
 
     @Test

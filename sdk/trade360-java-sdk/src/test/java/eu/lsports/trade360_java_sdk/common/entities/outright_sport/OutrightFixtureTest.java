@@ -88,15 +88,12 @@ class OutrightFixtureTest {
         assertNull(fixture.season);
 
         fixture.fixtureName = "Test Fixture Name";
-        IdNamePair season = new IdNamePair();
-        season.id = 2024;
-        season.name = "Season 2024";
-        fixture.season = season;
+        fixture.season = new IdNamePair(2024, "Season 2024");
 
         assertEquals("Test Fixture Name", fixture.fixtureName);
         assertNotNull(fixture.season);
-        assertEquals(2024, fixture.season.id);
-        assertEquals("Season 2024", fixture.season.name);
+        assertEquals(2024, fixture.season.id());
+        assertEquals("Season 2024", fixture.season.name());
     }
 
     @Test
