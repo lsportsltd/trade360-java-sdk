@@ -56,7 +56,7 @@ class OutrightParticipantTest {
         participant.formation = "4-3-3";
         FixturePlayer player = new FixturePlayer();
         player.playerId = 1;
-        player.shirtNumber = 10;
+        player.shirtNumber = "10";
         participant.fixturePlayers = Arrays.asList(player);
         participant.gender = 1;
         participant.ageCategory = 2;
