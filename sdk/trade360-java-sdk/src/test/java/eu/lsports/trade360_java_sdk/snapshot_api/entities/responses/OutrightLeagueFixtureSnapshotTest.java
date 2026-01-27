@@ -1,5 +1,6 @@
 package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
+import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
@@ -23,5 +24,32 @@ class OutrightLeagueFixtureSnapshotTest {
         assertNull(element.status);
         assertNotNull(element.extraData);
         assertNotNull(element.endDate);
+    }
+
+    @Test
+    void testFixtureNameAndSeasonFields() {
+        OutrightLeagueFixtureSnapshot element = new OutrightLeagueFixtureSnapshot();
+
+        assertNull(element.fixtureName);
+        assertNull(element.season);
+
+        element.fixtureName = "Test League Fixture Name";
+        element.season = new IdNamePair(2024, "Season 2024");
+
+        assertEquals("Test League Fixture Name", element.fixtureName);
+        assertNotNull(element.season);
+        assertEquals(2024, element.season.id());
+        assertEquals("Season 2024", element.season.name());
+    }
+
+    @Test
+    void testFixtureNameAndSeasonNullability() {
+        OutrightLeagueFixtureSnapshot element = new OutrightLeagueFixtureSnapshot();
+
+        element.fixtureName = null;
+        element.season = null;
+
+        assertNull(element.fixtureName);
+        assertNull(element.season);
     }
 } 

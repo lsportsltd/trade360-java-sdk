@@ -5,6 +5,7 @@ import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.FixtureVenue;
+import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import jakarta.annotation.Nullable;
@@ -13,6 +14,13 @@ import jakarta.annotation.Nullable;
  * The {@code OutrightFixture} class represents a fixture in an outright sport.
  */
 public class OutrightFixture {
+
+    /**
+     * The name of the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public String fixtureName;
 
     /**
      * The sport associated with the fixture.
@@ -59,4 +67,11 @@ public class OutrightFixture {
      * The subscription associated with the fixture.
      */
     public Subscription subscription;
+
+    /**
+     * The season associated with the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public IdNamePair season;
 }
