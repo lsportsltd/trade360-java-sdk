@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Release Version 2.8.0] - 2026-01-25
+## [Release Version 2.8.1] - 2026-01-25
 
 ### Added
 
@@ -321,7 +321,7 @@ Map<String, String> headersMap = transportHeaders.getAsMap();
 - **Fixture Context**: Direct access to fixture IDs where applicable
 - **Type Safety**: Structured access to transport headers instead of raw map lookups
 
-[Release Version 2.8.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.8.0
+[Release Version 2.8.1]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.8.1
 [Release Version 2.7.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.7.0
 [Release Version 2.6.2]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.6.2
 [Release Version 2.4.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.4.0
