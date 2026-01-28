@@ -1,7 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.fixtures;
 
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FixtureEventBusinessTest {

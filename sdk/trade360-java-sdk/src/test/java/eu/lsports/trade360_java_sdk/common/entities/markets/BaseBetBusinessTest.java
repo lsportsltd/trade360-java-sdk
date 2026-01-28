@@ -3,7 +3,7 @@ package eu.lsports.trade360_java_sdk.common.entities.markets;
 import eu.lsports.trade360_java_sdk.common.entities.enums.BetStatus;
 import eu.lsports.trade360_java_sdk.common.entities.enums.SettlementType;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BaseBetBusinessTest {
@@ -21,7 +21,7 @@ class BaseBetBusinessTest {
         bet.price = "2.00";
         bet.priceVolume = "1000";
         bet.settlement = SettlementType.WINNER;
-        bet.lastUpdate = LocalDateTime.now();
+        bet.lastUpdate = Instant.now();
         bet.priceIN = "1.95";
         bet.priceUS = "+100";
         bet.priceUK = "1/1";

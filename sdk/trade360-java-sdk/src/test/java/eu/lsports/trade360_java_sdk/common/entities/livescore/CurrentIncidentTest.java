@@ -3,7 +3,7 @@ package eu.lsports.trade360_java_sdk.common.entities.livescore;
 import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentConfirmation;
 import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentType;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CurrentIncidentTest {
@@ -12,12 +12,12 @@ class CurrentIncidentTest {
         CurrentIncident ci = new CurrentIncident();
         ci.id = IncidentType.BATSMAN_SIXES;
         ci.name = "IncidentName";
-        ci.lastUpdate = LocalDateTime.of(2024, 6, 1, 12, 0);
+        ci.lastUpdate = Instant.parse("2024-06-01T12:00:00Z");
         ci.confirmation = IncidentConfirmation.CONFIRMED;
         
         assertEquals(IncidentType.BATSMAN_SIXES, ci.id);
         assertEquals("IncidentName", ci.name);
-        assertEquals(LocalDateTime.of(2024, 6, 1, 12, 0), ci.lastUpdate);
+        assertEquals(Instant.parse("2024-06-01T12:00:00Z"), ci.lastUpdate);
         assertEquals(IncidentConfirmation.CONFIRMED, ci.confirmation);
     }
 

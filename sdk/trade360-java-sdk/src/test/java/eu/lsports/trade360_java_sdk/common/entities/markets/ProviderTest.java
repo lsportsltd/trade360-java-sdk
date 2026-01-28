@@ -1,7 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.markets;
 
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProviderTest {
@@ -24,7 +24,7 @@ class ProviderTest {
 
         provider.id = 7;
         provider.name = "ProviderName";
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         provider.lastUpdate = now;
         provider.providerFixtureId = "fix123";
         provider.providerLeagueId = "league123";

@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Scanner;
@@ -293,14 +293,14 @@ public class CustomerApiExampleApplication extends ApiExampleApplicationBase{
     private void addManualSuspension(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createSubscriptionApiHttpClient(baseUri, credentials);
         this.executeAsynchronous("AddManualSuspension with parameters",
-                new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, LocalDateTime.now(), null))),
+                new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, Instant.now(), null))),
                 request -> client.addManualSuspension(request));
     }
 
     private void removeManualSuspension(URI baseUri, PackageCredentials credentials) {
         var client = this.apiClientFactory.createSubscriptionApiHttpClient(baseUri, credentials);
         this.executeAsynchronous("RemoveManualSuspension with parameters",
-                new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, LocalDateTime.now(), null))),
+                new ChangeManualSuspensionRequest(List.of( new Suspension(true,1,1,1,1, Instant.now(), null))),
                 request -> client.removeManualSuspension(request));
     }
 

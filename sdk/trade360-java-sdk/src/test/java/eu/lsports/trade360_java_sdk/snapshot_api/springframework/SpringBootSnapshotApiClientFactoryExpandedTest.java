@@ -19,7 +19,6 @@ class SpringBootSnapshotApiClientFactoryExpandedTest {
     @Mock
     private WebClient.Builder webClientBuilder;
 
-    @Mock
     private PackageCredentials credentials;
 
     private SpringBootSnapshotApiClientFactory factory;
@@ -27,6 +26,7 @@ class SpringBootSnapshotApiClientFactoryExpandedTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        credentials = new PackageCredentials(123, "user", "pass", "json");
         
         when(webClientBuilder.baseUrl(anyString())).thenReturn(webClientBuilder);
         when(webClientBuilder.codecs(any())).thenReturn(webClientBuilder);

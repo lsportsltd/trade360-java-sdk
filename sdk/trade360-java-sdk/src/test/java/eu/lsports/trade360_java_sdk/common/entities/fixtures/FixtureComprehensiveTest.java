@@ -5,7 +5,7 @@ import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -69,7 +69,7 @@ class FixtureComprehensiveTest {
     @Test
     void testFixtureStartDateAssignment() {
         Fixture fixture = new Fixture();
-        LocalDateTime testStartDate = LocalDateTime.now();
+        Instant testStartDate = Instant.now();
         
         fixture.startDate = testStartDate;
         
@@ -80,7 +80,7 @@ class FixtureComprehensiveTest {
     @Test
     void testFixtureLastUpdateAssignment() {
         Fixture fixture = new Fixture();
-        LocalDateTime testLastUpdate = LocalDateTime.now();
+        Instant testLastUpdate = Instant.now();
         
         fixture.lastUpdate = testLastUpdate;
         
@@ -151,8 +151,8 @@ class FixtureComprehensiveTest {
         Sport testSport = new Sport();
         Location testLocation = new Location();
         League testLeague = new League();
-        LocalDateTime testStartDate = LocalDateTime.now();
-        LocalDateTime testLastUpdate = LocalDateTime.now();
+        Instant testStartDate = Instant.now();
+        Instant testLastUpdate = Instant.now();
         FixtureStatus testStatus = FixtureStatus.IN_PROGRESS;
         Iterable<Participant> testParticipants = Collections.singletonList(new Participant());
         Iterable<NameValuePair> testExtraData = Collections.singletonList(new NameValuePair());

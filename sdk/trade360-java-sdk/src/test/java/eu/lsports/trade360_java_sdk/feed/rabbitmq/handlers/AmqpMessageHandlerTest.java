@@ -48,39 +48,33 @@ class AmqpMessageHandlerTest {
 
     @Test
     void testProcessValidMessageCallsEntityHandler() throws Exception {
+        // Use a real MessageType ID (1 = FixtureMetadataUpdate)
         int typeId = 1;
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\"}}";
         Message message = createMockMessage(bodyJson);
         when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
-        // Mock static method
-        try (var mt = mockStatic(MessageType.class)) {
-            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
-            doNothing().when(entityHandler).process(any(), any(), any());
-            assertDoesNotThrow(() -> handler.process(message));
-        }
+        doNothing().when(entityHandler).process(any(), any(), any());
+        assertDoesNotThrow(() -> handler.process(message));
     }
 
     @Test
     void processEntityHandlerNotFoundThrowsException() throws Exception {
+        // Use a real MessageType ID (1 = FixtureMetadataUpdate) but don't register handler
         int typeId = 1;
         String bodyJson = "{\"Body\":{\"foo\":\"bar\"},\"Header\":{\"Type\":\"1\"}}";
         Message message = createMockMessage(bodyJson);
         when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(null);
-        try (var mt = mockStatic(MessageType.class)) {
-            mt.when(() -> MessageType.findMessageType(typeId)).thenReturn(MessageType.FixtureMetadataUpdate);
-            assertThrows(Trade360Exception.class, () -> handler.process(message));
-        }
+        assertThrows(Trade360Exception.class, () -> handler.process(message));
     }
 
     @Test
     void testGetMessageTypeInvalidTypeThrowsException() throws Exception {
+        // Use an invalid typeId that doesn't exist in the enum
         var method = handler.getClass().getDeclaredMethod("getMessageType", int.class);
         method.setAccessible(true);
-        try (var mt = mockStatic(MessageType.class)) {
-            mt.when(() -> MessageType.findMessageType(999)).thenThrow(new ClassNotFoundException());
-            InvocationTargetException ex = assertThrows(InvocationTargetException.class, () -> method.invoke(handler, 999));
-            assertInstanceOf(RabbitMQFeedException.class, ex.getCause());
-        }
+        // 999 is not a valid MessageType, should throw RabbitMQFeedException
+        InvocationTargetException ex = assertThrows(InvocationTargetException.class, () -> method.invoke(handler, 999));
+        assertInstanceOf(RabbitMQFeedException.class, ex.getCause());
     }
 
     @Test

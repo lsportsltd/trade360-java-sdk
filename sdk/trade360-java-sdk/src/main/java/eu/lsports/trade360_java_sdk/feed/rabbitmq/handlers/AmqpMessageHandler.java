@@ -43,7 +43,9 @@ public class AmqpMessageHandler implements MessageHandler {
         objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .registerModule(new JavaTimeModule());
+                .registerModule(new JavaTimeModule()
+                        .addSerializer(new eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantSerializer())
+                        .addDeserializer(java.time.Instant.class, new eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantDeserializer()));
     }
 
     /**

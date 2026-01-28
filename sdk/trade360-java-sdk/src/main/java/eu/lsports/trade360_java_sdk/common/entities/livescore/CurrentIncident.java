@@ -6,7 +6,7 @@ import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentConfirmation;
 import eu.lsports.trade360_java_sdk.common.entities.enums.IncidentType;
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code Incident} class represents an incident during a livescore.
@@ -25,7 +25,7 @@ public class CurrentIncident {
     /**
      * The last update time of the current incident in UTC.
      */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
 
     /**
      * The confirmation status of current incident

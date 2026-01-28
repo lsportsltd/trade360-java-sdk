@@ -1,6 +1,6 @@
 package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
@@ -50,7 +50,7 @@ public final class OutrightLeagueFixtureSnapshot {
     /**
      * The last update date of the outright league fixture snapshot in UTC.
      */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
 
     /**
      * The status of the outright league fixture snapshot.
@@ -71,7 +71,7 @@ public final class OutrightLeagueFixtureSnapshot {
     /**
      * The end date of the outright league fixture snapshot in UTC.
      */
-    public LocalDateTime endDate;
+    public Instant endDate;
 
     /**
      * The season associated with the fixture.

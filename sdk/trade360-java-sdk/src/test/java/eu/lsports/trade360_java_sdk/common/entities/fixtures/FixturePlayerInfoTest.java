@@ -3,7 +3,7 @@ package eu.lsports.trade360_java_sdk.common.entities.fixtures;
 import eu.lsports.trade360_java_sdk.common.entities.enums.PlayerType;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +25,7 @@ class FixturePlayerInfoTest {
     @Test
     void testFieldAssignment() {
         FixturePlayerInfo playerInfo = new FixturePlayerInfo();
-        LocalDateTime birthDate = LocalDateTime.of(1990, 5, 15, 0, 0);
+        Instant birthDate = Instant.parse("1990-05-15T00:00:00Z");
 
         playerInfo.id = 123;
         playerInfo.name = "John Doe";

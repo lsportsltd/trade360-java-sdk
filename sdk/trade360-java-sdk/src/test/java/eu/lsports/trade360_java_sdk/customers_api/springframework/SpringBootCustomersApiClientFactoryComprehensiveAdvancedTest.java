@@ -22,7 +22,6 @@ class SpringBootCustomersApiClientFactoryComprehensiveAdvancedTest {
     @Mock
     private WebClient.Builder mockWebClientBuilder;
 
-    @Mock
     private PackageCredentials mockCredentials;
 
     private SpringBootCustomersApiClientFactory factory;
@@ -30,6 +29,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveAdvancedTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         
         WebClient mockWebClient = mock(WebClient.class);
         when(mockWebClientBuilder.baseUrl(anyString())).thenReturn(mockWebClientBuilder);
@@ -99,8 +99,8 @@ class SpringBootCustomersApiClientFactoryComprehensiveAdvancedTest {
     @Test
     void testCreateClientsWithDifferentCredentials() {
         URI baseUrl = URI.create("https://api.example.com");
-        PackageCredentials credentials1 = mock(PackageCredentials.class);
-        PackageCredentials credentials2 = mock(PackageCredentials.class);
+        PackageCredentials credentials1 = new PackageCredentials(123, "user1", "pass1", "json");
+        PackageCredentials credentials2 = new PackageCredentials(456, "user2", "pass2", "json");
         
         PackageDistributionApiClientImplementation client1 = factory.createPackageDistributionHttpClient(baseUrl, credentials1);
         PackageDistributionApiClientImplementation client2 = factory.createPackageDistributionHttpClient(baseUrl, credentials2);

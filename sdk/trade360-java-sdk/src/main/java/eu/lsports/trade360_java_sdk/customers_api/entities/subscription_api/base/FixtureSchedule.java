@@ -6,7 +6,7 @@ import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
 import eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses.LeagueMetadata;
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * Represents the schedule of a fixture.
@@ -41,12 +41,12 @@ public class FixtureSchedule {
     /**
      * The start date of the fixture in UTC.
      */
-    public LocalDateTime startDate;
+    public Instant startDate;
 
     /**
      * The last update time of the fixture in UTC.
      */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
 
     /**
      * The status of the fixture.

@@ -3,7 +3,7 @@ package eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.res
 import eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.base.SuspendedMarket;
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * Represents the response for a suspension change.
@@ -48,7 +48,7 @@ public class SuspensionChangeResponse {
     @Nullable public Iterable<SuspendedMarket> markets;
 
     /** The date and time when this suspension change was created. */
-    @Nullable public LocalDateTime creationDate;
+    @Nullable public Instant creationDate;
 
 
 }

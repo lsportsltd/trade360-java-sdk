@@ -1,6 +1,6 @@
 package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.FixtureVenue;
@@ -44,12 +44,12 @@ public final class OutrightFixtureElement {
      * The start date of the outright fixture element in UTC.
      * Can be {@code null}.
      */
-    @Nullable public LocalDateTime startDate;
+    @Nullable public Instant startDate;
 
     /**
      * The last update date of the outright fixture element in UTC.
      */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
 
     /**
      * The status of the outright fixture element.
