@@ -1,7 +1,7 @@
 package eu.lsports.trade360_java_sdk.snapshot_api.entities.requests;
 
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,9 +27,9 @@ class GetOutrightLeagueEventsRequestTest {
     
     @Test
     void testRecordInstantiationWithSpecificParameters() {
-        LocalDateTime timestamp = LocalDateTime.of(2024, 1, 15, 10, 30, 0);
-        LocalDateTime fromDate = LocalDateTime.of(2024, 1, 1, 0, 0, 0);
-        LocalDateTime toDate = LocalDateTime.of(2024, 1, 31, 23, 59, 59);
+        Instant timestamp = Instant.parse("2024-01-15T10:30:00Z");
+        Instant fromDate = Instant.parse("2024-01-01T00:00:00Z");
+        Instant toDate = Instant.parse("2024-01-31T23:59:59Z");
         List<Integer> sports = Arrays.asList(1, 2, 3);
         List<Integer> locations = Arrays.asList(100, 200);
         List<Integer> leagues = Arrays.asList(10, 20, 30);
@@ -53,7 +53,7 @@ class GetOutrightLeagueEventsRequestTest {
     
     @Test
     void testTimestampParameter() {
-        LocalDateTime testTimestamp = LocalDateTime.of(2024, 6, 15, 14, 30, 45);
+        Instant testTimestamp = Instant.parse("2024-06-15T14:30:45Z");
         
         GetOutrightLeagueEventsRequest request = new GetOutrightLeagueEventsRequest(
             testTimestamp, null, null, null, null, null, null, null
@@ -66,8 +66,8 @@ class GetOutrightLeagueEventsRequestTest {
     
     @Test
     void testDateRangeParameters() {
-        LocalDateTime fromDate = LocalDateTime.of(2024, 1, 1, 0, 0, 0);
-        LocalDateTime toDate = LocalDateTime.of(2024, 12, 31, 23, 59, 59);
+        Instant fromDate = Instant.parse("2024-01-01T00:00:00Z");
+        Instant toDate = Instant.parse("2024-12-31T23:59:59Z");
         
         GetOutrightLeagueEventsRequest request = new GetOutrightLeagueEventsRequest(
             null, fromDate, toDate, null, null, null, null, null
@@ -165,7 +165,7 @@ class GetOutrightLeagueEventsRequestTest {
     
     @Test
     void testRecordEquality() {
-        LocalDateTime timestamp = LocalDateTime.of(2024, 1, 15, 10, 30, 0);
+        Instant timestamp = Instant.parse("2024-01-15T10:30:00Z");
         List<Integer> sports = Arrays.asList(1, 2);
         
         GetOutrightLeagueEventsRequest request1 = new GetOutrightLeagueEventsRequest(
@@ -182,8 +182,8 @@ class GetOutrightLeagueEventsRequestTest {
     
     @Test
     void testRecordInequality() {
-        LocalDateTime timestamp1 = LocalDateTime.of(2024, 1, 15, 10, 30, 0);
-        LocalDateTime timestamp2 = LocalDateTime.of(2024, 1, 16, 10, 30, 0);
+        Instant timestamp1 = Instant.parse("2024-01-15T10:30:00Z");
+        Instant timestamp2 = Instant.parse("2024-01-16T10:30:00Z");
         
         GetOutrightLeagueEventsRequest request1 = new GetOutrightLeagueEventsRequest(
             timestamp1, null, null, null, null, null, null, null
@@ -198,7 +198,7 @@ class GetOutrightLeagueEventsRequestTest {
     
     @Test
     void testToString() {
-        LocalDateTime timestamp = LocalDateTime.of(2024, 1, 15, 10, 30, 0);
+        Instant timestamp = Instant.parse("2024-01-15T10:30:00Z");
         List<Integer> sports = Arrays.asList(1, 2);
         
         GetOutrightLeagueEventsRequest request = new GetOutrightLeagueEventsRequest(

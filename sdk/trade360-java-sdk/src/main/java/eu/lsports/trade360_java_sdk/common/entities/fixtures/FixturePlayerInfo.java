@@ -3,7 +3,7 @@ package eu.lsports.trade360_java_sdk.common.entities.fixtures;
 import eu.lsports.trade360_java_sdk.common.entities.enums.PlayerType;
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code FixturePlayerInfo} class represents detailed information about a player in a fixture.
@@ -41,7 +41,7 @@ public class FixturePlayerInfo {
      * This can be {@code null} if not set.
      */
     @Nullable
-    public LocalDateTime birthDate;
+    public Instant birthDate;
 
     /**
      * The type of the player (Player, Coach, Other).

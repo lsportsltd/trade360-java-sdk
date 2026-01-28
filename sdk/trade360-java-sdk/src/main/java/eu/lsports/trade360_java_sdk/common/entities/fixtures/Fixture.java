@@ -2,7 +2,7 @@ package eu.lsports.trade360_java_sdk.common.entities.fixtures;
 
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
@@ -74,12 +74,12 @@ public class Fixture {
      * This can be {@code null} if not set.
      */
     @Nullable
-    public LocalDateTime startDate;
+    public Instant startDate;
 
     /**
      * The last update date and time of the fixture in UTC.
      */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
 
     /**
      * The status of the fixture.

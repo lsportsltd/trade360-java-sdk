@@ -3,7 +3,8 @@ package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 
 class OutrightLeagueFixtureSnapshotTest {
@@ -13,10 +14,10 @@ class OutrightLeagueFixtureSnapshotTest {
         element.subscription = null;
         element.sport = null;
         element.location = null;
-        element.lastUpdate = LocalDateTime.now();
+        element.lastUpdate = Instant.now();
         element.status = null;
         element.extraData = Collections.emptyList();
-        element.endDate = LocalDateTime.now().plusDays(1);
+        element.endDate = Instant.now().plus(1, ChronoUnit.DAYS);
         assertNull(element.subscription);
         assertNull(element.sport);
         assertNull(element.location);

@@ -7,7 +7,8 @@ import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,10 +27,10 @@ class OutrightLeagueFixtureTest {
         fixture.subscription = new Subscription();
         fixture.sport = new Sport();
         fixture.location = new Location();
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         fixture.lastUpdate = now;
         fixture.status = FixtureStatus.FINISHED;
-        fixture.endDate =  LocalDateTime.now().plusHours(2);
+        fixture.endDate = Instant.now().plus(2, ChronoUnit.HOURS);
 
         NameValuePair nvp = new NameValuePair();
         nvp.name = "key";

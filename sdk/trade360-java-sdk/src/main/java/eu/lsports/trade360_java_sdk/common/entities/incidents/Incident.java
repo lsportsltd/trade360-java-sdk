@@ -2,7 +2,7 @@ package eu.lsports.trade360_java_sdk.common.entities.incidents;
 
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * Represents an incident in the system.
@@ -19,7 +19,7 @@ public class Incident {
     /** The description of the incident, if available. */
     @Nullable public String description;
     /** The last update timestamp for the incident. */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
     /** The creation date of the incident. */
-    public LocalDateTime creationDate;
+    public Instant creationDate;
 }

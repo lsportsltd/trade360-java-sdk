@@ -2,7 +2,7 @@ package eu.lsports.trade360_java_sdk.common.entities.markets;
 
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code Provider} class represents a provider of market data.
@@ -23,7 +23,7 @@ public class Provider {
     /**
      * The last update time of the provider in UTC.
      */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
 
     /**
      * The provider fixture ID.

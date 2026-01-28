@@ -2,7 +2,7 @@ package eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.request
 
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code GetIncidentsRequest} record represents a request to retrieve Incidents based on various criteria.
@@ -24,6 +24,6 @@ public final record GetIncidentsRequest(IncidentsFilter filter) {
             @Nullable Iterable<Integer> ids,
             @Nullable Iterable<Integer> sports,
             @Nullable String searchText,
-            @Nullable LocalDateTime from){
+            @Nullable Instant from){
     }
 }

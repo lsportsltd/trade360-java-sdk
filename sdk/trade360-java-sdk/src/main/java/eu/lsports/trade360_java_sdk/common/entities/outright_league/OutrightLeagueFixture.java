@@ -8,7 +8,7 @@ import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code OutrightLeagueFixture} class represents a fixture in an outright league.
@@ -45,7 +45,7 @@ public class OutrightLeagueFixture {
      * The last update time of the fixture in UTC.
      * This can be {@code null} if not set.
      */
-    @Nullable public LocalDateTime lastUpdate;
+    @Nullable public Instant lastUpdate;
 
 
     /**
@@ -65,7 +65,7 @@ public class OutrightLeagueFixture {
      * This can be {@code null} if not set.
      */
     @Nullable
-    public LocalDateTime endDate;
+    public Instant endDate;
 
     /**
      * The season associated with the fixture.

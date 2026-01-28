@@ -1,6 +1,6 @@
 package eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import jakarta.annotation.Nullable;
 
@@ -16,14 +16,14 @@ import jakarta.annotation.Nullable;
  * @param leagueId the ID of the league associated with the fixture
  * @param fixtureStatus the status of the fixture
  * @param participants the participants in the fixture
- * @see LocalDateTime
+ * @see Instant
  * @see FixtureStatus
  */
 public final record FixtureMetadata(
     int fixtureId,
     @Nullable String fixtureName,
-    LocalDateTime startDate,
-    LocalDateTime lastUpdate,
+    Instant startDate,
+    Instant lastUpdate,
     int sportId,
     int locationId,
     int leagueId,

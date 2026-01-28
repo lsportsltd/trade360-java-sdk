@@ -20,7 +20,6 @@ class SpringBootSnapshotApiClientFactoryComprehensiveAdvancedTest {
     @Mock
     private WebClient.Builder mockWebClientBuilder;
 
-    @Mock
     private PackageCredentials mockCredentials;
 
     private SpringBootSnapshotApiClientFactory factory;
@@ -28,6 +27,7 @@ class SpringBootSnapshotApiClientFactoryComprehensiveAdvancedTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         
         WebClient mockWebClient = mock(WebClient.class);
         when(mockWebClientBuilder.baseUrl(anyString())).thenReturn(mockWebClientBuilder);
@@ -82,8 +82,8 @@ class SpringBootSnapshotApiClientFactoryComprehensiveAdvancedTest {
     @Test
     void testCreateInPlayApiClientWithDifferentCredentials() {
         URI baseUrl = URI.create("https://api.example.com");
-        PackageCredentials credentials1 = mock(PackageCredentials.class);
-        PackageCredentials credentials2 = mock(PackageCredentials.class);
+        PackageCredentials credentials1 = new PackageCredentials(123, "user1", "pass1", "json");
+        PackageCredentials credentials2 = new PackageCredentials(456, "user2", "pass2", "json");
         
         InPlaySnapshotApiClient client1 = factory.createInPlayApiClient(baseUrl, credentials1);
         InPlaySnapshotApiClient client2 = factory.createInPlayApiClient(baseUrl, credentials2);
@@ -96,8 +96,8 @@ class SpringBootSnapshotApiClientFactoryComprehensiveAdvancedTest {
     @Test
     void testCreatePreMatchApiClientWithDifferentCredentials() {
         URI baseUrl = URI.create("https://api.example.com");
-        PackageCredentials credentials1 = mock(PackageCredentials.class);
-        PackageCredentials credentials2 = mock(PackageCredentials.class);
+        PackageCredentials credentials1 = new PackageCredentials(123, "user1", "pass1", "json");
+        PackageCredentials credentials2 = new PackageCredentials(456, "user2", "pass2", "json");
         
         PreMatchSnapshotApiClient client1 = factory.createPreMatchApiClient(baseUrl, credentials1);
         PreMatchSnapshotApiClient client2 = factory.createPreMatchApiClient(baseUrl, credentials2);

@@ -2,7 +2,7 @@ package eu.lsports.trade360_java_sdk.common.serialization;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 import eu.lsports.trade360_java_sdk.common.configuration.PackageCredentials;
@@ -20,11 +20,7 @@ public class JacksonApiSerializerTest {
 
     @BeforeEach
     void setUp() {
-        PackageCredentials credentials = mock(PackageCredentials.class);
-        when(credentials.packageId()).thenReturn(123);
-        when(credentials.userName()).thenReturn("user");
-        when(credentials.password()).thenReturn("pass");
-        when(credentials.messageFormat()).thenReturn("json");
+        PackageCredentials credentials = new PackageCredentials(123, "user", "pass", "json");
         serializer = new JacksonApiSerializer(credentials);
     }
 
@@ -69,9 +65,9 @@ public class JacksonApiSerializerTest {
     public void serializeRequestWithNonEmptyRequestAppendsCredentialsToFinalJson() {
         // Arrange
         var request = new GetSnapshotRequest(
-            LocalDateTime.of(2024, 8, 5, 0, 0),
-            LocalDateTime.of(2024, 8, 1, 0, 0),
-            LocalDateTime.of(2024, 8, 7, 0, 0),
+            Instant.parse("2024-08-05T00:00:00Z"),
+            Instant.parse("2024-08-01T00:00:00Z"),
+            Instant.parse("2024-08-07T00:00:00Z"),
             List.of(1, 2, 3),
             List.of(4, 5, 6),
             List.of(7, 8, 9),

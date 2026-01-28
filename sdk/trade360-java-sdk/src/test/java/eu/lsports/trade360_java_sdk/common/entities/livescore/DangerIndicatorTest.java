@@ -3,7 +3,7 @@ package eu.lsports.trade360_java_sdk.common.entities.livescore;
 import eu.lsports.trade360_java_sdk.common.entities.enums.DangerIndicatorStatus;
 import eu.lsports.trade360_java_sdk.common.entities.enums.DangerIndicatorType;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DangerIndicatorTest {
@@ -12,10 +12,10 @@ class DangerIndicatorTest {
         DangerIndicator indicator = new DangerIndicator();
         indicator.type = DangerIndicatorType.GENERAL;
         indicator.status = DangerIndicatorStatus.SAFE;
-        indicator.lastUpdate = LocalDateTime.of(2024, 6, 1, 12, 0);
+        indicator.lastUpdate = Instant.parse("2024-06-01T12:00:00Z");
         assertEquals(DangerIndicatorType.GENERAL, indicator.type);
         assertEquals(DangerIndicatorStatus.SAFE, indicator.status);
-        assertEquals(LocalDateTime.of(2024, 6, 1, 12, 0), indicator.lastUpdate);
+        assertEquals(Instant.parse("2024-06-01T12:00:00Z"), indicator.lastUpdate);
     }
 
     @Test

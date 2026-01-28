@@ -4,7 +4,7 @@ import eu.lsports.trade360_java_sdk.common.entities.enums.DangerIndicatorStatus;
 import eu.lsports.trade360_java_sdk.common.entities.enums.DangerIndicatorType;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,7 +47,7 @@ class DangerIndicatorActualTest {
     @Test
     void testDangerIndicatorLastUpdateAssignment() {
         DangerIndicator dangerIndicator = new DangerIndicator();
-        LocalDateTime testLastUpdate = LocalDateTime.now();
+        Instant testLastUpdate = Instant.now();
         
         dangerIndicator.lastUpdate = testLastUpdate;
         
@@ -61,7 +61,7 @@ class DangerIndicatorActualTest {
         DangerIndicator dangerIndicator = new DangerIndicator();
         DangerIndicatorType testType = DangerIndicatorType.CARDS;
         DangerIndicatorStatus testStatus = DangerIndicatorStatus.DANGER;
-        LocalDateTime testLastUpdate = LocalDateTime.of(2023, 6, 15, 14, 30);
+        Instant testLastUpdate = Instant.parse("2023-06-15T14:30:00Z");
         
         dangerIndicator.type = testType;
         dangerIndicator.status = testStatus;
@@ -131,7 +131,7 @@ class DangerIndicatorActualTest {
         assertEquals(DangerIndicatorType.GENERAL, dangerIndicator.type);
         assertNull(dangerIndicator.lastUpdate);
         
-        dangerIndicator.lastUpdate = LocalDateTime.now();
+        dangerIndicator.lastUpdate = Instant.now();
         assertEquals(DangerIndicatorType.GENERAL, dangerIndicator.type);
         assertEquals(DangerIndicatorStatus.SAFE, dangerIndicator.status);
     }
@@ -143,7 +143,7 @@ class DangerIndicatorActualTest {
         
         DangerIndicatorType testType = DangerIndicatorType.GENERAL;
         DangerIndicatorStatus testStatus = DangerIndicatorStatus.SAFE;
-        LocalDateTime testLastUpdate = LocalDateTime.of(2023, 6, 15, 14, 30);
+        Instant testLastUpdate = Instant.parse("2023-06-15T14:30:00Z");
         
         dangerIndicator1.type = testType;
         dangerIndicator1.status = testStatus;
@@ -177,9 +177,9 @@ class DangerIndicatorActualTest {
     void testDangerIndicatorWithDifferentDateTimes() {
         DangerIndicator dangerIndicator = new DangerIndicator();
         
-        LocalDateTime pastDate = LocalDateTime.of(2020, 1, 1, 0, 0);
-        LocalDateTime futureDate = LocalDateTime.of(2030, 12, 31, 23, 59);
-        LocalDateTime currentDate = LocalDateTime.now();
+        Instant pastDate = Instant.parse("2020-01-01T00:00:00Z");
+        Instant futureDate = Instant.parse("2030-12-31T23:59:00Z");
+        Instant currentDate = Instant.now();
         
         dangerIndicator.lastUpdate = pastDate;
         assertEquals(pastDate, dangerIndicator.lastUpdate);

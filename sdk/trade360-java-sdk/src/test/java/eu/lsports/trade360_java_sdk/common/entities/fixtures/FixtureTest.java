@@ -5,7 +5,7 @@ import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +27,7 @@ class FixtureTest {
         assertNull(fixture.externalFixtureId);
         assertNull(fixture.subscription);
 
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         fixture.fixtureName = "Team A vs Team B";
         fixture.lastUpdate = now;
         fixture.status = FixtureStatus.NSY;
@@ -135,7 +135,7 @@ class FixtureTest {
     @Test
     void testCompleteFixtureWithAllNewFields() {
         Fixture fixture = new Fixture();
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
 
         fixture.fixtureName = "Manchester United vs Liverpool";
         fixture.sport = new Sport();

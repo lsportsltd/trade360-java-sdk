@@ -5,6 +5,71 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.9.0] - 2026-01-28
+
+### Changed
+
+- **BREAKING CHANGE**: Migrated all timestamp fields from `LocalDateTime` to `Instant`
+  - All date/time fields in entity models now use `java.time.Instant` instead of `java.time.LocalDateTime`
+  - This ensures correct timezone handling - all timestamps are now unambiguous points in time
+  - Affected entities include: `Fixture`, `BaseBet`, `MessageHeader`, `CurrentIncident`, `DangerIndicator`, `Incident`, `FixturePlayerInfo`, `ProviderMarket`, `Provider`, `OutrightFixture`, `OutrightLeagueFixture`, `Suspension`, `FixtureSchedule`, `PackageQuotaResponse`, `FixtureMetadata`, `SuspensionChangeResponse`, and all Snapshot API request classes
+
+- **New Custom Instant Serialization**
+  - Added `LSportsInstantSerializer` - serializes `Instant` to epoch milliseconds for API compatibility
+  - Added `LSportsInstantDeserializer` - deserializes JSON to `Instant` supporting:
+    - ISO-8601 with timezone (e.g., `"2025-06-15T18:30:00Z"`, `"2025-06-15T18:30:00+02:00"`)
+    - ISO-8601 without timezone (e.g., `"2025-06-15T18:30:00"`) - treated as UTC
+    - Epoch milliseconds as string (e.g., `"1750009800000"`)
+  - Removed `LSportsLocalDateTimeSerializer` (no longer needed)
+
+- **Java 24 Compatibility**
+  - Fixed Mockito/ByteBuddy compatibility issues with Java 24
+  - Upgraded Mockito to 5.14.2 and ByteBuddy to 1.15.11
+  - Configured subclass mock maker for Java 21+ environments
+  - Refactored tests to avoid mocking final classes (Java records)
+
+### Migration Guide
+
+#### Updating Code Using Timestamp Fields
+
+If you access timestamp fields from SDK entities, update your code to use `Instant`:
+
+```java
+// Before
+LocalDateTime startDate = fixture.startDate();
+LocalDateTime lastUpdate = fixture.lastUpdate();
+
+// After
+Instant startDate = fixture.startDate();
+Instant lastUpdate = fixture.lastUpdate();
+```
+
+#### Creating Request Objects with Timestamps
+
+```java
+// Before
+new GetSnapshotRequest(LocalDateTime.now(), fromDate, toDate, ...);
+
+// After
+new GetSnapshotRequest(Instant.now(), fromDate, toDate, ...);
+```
+
+#### Converting Between Types (if needed)
+
+```java
+// Instant to LocalDateTime (for display in specific timezone)
+LocalDateTime local = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+
+// LocalDateTime to Instant (assuming UTC)
+Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
+```
+
+### Benefits of This Change
+
+- **Timezone Safety**: `Instant` represents an unambiguous point in time, eliminating timezone-related bugs
+- **API Consistency**: Source timestamps with timezone info (e.g., `"2025-06-15T18:30:00+02:00"`) are now correctly parsed
+- **UTC by Default**: Timestamps without timezone info are treated as UTC, matching API behavior
+
 ## [Release Version 2.8.1] - 2026-01-25
 
 ### Added
@@ -321,6 +386,7 @@ Map<String, String> headersMap = transportHeaders.getAsMap();
 - **Fixture Context**: Direct access to fixture IDs where applicable
 - **Type Safety**: Structured access to transport headers instead of raw map lookups
 
+[Release Version 2.9.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.9.0
 [Release Version 2.8.1]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.8.1
 [Release Version 2.7.0]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.7.0
 [Release Version 2.6.2]: https://github.com/lsportsltd/trade360-java-sdk/releases/tag/trade360-java-sdk-2.6.2

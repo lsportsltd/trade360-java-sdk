@@ -2,7 +2,7 @@ package eu.lsports.trade360_java_sdk.snapshot_api.entities.requests;
 
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * Represents a request to get a snapshot of data.
@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
  * @param fixtures The IDs of the fixtures
  */
 public final record GetEventRequest(
-    @Nullable LocalDateTime timestamp,
-    @Nullable LocalDateTime fromDate,
-    @Nullable LocalDateTime toDate,
+    @Nullable Instant timestamp,
+    @Nullable Instant fromDate,
+    @Nullable Instant toDate,
     @Nullable Iterable<Integer> sports,
     @Nullable Iterable<Integer> locations,
     @Nullable Iterable<Integer> leagues,

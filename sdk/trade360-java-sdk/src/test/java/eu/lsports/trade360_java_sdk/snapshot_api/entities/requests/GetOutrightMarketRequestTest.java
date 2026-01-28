@@ -1,14 +1,14 @@
 package eu.lsports.trade360_java_sdk.snapshot_api.entities.requests;
 
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GetOutrightMarketRequestTest {
     @Test
     void testConstructorAndFields() {
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         List<Integer> sports = List.of(1, 2);
         List<Integer> locations = List.of(3, 4);
         List<Integer> tournaments = List.of(5, 6);
