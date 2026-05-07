@@ -14,6 +14,7 @@ class OutrightLeagueFixtureSnapshotTest {
         element.subscription = null;
         element.sport = null;
         element.location = null;
+        element.startDate = Instant.now().minus(1, ChronoUnit.HOURS);
         element.lastUpdate = Instant.now();
         element.status = null;
         element.extraData = Collections.emptyList();
@@ -21,6 +22,7 @@ class OutrightLeagueFixtureSnapshotTest {
         assertNull(element.subscription);
         assertNull(element.sport);
         assertNull(element.location);
+        assertNotNull(element.startDate);
         assertNotNull(element.lastUpdate);
         assertNull(element.status);
         assertNotNull(element.extraData);

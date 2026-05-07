@@ -80,4 +80,15 @@ class BaseBetTest {
         baseBet.order = -1;
         assertEquals(-1, baseBet.order);
     }
+
+    @Test
+    void testSuspensionReasonSupportsNewAndUnknownValues() {
+        TestBaseBet baseBet = new TestBaseBet();
+
+        baseBet.SuspensionReason = 20; // new "System" reason ID
+        assertEquals(20, baseBet.SuspensionReason);
+
+        baseBet.SuspensionReason = 999; // unknown future-compatible value
+        assertEquals(999, baseBet.SuspensionReason);
+    }
 } 

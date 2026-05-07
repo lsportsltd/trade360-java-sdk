@@ -171,6 +171,22 @@ All changes are backward compatible. Existing code will continue to work without
 
 Fully backward compatible. Public API (`process(Message)`) remains unchanged. Only internal implementation optimized.
 
+## [Release Version 2.5.1]
+
+### Added
+
+- Added `startDate` to outright league fixture models:
+  - `OutrightLeagueFixture`
+  - `OutrightLeagueFixtureSnapshot`
+
+- Added new livescore status description values `46-59`.
+
+- Added participant uniform color support with object-based shirt color fields (`shirtColor`, `goalKeeperShirtColor`) using `primary`, `number`, and `outline`.
+
+### Backward Compatibility
+
+All changes are backward compatible. New fields are additive and existing integer-based parsing behavior is preserved.
+
 ## [Release Version 2.4.0]
 
 ### Added

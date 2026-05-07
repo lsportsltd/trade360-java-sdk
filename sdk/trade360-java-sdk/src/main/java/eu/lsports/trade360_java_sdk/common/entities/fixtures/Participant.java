@@ -80,4 +80,18 @@ public class Participant {
      */
     @Nullable
     public Integer type;
+
+    /**
+     * The participant shirt color details.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public UniformColor shirtColor;
+
+    /**
+     * The participant goalkeeper shirt color details.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public UniformColor goalKeeperShirtColor;
 }
