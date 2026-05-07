@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.9.2] - 2026-05-07
+
+### Added
+
+- Added `startDate` to outright league fixture models:
+  - `OutrightLeagueFixture`
+  - `OutrightLeagueFixtureSnapshot`
+
+- Added new livescore status description values `46-59`.
+
+- Added participant uniform color support with object-based shirt color fields (`shirtColor`, `goalKeeperShirtColor`) using `primary`, `number`, and `outline`.
+
+### Changed
+
+- Bumped project/module versions from `2.9.1` to `2.9.2` for a new publishable release.
+
 ## [Release Version 2.9.1] - 2026-02-01
 
 ### Fixed
