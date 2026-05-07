@@ -234,7 +234,77 @@ public enum StatusDescription {
     /**
      * Status indicating point replayed.
      */
-    POINT_REPLAYED(45);
+    POINT_REPLAYED(45),
+
+    /**
+     * Status indicating break after first period.
+     */
+    BREAK_AFTER_1ST_PERIOD(46),
+
+    /**
+     * Status indicating break after second period.
+     */
+    BREAK_AFTER_2ND_PERIOD(47),
+
+    /**
+     * Status indicating break after third period.
+     */
+    BREAK_AFTER_3RD_PERIOD(48),
+
+    /**
+     * Status indicating break after fourth period.
+     */
+    BREAK_AFTER_4TH_PERIOD(49),
+
+    /**
+     * Status indicating break after fifth period.
+     */
+    BREAK_AFTER_5TH_PERIOD(50),
+
+    /**
+     * Status indicating break after sixth period.
+     */
+    BREAK_AFTER_6TH_PERIOD(51),
+
+    /**
+     * Status indicating break after first overtime.
+     */
+    BREAK_AFTER_1ST_OVERTIME(52),
+
+    /**
+     * Status indicating break after second overtime.
+     */
+    BREAK_AFTER_2ND_OVERTIME(53),
+
+    /**
+     * Status indicating break after third overtime.
+     */
+    BREAK_AFTER_3RD_OVERTIME(54),
+
+    /**
+     * Status indicating waiting for extra time.
+     */
+    WAITING_FOR_EXTRA_TIME(55),
+
+    /**
+     * Status indicating waiting for penalties.
+     */
+    WAITING_FOR_PENALTIES(56),
+
+    /**
+     * Status indicating entering extra time.
+     */
+    ENTERING_EXTRA_TIME(57),
+
+    /**
+     * Status indicating extra time break.
+     */
+    EXTRA_TIME_BREAK(58),
+
+    /**
+     * Status indicating entering penalty shootout.
+     */
+    ENTERING_PENALTY_SHOOTOUT(59);
 
     private int value;
 

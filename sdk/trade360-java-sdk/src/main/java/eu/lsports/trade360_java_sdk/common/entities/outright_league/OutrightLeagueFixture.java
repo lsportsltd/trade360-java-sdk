@@ -33,6 +33,12 @@ public class OutrightLeagueFixture {
     @Nullable public Location location;
 
     /**
+     * The start date time of the fixture in UTC.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public LocalDateTime startDate;
+
+    /**
      * The last update time of the fixture in UTC.
      * This can be {@code null} if not set.
      */

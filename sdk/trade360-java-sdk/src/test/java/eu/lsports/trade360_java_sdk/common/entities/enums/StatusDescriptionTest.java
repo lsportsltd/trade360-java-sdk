@@ -60,5 +60,19 @@ class StatusDescriptionTest {
         assertEquals(43, StatusDescription.POINT_SCORED.getValue());
         assertEquals(44, StatusDescription.POINT_FAULT.getValue());
         assertEquals(45, StatusDescription.POINT_REPLAYED.getValue());
+        assertEquals(46, StatusDescription.BREAK_AFTER_1ST_PERIOD.getValue());
+        assertEquals(47, StatusDescription.BREAK_AFTER_2ND_PERIOD.getValue());
+        assertEquals(48, StatusDescription.BREAK_AFTER_3RD_PERIOD.getValue());
+        assertEquals(49, StatusDescription.BREAK_AFTER_4TH_PERIOD.getValue());
+        assertEquals(50, StatusDescription.BREAK_AFTER_5TH_PERIOD.getValue());
+        assertEquals(51, StatusDescription.BREAK_AFTER_6TH_PERIOD.getValue());
+        assertEquals(52, StatusDescription.BREAK_AFTER_1ST_OVERTIME.getValue());
+        assertEquals(53, StatusDescription.BREAK_AFTER_2ND_OVERTIME.getValue());
+        assertEquals(54, StatusDescription.BREAK_AFTER_3RD_OVERTIME.getValue());
+        assertEquals(55, StatusDescription.WAITING_FOR_EXTRA_TIME.getValue());
+        assertEquals(56, StatusDescription.WAITING_FOR_PENALTIES.getValue());
+        assertEquals(57, StatusDescription.ENTERING_EXTRA_TIME.getValue());
+        assertEquals(58, StatusDescription.EXTRA_TIME_BREAK.getValue());
+        assertEquals(59, StatusDescription.ENTERING_PENALTY_SHOOTOUT.getValue());
     }
 } 

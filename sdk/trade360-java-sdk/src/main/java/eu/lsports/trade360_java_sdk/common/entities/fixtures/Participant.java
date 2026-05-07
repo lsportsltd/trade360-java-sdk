@@ -36,4 +36,16 @@ public class Participant {
      */
     public int isActive = -1;
 
+    /**
+     * The participant shirt color details.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public UniformColor shirtColor;
+
+    /**
+     * The participant goalkeeper shirt color details.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public UniformColor goalKeeperShirtColor;
+
 }

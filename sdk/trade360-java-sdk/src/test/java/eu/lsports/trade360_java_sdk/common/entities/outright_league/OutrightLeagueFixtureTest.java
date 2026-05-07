@@ -17,6 +17,7 @@ class OutrightLeagueFixtureTest {
         assertNull(fixture.subscription);
         assertNull(fixture.sport);
         assertNull(fixture.location);
+        assertNull(fixture.startDate);
         assertNull(fixture.lastUpdate);
         assertNull(fixture.endDate);
         assertNull(fixture.status);
@@ -25,7 +26,9 @@ class OutrightLeagueFixtureTest {
         fixture.subscription = new Subscription();
         fixture.sport = new Sport();
         fixture.location = new Location();
+        LocalDateTime start = LocalDateTime.now().minusHours(1);
         LocalDateTime now = LocalDateTime.now();
+        fixture.startDate = start;
         fixture.lastUpdate = now;
         fixture.status = FixtureStatus.FINISHED;
         fixture.endDate =  LocalDateTime.now().plusHours(2);
@@ -38,6 +41,7 @@ class OutrightLeagueFixtureTest {
         assertNotNull(fixture.subscription);
         assertNotNull(fixture.sport);
         assertNotNull(fixture.location);
+        assertEquals(start, fixture.startDate);
         assertEquals(now, fixture.lastUpdate);
         assertEquals(FixtureStatus.FINISHED, fixture.status);
         assertNotNull(fixture.extraData);

@@ -39,6 +39,11 @@ public final class OutrightLeagueFixtureSnapshot {
     @Nullable public Location location;
 
     /**
+     * The start date of the outright league fixture snapshot in UTC.
+     */
+    public LocalDateTime startDate;
+
+    /**
      * The last update date of the outright league fixture snapshot in UTC.
      */
     public LocalDateTime lastUpdate;
