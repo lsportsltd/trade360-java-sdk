@@ -28,11 +28,11 @@ COPY settings.xml /root/.m2/settings.xml
 # Copy the project files
 COPY . .
 
-# Run Maven deploy with debug flags and print environment for debugging
-RUN env && \
-    mvn clean deploy -P release \
-    -Dmaven.test.skip=true -e \
+# Run Maven deploy with verbose logs and explicit GPG executable
+RUN mvn clean deploy -P release \
+    -Dmaven.test.skip=true -e -X \
     -f sdk/trade360-java-sdk/pom.xml \
     -DMAVEN_USERNAME=${MAVEN_USERNAME} \
     -DMAVEN_PASSWORD=${MAVEN_PASSWORD} \
-    -DGPG_PASSPHRASE=${GPG_PASSPHRASE}
+    -DGPG_PASSPHRASE=${GPG_PASSPHRASE} \
+    -Dgpg.executable=gpg
