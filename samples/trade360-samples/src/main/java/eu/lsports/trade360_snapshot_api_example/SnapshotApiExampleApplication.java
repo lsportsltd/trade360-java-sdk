@@ -100,13 +100,13 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
                     getOutrightEvents(baseUri,preMatchPackageCredentials);
                     break;
                 case 9:
-                    getOutrightLeagues(baseUri,preMatchPackageCredentials);
+                    getOutrightLeagues(baseUri,preMatchPackageCredentials, inPlayPackageCredentials);
                     break;
                 case 10:
-                    getOutrightLeagueMarkets(baseUri,preMatchPackageCredentials);
+                    getOutrightLeagueMarkets(baseUri,preMatchPackageCredentials, inPlayPackageCredentials);
                     break;
                 case 11:
-                    getOutrightLeagueEvents(baseUri,preMatchPackageCredentials);
+                    getOutrightLeagueEvents(baseUri,preMatchPackageCredentials, inPlayPackageCredentials);
                     break;
                 case 0:
                     System.out.println("Exiting...");
@@ -199,24 +199,42 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
                 preMatchClient::getOutrightFixtureMarkets);
     }
 
-    private void getOutrightLeagues(URI baseUrl, PackageCredentials settings) {
-        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+    private void getOutrightLeagues(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
         this.executeAsynchronous("PreMatch Async Get Outright Leagues",
-        new GetOutrightLeaguesRequest(null, null, null, List.of(6046), null, null, null ),
+        new GetOutrightLeaguesRequest(null, null, null, null, null, null, null ),
                 preMatchClient::getOutrightLeagues);
+
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+        this.executeAsynchronous("InPlay Async Get Outright Leagues",
+                new GetOutrightLeaguesRequest(null, null, null, null, null, null, null),
+                inPlayClient::getOutrightLeagues);
+        this.waitForAllAsyncFinish();
     }
 
-    private void getOutrightLeagueMarkets(URI baseUrl, PackageCredentials settings) {
-        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+    private void getOutrightLeagueMarkets(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
         this.executeAsynchronous("PreMatch Async Get Outright League Markets",
-        new GetOutrightLeagueMarketRequest(null, null, null, List.of(6046), List.of(161), null, null , null),
+        new GetOutrightLeagueMarketRequest(null, null, null,null, null, null, null , null),
                 preMatchClient::getOutrightLeagueMarkets);
+
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+        this.executeAsynchronous("InPlay Async Get Outright League Markets",
+                new GetOutrightLeagueMarketRequest(null, null, null, null, null, null, null, null),
+                inPlayClient::getOutrightLeagueMarkets);
+        this.waitForAllAsyncFinish();
     }
 
-    private void getOutrightLeagueEvents(URI baseUrl, PackageCredentials settings) {
-        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, settings);
+    private void getOutrightLeagueEvents(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
+        var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
         this.executeAsynchronous("PreMatch Async Get Outright League Events",
-                new GetOutrightLeagueEventsRequest(null, null, null, List.of(6046), null, null, null , null),
+                new GetOutrightLeagueEventsRequest(null, null, null, null, null, null, null , null),
                 preMatchClient::getOutrightLeagueEvents);
+
+        var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
+        this.executeAsynchronous("InPlay Async Get Outright League Events",
+                new GetOutrightLeagueEventsRequest(null, null, null, null, null, null, null, null),
+                inPlayClient::getOutrightLeagueEvents);
+        this.waitForAllAsyncFinish();
     }
 }

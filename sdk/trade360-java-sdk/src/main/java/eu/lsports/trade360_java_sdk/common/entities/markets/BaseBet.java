@@ -4,7 +4,7 @@ import eu.lsports.trade360_java_sdk.common.entities.enums.BetStatus;
 import eu.lsports.trade360_java_sdk.common.entities.enums.SettlementType;
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code BaseBet} class represents the common properties of a bet in a market.
@@ -58,7 +58,7 @@ public abstract class BaseBet {
     /**
      * The settlement type of the bet.
      */
-    public SettlementType settlement;
+    @Nullable public SettlementType settlement;
 
     /**
      * The Suspension Reason of the bet.
@@ -68,7 +68,7 @@ public abstract class BaseBet {
     /**
      * The last update time of the bet in UTC.
      */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
 
     /**
      * The price in Indonesian format.
@@ -103,17 +103,17 @@ public abstract class BaseBet {
     /**
      * The probability of the bet.
      */
-    public double probability;
+    @Nullable public double probability;
 
     /**
      * The participant ID associated with the bet.
      */
-    public int participantId;
+    @Nullable public int participantId;
 
     /**
      * The player ID associated with the bet.
      */
-    public int playerId;
+    @Nullable public int playerId;
 
     /**
      * The name of the player associated with the bet.
@@ -124,5 +124,5 @@ public abstract class BaseBet {
     /**
      * The order associated with the bet.
      */
-    public int order;
+    @Nullable public int order;
 }

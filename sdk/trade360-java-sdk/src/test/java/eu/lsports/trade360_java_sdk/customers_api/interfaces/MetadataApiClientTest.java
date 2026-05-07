@@ -26,6 +26,10 @@ class MetadataApiClientTest {
             public Mono<BaseResponse<GetCitiesResponse>> getCities(GetCitiesRequest r) { return null; }
             public Mono<BaseResponse<GetStatesResponse>> getStates(GetStatesRequest r) { return null; }
             public Mono<BaseResponse<GetParticipantsResponse>> getParticipants(GetParticipantsRequest r) { return null; }
+            public Mono<BaseResponse<GetSeasonsResponse>> getSeasons() { return null; }
+            public Mono<BaseResponse<GetSeasonsResponse>> getSeasons(GetSeasonsRequest r) { return null; }
+            public Mono<BaseResponse<GetToursResponse>> getTours() { return null; }
+            public Mono<BaseResponse<GetToursResponse>> getTours(GetToursRequest r) { return null; }
         }
         Impl impl = new Impl();
         assertTrue(impl instanceof MetadataApiClient);

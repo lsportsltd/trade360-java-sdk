@@ -1,7 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.incidents;
 
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IncidentTest {
@@ -21,7 +21,7 @@ class IncidentTest {
         incident.incidentId = 100;
         incident.incidentName = "Goal";
         incident.description = "Scored a goal";
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         incident.lastUpdate = now;
         incident.creationDate = now;
 

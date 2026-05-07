@@ -14,5 +14,6 @@ class IncidentTest {
         assertNull(incident.playerId);
         assertNull(incident.playerName);
         assertNull(incident.results);
+        assertNull(incident.players);
     }
 } 

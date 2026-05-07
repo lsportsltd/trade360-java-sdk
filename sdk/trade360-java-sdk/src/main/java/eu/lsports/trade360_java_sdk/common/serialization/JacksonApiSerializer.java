@@ -20,7 +20,9 @@ import eu.lsports.trade360_java_sdk.common.interfaces.JsonApiSerializer;
  */
 public class JacksonApiSerializer implements JsonApiSerializer {
     private final ObjectMapper jsonMapper = new ObjectMapper()
-        .registerModule(new JavaTimeModule().addSerializer(new LSportsLocalDateTimeSerializer()))
+        .registerModule(new JavaTimeModule()
+            .addSerializer(java.time.Instant.class, new LSportsInstantSerializer())
+            .addDeserializer(java.time.Instant.class, new LSportsInstantDeserializer()))
         .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
         .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)

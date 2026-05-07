@@ -2,7 +2,7 @@ package eu.lsports.trade360_java_sdk.customers_api.entities.subscription_api.bas
 
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * Represents a suspension in the subscription API.
@@ -21,6 +21,6 @@ public record Suspension(
     @Nullable Integer locationId,
     int competitionId,
     @Nullable Integer fixtureId,
-    LocalDateTime creationDate,
+    Instant creationDate,
     @Nullable Iterable<Market> markets) {
 }

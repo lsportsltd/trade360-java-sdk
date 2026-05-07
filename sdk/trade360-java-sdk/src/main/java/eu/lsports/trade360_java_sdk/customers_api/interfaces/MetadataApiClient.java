@@ -142,4 +142,38 @@ public interface MetadataApiClient {
      * @see GetParticipantsResponse
      */
     Mono<BaseResponse<GetParticipantsResponse>> getParticipants(GetParticipantsRequest request);
+
+    /**
+     * Retrieves the list of seasons.
+     *
+     * @return a {@link Mono} emitting the response containing the list of seasons
+     * @see GetSeasonsResponse
+     */
+    Mono<BaseResponse<GetSeasonsResponse>> getSeasons();
+
+    /**
+     * Retrieves the list of seasons based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of seasons
+     * @return a {@link Mono} emitting the response containing the list of seasons
+     * @see GetSeasonsResponse
+     */
+    Mono<BaseResponse<GetSeasonsResponse>> getSeasons(GetSeasonsRequest request);
+
+    /**
+     * Retrieves the list of tours.
+     *
+     * @return a {@link Mono} emitting the response containing the list of tours
+     * @see GetToursResponse
+     */
+    Mono<BaseResponse<GetToursResponse>> getTours();
+
+    /**
+     * Retrieves the list of tours based on the specified request.
+     *
+     * @param request the request containing the parameters for retrieving the list of tours
+     * @return a {@link Mono} emitting the response containing the list of tours
+     * @see GetToursResponse
+     */
+    Mono<BaseResponse<GetToursResponse>> getTours(GetToursRequest request);
 }

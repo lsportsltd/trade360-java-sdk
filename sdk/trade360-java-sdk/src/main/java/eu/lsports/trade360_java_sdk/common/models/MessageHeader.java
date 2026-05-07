@@ -1,6 +1,6 @@
 package eu.lsports.trade360_java_sdk.common.models;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code MessageHeader} class represents the header of a message.
@@ -27,7 +27,7 @@ public class MessageHeader {
     /**
      * The creation date and time of the message in UTC.
      */
-    public LocalDateTime creationDate;
+    public Instant creationDate;
 
     /**
      * The server timestamp of the message.

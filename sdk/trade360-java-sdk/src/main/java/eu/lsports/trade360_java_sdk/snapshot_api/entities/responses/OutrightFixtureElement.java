@@ -1,12 +1,13 @@
 package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.FixtureVenue;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Participant;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
+import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 
 import jakarta.annotation.Nullable;
@@ -16,12 +17,20 @@ import jakarta.annotation.Nullable;
  */
 public final class OutrightFixtureElement {
     /**
+     * The name of the fixture.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String fixtureName;
+
+    /**
      * The sport associated with the outright fixture element.
      * Can be {@code null}.
      * 
      * @see Sport
      */
-    @Nullable public Sport sport;
+    @Nullable
+    public Sport sport;
 
     /**
      * The location associated with the outright fixture element.
@@ -35,12 +44,12 @@ public final class OutrightFixtureElement {
      * The start date of the outright fixture element in UTC.
      * Can be {@code null}.
      */
-    @Nullable public LocalDateTime startDate;
+    @Nullable public Instant startDate;
 
     /**
      * The last update date of the outright fixture element in UTC.
      */
-    public LocalDateTime lastUpdate;
+    public Instant lastUpdate;
 
     /**
      * The status of the outright fixture element.
@@ -69,5 +78,13 @@ public final class OutrightFixtureElement {
      * The venue of the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public FixtureVenue venue;
+    @Nullable
+    public FixtureVenue venue;
+
+    /**
+     * The season associated with the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public IdNamePair season;
 }

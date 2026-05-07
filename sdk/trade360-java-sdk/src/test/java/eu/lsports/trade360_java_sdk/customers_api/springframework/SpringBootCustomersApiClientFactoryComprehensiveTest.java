@@ -23,7 +23,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testCreateMetadataHttpClient() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://customers.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
@@ -42,7 +42,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testCreatePackageDistributionHttpClient() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://customers.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
@@ -61,7 +61,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testCreatePackageQueryApiHttpClient() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://customers.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
@@ -80,7 +80,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testCreateSubscriptionApiHttpClient() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://customers.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
@@ -124,7 +124,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testCreatePackageDistributionHttpClientWithNullUrl() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
         when(mockBuilder.codecs(any())).thenReturn(mockBuilder);
@@ -160,7 +160,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testCreateSubscriptionApiHttpClientWithNullUrl() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
         when(mockBuilder.codecs(any())).thenReturn(mockBuilder);
@@ -178,7 +178,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testMultipleClientCreation() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://customers.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
@@ -206,7 +206,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testDifferentApiUrls() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl1 = URI.create("https://customers1.example.com");
         URI baseUrl2 = URI.create("https://customers2.example.com");
         
@@ -228,7 +228,7 @@ class SpringBootCustomersApiClientFactoryComprehensiveTest {
     void testAllClientTypesCreation() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
         WebClient mockWebClient = mock(WebClient.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://customers.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);

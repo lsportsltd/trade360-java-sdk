@@ -1,14 +1,8 @@
 package eu.lsports.trade360_java_sdk.snapshot_api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixtureRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetInPlayEventRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetMarketRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetEventsResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureMarketsResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
+import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
+import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.*;
 import eu.lsports.trade360_java_sdk.snapshot_api.springframework.SnapshotApiRestClient;
 import reactor.core.publisher.Mono;
 
@@ -69,5 +63,40 @@ public class InPlaySnapshotApiClientImplementation implements InPlaySnapshotApiC
             getEventsRequest,
             new TypeReference<Iterable<GetEventsResultElement>>(){},
             "/Inplay/GetEvents");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetOutrightLeaguesRequest getOutrightLeaguesRequest) {
+        return this.client.postRequest(
+                getOutrightLeaguesRequest,
+                new TypeReference<Iterable<GetOutrightLeaguesResultElement>>() {},
+                "/Inplay/GetOutrightLeagues");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetOutrightLeagueMarketRequest getOutrightLeagueMarketsRequest) {
+        var result = this.client.postRequest(
+                getOutrightLeagueMarketsRequest,
+                new TypeReference<Iterable<GetOutrightLeagueMarketsResultElement>>() {},
+                "/Inplay/GetOutrightLeagueMarkets");
+
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Mono<Iterable<GetOutrightLeagueEventsResultElement>> getOutrightLeagueEvents(GetOutrightLeagueEventsRequest getOutrightLeagueEventsRequest) {
+        return this.client.postRequest(
+                getOutrightLeagueEventsRequest,
+                new TypeReference<Iterable<GetOutrightLeagueEventsResultElement>>() {},
+                "/Inplay/GetOutrightLeagueEvents");
     }
 }

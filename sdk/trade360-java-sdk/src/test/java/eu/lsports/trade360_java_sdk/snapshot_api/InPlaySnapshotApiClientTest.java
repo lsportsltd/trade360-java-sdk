@@ -1,16 +1,10 @@
 package eu.lsports.trade360_java_sdk.snapshot_api;
 
+import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.*;
+import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.*;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetFixtureRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetLivescoreRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetMarketRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.requests.GetInPlayEventRequest;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixturesResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetLivescoreResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetFixtureMarketsResultElement;
-import eu.lsports.trade360_java_sdk.snapshot_api.entities.responses.GetEventsResultElement;
 
 class InPlaySnapshotApiClientTest {
     @Test
@@ -21,6 +15,9 @@ class InPlaySnapshotApiClientTest {
                 public Mono<Iterable<GetLivescoreResultElement>> getLivescore(GetLivescoreRequest req) { return null; }
                 public Mono<Iterable<GetFixtureMarketsResultElement>> getFixtureMarkets(GetMarketRequest req) { return null; }
                 public Mono<Iterable<GetEventsResultElement>> getEvents(GetInPlayEventRequest req) { return null; }
+                public Mono<Iterable<GetOutrightLeaguesResultElement>> getOutrightLeagues(GetOutrightLeaguesRequest req) { return null; }
+                public Mono<Iterable<GetOutrightLeagueMarketsResultElement>> getOutrightLeagueMarkets(GetOutrightLeagueMarketRequest req) { return null; }
+                public Mono<Iterable<GetOutrightLeagueEventsResultElement>> getOutrightLeagueEvents(GetOutrightLeagueEventsRequest getOutrightLeagueEventsRequest) { return null; };
             }
             new Impl();
         });

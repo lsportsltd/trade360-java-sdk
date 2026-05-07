@@ -47,6 +47,7 @@ class TransportMessageHeadersTest {
             String originalTimestampInMs = headers.getTimestampInMs();
             String originalMessageSequence = headers.getMessageSequence();
             String originalFixtureId = headers.getFixtureId();
+            String originalSportId = headers.getSportId();
 
             // Multiple calls should return identical values (immutability)
             assertEquals(originalMessageGuid, headers.getMessageGuid());
@@ -54,6 +55,7 @@ class TransportMessageHeadersTest {
             assertEquals(originalTimestampInMs, headers.getTimestampInMs());
             assertEquals(originalMessageSequence, headers.getMessageSequence());
             assertEquals(originalFixtureId, headers.getFixtureId());
+            assertEquals(originalSportId, headers.getSportId());
         }
 
         @Test
@@ -119,6 +121,7 @@ class TransportMessageHeadersTest {
             assertEquals("1234567890", headers.getTimestampInMs());
             assertEquals("100", headers.getMessageSequence());
             assertEquals("fixture-123", headers.getFixtureId());
+            assertEquals("sport-456", headers.getSportId());
         }
 
         @Test
@@ -140,6 +143,7 @@ class TransportMessageHeadersTest {
             assertEquals("1234567890", headers.getTimestampInMs());
             assertEquals("", headers.getMessageSequence());
             assertEquals("", headers.getFixtureId());
+            assertEquals("", headers.getSportId());
         }
 
         @Test
@@ -294,6 +298,7 @@ class TransportMessageHeadersTest {
             properties.put("timestamp_in_ms", "1234567890");
             properties.put("MessageSequence", null);
             properties.put("FixtureId", null);
+            properties.put("SportId", null);
 
             // When
             TransportMessageHeaders headers = TransportMessageHeaders.createFromProperties(properties);
@@ -302,6 +307,7 @@ class TransportMessageHeadersTest {
             assertNotNull(headers);
             assertEquals("", headers.getMessageSequence());
             assertEquals("", headers.getFixtureId());
+            assertEquals("", headers.getSportId());
         }
     }
 
@@ -367,6 +373,19 @@ class TransportMessageHeadersTest {
         }
 
         @Test
+        @DisplayName("Should return correct sport ID")
+        void shouldReturnCorrectSportId() {
+            // Given
+            TransportMessageHeaders headers = createHeadersInstance();
+
+            // When
+            String sportId = headers.getSportId();
+
+            // Then
+            assertEquals("sport-456", sportId);
+        }
+
+        @Test
         @DisplayName("Should return correct timestamp in milliseconds")
         void shouldReturnCorrectTimestampInMs() {
             // Given
@@ -396,12 +415,13 @@ class TransportMessageHeadersTest {
 
             // Then
             assertNotNull(resultMap);
-            assertEquals(5, resultMap.size());
+            assertEquals(6, resultMap.size());
             assertEquals("test-guid", resultMap.get("MessageGuid"));
             assertEquals("TestMessage", resultMap.get("MessageType"));
             assertEquals("1234567890", resultMap.get("timestamp_in_ms"));
             assertEquals("100", resultMap.get("MessageSequence"));
             assertEquals("fixture-123", resultMap.get("FixtureId"));
+            assertEquals("sport-456", resultMap.get("SportId"));
         }
 
         @Test
@@ -651,6 +671,7 @@ class TransportMessageHeadersTest {
             assertEquals(headers1.getTimestampInMs(), headers2.getTimestampInMs());
             assertEquals(headers1.getMessageSequence(), headers2.getMessageSequence());
             assertEquals(headers1.getFixtureId(), headers2.getFixtureId());
+            assertEquals(headers1.getSportId(), headers2.getSportId());
             
             // Maps should also be equal
             assertEquals(headers1.getAsMap(), headers2.getAsMap());
@@ -669,6 +690,7 @@ class TransportMessageHeadersTest {
         properties.put("timestamp_in_ms", "1234567890");
         properties.put("MessageSequence", "100");
         properties.put("FixtureId", "fixture-123");
+        properties.put("SportId", "sport-456");
         return properties;
     }
 }

@@ -19,7 +19,7 @@ class SpringBootCustomersApiClientFactoryAdvancedTest {
     @Test
     void testCreatePackageDistributionApiClient() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://api.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
@@ -37,7 +37,7 @@ class SpringBootCustomersApiClientFactoryAdvancedTest {
     @Test
     void testCreateMetadataApiClient() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://api.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
@@ -55,7 +55,7 @@ class SpringBootCustomersApiClientFactoryAdvancedTest {
     @Test
     void testCreateSubscriptionApiClient() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://api.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);
@@ -73,7 +73,7 @@ class SpringBootCustomersApiClientFactoryAdvancedTest {
     @Test
     void testCreatePackageQueryApiClient() {
         WebClient.Builder mockBuilder = mock(WebClient.Builder.class);
-        PackageCredentials mockCredentials = mock(PackageCredentials.class);
+        PackageCredentials mockCredentials = new PackageCredentials(123, "user", "pass", "json");
         URI baseUrl = URI.create("https://api.example.com");
         
         when(mockBuilder.baseUrl(anyString())).thenReturn(mockBuilder);

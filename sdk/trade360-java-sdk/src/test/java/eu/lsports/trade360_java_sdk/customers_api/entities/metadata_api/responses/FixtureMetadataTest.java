@@ -1,7 +1,7 @@
 package eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.responses;
 
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
@@ -11,8 +11,8 @@ class FixtureMetadataTest {
     void testConstructorAndFields() {
         int fixtureId = 1;
         String fixtureName = "Fixture";
-        LocalDateTime startDate = LocalDateTime.now();
-        LocalDateTime lastUpdate = LocalDateTime.now();
+        Instant startDate = Instant.now();
+        Instant lastUpdate = Instant.now();
         int sportId = 2;
         int locationId = 3;
         int leagueId = 4;

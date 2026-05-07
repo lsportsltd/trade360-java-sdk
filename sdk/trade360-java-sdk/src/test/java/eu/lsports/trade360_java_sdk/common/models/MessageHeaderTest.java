@@ -1,7 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.models;
 
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MessageHeaderTest {
@@ -23,7 +23,7 @@ class MessageHeaderTest {
         header.type = 1;
         header.msgSeq = 100;
         header.msgGuid = "guid-123";
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         header.creationDate = now;
         header.serverTimestamp = 123456789L;
 

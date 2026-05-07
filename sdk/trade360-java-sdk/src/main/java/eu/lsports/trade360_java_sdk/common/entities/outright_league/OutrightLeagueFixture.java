@@ -3,11 +3,12 @@ package eu.lsports.trade360_java_sdk.common.entities.outright_league;
 import eu.lsports.trade360_java_sdk.common.entities.enums.FixtureStatus;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
+import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 import jakarta.annotation.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code OutrightLeagueFixture} class represents a fixture in an outright league.
@@ -15,10 +16,18 @@ import java.time.LocalDateTime;
 public class OutrightLeagueFixture {
 
     /**
+     * The name of the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public String fixtureName;
+
+    /**
      * The subscription associated with the fixture.
      * This can be {@code null} if not set.
      */
-    @Nullable public Subscription subscription;
+    @Nullable
+    public Subscription subscription;
 
     /**
      * The sport associated with the fixture.
@@ -36,13 +45,13 @@ public class OutrightLeagueFixture {
      * The start date time of the fixture in UTC.
      * This can be {@code null} if not set.
      */
-    @Nullable public LocalDateTime startDate;
+    @Nullable public Instant startDate;
 
     /**
      * The last update time of the fixture in UTC.
      * This can be {@code null} if not set.
      */
-    @Nullable public LocalDateTime lastUpdate;
+    @Nullable public Instant lastUpdate;
 
 
     /**
@@ -61,6 +70,13 @@ public class OutrightLeagueFixture {
      * The End Date time of the fixture in UTC.
      * This can be {@code null} if not set.
      */
-    @Nullable public LocalDateTime endDate;
+    @Nullable
+    public Instant endDate;
 
+    /**
+     * The season associated with the fixture.
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public IdNamePair season;
 }
