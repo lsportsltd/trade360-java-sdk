@@ -34,6 +34,7 @@ stages:
       domain: trade360-sdk
       product: stm
       team: guns-n-roses
+      agentPool: 'k8s-agents-gcp-amd'
       
   - stage: PublishToMavenCentral
     displayName: 'Publish to Maven Central'
