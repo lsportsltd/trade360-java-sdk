@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueCompetition;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketCompetition;
 import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantDeserializer;
 import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantSerializer;
@@ -42,11 +43,15 @@ class OutrightLeagueMarketUpdateTest {
             OutrightLeagueMarketUpdate update = objectMapper.readValue(input, OutrightLeagueMarketUpdate.class);
 
             assertNotNull(update.competition);
-            OutrightLeagueMarketCompetition competition = update.competition;
+            assertInstanceOf(OutrightLeagueCompetition.class, update.competition);
+            assertInstanceOf(OutrightLeagueMarketCompetition.class, update.competition);
+
+            OutrightLeagueMarketCompetition competition = (OutrightLeagueMarketCompetition) update.competition;
             assertEquals(67, competition.id);
             assertEquals("League_67", competition.name);
             assertEquals(3, competition.type);
             assertEquals(Instant.parse("2026-05-29T14:44:55Z"), competition.nextFixtureStartTime);
+            assertEquals(Instant.parse("2026-05-29T14:44:55Z"), update.getNextFixtureStartTime());
 
             var season = ((java.util.List<?>) competition.competitions).get(0);
             var seasonClass = season.getClass();
