@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.10.0] - 2026-05-31
+
+### Added
+
+- Added `nextFixtureStartTime` to `OutrightLeagueMarketCompetition` for `OutrightLeagueMarketUpdate` (message type 40) (TR-22695).
+
+### Fixed
+
+- Fixed `GetOutrightLeagueMarkets` snapshot deserialization using feed `OutrightLeagueCompetition` entities instead of snapshot-specific types; added `OutrightLeagueMarketsCompetitionElement` for the correct three-level response shape (TR-22695).
+
+### Changed
+
+- Bumped project/module versions from `2.9.2` to `2.10.0` for a new publishable release.
+
 ## [Release Version 2.9.2] - 2026-05-07
 
 ### Added
