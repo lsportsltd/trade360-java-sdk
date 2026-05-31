@@ -1,8 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.message_types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
-import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueCompetition;
+import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketCompetition;
 import jakarta.annotation.Nullable;
 
 /**
@@ -21,5 +20,5 @@ public class OutrightLeagueMarketUpdate {
      * This can be {@code null} if not set.
      */
     @Nullable
-    public OutrightLeagueCompetition<MarketEvent> competition;
+    public OutrightLeagueMarketCompetition competition;
 }
