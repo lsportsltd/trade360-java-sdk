@@ -304,7 +304,72 @@ public enum StatusDescription {
     /**
      * Status indicating entering penalty shootout.
      */
-    ENTERING_PENALTY_SHOOTOUT(59);
+    ENTERING_PENALTY_SHOOTOUT(59),
+
+    /**
+     * Status indicating fighter 1 disqualification.
+     */
+    FIGHTER_1_DISQUALIFICATION(60),
+
+    /**
+     * Status indicating fighter 2 disqualification.
+     */
+    FIGHTER_2_DISQUALIFICATION(61),
+
+    /**
+     * Status indicating fighter 1 majority decision.
+     */
+    FIGHTER_1_MAJORITY_DECISION(62),
+
+    /**
+     * Status indicating fighter 2 majority decision.
+     */
+    FIGHTER_2_MAJORITY_DECISION(63),
+
+    /**
+     * Status indicating fighter 1 unanimous decision.
+     */
+    FIGHTER_1_UNANIMOUS_DECISION(64),
+
+    /**
+     * Status indicating fighter 2 unanimous decision.
+     */
+    FIGHTER_2_UNANIMOUS_DECISION(65),
+
+    /**
+     * Status indicating fighter 1 submission.
+     */
+    FIGHTER_1_SUBMISSION(66),
+
+    /**
+     * Status indicating fighter 2 submission.
+     */
+    FIGHTER_2_SUBMISSION(67),
+
+    /**
+     * Status indicating fighter 1 KO/TKO.
+     */
+    FIGHTER_1_KO_TKO(68),
+
+    /**
+     * Status indicating fighter 2 KO/TKO.
+     */
+    FIGHTER_2_KO_TKO(69),
+
+    /**
+     * Status indicating no contest.
+     */
+    NO_CONTEST(70),
+
+    /**
+     * Status indicating top position.
+     */
+    TOP(71),
+
+    /**
+     * Status indicating bottom position.
+     */
+    BOTTOM(72);
 
     private int value;
 
