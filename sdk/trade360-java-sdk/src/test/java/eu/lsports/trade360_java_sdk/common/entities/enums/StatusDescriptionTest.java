@@ -74,5 +74,18 @@ class StatusDescriptionTest {
         assertEquals(57, StatusDescription.ENTERING_EXTRA_TIME.getValue());
         assertEquals(58, StatusDescription.EXTRA_TIME_BREAK.getValue());
         assertEquals(59, StatusDescription.ENTERING_PENALTY_SHOOTOUT.getValue());
+        assertEquals(60, StatusDescription.FIGHTER_1_DISQUALIFICATION.getValue());
+        assertEquals(61, StatusDescription.FIGHTER_2_DISQUALIFICATION.getValue());
+        assertEquals(62, StatusDescription.FIGHTER_1_MAJORITY_DECISION.getValue());
+        assertEquals(63, StatusDescription.FIGHTER_2_MAJORITY_DECISION.getValue());
+        assertEquals(64, StatusDescription.FIGHTER_1_UNANIMOUS_DECISION.getValue());
+        assertEquals(65, StatusDescription.FIGHTER_2_UNANIMOUS_DECISION.getValue());
+        assertEquals(66, StatusDescription.FIGHTER_1_SUBMISSION.getValue());
+        assertEquals(67, StatusDescription.FIGHTER_2_SUBMISSION.getValue());
+        assertEquals(68, StatusDescription.FIGHTER_1_KO_TKO.getValue());
+        assertEquals(69, StatusDescription.FIGHTER_2_KO_TKO.getValue());
+        assertEquals(70, StatusDescription.NO_CONTEST.getValue());
+        assertEquals(71, StatusDescription.TOP.getValue());
+        assertEquals(72, StatusDescription.BOTTOM.getValue());
     }
 } 

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.10.1] - 2026-06-01
+
+### Added
+
+- Added 13 new MMA/fight-outcome and positional `StatusDescription` enum values: `FIGHTER_1_DISQUALIFICATION` (60), `FIGHTER_2_DISQUALIFICATION` (61), `FIGHTER_1_MAJORITY_DECISION` (62), `FIGHTER_2_MAJORITY_DECISION` (63), `FIGHTER_1_UNANIMOUS_DECISION` (64), `FIGHTER_2_UNANIMOUS_DECISION` (65), `FIGHTER_1_SUBMISSION` (66), `FIGHTER_2_SUBMISSION` (67), `FIGHTER_1_KO_TKO` (68), `FIGHTER_2_KO_TKO` (69), `NO_CONTEST` (70), `TOP` (71), `BOTTOM` (72).
+
 ## [Release Version 2.10.0] - 2026-05-31
 
 ### Added
