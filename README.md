@@ -756,9 +756,11 @@ Override `application.properties` with environment variables:
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `name` | String | - | Connection name for logging |
-| `package_id` | Integer | **Required** | LSports package ID (used for queue name) |
+| `package_id` | Integer | **Required** | LSports package ID (used for default queue name `_{package_id}_`) |
+| `custom_queue_name` | String | - | Optional queue name override (supports environment-specific names such as `prod-my-queue`) |
 | `host` | String | `localhost` | RabbitMQ host |
-| `port` | Integer | `5672` | RabbitMQ port |
+| `port` | Integer | `5672` | RabbitMQ port (use **5671** with TLS) |
+| `ssl_enabled` | Boolean | `false` | Enable TLS/AMQPS for the RabbitMQ connection (uses JVM trust store; hostname verified against `host`) |
 | `virtual_host` | String | `/` | RabbitMQ virtual host |
 | `user_name` | String | `guest` | RabbitMQ username |
 | `password` | String | `guest` | RabbitMQ password |

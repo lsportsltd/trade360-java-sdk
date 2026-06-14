@@ -102,6 +102,17 @@ public class RabbitConnectionConfiguration {
     private int retryMaxInterval = 5000;
 
     /**
+     * Indicates whether SSL/TLS is enabled for the RabbitMQ connection.
+     */
+    private boolean sslEnabled = false;
+
+    /**
+     * Optional queue name override. When set, the consumer listens on this queue instead of the
+     * default {@code _{packageId}_} pattern.
+     */
+    private String customQueueName;
+
+    /**
      * The number of concurrent consumers.
      */
     @NotNull
@@ -143,7 +154,16 @@ public class RabbitConnectionConfiguration {
     public int getMaxConcurrentConsumers() { return maxConcurrentConsumers; }
     public int getPrefetchCount() { return prefetchCount; }
     public long getNetworkRecoveryInterval() { return networkRecoveryInterval; }
+    public boolean isSslEnabled() { return sslEnabled; }
+    public String getCustomQueueName() { return customQueueName; }
     public String getRabbitListenerContainerFactoryName() { return rabbitListenerContainerFactoryName; }
+
+    /**
+     * Resolves the queue name to consume for this connection.
+     */
+    public String getConsumeQueueName() {
+        return RabbitMqConsumeQueueNameResolver.resolve(this);
+    }
 
     public void setName(String name) { this.name = name; }
     public void setPackageId(int packageId) { this.packageId = packageId; }
@@ -155,6 +175,8 @@ public class RabbitConnectionConfiguration {
     public void setPrefetchCount(int prefetchCount) { this.prefetchCount = prefetchCount; }
     public void setAutoAck(boolean autoAck) { this.autoAck = autoAck; }
     public void setNetworkRecoveryInterval(long networkRecoveryInterval) { this.networkRecoveryInterval = networkRecoveryInterval; }
+    public void setSslEnabled(boolean sslEnabled) { this.sslEnabled = sslEnabled; }
+    public void setCustomQueueName(String customQueueName) { this.customQueueName = customQueueName; }
     public void setRetryAttempts(int retryAttempts) { this.retryAttempts = retryAttempts; }
     public void setRetryInitialInterval(int retryInitialInterval) { this.retryInitialInterval = retryInitialInterval; }
     public void setRetryMultiple(double retryMultiple) { this.retryMultiple = retryMultiple; }

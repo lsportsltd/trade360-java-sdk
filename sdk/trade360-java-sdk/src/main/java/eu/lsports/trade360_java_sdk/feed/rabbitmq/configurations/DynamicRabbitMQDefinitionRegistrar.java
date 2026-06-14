@@ -34,6 +34,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
         rabbitConnectionConfiguration = Binder.get(environment)
                 .bind(rabbitPrefix, RabbitConnectionConfiguration.class)
                 .orElseThrow(IllegalStateException::new);
+        RabbitMqConnectionConfigurationValidator.validate(rabbitConnectionConfiguration);
     }
 
     /**
@@ -50,9 +51,12 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
             CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
             connectionFactory.setVirtualHost(rabbitConnectionConfiguration.getVirtualHost());
             connectionFactory.setHost(rabbitConnectionConfiguration.getHost());
+            connectionFactory.setPort(rabbitConnectionConfiguration.getPort());
             connectionFactory.setUsername(rabbitConnectionConfiguration.getUserName());
             connectionFactory.setPassword(rabbitConnectionConfiguration.getPassword());
             connectionFactory.setRequestedHeartBeat(rabbitConnectionConfiguration.getRequestedHeartBeat());
+
+            RabbitMqSslConfigurator.apply(connectionFactory.getRabbitConnectionFactory(), rabbitConnectionConfiguration);
 
             factory.setConnectionFactory(connectionFactory);
 
