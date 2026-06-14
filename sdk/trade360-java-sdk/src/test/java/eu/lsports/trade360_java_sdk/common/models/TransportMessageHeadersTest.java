@@ -47,6 +47,7 @@ class TransportMessageHeadersTest {
             String originalTimestampInMs = headers.getTimestampInMs();
             String originalMessageSequence = headers.getMessageSequence();
             String originalFixtureId = headers.getFixtureId();
+            String originalMarketId = headers.getMarketId();
             String originalSportId = headers.getSportId();
 
             // Multiple calls should return identical values (immutability)
@@ -55,6 +56,7 @@ class TransportMessageHeadersTest {
             assertEquals(originalTimestampInMs, headers.getTimestampInMs());
             assertEquals(originalMessageSequence, headers.getMessageSequence());
             assertEquals(originalFixtureId, headers.getFixtureId());
+            assertEquals(originalMarketId, headers.getMarketId());
             assertEquals(originalSportId, headers.getSportId());
         }
 
@@ -121,6 +123,7 @@ class TransportMessageHeadersTest {
             assertEquals("1234567890", headers.getTimestampInMs());
             assertEquals("100", headers.getMessageSequence());
             assertEquals("fixture-123", headers.getFixtureId());
+            assertEquals("market-202", headers.getMarketId());
             assertEquals("sport-456", headers.getSportId());
         }
 
@@ -143,6 +146,7 @@ class TransportMessageHeadersTest {
             assertEquals("1234567890", headers.getTimestampInMs());
             assertEquals("", headers.getMessageSequence());
             assertEquals("", headers.getFixtureId());
+            assertEquals("", headers.getMarketId());
             assertEquals("", headers.getSportId());
         }
 
@@ -298,6 +302,7 @@ class TransportMessageHeadersTest {
             properties.put("timestamp_in_ms", "1234567890");
             properties.put("MessageSequence", null);
             properties.put("FixtureId", null);
+            properties.put("MarketId", null);
             properties.put("SportId", null);
 
             // When
@@ -307,6 +312,7 @@ class TransportMessageHeadersTest {
             assertNotNull(headers);
             assertEquals("", headers.getMessageSequence());
             assertEquals("", headers.getFixtureId());
+            assertEquals("", headers.getMarketId());
             assertEquals("", headers.getSportId());
         }
     }
@@ -373,6 +379,19 @@ class TransportMessageHeadersTest {
         }
 
         @Test
+        @DisplayName("Should return correct market ID")
+        void shouldReturnCorrectMarketId() {
+            // Given
+            TransportMessageHeaders headers = createHeadersInstance();
+
+            // When
+            String marketId = headers.getMarketId();
+
+            // Then
+            assertEquals("market-202", marketId);
+        }
+
+        @Test
         @DisplayName("Should return correct sport ID")
         void shouldReturnCorrectSportId() {
             // Given
@@ -415,12 +434,13 @@ class TransportMessageHeadersTest {
 
             // Then
             assertNotNull(resultMap);
-            assertEquals(6, resultMap.size());
+            assertEquals(7, resultMap.size());
             assertEquals("test-guid", resultMap.get("MessageGuid"));
             assertEquals("TestMessage", resultMap.get("MessageType"));
             assertEquals("1234567890", resultMap.get("timestamp_in_ms"));
             assertEquals("100", resultMap.get("MessageSequence"));
             assertEquals("fixture-123", resultMap.get("FixtureId"));
+            assertEquals("market-202", resultMap.get("MarketId"));
             assertEquals("sport-456", resultMap.get("SportId"));
         }
 
@@ -671,6 +691,7 @@ class TransportMessageHeadersTest {
             assertEquals(headers1.getTimestampInMs(), headers2.getTimestampInMs());
             assertEquals(headers1.getMessageSequence(), headers2.getMessageSequence());
             assertEquals(headers1.getFixtureId(), headers2.getFixtureId());
+            assertEquals(headers1.getMarketId(), headers2.getMarketId());
             assertEquals(headers1.getSportId(), headers2.getSportId());
             
             // Maps should also be equal
@@ -690,6 +711,7 @@ class TransportMessageHeadersTest {
         properties.put("timestamp_in_ms", "1234567890");
         properties.put("MessageSequence", "100");
         properties.put("FixtureId", "fixture-123");
+        properties.put("MarketId", "market-202");
         properties.put("SportId", "sport-456");
         return properties;
     }

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Release Version 2.10.1] - 2026-06-14
+
+### Added
+
+- **`TransportMessageHeaders`**: optional `MarketId` customer message header (TRGN-3848).
+
+### Changed
+
+- Bumped project/module versions from `2.10.0` to `2.10.1` for a new publishable release.
+
 ## [Release Version 2.10.0] - 2026-05-31
 
 ### Added
