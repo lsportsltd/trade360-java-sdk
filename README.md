@@ -760,11 +760,7 @@ Override `application.properties` with environment variables:
 | `custom_queue_name` | String | - | Optional queue name override (supports environment-specific names such as `prod-my-queue`) |
 | `host` | String | `localhost` | RabbitMQ host |
 | `port` | Integer | `5672` | RabbitMQ port (use **5671** with TLS) |
-| `ssl_enabled` | Boolean | `false` | Enable TLS/AMQPS for the RabbitMQ connection |
-| `ssl_ca_certificate_path` | String | - | Optional PEM CA certificate path for broker validation |
-| `ssl_client_certificate_path` | String | - | Optional PEM client certificate path (mutual TLS) |
-| `ssl_client_key_path` | String | - | Optional PEM client private key path (mutual TLS) |
-| `ssl_client_key_passphrase` | String | - | Optional passphrase for an encrypted client private key |
+| `ssl_enabled` | Boolean | `false` | Enable TLS/AMQPS for the RabbitMQ connection (uses JVM trust store; hostname verified against `host`) |
 | `virtual_host` | String | `/` | RabbitMQ virtual host |
 | `user_name` | String | `guest` | RabbitMQ username |
 | `password` | String | `guest` | RabbitMQ password |

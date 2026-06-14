@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **RabbitMQ SSL/TLS support** (TRGN-179): optional `ssl_enabled` flag with PEM certificate configuration (`ssl_ca_certificate_path`, `ssl_client_certificate_path`, `ssl_client_key_path`, `ssl_client_key_passphrase`); validation for TLS/plain port mismatches and missing certificate files.
+- **RabbitMQ SSL/TLS support** (TRGN-179): optional `ssl_enabled` flag aligned with .NET `SslEnabled` (JVM trust store, hostname verification against `host`; use port **5671** for TLS, **5672** for plain AMQP).
 - **Custom RabbitMQ queue name** (TRGN-180): optional `custom_queue_name` to consume a fixed queue instead of the default `_{package_id}_` pattern; validation for queue name length and `package_id` vs `custom_queue_name` rules.
 
 ## [Release Version 2.10.1] - 2026-06-14

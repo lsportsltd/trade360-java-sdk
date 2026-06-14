@@ -10,7 +10,6 @@ public final class RabbitMqConnectionConfigurationValidator {
 
     static void validate(RabbitConnectionConfiguration configuration) {
         validateQueueConfiguration(configuration);
-        RabbitMqSslConfigurationValidator.validate(configuration);
     }
 
     private static void validateQueueConfiguration(RabbitConnectionConfiguration configuration) {

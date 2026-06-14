@@ -107,26 +107,6 @@ public class RabbitConnectionConfiguration {
     private boolean sslEnabled = false;
 
     /**
-     * Optional path to the CA certificate (PEM) used to validate the broker certificate.
-     */
-    private String sslCaCertificatePath;
-
-    /**
-     * Optional path to the client certificate (PEM) for mutual TLS.
-     */
-    private String sslClientCertificatePath;
-
-    /**
-     * Optional path to the client private key (PEM) for mutual TLS.
-     */
-    private String sslClientKeyPath;
-
-    /**
-     * Optional passphrase for an encrypted client private key.
-     */
-    private String sslClientKeyPassphrase;
-
-    /**
      * Optional queue name override. When set, the consumer listens on this queue instead of the
      * default {@code _{packageId}_} pattern.
      */
@@ -175,10 +155,6 @@ public class RabbitConnectionConfiguration {
     public int getPrefetchCount() { return prefetchCount; }
     public long getNetworkRecoveryInterval() { return networkRecoveryInterval; }
     public boolean isSslEnabled() { return sslEnabled; }
-    public String getSslCaCertificatePath() { return sslCaCertificatePath; }
-    public String getSslClientCertificatePath() { return sslClientCertificatePath; }
-    public String getSslClientKeyPath() { return sslClientKeyPath; }
-    public String getSslClientKeyPassphrase() { return sslClientKeyPassphrase; }
     public String getCustomQueueName() { return customQueueName; }
     public String getRabbitListenerContainerFactoryName() { return rabbitListenerContainerFactoryName; }
 
@@ -200,10 +176,6 @@ public class RabbitConnectionConfiguration {
     public void setAutoAck(boolean autoAck) { this.autoAck = autoAck; }
     public void setNetworkRecoveryInterval(long networkRecoveryInterval) { this.networkRecoveryInterval = networkRecoveryInterval; }
     public void setSslEnabled(boolean sslEnabled) { this.sslEnabled = sslEnabled; }
-    public void setSslCaCertificatePath(String sslCaCertificatePath) { this.sslCaCertificatePath = sslCaCertificatePath; }
-    public void setSslClientCertificatePath(String sslClientCertificatePath) { this.sslClientCertificatePath = sslClientCertificatePath; }
-    public void setSslClientKeyPath(String sslClientKeyPath) { this.sslClientKeyPath = sslClientKeyPath; }
-    public void setSslClientKeyPassphrase(String sslClientKeyPassphrase) { this.sslClientKeyPassphrase = sslClientKeyPassphrase; }
     public void setCustomQueueName(String customQueueName) { this.customQueueName = customQueueName; }
     public void setRetryAttempts(int retryAttempts) { this.retryAttempts = retryAttempts; }
     public void setRetryInitialInterval(int retryInitialInterval) { this.retryInitialInterval = retryInitialInterval; }
