@@ -14,12 +14,14 @@ public class TransportMessageHeaders {
     private static final String TIMESTAMP_IN_MS_KEY = "timestamp_in_ms";
     private static final String MESSAGE_SEQUENCE_KEY = "MessageSequence";
     private static final String FIXTURE_ID_KEY = "FixtureId";
+    private static final String MARKET_ID_KEY = "MarketId";
     private static final String SPORT_ID_KEY = "SportId";
 
     private final String messageType;
     private final String messageSequence;
     private final String messageGuid;
     private final String fixtureId;
+    private final String marketId;
     private final String sportId;
     private final String timestampInMs;
 
@@ -32,15 +34,17 @@ public class TransportMessageHeaders {
      * @param timestampInMs the timestamp in milliseconds
      * @param messageSequence the message sequence (optional)
      * @param fixtureId the fixture ID (optional)
+     * @param marketId the market ID (optional)
      * @param sportId the sport ID (optional)
      */
     private TransportMessageHeaders(String messageGuid, String messageType, String timestampInMs, 
-                                   String messageSequence, String fixtureId, String sportId) {
+                                   String messageSequence, String fixtureId, String marketId, String sportId) {
         this.messageGuid = messageGuid;
         this.messageType = messageType;
         this.timestampInMs = timestampInMs;
         this.messageSequence = messageSequence;
         this.fixtureId = fixtureId;
+        this.marketId = marketId;
         this.sportId = sportId;
     }
 
@@ -81,6 +85,15 @@ public class TransportMessageHeaders {
     }
 
     /**
+     * Gets the market ID.
+     *
+     * @return the market ID
+     */
+    public String getMarketId() {
+        return marketId;
+    }
+
+    /**
      * Gets the sport ID.
      *
      * @return the sport ID
@@ -115,9 +128,10 @@ public class TransportMessageHeaders {
         String timestampInMs = getRequiredProperty(properties, TIMESTAMP_IN_MS_KEY, true);
         String messageSequence = getRequiredProperty(properties, MESSAGE_SEQUENCE_KEY, false);
         String fixtureId = getRequiredProperty(properties, FIXTURE_ID_KEY, false);
+        String marketId = getRequiredProperty(properties, MARKET_ID_KEY, false);
         String sportId = getRequiredProperty(properties, SPORT_ID_KEY, false);
 
-        return new TransportMessageHeaders(messageGuid, messageType, timestampInMs, messageSequence, fixtureId, sportId);
+        return new TransportMessageHeaders(messageGuid, messageType, timestampInMs, messageSequence, fixtureId, marketId, sportId);
     }
 
     /**
@@ -146,6 +160,10 @@ public class TransportMessageHeaders {
         
         if (!isNullOrEmpty(fixtureId)) {
             headerMap.put(FIXTURE_ID_KEY, fixtureId);
+        }
+
+        if (!isNullOrEmpty(marketId)) {
+            headerMap.put(MARKET_ID_KEY, marketId);
         }
         
         if (!isNullOrEmpty(sportId)) {
