@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [Release Version 2.11.0] - 2026-06-14
+
+### Added
+
+- **RabbitMQ SSL/TLS support** (TRGN-179): optional `ssl_enabled` flag with PEM certificate configuration (`ssl_ca_certificate_path`, `ssl_client_certificate_path`, `ssl_client_key_path`, `ssl_client_key_passphrase`); validation for TLS/plain port mismatches and missing certificate files.
+- **Custom RabbitMQ queue name** (TRGN-180): optional `custom_queue_name` to consume a fixed queue instead of the default `_{package_id}_` pattern; validation for queue name length and `package_id` vs `custom_queue_name` rules.
+
 ## [Release Version 2.10.1] - 2026-06-14
 
 ### Added
