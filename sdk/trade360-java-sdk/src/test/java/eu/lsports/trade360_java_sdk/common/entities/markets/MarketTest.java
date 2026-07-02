@@ -1,17 +1,25 @@
 package eu.lsports.trade360_java_sdk.common.entities.markets;
 
-import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import eu.lsports.trade360_java_sdk.common.entities.enums.MarketStatus;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MarketTest {
     private Market market;
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
         market = new Market();
+        objectMapper = new ObjectMapper()
+                .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Test
@@ -22,6 +30,7 @@ class MarketTest {
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertNull(market.mainLine);
+        assertNull(market.status);
     }
 
     @Test
@@ -128,17 +137,31 @@ class MarketTest {
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertNull(market.mainLine);
+        assertNull(market.status);
 
         market.id = 1;
         market.name = "MarketName";
         market.bets = null;
         market.providerMarkets = null;
         market.mainLine = "MainLine";
+        market.status = MarketStatus.SUSPENDED;
 
         assertEquals(1, market.id);
         assertEquals("MarketName", market.name);
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertEquals("MainLine", market.mainLine);
+        assertEquals(MarketStatus.SUSPENDED, market.status);
+    }
+
+    @Test
+    void testDeserializeMarketStatusFromJson() throws Exception {
+        Market parsed = objectMapper.readValue(
+                "{\"Id\":52,\"Name\":\"1X2\",\"Status\":2,\"Bets\":[]}",
+                Market.class);
+
+        assertEquals(52, parsed.id);
+        assertEquals("1X2", parsed.name);
+        assertEquals(MarketStatus.SUSPENDED, parsed.status);
     }
 }   
