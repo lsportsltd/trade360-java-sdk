@@ -155,22 +155,13 @@ class MarketTest {
     }
 
     @Test
-    void testDeserializeMarketStatusFromJson() throws Exception {
+    void testDeserializeStatusFromJson() throws Exception {
         Market parsed = objectMapper.readValue(
-                "{\"Id\":52,\"Name\":\"1X2\",\"MarketStatus\":2,\"Bets\":[]}",
+                "{\"Id\":52,\"Name\":\"1X2\",\"Status\":2,\"Bets\":[]}",
                 Market.class);
 
         assertEquals(52, parsed.id);
         assertEquals("1X2", parsed.name);
         assertEquals(MarketStatus.SUSPENDED, parsed.marketStatus);
-    }
-
-    @Test
-    void testDeserializeSettlementStatusAliasFromJson() throws Exception {
-        Market parsed = objectMapper.readValue(
-                "{\"Id\":52,\"Name\":\"1X2\",\"Status\":3,\"Bets\":[]}",
-                Market.class);
-
-        assertEquals(MarketStatus.SETTLED, parsed.marketStatus);
     }
 }   

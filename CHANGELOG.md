@@ -7,12 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **`Market.marketStatus`**: RMQ JSON field is `Status` (was documented as `MarketStatus`); `@JsonProperty("Status")` on calculated market payloads (PRD-1516).
+
 ## [Release Version 2.11.1] - 2026-07-01
 
 ### Added
 
 - **`MarketStatus`** enum (`NOT_SET`, `OPEN`, `SUSPENDED`, `SETTLED`) for authoritative market-level status (PRD-1516).
-- **`Market.status`**: maps JSON `MarketStatus` on market payloads (1=Open, 2=Suspended, 3=Settled); also accepts settlement JSON `Status`.
+- **`Market.marketStatus`**: maps JSON `Status` on RMQ market payloads (1=Open, 2=Suspended, 3=Settled).
 - **`ProviderMarket.marketStatus`**: maps JSON `MarketStatus` on provider market payloads from the feed.
 - **`FixtureMarketElement.status`** and **`OutrightMarketElement.status`** for snapshot API market responses.
 
