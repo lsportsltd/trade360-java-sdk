@@ -155,7 +155,7 @@ class MarketTest {
     }
 
     @Test
-    void testDeserializeMarketStatusFromJson() throws Exception {
+    void testDeserializeStatusFromJson() throws Exception {
         Market parsed = objectMapper.readValue(
                 "{\"Id\":52,\"Name\":\"1X2\",\"Status\":2,\"Bets\":[]}",
                 Market.class);

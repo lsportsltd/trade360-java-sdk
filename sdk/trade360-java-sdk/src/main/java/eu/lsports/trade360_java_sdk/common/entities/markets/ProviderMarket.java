@@ -1,5 +1,6 @@
 package eu.lsports.trade360_java_sdk.common.entities.markets;
 
+import eu.lsports.trade360_java_sdk.common.entities.enums.MarketStatus;
 import jakarta.annotation.Nullable;
 
 import java.time.Instant;
@@ -32,5 +33,8 @@ public class ProviderMarket {
      */
     @Nullable public Instant lastUpdate;
 
-
+    /**
+     * Authoritative provider market status: 1=Open, 2=Suspended, 3=Settled.
+     */
+    @Nullable public MarketStatus marketStatus;
 }
