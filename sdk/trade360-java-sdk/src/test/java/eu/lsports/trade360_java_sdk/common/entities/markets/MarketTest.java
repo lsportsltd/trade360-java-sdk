@@ -30,7 +30,7 @@ class MarketTest {
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertNull(market.mainLine);
-        assertNull(market.status);
+        assertNull(market.marketStatus);
     }
 
     @Test
@@ -137,31 +137,40 @@ class MarketTest {
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertNull(market.mainLine);
-        assertNull(market.status);
+        assertNull(market.marketStatus);
 
         market.id = 1;
         market.name = "MarketName";
         market.bets = null;
         market.providerMarkets = null;
         market.mainLine = "MainLine";
-        market.status = MarketStatus.SUSPENDED;
+        market.marketStatus = MarketStatus.SUSPENDED;
 
         assertEquals(1, market.id);
         assertEquals("MarketName", market.name);
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertEquals("MainLine", market.mainLine);
-        assertEquals(MarketStatus.SUSPENDED, market.status);
+        assertEquals(MarketStatus.SUSPENDED, market.marketStatus);
     }
 
     @Test
     void testDeserializeMarketStatusFromJson() throws Exception {
         Market parsed = objectMapper.readValue(
-                "{\"Id\":52,\"Name\":\"1X2\",\"Status\":2,\"Bets\":[]}",
+                "{\"Id\":52,\"Name\":\"1X2\",\"MarketStatus\":2,\"Bets\":[]}",
                 Market.class);
 
         assertEquals(52, parsed.id);
         assertEquals("1X2", parsed.name);
-        assertEquals(MarketStatus.SUSPENDED, parsed.status);
+        assertEquals(MarketStatus.SUSPENDED, parsed.marketStatus);
+    }
+
+    @Test
+    void testDeserializeSettlementStatusAliasFromJson() throws Exception {
+        Market parsed = objectMapper.readValue(
+                "{\"Id\":52,\"Name\":\"1X2\",\"Status\":3,\"Bets\":[]}",
+                Market.class);
+
+        assertEquals(MarketStatus.SETTLED, parsed.marketStatus);
     }
 }   

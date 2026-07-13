@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **`MarketStatus`** enum (`NOT_SET`, `OPEN`, `SUSPENDED`, `SETTLED`) for authoritative market-level status (PRD-1516).
-- **`Market.status`**: maps JSON `Status` on market payloads (1=Open, 2=Suspended, 3=Settled).
+- **`Market.status`**: maps JSON `MarketStatus` on market payloads (1=Open, 2=Suspended, 3=Settled); also accepts settlement JSON `Status`.
+- **`ProviderMarket.marketStatus`**: maps JSON `MarketStatus` on provider market payloads from the feed.
 - **`FixtureMarketElement.status`** and **`OutrightMarketElement.status`** for snapshot API market responses.
 
 ### Changed
