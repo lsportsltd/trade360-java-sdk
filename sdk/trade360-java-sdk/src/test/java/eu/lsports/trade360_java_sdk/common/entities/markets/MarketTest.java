@@ -30,7 +30,7 @@ class MarketTest {
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertNull(market.mainLine);
-        assertNull(market.marketStatus);
+        assertNull(market.status);
     }
 
     @Test
@@ -137,21 +137,21 @@ class MarketTest {
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertNull(market.mainLine);
-        assertNull(market.marketStatus);
+        assertNull(market.status);
 
         market.id = 1;
         market.name = "MarketName";
         market.bets = null;
         market.providerMarkets = null;
         market.mainLine = "MainLine";
-        market.marketStatus = MarketStatus.SUSPENDED;
+        market.status = MarketStatus.SUSPENDED;
 
         assertEquals(1, market.id);
         assertEquals("MarketName", market.name);
         assertNull(market.bets);
         assertNull(market.providerMarkets);
         assertEquals("MainLine", market.mainLine);
-        assertEquals(MarketStatus.SUSPENDED, market.marketStatus);
+        assertEquals(MarketStatus.SUSPENDED, market.status);
     }
 
     @Test
@@ -162,6 +162,6 @@ class MarketTest {
 
         assertEquals(52, parsed.id);
         assertEquals("1X2", parsed.name);
-        assertEquals(MarketStatus.SUSPENDED, parsed.marketStatus);
+        assertEquals(MarketStatus.SUSPENDED, parsed.status);
     }
 }   
