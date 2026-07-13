@@ -1,5 +1,6 @@
 package eu.lsports.trade360_java_sdk.common.entities.markets;
 
+import eu.lsports.trade360_java_sdk.common.entities.enums.MarketStatus;
 import jakarta.annotation.Nullable;
 
 /**
@@ -35,4 +36,9 @@ public class Market {
      * This can be {@code null} if not set.
      */
     @Nullable public String mainLine;
+
+    /**
+     * Authoritative market status after TRADE calculation: 1=Open, 2=Suspended, 3=Settled.
+     */
+    @Nullable public MarketStatus status;
 }

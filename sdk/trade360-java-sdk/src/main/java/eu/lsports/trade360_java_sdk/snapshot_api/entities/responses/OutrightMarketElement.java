@@ -1,5 +1,6 @@
 package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
+import eu.lsports.trade360_java_sdk.common.entities.enums.MarketStatus;
 import eu.lsports.trade360_java_sdk.common.entities.markets.Bet;
 import eu.lsports.trade360_java_sdk.common.entities.markets.ProviderMarket;
 import jakarta.annotation.Nullable;
@@ -18,6 +19,9 @@ public final class OutrightMarketElement {
      * Can be {@code null}.
      */
     @Nullable public String name;
+
+    /** Trade360 market status: 1=Open, 2=Suspended, 3=Settled. */
+    @Nullable public MarketStatus status;
 
     /**
      * The collection of bets associated with the outright market element.
