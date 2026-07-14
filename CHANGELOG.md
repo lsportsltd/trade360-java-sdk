@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **`Market.status`**: explicit `@JsonProperty("Status")` on RMQ calculated market payloads (PRD-1516). Property name unchanged from 2.11.1.
 
+## [Release Version 2.11.3] - 2026-07-14
+
+### Added
+
+- **`StatusDescription`**: 13 new MMA/fight-outcome and positional enum values (TRGN-3981) — `FIGHTER_1_DISQUALIFICATION` (60), `FIGHTER_2_DISQUALIFICATION` (61), `FIGHTER_1_MAJORITY_DECISION` (62), `FIGHTER_2_MAJORITY_DECISION` (63), `FIGHTER_1_UNANIMOUS_DECISION` (64), `FIGHTER_2_UNANIMOUS_DECISION` (65), `FIGHTER_1_SUBMISSION` (66), `FIGHTER_2_SUBMISSION` (67), `FIGHTER_1_KO_TKO` (68), `FIGHTER_2_KO_TKO` (69), `NO_CONTEST` (70), `TOP` (71), `BOTTOM` (72).
+
+### Changed
+
+- Bumped project/module versions from `2.11.2` to `2.11.3` for a new publishable release.
+
 ## [Release Version 2.11.1] - 2026-07-01
 
 ### Added
