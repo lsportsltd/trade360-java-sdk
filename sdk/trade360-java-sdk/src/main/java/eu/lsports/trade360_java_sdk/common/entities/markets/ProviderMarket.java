@@ -37,4 +37,9 @@ public class ProviderMarket {
      * Authoritative provider market status: 1=Open, 2=Suspended, 3=Settled.
      */
     @Nullable public MarketStatus marketStatus;
+
+    /**
+     * DI prediction metadata for the provider market.
+     */
+    @Nullable public PredictionData predictionData;
 }
