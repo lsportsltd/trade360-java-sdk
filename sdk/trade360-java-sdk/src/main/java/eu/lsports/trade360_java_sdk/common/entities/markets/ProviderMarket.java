@@ -41,5 +41,5 @@ public class ProviderMarket {
     /**
      * DI prediction metadata for the provider market.
      */
-    @Nullable public PredictionData predictionData;
+    @Nullable public MarketPredictionData predictionData;
 }

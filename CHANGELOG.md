@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.5] - 2026-07-16
+
+### Changed
+
+- **`PredictionData` split**: replaced unified `PredictionData` with `MarketPredictionData` (volume only) on `Market` and `ProviderMarket`, and `BetPredictionData` (volume, liquidity, startDate, endDate) on `BaseBet` (PRD-1516).
+- Bumped project/module versions from `2.11.4` to `2.11.5` for a new publishable release.
+
 ## [Release Version 2.11.4] - 2026-07-16
 
 ### Added

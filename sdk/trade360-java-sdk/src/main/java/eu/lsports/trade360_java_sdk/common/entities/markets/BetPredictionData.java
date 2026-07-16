@@ -5,9 +5,9 @@ import jakarta.annotation.Nullable;
 import java.time.Instant;
 
 /**
- * DI prediction metadata for markets and bets.
+ * DI prediction metadata for bets.
  */
-public class PredictionData {
+public class BetPredictionData {
 
     @Nullable public Double volume;
 

@@ -129,5 +129,5 @@ public abstract class BaseBet {
     /**
      * DI prediction metadata for the bet.
      */
-    @Nullable public PredictionData predictionData;
+    @Nullable public BetPredictionData predictionData;
 }
