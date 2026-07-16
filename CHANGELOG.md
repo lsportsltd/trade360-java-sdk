@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.4] - 2026-07-16
+
+### Added
+
+- **`PredictionData`**: optional `volume`, `liquidity`, `startDate`, and `endDate` on `Market`, `ProviderMarket`, and `BaseBet` entities (PRD-1516).
+
 ### Changed
 
-- **`Market.status`**: explicit `@JsonProperty("Status")` on RMQ calculated market payloads (PRD-1516). Property name unchanged from 2.11.1.
+- Bumped project/module versions from `2.11.3` to `2.11.4` for a new publishable release.
 
 ## [Release Version 2.11.3] - 2026-07-14
 
