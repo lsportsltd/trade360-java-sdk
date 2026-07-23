@@ -125,4 +125,9 @@ public abstract class BaseBet {
      * The order associated with the bet.
      */
     @Nullable public int order;
+
+    /**
+     * DI prediction metadata for the bet.
+     */
+    @Nullable public BetPredictionData predictionData;
 }

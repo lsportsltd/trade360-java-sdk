@@ -164,4 +164,19 @@ class MarketTest {
         assertEquals("1X2", parsed.name);
         assertEquals(MarketStatus.SUSPENDED, parsed.status);
     }
-}   
+
+    @Test
+    void testDeserializePredictionDataFromJson() throws Exception {
+        Market parsed = objectMapper.readValue(
+                "{\"Id\":52,\"Name\":\"1X2\",\"Status\":1,\"PredictionData\":{\"Volume\":20370},\"Bets\":[{\"Id\":1,\"Name\":\"Home\",\"PredictionData\":{\"Volume\":2529.72,\"Liquidity\":0}}]}",
+                Market.class);
+
+        assertNotNull(parsed.predictionData);
+        assertEquals(20370, parsed.predictionData.volume);
+        assertNotNull(parsed.bets);
+        var bet = parsed.bets.iterator().next();
+        assertNotNull(bet.predictionData);
+        assertEquals(2529.72, bet.predictionData.volume);
+        assertEquals(0, bet.predictionData.liquidity);
+    }
+}
