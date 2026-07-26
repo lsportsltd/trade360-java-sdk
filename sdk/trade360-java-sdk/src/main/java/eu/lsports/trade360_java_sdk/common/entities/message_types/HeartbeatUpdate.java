@@ -12,4 +12,10 @@ public class HeartbeatUpdate {
      */
     @JsonIgnore
     public final static int entityKey = 32;
+
+    /**
+     * Feed health signal. {@code 0} means no problem (default), non-zero indicates a
+     * problem detected upstream. Signal only — does not trigger auto-suspend or recovery.
+     */
+    public int problem;
 }
