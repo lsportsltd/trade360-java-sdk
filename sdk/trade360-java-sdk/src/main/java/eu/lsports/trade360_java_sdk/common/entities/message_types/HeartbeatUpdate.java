@@ -14,8 +14,8 @@ public class HeartbeatUpdate {
     public final static int entityKey = 32;
 
     /**
-     * Feed health signal. {@code 0} means no problem (default), non-zero indicates a
-     * problem detected upstream. Signal only — does not trigger auto-suspend or recovery.
+     * Feed interruption signal. {@code 0} means normal (default), non-zero indicates a
+     * feed interruption detected upstream. Signal only — does not trigger auto-suspend or recovery.
      */
-    public int problem;
+    public int feedInterrupted;
 }
