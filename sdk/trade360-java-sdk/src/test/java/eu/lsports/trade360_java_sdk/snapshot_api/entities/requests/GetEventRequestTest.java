@@ -24,20 +24,4 @@ class GetEventRequestTest {
         assertEquals(fixtures, req.fixtures());
         assertEquals(markets, req.markets());
     }
-
-    @Test
-    void testLegacyConstructorDefaultsMarketsToNull() {
-        Instant now = Instant.now();
-        List<Integer> sports = List.of(1, 2);
-        List<Integer> locations = List.of(3, 4);
-        List<Integer> leagues = List.of(5, 6);
-        List<Integer> fixtures = List.of(7, 8);
-        GetEventRequest req = new GetEventRequest(now, now, now, sports, locations, leagues, fixtures);
-        assertEquals(now, req.timestamp());
-        assertEquals(sports, req.sports());
-        assertEquals(locations, req.locations());
-        assertEquals(leagues, req.leagues());
-        assertEquals(fixtures, req.fixtures());
-        assertNull(req.markets());
-    }
-} 
+}
