@@ -14,6 +14,7 @@ import java.time.Instant;
  * @param locations The IDs of the locations
  * @param leagues The IDs of the leagues
  * @param fixtures The IDs of the fixtures
+ * @param markets The IDs of the markets
  */
 public final record GetEventRequest(
     @Nullable Instant timestamp,
@@ -22,5 +23,6 @@ public final record GetEventRequest(
     @Nullable Iterable<Integer> sports,
     @Nullable Iterable<Integer> locations,
     @Nullable Iterable<Integer> leagues,
-    @Nullable Iterable<Integer> fixtures) {
+    @Nullable Iterable<Integer> fixtures,
+    @Nullable Iterable<Integer> markets) {
 }

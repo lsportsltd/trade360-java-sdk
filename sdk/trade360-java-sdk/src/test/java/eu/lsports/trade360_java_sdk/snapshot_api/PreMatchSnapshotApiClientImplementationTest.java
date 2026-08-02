@@ -67,7 +67,7 @@ class PreMatchSnapshotApiClientImplementationTest {
         when(snapshotApiRestClient.postRequest(any(GetEventRequest.class), any(TypeReference.class), eq("/Prematch/GetEvents")))
                 .thenReturn(Mono.just(expectedResponse));
 
-        GetEventRequest request = new GetEventRequest(null, null, null, null, null, null, null);
+        GetEventRequest request = new GetEventRequest(null, null, null, null, null, null, null, null);
         Mono<Iterable<GetEventsResultElement>> result = client.getEvents(request);
 
         assertNotNull(result);
