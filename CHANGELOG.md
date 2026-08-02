@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **`GetEventRequest`**: added missing `markets` filter for PreMatch `POST /Prematch/GetEvents`, aligning with the Snapshot API, InPlay `GetInPlayEventRequest`, and the .NET SDK.
+- **`GetEventRequest`**: kept a 7-arg constructor overload (markets defaults to `null`) for source/binary compatibility with existing call sites.
 
 ### Changed
 

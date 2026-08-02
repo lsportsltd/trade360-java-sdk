@@ -25,4 +25,27 @@ public final record GetEventRequest(
     @Nullable Iterable<Integer> leagues,
     @Nullable Iterable<Integer> fixtures,
     @Nullable Iterable<Integer> markets) {
+
+    /**
+     * Backward-compatible constructor without markets filter.
+     * Delegates to the canonical constructor with markets=null.
+     */
+    public GetEventRequest(
+            @Nullable Instant timestamp,
+            @Nullable Instant fromDate,
+            @Nullable Instant toDate,
+            @Nullable Iterable<Integer> sports,
+            @Nullable Iterable<Integer> locations,
+            @Nullable Iterable<Integer> leagues,
+            @Nullable Iterable<Integer> fixtures) {
+        this(
+            timestamp,
+            fromDate,
+            toDate,
+            sports,
+            locations,
+            leagues,
+            fixtures,
+            null);
+    }
 }
