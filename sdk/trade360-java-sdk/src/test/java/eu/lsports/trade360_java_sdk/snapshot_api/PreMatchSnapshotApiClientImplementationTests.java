@@ -84,6 +84,7 @@ public class PreMatchSnapshotApiClientImplementationTests {
             null,
             null,
             null,
+            null,
             null
         ));
 

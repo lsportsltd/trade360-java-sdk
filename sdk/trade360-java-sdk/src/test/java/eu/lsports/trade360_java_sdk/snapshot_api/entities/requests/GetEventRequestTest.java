@@ -13,7 +13,8 @@ class GetEventRequestTest {
         List<Integer> locations = List.of(3, 4);
         List<Integer> leagues = List.of(5, 6);
         List<Integer> fixtures = List.of(7, 8);
-        GetEventRequest req = new GetEventRequest(now, now, now, sports, locations, leagues, fixtures);
+        List<Integer> markets = List.of(9, 10);
+        GetEventRequest req = new GetEventRequest(now, now, now, sports, locations, leagues, fixtures, markets);
         assertEquals(now, req.timestamp());
         assertEquals(now, req.fromDate());
         assertEquals(now, req.toDate());
@@ -21,5 +22,6 @@ class GetEventRequestTest {
         assertEquals(locations, req.locations());
         assertEquals(leagues, req.leagues());
         assertEquals(fixtures, req.fixtures());
+        assertEquals(markets, req.markets());
     }
-} 
+}
