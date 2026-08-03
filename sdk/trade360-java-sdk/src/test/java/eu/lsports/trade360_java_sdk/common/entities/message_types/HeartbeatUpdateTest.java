@@ -30,26 +30,26 @@ class HeartbeatUpdateTest {
     }
 
     @Test
-    void testFeedInterruptedDefaultsToZero() {
+    void testFeedInterruptedDefaultsToEmptyArray() {
         HeartbeatUpdate update = new HeartbeatUpdate();
-        assertEquals(0, update.feedInterrupted);
+        assertEquals(0, update.feedInterrupted.length);
     }
 
     @Test
-    void testDeserializeFeedInterruptedFromBody() throws Exception {
-        String body = "{\"FeedInterrupted\":1}";
+    void testDeserializeFeedInterruptedArrayFromBody() throws Exception {
+        String body = "{\"FeedInterrupted\":[1]}";
 
         HeartbeatUpdate update = objectMapper.readValue(body, HeartbeatUpdate.class);
 
-        assertEquals(1, update.feedInterrupted);
+        assertArrayEquals(new int[] {1}, update.feedInterrupted);
     }
 
     @Test
-    void testDeserializeWithoutFeedInterruptedDefaultsToZero() throws Exception {
+    void testDeserializeWithoutFeedInterruptedDefaultsToEmptyArray() throws Exception {
         String body = "{}";
 
         HeartbeatUpdate update = objectMapper.readValue(body, HeartbeatUpdate.class);
 
-        assertEquals(0, update.feedInterrupted);
+        assertEquals(0, update.feedInterrupted.length);
     }
 }

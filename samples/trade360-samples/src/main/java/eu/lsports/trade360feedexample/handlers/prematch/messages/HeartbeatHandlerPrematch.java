@@ -12,7 +12,8 @@ public class HeartbeatHandlerPrematch implements EntityHandler<HeartbeatUpdate> 
     protected static final Logger logger = LogManager.getLogger();
     @Override
     public void process(HeartbeatUpdate entity, Map<String, String> messageHeaders, Map<String, String> transportMessageHeaders) {
-        logger.info("Received: " + this.getClass().getSimpleName());
+        logger.info("[FIH] HeartbeatUpdate PreMatch: feedInterruptedDomains={} (empty=normal)",
+                entity == null ? "[]" : java.util.Arrays.toString(entity.feedInterrupted));
     }
 
     @Override

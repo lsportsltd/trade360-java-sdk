@@ -14,8 +14,9 @@ public class HeartbeatUpdate {
     public final static int entityKey = 32;
 
     /**
-     * Feed interruption signal. {@code 0} means normal (default), non-zero indicates a
-     * feed interruption detected upstream. Signal only — does not trigger auto-suspend or recovery.
+     * Feed interruption domains. Empty or absent = healthy.
+     * Phase 1: {@code [1]} = Markets ({@link FeedInterruptedDomainEnum#Markets}).
+     * Signal only — does not trigger auto-suspend or recovery.
      */
-    public int feedInterrupted;
+    public int[] feedInterrupted = new int[0];
 }
