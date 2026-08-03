@@ -161,7 +161,7 @@ public class SnapshotApiExampleApplication extends ApiExampleApplicationBase{
     private void getEvents(URI baseUrl, PackageCredentials preMatchSettings, PackageCredentials inPlaySettings) {
         var preMatchClient = this.apiClientFactory.createPreMatchApiClient(baseUrl, preMatchSettings);
         this.executeAsynchronous("PreMatch Async Get Events",
-                new GetEventRequest(null, null, null, List.of(35232), List.of(73), null, null),
+                new GetEventRequest(null, null, null, List.of(35232), List.of(73), null, null, null),
                 preMatchClient::getEvents);
 
         var inPlayClient = this.apiClientFactory.createInPlayApiClient(baseUrl, inPlaySettings);
