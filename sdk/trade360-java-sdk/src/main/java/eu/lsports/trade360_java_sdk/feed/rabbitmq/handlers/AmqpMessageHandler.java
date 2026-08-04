@@ -66,6 +66,7 @@ public class AmqpMessageHandler implements MessageHandler {
             if (isBodyPresent(parsedMessage)) {
                 String body = getBodyFromParsedMessage(parsedMessage);
                 msg = parseMessage(body, msgType);
+                normalizeHeartbeatUpdate(msg);
             } else if (messageType == MessageType.HeartbeatUpdate) {
                 msg = new HeartbeatUpdate();
             } else {
@@ -148,6 +149,12 @@ public class AmqpMessageHandler implements MessageHandler {
             return objectMapper.readValue(json, clazz);
         } catch (final Exception ex) {
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity.", clazz.getSimpleName()), ex);
+        }
+    }
+
+    private void normalizeHeartbeatUpdate(Object msg) {
+        if (msg instanceof HeartbeatUpdate update && update.feedInterrupted == null) {
+            update.feedInterrupted = new int[0];
         }
     }
 

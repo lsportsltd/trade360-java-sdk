@@ -1,6 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.message_types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 /**
  * The {@code HeartbeatUpdate} class represents a heartbeat update message.
@@ -19,4 +20,9 @@ public class HeartbeatUpdate {
      * Signal only — does not trigger auto-suspend or recovery.
      */
     public int[] feedInterrupted = new int[0];
+
+    @JsonSetter("FeedInterrupted")
+    public void setFeedInterrupted(int[] feedInterrupted) {
+        this.feedInterrupted = feedInterrupted == null ? new int[0] : feedInterrupted;
+    }
 }

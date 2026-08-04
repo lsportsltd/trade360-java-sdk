@@ -45,11 +45,12 @@ class HeartbeatUpdateTest {
     }
 
     @Test
-    void testDeserializeWithoutFeedInterruptedDefaultsToEmptyArray() throws Exception {
-        String body = "{}";
+    void testDeserializeNullFeedInterruptedDefaultsToEmptyArray() throws Exception {
+        String body = "{\"FeedInterrupted\":null}";
 
         HeartbeatUpdate update = objectMapper.readValue(body, HeartbeatUpdate.class);
 
+        assertNotNull(update.feedInterrupted);
         assertEquals(0, update.feedInterrupted.length);
     }
 }

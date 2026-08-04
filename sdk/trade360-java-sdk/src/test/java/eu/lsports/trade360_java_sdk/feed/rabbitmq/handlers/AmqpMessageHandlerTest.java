@@ -173,6 +173,24 @@ class AmqpMessageHandlerTest {
     }
 
     @Test
+    void testProcessHeartbeatWithNullFeedInterruptedNormalizesToEmptyArray() throws Exception {
+        int typeId = HeartbeatUpdate.entityKey;
+        String bodyJson = "{\"Body\":{\"FeedInterrupted\":null},\"Header\":{\"Type\":\"32\"}}";
+        Message message = createMockMessage(bodyJson);
+        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
+        doNothing().when(entityHandler).process(any(), any(), any());
+
+        assertDoesNotThrow(() -> handler.process(message));
+
+        verify(entityHandler).process(argThat(entity -> {
+            if (!(entity instanceof HeartbeatUpdate update)) {
+                return false;
+            }
+            return update.feedInterrupted != null && update.feedInterrupted.length == 0;
+        }), any(), any());
+    }
+
+    @Test
     void testGetBodyFromParsedMessage() throws Exception {
         Map<String, Object> parsedMessage = new HashMap<>();
         Map<String, String> bodyContent = new HashMap<>();
