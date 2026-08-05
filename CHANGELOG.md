@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.6] - 2026-08-05
+
+### Changed
+
+- Bumped project/module versions from `2.11.5` to `2.11.6` for Maven Central publish (2.11.5 already exists on Central).
+
 ## [Release Version 2.11.5] - 2026-08-02
 
 ### Added
