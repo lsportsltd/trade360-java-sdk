@@ -61,6 +61,7 @@ class OutrightLeagueMarketUpdateTest {
             var event = ((java.lang.Iterable<?>) seasonClass.getField("events").get(season)).iterator().next();
             var eventClass = event.getClass();
             assertEquals(26721036, eventClass.getField("fixtureId").getInt(event));
+            assertEquals("Premier League 2023/2024 Outright Winner", eventClass.getField("fixtureName").get(event));
 
             var market = ((java.lang.Iterable<?>) eventClass.getField("markets").get(event)).iterator().next();
             var marketClass = market.getClass();

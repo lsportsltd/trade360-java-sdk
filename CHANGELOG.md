@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.8] - 2026-08-05
+
+### Added
+
+- **`MarketEvent.fixtureName`**: optional fixture name on nested events in OutrightLeagueMarketUpdate (type 40) and OutrightLeagueSettlementUpdate (type 43). Omitted when absent from the payload (TRGN-1739).
+
+### Changed
+
+- Bumped project/module versions from `2.11.5` to `2.11.8` for a new publishable release.
+
 ## [Release Version 2.11.5] - 2026-08-02
 
 ### Added

@@ -15,6 +15,7 @@ class MarketEventComprehensiveTest {
         
         assertNotNull(marketEvent);
         assertEquals(0, marketEvent.fixtureId);
+        assertNull(marketEvent.fixtureName);
         assertNull(marketEvent.markets);
     }
 
@@ -45,13 +46,16 @@ class MarketEventComprehensiveTest {
     void testMarketEventAllFieldsAssignment() {
         MarketEvent marketEvent = new MarketEvent();
         int testFixtureId = 67890;
+        String testFixtureName = "Premier League 2023/2024 Outright Winner";
         Market market = new Market();
         Iterable<Market> testMarkets = Collections.singletonList(market);
         
         marketEvent.fixtureId = testFixtureId;
+        marketEvent.fixtureName = testFixtureName;
         marketEvent.markets = testMarkets;
         
         assertEquals(testFixtureId, marketEvent.fixtureId);
+        assertEquals(testFixtureName, marketEvent.fixtureName);
         assertEquals(testMarkets, marketEvent.markets);
     }
 
