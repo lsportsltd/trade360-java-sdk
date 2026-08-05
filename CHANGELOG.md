@@ -9,15 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Release Version 2.11.6] - 2026-08-05
 
-### Changed
-
-- Bumped project/module versions from `2.11.5` to `2.11.6` for Maven Central publish (2.11.5 already exists on Central).
-
-## [Release Version 2.11.5] - 2026-08-02
-
 ### Added
 
 - **`HeartbeatUpdate.feedInterrupted`**: optional feed interruption signal on type-32 heartbeat body. Healthy or absent is an empty `int[]`; interrupted carries domain values such as `[1]` (Markets). Signal only — does not trigger auto-suspend or recovery (TRGN-3934). JSON field `FeedInterrupted`.
+
+### Changed
+
+- Bumped project/module versions from `2.11.5` to `2.11.6` for a new publishable release.
+
+## [Release Version 2.11.5] - 2026-08-02
 
 ### Fixed
 
