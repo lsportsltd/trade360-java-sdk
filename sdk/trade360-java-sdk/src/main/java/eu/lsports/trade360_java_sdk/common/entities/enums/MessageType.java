@@ -31,8 +31,9 @@ public enum MessageType {
 
     /**
      * Type indicating a heartbeat update message.
+     * hasBody=true so FeedInterrupted (and future body fields) are deserialized.
      */
-    HeartbeatUpdate(32, HeartbeatUpdate.class, false),
+    HeartbeatUpdate(32, HeartbeatUpdate.class, true),
 
     /**
      * Type indicating a settlement update message for trade360 customer type.

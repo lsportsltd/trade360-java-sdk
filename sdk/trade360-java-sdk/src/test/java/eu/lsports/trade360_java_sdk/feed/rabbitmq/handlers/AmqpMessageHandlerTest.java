@@ -1,6 +1,6 @@
 package eu.lsports.trade360_java_sdk.feed.rabbitmq.handlers;
 
-import eu.lsports.trade360_java_sdk.common.entities.enums.MessageType;
+import eu.lsports.trade360_java_sdk.common.entities.message_types.HeartbeatUpdate;
 import eu.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.EntityHandler;
@@ -134,6 +134,55 @@ class AmqpMessageHandlerTest {
         Message message = createMockMessage(bodyJson);
         
         assertThrows(Exception.class, () -> handler.process(message));
+    }
+
+    @Test
+    void testProcessHeartbeatWithoutBodyUsesEmptyHeartbeatUpdate() throws Exception {
+        int typeId = HeartbeatUpdate.entityKey;
+        String bodyJson = "{\"Header\":{\"Type\":\"32\"}}";
+        Message message = createMockMessage(bodyJson);
+        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
+        doNothing().when(entityHandler).process(any(), any(), any());
+
+        assertDoesNotThrow(() -> handler.process(message));
+
+        verify(entityHandler).process(argThat(entity -> {
+            if (!(entity instanceof HeartbeatUpdate update)) {
+                return false;
+            }
+            return update.feedInterrupted.length == 0;
+        }), any(), any());
+    }
+
+    @Test
+    void testProcessHeartbeatWithFeedInterruptedArrayDeserializesBody() throws Exception {
+        int typeId = HeartbeatUpdate.entityKey;
+        String bodyJson = "{\"Body\":{\"FeedInterrupted\":[1]},\"Header\":{\"Type\":\"32\"}}";
+        Message message = createMockMessage(bodyJson);
+        when(entityRegistry.getEntityByTypeId(typeId)).thenReturn(entityHandler);
+        doNothing().when(entityHandler).process(any(), any(), any());
+
+        assertDoesNotThrow(() -> handler.process(message));
+
+        verify(entityHandler).process(argThat(entity -> {
+            if (!(entity instanceof HeartbeatUpdate update)) {
+                return false;
+            }
+            return update.feedInterrupted.length == 1 && update.feedInterrupted[0] == 1;
+        }), any(), any());
+    }
+
+    @Test
+    void testNormalizeHeartbeatUpdateCoercesNullFeedInterruptedToEmptyArray() throws Exception {
+        HeartbeatUpdate update = new HeartbeatUpdate();
+        update.feedInterrupted = null;
+
+        var method = handler.getClass().getDeclaredMethod("normalizeHeartbeatUpdate", Object.class);
+        method.setAccessible(true);
+        method.invoke(handler, update);
+
+        assertNotNull(update.feedInterrupted);
+        assertEquals(0, update.feedInterrupted.length);
     }
 
     @Test

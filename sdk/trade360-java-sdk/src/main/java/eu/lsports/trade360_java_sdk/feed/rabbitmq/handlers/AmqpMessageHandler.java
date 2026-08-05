@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.lsports.trade360_java_sdk.common.entities.enums.MessageType;
+import eu.lsports.trade360_java_sdk.common.entities.message_types.HeartbeatUpdate;
 import eu.lsports.trade360_java_sdk.common.exceptions.Trade360Exception;
 import eu.lsports.trade360_java_sdk.common.models.TransportMessageHeaders;
 import eu.lsports.trade360_java_sdk.feed.rabbitmq.exceptions.RabbitMQFeedException;
@@ -61,9 +62,16 @@ public class AmqpMessageHandler implements MessageHandler {
         Class<?> msgType = messageType.getMessageClass();
         Object msg = null;
 
-        if (messageType.hasBody()){
-            String body = getBodyFromParsedMessage(parsedMessage);
-            msg = parseMessage(body, msgType);
+        if (messageType.hasBody()) {
+            if (isBodyPresent(parsedMessage)) {
+                String body = getBodyFromParsedMessage(parsedMessage);
+                msg = parseMessage(body, msgType);
+                normalizeHeartbeatUpdate(msg);
+            } else if (messageType == MessageType.HeartbeatUpdate) {
+                msg = new HeartbeatUpdate();
+            } else {
+                throw new RabbitMQFeedException("Message body is missing or null.");
+            }
         }
 
         Map<String, String> header = getHeaderFromParsedMessage(parsedMessage);
@@ -108,9 +116,13 @@ public class AmqpMessageHandler implements MessageHandler {
         }
     }
 
+    private boolean isBodyPresent(final @NotNull Map<String, Object> parsedMessage) {
+        return parsedMessage.containsKey(bodyPropertyName) && parsedMessage.get(bodyPropertyName) != null;
+    }
+
     private String getBodyFromParsedMessage(final @NotNull Map<String, Object> parsedMessage) throws RabbitMQFeedException {
         try {
-            if (!parsedMessage.containsKey(bodyPropertyName) || parsedMessage.get(bodyPropertyName) == null) {
+            if (!isBodyPresent(parsedMessage)) {
                 throw new RabbitMQFeedException("Message body is missing or null.");
             }
             Object body = parsedMessage.get(bodyPropertyName);
@@ -137,6 +149,12 @@ public class AmqpMessageHandler implements MessageHandler {
             return objectMapper.readValue(json, clazz);
         } catch (final Exception ex) {
             throw new RabbitMQFeedException(MessageFormat.format("Failed to deserialize {0} entity.", clazz.getSimpleName()), ex);
+        }
+    }
+
+    private void normalizeHeartbeatUpdate(Object msg) {
+        if (msg instanceof HeartbeatUpdate update && update.feedInterrupted == null) {
+            update.feedInterrupted = new int[0];
         }
     }
 
