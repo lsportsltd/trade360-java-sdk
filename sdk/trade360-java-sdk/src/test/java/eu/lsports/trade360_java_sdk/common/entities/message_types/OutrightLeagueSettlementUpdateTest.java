@@ -1,8 +1,18 @@
 package eu.lsports.trade360_java_sdk.common.entities.message_types;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueCompetition;
+import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantDeserializer;
+import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantSerializer;
 import org.junit.jupiter.api.Test;
+
+import java.io.InputStream;
+import java.time.Instant;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightLeagueSettlementUpdateTest {
@@ -102,5 +112,33 @@ class OutrightLeagueSettlementUpdateTest {
         assertNotSame(update1.competition, update2.competition);
         assertSame(competition1, update1.competition);
         assertSame(competition2, update2.competition);
+    }
+
+    @Test
+    void testDeserializeFullProductionPayloadWithFixtureName() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper()
+                .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .registerModule(new JavaTimeModule()
+                        .addSerializer(new LSportsInstantSerializer())
+                        .addDeserializer(Instant.class, new LSportsInstantDeserializer()));
+
+        try (InputStream input = getClass().getResourceAsStream(
+                "/outright-league-settlement-update-type43.json")) {
+            assertNotNull(input, "fixture resource missing");
+
+            OutrightLeagueSettlementUpdate update =
+                    objectMapper.readValue(input, OutrightLeagueSettlementUpdate.class);
+
+            assertNotNull(update.competition);
+            var season = ((java.util.List<?>) update.competition.competitions).get(0);
+            var event = ((Iterable<?>) season.getClass().getField("events").get(season))
+                    .iterator()
+                    .next();
+            assertEquals(24603148, event.getClass().getField("fixtureId").getInt(event));
+            assertEquals(
+                    "Premier League 2023/2024 Outright Winner",
+                    event.getClass().getField("fixtureName").get(event));
+        }
     }
 }
