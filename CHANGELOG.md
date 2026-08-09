@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **`MarketEvent.fixtureName`**: optional fixture name on nested events in OutrightLeagueMarketUpdate (type 40) and OutrightLeagueSettlementUpdate (type 43). Omitted when absent from the payload (TRGN-1739).
+- **`OutrightLeagueMarketEvent`**: type-40/43 nested event model with optional `fixtureName` (JSON `FixtureName`). Kept off shared `MarketEvent` so types 3/35/41/42 and snapshot fixture-market schemas stay unchanged. Omitted when absent/empty (TRGN-1739).
 
 ### Changed
 

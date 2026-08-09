@@ -1,6 +1,5 @@
 package eu.lsports.trade360_java_sdk.common.entities.markets;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.annotation.Nullable;
 
 /**
@@ -12,16 +11,6 @@ public class MarketEvent {
      * The ID of the fixture associated with the market event.
      */
     public int fixtureId;
-
-    /**
-     * The name of the fixture associated with the market event.
-     * Present on OutrightLeagueMarketUpdate (type 40) and
-     * OutrightLeagueSettlementUpdate (type 43) when provided by the feed;
-     * omitted otherwise. This can be {@code null} if not set.
-     */
-    @Nullable
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public String fixtureName;
 
     /**
      * The markets associated with the market event.
