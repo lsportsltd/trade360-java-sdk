@@ -1,8 +1,18 @@
 package eu.lsports.trade360_java_sdk.common.entities.message_types;
 
-import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueCompetition;
+import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketEvent;
+import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantDeserializer;
+import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantSerializer;
 import org.junit.jupiter.api.Test;
+
+import java.io.InputStream;
+import java.time.Instant;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OutrightLeagueSettlementUpdateTest {
@@ -27,12 +37,14 @@ class OutrightLeagueSettlementUpdateTest {
         assertNull(update.competition);
         
         // Test assignment of competition
-        OutrightLeagueCompetition<MarketEvent> competition = new OutrightLeagueCompetition<>();
+        OutrightLeagueCompetition<OutrightLeagueMarketEvent> competition =
+                new OutrightLeagueCompetition<>();
         update.competition = competition;
         assertSame(competition, update.competition);
         
         // Test reassignment
-        OutrightLeagueCompetition<MarketEvent> newCompetition = new OutrightLeagueCompetition<>();
+        OutrightLeagueCompetition<OutrightLeagueMarketEvent> newCompetition =
+                new OutrightLeagueCompetition<>();
         update.competition = newCompetition;
         assertSame(newCompetition, update.competition);
         assertNotSame(competition, update.competition);
@@ -45,7 +57,8 @@ class OutrightLeagueSettlementUpdateTest {
     @Test
     void testCompetitionWithMarketEvent() {
         OutrightLeagueSettlementUpdate update = new OutrightLeagueSettlementUpdate();
-        OutrightLeagueCompetition<MarketEvent> competition = new OutrightLeagueCompetition<>();
+        OutrightLeagueCompetition<OutrightLeagueMarketEvent> competition =
+                new OutrightLeagueCompetition<>();
         
         // Set up competition properties
         competition.id = 123;
@@ -77,7 +90,8 @@ class OutrightLeagueSettlementUpdateTest {
         OutrightLeagueSettlementUpdate update = new OutrightLeagueSettlementUpdate();
         
         // Test with explicit generic type
-        OutrightLeagueCompetition<MarketEvent> marketEventCompetition = new OutrightLeagueCompetition<>();
+        OutrightLeagueCompetition<OutrightLeagueMarketEvent> marketEventCompetition =
+                new OutrightLeagueCompetition<>();
         update.competition = marketEventCompetition;
         
         assertNotNull(update.competition);
@@ -93,8 +107,10 @@ class OutrightLeagueSettlementUpdateTest {
         assertNotSame(update1, update2);
         
         // Test that they can have different competitions
-        OutrightLeagueCompetition<MarketEvent> competition1 = new OutrightLeagueCompetition<>();
-        OutrightLeagueCompetition<MarketEvent> competition2 = new OutrightLeagueCompetition<>();
+        OutrightLeagueCompetition<OutrightLeagueMarketEvent> competition1 =
+                new OutrightLeagueCompetition<>();
+        OutrightLeagueCompetition<OutrightLeagueMarketEvent> competition2 =
+                new OutrightLeagueCompetition<>();
         
         update1.competition = competition1;
         update2.competition = competition2;
@@ -102,5 +118,33 @@ class OutrightLeagueSettlementUpdateTest {
         assertNotSame(update1.competition, update2.competition);
         assertSame(competition1, update1.competition);
         assertSame(competition2, update2.competition);
+    }
+
+    @Test
+    void testDeserializeFullProductionPayloadWithFixtureName() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper()
+                .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .registerModule(new JavaTimeModule()
+                        .addSerializer(new LSportsInstantSerializer())
+                        .addDeserializer(Instant.class, new LSportsInstantDeserializer()));
+
+        try (InputStream input = getClass().getResourceAsStream(
+                "/outright-league-settlement-update-type43.json")) {
+            assertNotNull(input, "fixture resource missing");
+
+            OutrightLeagueSettlementUpdate update =
+                    objectMapper.readValue(input, OutrightLeagueSettlementUpdate.class);
+
+            assertNotNull(update.competition);
+            var season = ((java.util.List<?>) update.competition.competitions).get(0);
+            var event = ((Iterable<?>) season.getClass().getField("events").get(season))
+                    .iterator()
+                    .next();
+            assertInstanceOf(OutrightLeagueMarketEvent.class, event);
+            OutrightLeagueMarketEvent marketEvent = (OutrightLeagueMarketEvent) event;
+            assertEquals(24603148, marketEvent.fixtureId);
+            assertEquals("Premier League 2023/2024 Outright Winner", marketEvent.fixtureName);
+        }
     }
 }

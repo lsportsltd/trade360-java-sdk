@@ -2,9 +2,9 @@ package eu.lsports.trade360_java_sdk.common.entities.message_types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import eu.lsports.trade360_java_sdk.common.entities.markets.MarketEvent;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueCompetition;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketCompetition;
+import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketEvent;
 import jakarta.annotation.Nullable;
 
 import java.time.Instant;
@@ -29,7 +29,7 @@ public class OutrightLeagueMarketUpdate {
      */
     @Nullable
     @JsonDeserialize(as = OutrightLeagueMarketCompetition.class)
-    public OutrightLeagueCompetition<MarketEvent> competition;
+    public OutrightLeagueCompetition<OutrightLeagueMarketEvent> competition;
 
     /**
      * Returns the next fixture start time when {@link #competition} is an {@link OutrightLeagueMarketCompetition}.

@@ -15,4 +15,4 @@ class MarketEventTest {
         assertEquals(42, event.fixtureId);
         assertNull(event.markets);
     }
-} 
+}

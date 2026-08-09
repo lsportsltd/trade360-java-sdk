@@ -1,0 +1,40 @@
+{
+  "Competition": {
+    "Id": 67,
+    "Name": "Premier League",
+    "Type": 3,
+    "Competitions": [
+      {
+        "Id": 2029,
+        "Name": "2023/2024",
+        "Type": 4,
+        "Events": [
+          {
+            "FixtureId": 24603148,
+            "FixtureName": "Premier League 2023/2024 Outright Winner",
+            "Livescore": null,
+            "Markets": [
+              {
+                "Id": 274,
+                "Name": "Outright Winner",
+                "Bets": [
+                  {
+                    "Id": 126691427424603148,
+                    "Name": "Reliable Miss",
+                    "Status": 3,
+                    "StartPrice": "1.0",
+                    "Price": "1.44",
+                    "Settlement": 2,
+                    "ProviderBetId": "8",
+                    "LastUpdate": "2025-07-20T09:02:59.754553Z",
+                    "ParticipantId": 52280038
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.7] - 2026-08-05
+
+### Added
+
+- **`OutrightLeagueMarketEvent`**: type-40/43 nested event model with optional `fixtureName` (JSON `FixtureName`). Kept off shared `MarketEvent` so types 3/35/41/42 and snapshot fixture-market schemas stay unchanged. Omitted when absent/empty (TRGN-1739).
+
+### Changed
+
+- Bumped project/module versions from `2.11.6` to `2.11.7` for a new publishable release.
+
 ## [Release Version 2.11.6] - 2026-08-05
 
 ### Added

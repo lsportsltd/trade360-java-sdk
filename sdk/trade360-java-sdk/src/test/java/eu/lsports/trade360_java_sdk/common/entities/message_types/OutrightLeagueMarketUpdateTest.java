@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueCompetition;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketCompetition;
+import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketEvent;
 import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantDeserializer;
 import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantSerializer;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,8 +60,12 @@ class OutrightLeagueMarketUpdateTest {
             assertEquals("Season_2029", seasonClass.getField("name").get(season));
 
             var event = ((java.lang.Iterable<?>) seasonClass.getField("events").get(season)).iterator().next();
+            assertInstanceOf(OutrightLeagueMarketEvent.class, event);
+            OutrightLeagueMarketEvent marketEvent = (OutrightLeagueMarketEvent) event;
+            assertEquals(26721036, marketEvent.fixtureId);
+            assertEquals("Premier League 2023/2024 Outright Winner", marketEvent.fixtureName);
+
             var eventClass = event.getClass();
-            assertEquals(26721036, eventClass.getField("fixtureId").getInt(event));
 
             var market = ((java.lang.Iterable<?>) eventClass.getField("markets").get(event)).iterator().next();
             var marketClass = market.getClass();
