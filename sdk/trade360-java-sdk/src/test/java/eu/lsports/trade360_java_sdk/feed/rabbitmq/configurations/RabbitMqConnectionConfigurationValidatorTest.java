@@ -53,6 +53,26 @@ class RabbitMqConnectionConfigurationValidatorTest {
         assertDoesNotThrow(() -> RabbitMqConnectionConfigurationValidator.validate(configuration));
     }
 
+    @Test
+    void validate_whenNetworkRecoveryIntervalBelowMinimum_throwsClearMessage() {
+        RabbitConnectionConfiguration configuration = baseConfiguration();
+        configuration.setNetworkRecoveryInterval(4999L);
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+
+        assertTrue(exception.getMessage().contains("at least 5000"));
+    }
+
+    @Test
+    void validate_whenNetworkRecoveryIntervalFiveSeconds_doesNotThrow() {
+        RabbitConnectionConfiguration configuration = baseConfiguration();
+        configuration.setNetworkRecoveryInterval(5000L);
+
+        assertDoesNotThrow(() -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+    }
+
     private static RabbitConnectionConfiguration baseConfiguration() {
         RabbitConnectionConfiguration configuration = new RabbitConnectionConfiguration();
         configuration.setHost("stm-inplay.lsports.eu");

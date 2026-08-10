@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.8] - 2026-08-10
+
+### Changed
+
+- **`networkRecoveryInterval`**: default **30000** ms (30s) when omitted; minimum **5000** ms (5s). Sample updated to `5000`. Aligns with .NET TRGN-4200 (seconds → ms). Unit remains milliseconds (Spring AMQP).
+- Bumped project/module versions from `2.11.7` to `2.11.8` for a new publishable release.
+
 ## [Release Version 2.11.7] - 2026-08-05
 
 ### Added
