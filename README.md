@@ -767,7 +767,7 @@ Override `application.properties` with environment variables:
 | `prefetch_count` | Integer | **Required** | Number of messages to prefetch |
 | `auto_ack` | Boolean | `true` | Enable auto-acknowledgment |
 | `requested_heartbeat_seconds` | Integer | `30` | Heartbeat interval (seconds) |
-| `network_recovery_interval` | Long | `3000` | Network recovery interval (ms) |
+| `network_recovery_interval` | Long | (required) | Network recovery interval; sample uses `30`. Customers may set lower values such as `5`. |
 | `retry_attempts` | Integer | `3` | Number of retry attempts |
 | `retry_initial_interval` | Integer | `1000` | Initial retry interval (ms) |
 | `retry_multiple` | Double | `2.0` | Retry interval multiplier |

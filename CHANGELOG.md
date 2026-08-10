@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.8] - 2026-08-10
+
+### Changed
+
+- **`networkRecoveryInterval`**: removed SDK default so the value comes from configuration. Sample config remains `30`; customers may set lower values such as `5` (TRGN-4200).
+- Bumped project/module versions from `2.11.7` to `2.11.8` for a new publishable release.
+
 ## [Release Version 2.11.7] - 2026-08-05
 
 ### Added

@@ -66,10 +66,10 @@ public class RabbitConnectionConfiguration {
     private boolean autoAck = true;
 
     /**
-     * The network recovery interval in milliseconds.
+     * Network recovery interval. Set via configuration (sample: 30).
      */
     @NotNull
-    private long networkRecoveryInterval = 3000;
+    private long networkRecoveryInterval;
 
     /**
      * The base customer api url
