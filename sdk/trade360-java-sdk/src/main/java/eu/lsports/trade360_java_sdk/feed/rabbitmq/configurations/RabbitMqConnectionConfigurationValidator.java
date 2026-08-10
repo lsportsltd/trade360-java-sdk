@@ -9,7 +9,20 @@ public final class RabbitMqConnectionConfigurationValidator {
     }
 
     static void validate(RabbitConnectionConfiguration configuration) {
+        validateNetworkRecoveryInterval(configuration);
         validateQueueConfiguration(configuration);
+    }
+
+    private static void validateNetworkRecoveryInterval(RabbitConnectionConfiguration configuration) {
+        Long networkRecoveryInterval = configuration.getNetworkRecoveryInterval();
+        if (networkRecoveryInterval == null) {
+            throw new IllegalStateException(
+                    "network_recovery_interval is required and must be a positive value.");
+        }
+        if (networkRecoveryInterval <= 0) {
+            throw new IllegalStateException(
+                    "network_recovery_interval must be a positive value.");
+        }
     }
 
     private static void validateQueueConfiguration(RabbitConnectionConfiguration configuration) {

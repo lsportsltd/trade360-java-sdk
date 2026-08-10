@@ -2,6 +2,7 @@ package eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
@@ -66,10 +67,12 @@ public class RabbitConnectionConfiguration {
     private boolean autoAck = true;
 
     /**
-     * Network recovery interval. Set via configuration (sample: 30).
+     * Network recovery interval. Required via configuration (sample: 30).
+     * Must be a positive value; omitted config binds to null (not zero).
      */
     @NotNull
-    private long networkRecoveryInterval;
+    @Positive
+    private Long networkRecoveryInterval;
 
     /**
      * The base customer api url
@@ -153,7 +156,7 @@ public class RabbitConnectionConfiguration {
     public int getConcurrentConsumers() { return concurrentConsumers; }
     public int getMaxConcurrentConsumers() { return maxConcurrentConsumers; }
     public int getPrefetchCount() { return prefetchCount; }
-    public long getNetworkRecoveryInterval() { return networkRecoveryInterval; }
+    public Long getNetworkRecoveryInterval() { return networkRecoveryInterval; }
     public boolean isSslEnabled() { return sslEnabled; }
     public String getCustomQueueName() { return customQueueName; }
     public String getRabbitListenerContainerFactoryName() { return rabbitListenerContainerFactoryName; }
@@ -174,7 +177,7 @@ public class RabbitConnectionConfiguration {
     public void setPassword(String password) { this.password = password; }
     public void setPrefetchCount(int prefetchCount) { this.prefetchCount = prefetchCount; }
     public void setAutoAck(boolean autoAck) { this.autoAck = autoAck; }
-    public void setNetworkRecoveryInterval(long networkRecoveryInterval) { this.networkRecoveryInterval = networkRecoveryInterval; }
+    public void setNetworkRecoveryInterval(Long networkRecoveryInterval) { this.networkRecoveryInterval = networkRecoveryInterval; }
     public void setSslEnabled(boolean sslEnabled) { this.sslEnabled = sslEnabled; }
     public void setCustomQueueName(String customQueueName) { this.customQueueName = customQueueName; }
     public void setRetryAttempts(int retryAttempts) { this.retryAttempts = retryAttempts; }

@@ -53,6 +53,50 @@ class RabbitMqConnectionConfigurationValidatorTest {
         assertDoesNotThrow(() -> RabbitMqConnectionConfigurationValidator.validate(configuration));
     }
 
+    @Test
+    void validate_whenNetworkRecoveryIntervalMissing_throwsClearMessage() {
+        RabbitConnectionConfiguration configuration = baseConfiguration();
+        configuration.setNetworkRecoveryInterval(null);
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+
+        assertTrue(exception.getMessage().contains("network_recovery_interval is required"));
+    }
+
+    @Test
+    void validate_whenNetworkRecoveryIntervalZero_throwsClearMessage() {
+        RabbitConnectionConfiguration configuration = baseConfiguration();
+        configuration.setNetworkRecoveryInterval(0L);
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+
+        assertTrue(exception.getMessage().contains("must be a positive value"));
+    }
+
+    @Test
+    void validate_whenNetworkRecoveryIntervalNegative_throwsClearMessage() {
+        RabbitConnectionConfiguration configuration = baseConfiguration();
+        configuration.setNetworkRecoveryInterval(-1L);
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+
+        assertTrue(exception.getMessage().contains("must be a positive value"));
+    }
+
+    @Test
+    void validate_whenNetworkRecoveryIntervalFive_doesNotThrow() {
+        RabbitConnectionConfiguration configuration = baseConfiguration();
+        configuration.setNetworkRecoveryInterval(5L);
+
+        assertDoesNotThrow(() -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+    }
+
     private static RabbitConnectionConfiguration baseConfiguration() {
         RabbitConnectionConfiguration configuration = new RabbitConnectionConfiguration();
         configuration.setHost("stm-inplay.lsports.eu");
@@ -61,6 +105,7 @@ class RabbitMqConnectionConfigurationValidatorTest {
         configuration.setPassword("pass");
         configuration.setPackageId(430);
         configuration.setPrefetchCount(1);
+        configuration.setNetworkRecoveryInterval(30L);
         configuration.setBaseCustomersApi("https://stm-api.lsports.eu");
         configuration.setRabbitListenerContainerFactoryName("factory");
         return configuration;

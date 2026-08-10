@@ -34,7 +34,7 @@ public class RabbitConnectionConfigurationTest {
         config.setPassword("guest");
         config.setPrefetchCount(10);
         config.setAutoAck(true);
-        config.setNetworkRecoveryInterval(3000);
+        config.setNetworkRecoveryInterval(3000L);
         config.setRetryAttempts(3);
         config.setRetryInitialInterval(1000);
         config.setRetryMultiple(2.0);
@@ -58,7 +58,9 @@ public class RabbitConnectionConfigurationTest {
 
         Set<ConstraintViolation<RabbitConnectionConfiguration>> violations = validator.validate(config);
         assertFalse(violations.isEmpty());
-        assertEquals(5, violations.size());
+        // @NotBlank: host, userName, password, rabbitListenerContainerFactoryName
+        // @NotNull: baseCustomersApi, networkRecoveryInterval
+        assertEquals(6, violations.size());
     }
 
     @Test
