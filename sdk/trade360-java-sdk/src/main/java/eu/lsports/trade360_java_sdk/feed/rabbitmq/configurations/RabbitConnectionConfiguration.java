@@ -67,8 +67,13 @@ public class RabbitConnectionConfiguration {
     private boolean autoAck = true;
 
     /**
-     * Network recovery interval in milliseconds (Spring AMQP).
+     * Listener-container recovery interval in milliseconds
+     * ({@code SimpleRabbitListenerContainerFactory#setRecoveryInterval}).
      * Default 30000 (30s). Allowed minimum 5000 (5s). Sample: 5000.
+     * <p>
+     * This is Spring AMQP's recovery delay (consumers/connection via Spring),
+     * not the RabbitMQ Java client's {@code ConnectionFactory#setNetworkRecoveryInterval}.
+     * Spring disables amqp-client automatic recovery by default.
      */
     @NotNull
     @Min(5000)

@@ -767,7 +767,7 @@ Override `application.properties` with environment variables:
 | `prefetch_count` | Integer | **Required** | Number of messages to prefetch |
 | `auto_ack` | Boolean | `true` | Enable auto-acknowledgment |
 | `requested_heartbeat_seconds` | Integer | `30` | Heartbeat interval (seconds) |
-| `network_recovery_interval` | long | `30000` | Network recovery interval in **milliseconds** (Spring AMQP). Default `30000` (30s). Minimum `5000` (5s). Sample uses `5000`. |
+| `network_recovery_interval` | long | `30000` | Spring AMQP **listener** recovery interval in **milliseconds** (`SimpleRabbitListenerContainerFactory#setRecoveryInterval`). Default `30000` (30s). Minimum `5000` (5s). Sample uses `5000`. Not the RabbitMQ Java client `ConnectionFactory#setNetworkRecoveryInterval` (Spring disables client auto-recovery). |
 | `retry_attempts` | Integer | `3` | Number of retry attempts |
 | `retry_initial_interval` | Integer | `1000` | Initial retry interval (ms) |
 | `retry_multiple` | Double | `2.0` | Retry interval multiplier |
