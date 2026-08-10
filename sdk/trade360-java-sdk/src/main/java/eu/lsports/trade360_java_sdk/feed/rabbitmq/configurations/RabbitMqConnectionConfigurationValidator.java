@@ -17,11 +17,14 @@ public final class RabbitMqConnectionConfigurationValidator {
         Long networkRecoveryInterval = configuration.getNetworkRecoveryIntervalOrNull();
         if (networkRecoveryInterval == null) {
             throw new IllegalStateException(
-                    "network_recovery_interval is required and must be a non-negative value.");
+                    "network_recovery_interval is required and must be a positive value"
+                            + " (milliseconds).");
         }
-        if (networkRecoveryInterval < 0) {
+        if (networkRecoveryInterval <= 0) {
             throw new IllegalStateException(
-                    "network_recovery_interval must be a non-negative value.");
+                    "network_recovery_interval must be a positive value (milliseconds)."
+                            + " Zero is rejected because Spring AMQP treats it as a busy"
+                            + " recovery loop.");
         }
     }
 

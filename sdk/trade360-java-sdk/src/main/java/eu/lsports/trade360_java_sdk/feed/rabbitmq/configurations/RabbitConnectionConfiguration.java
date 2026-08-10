@@ -1,8 +1,8 @@
 package eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -72,7 +72,7 @@ public class RabbitConnectionConfiguration {
     /**
      * Network recovery interval in milliseconds
      * (Spring AMQP {@code setRecoveryInterval}).
-     * Sample: {@code 5000} (5 seconds). {@code 0} is allowed; negatives and omitted values are rejected.
+     * Sample: {@code 5000} (5 seconds). Must be positive; {@code 0} is rejected (busy-loop risk).
      * <p>
      * Stored as {@link Long} so omitted config stays {@code null} for validation. Public
      * {@code getNetworkRecoveryInterval()}/{@code setNetworkRecoveryInterval(long)} keep the
@@ -81,7 +81,7 @@ public class RabbitConnectionConfiguration {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @NotNull
-    @Min(0)
+    @Positive
     private Long networkRecoveryInterval;
 
     /**
@@ -175,7 +175,7 @@ public class RabbitConnectionConfiguration {
     public long getNetworkRecoveryInterval() {
         if (networkRecoveryInterval == null) {
             throw new IllegalStateException(
-                    "network_recovery_interval is required and must be a non-negative value.");
+                    "network_recovery_interval is required and must be a positive value.");
         }
         return networkRecoveryInterval;
     }

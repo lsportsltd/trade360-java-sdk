@@ -66,11 +66,16 @@ class RabbitMqConnectionConfigurationValidatorTest {
     }
 
     @Test
-    void validate_whenNetworkRecoveryIntervalZero_doesNotThrow() {
+    void validate_whenNetworkRecoveryIntervalZero_throwsClearMessage() {
         RabbitConnectionConfiguration configuration = baseConfiguration();
         configuration.setNetworkRecoveryInterval(0L);
 
-        assertDoesNotThrow(() -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+
+        assertTrue(exception.getMessage().contains("must be a positive value"));
+        assertTrue(exception.getMessage().contains("busy recovery loop"));
     }
 
     @Test
@@ -82,7 +87,7 @@ class RabbitMqConnectionConfigurationValidatorTest {
                 IllegalStateException.class,
                 () -> RabbitMqConnectionConfigurationValidator.validate(configuration));
 
-        assertTrue(exception.getMessage().contains("must be a non-negative value"));
+        assertTrue(exception.getMessage().contains("must be a positive value"));
     }
 
     @Test
