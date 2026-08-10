@@ -17,11 +17,11 @@ public final class RabbitMqConnectionConfigurationValidator {
         Long networkRecoveryInterval = configuration.getNetworkRecoveryInterval();
         if (networkRecoveryInterval == null) {
             throw new IllegalStateException(
-                    "network_recovery_interval is required and must be a positive value.");
+                    "network_recovery_interval is required and must be a non-negative value.");
         }
-        if (networkRecoveryInterval <= 0) {
+        if (networkRecoveryInterval < 0) {
             throw new IllegalStateException(
-                    "network_recovery_interval must be a positive value.");
+                    "network_recovery_interval must be a non-negative value.");
         }
     }
 

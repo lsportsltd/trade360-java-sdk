@@ -1,8 +1,8 @@
 package eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
@@ -68,9 +68,10 @@ public class RabbitConnectionConfiguration {
 
     /**
      * The network recovery interval in milliseconds.
+     * Sample: {@code 5000} (5 seconds). {@code 0} is allowed.
      */
     @NotNull
-    @Positive
+    @Min(0)
     private Long networkRecoveryInterval;
 
     /**

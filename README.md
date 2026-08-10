@@ -767,7 +767,7 @@ Override `application.properties` with environment variables:
 | `prefetch_count` | Integer | **Required** | Number of messages to prefetch |
 | `auto_ack` | Boolean | `true` | Enable auto-acknowledgment |
 | `requested_heartbeat_seconds` | Integer | `30` | Heartbeat interval (seconds) |
-| `network_recovery_interval` | Long | (required, positive) | Network recovery interval in **milliseconds** (passed to Spring AMQP `setRecoveryInterval`). Sample uses `5000` (5 seconds; was `3000`). Do not use bare seconds (`5`/`30`) — those would be interpreted as 5 ms / 30 ms. Omitted/zero/negative values fail startup validation. |
+| `network_recovery_interval` | Long | (required, ≥ 0) | Network recovery interval in **milliseconds** (Spring AMQP `setRecoveryInterval`). Sample uses `5000` (5 seconds; was `3000`). `0` is allowed. Negatives and omitted values fail startup validation. |
 | `retry_attempts` | Integer | `3` | Number of retry attempts |
 | `retry_initial_interval` | Integer | `1000` | Initial retry interval (ms) |
 | `retry_multiple` | Double | `2.0` | Retry interval multiplier |
