@@ -1,5 +1,6 @@
 package eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -66,10 +67,12 @@ public class RabbitConnectionConfiguration {
     private boolean autoAck = true;
 
     /**
-     * The network recovery interval in milliseconds.
+     * Network recovery interval in milliseconds (Spring AMQP).
+     * Default 30000 (30s). Allowed minimum 5000 (5s). Sample: 5000.
      */
     @NotNull
-    private long networkRecoveryInterval = 3000;
+    @Min(5000)
+    private long networkRecoveryInterval = 30000;
 
     /**
      * The base customer api url

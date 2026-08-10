@@ -457,7 +457,7 @@ rabbitmq.inplay.password=YOUR_PASSWORD
 rabbitmq.inplay.prefetch_count=100
 rabbitmq.inplay.auto_ack=true
 rabbitmq.inplay.requested_heartbeat_seconds=30
-rabbitmq.inplay.network_recovery_interval=30
+rabbitmq.inplay.network_recovery_interval=5000
 rabbitmq.inplay.retry_attempts=3
 rabbitmq.inplay.retry_initial_interval=1000
 rabbitmq.inplay.retry_multiple=2
@@ -767,7 +767,7 @@ Override `application.properties` with environment variables:
 | `prefetch_count` | Integer | **Required** | Number of messages to prefetch |
 | `auto_ack` | Boolean | `true` | Enable auto-acknowledgment |
 | `requested_heartbeat_seconds` | Integer | `30` | Heartbeat interval (seconds) |
-| `network_recovery_interval` | Long | `3000` | Network recovery interval (ms) |
+| `network_recovery_interval` | long | `30000` | Network recovery interval in **milliseconds** (Spring AMQP). Default `30000` (30s). Minimum `5000` (5s). Sample uses `5000`. |
 | `retry_attempts` | Integer | `3` | Number of retry attempts |
 | `retry_initial_interval` | Integer | `1000` | Initial retry interval (ms) |
 | `retry_multiple` | Double | `2.0` | Retry interval multiplier |

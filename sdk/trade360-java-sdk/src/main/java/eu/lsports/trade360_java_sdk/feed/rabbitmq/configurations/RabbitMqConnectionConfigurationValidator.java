@@ -5,11 +5,25 @@ package eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
  */
 public final class RabbitMqConnectionConfigurationValidator {
 
+    /** Minimum network recovery interval in milliseconds (5 seconds; matches .NET floor). */
+    static final long MIN_NETWORK_RECOVERY_INTERVAL_MS = 5_000L;
+
     private RabbitMqConnectionConfigurationValidator() {
     }
 
     static void validate(RabbitConnectionConfiguration configuration) {
+        validateNetworkRecoveryInterval(configuration);
         validateQueueConfiguration(configuration);
+    }
+
+    private static void validateNetworkRecoveryInterval(RabbitConnectionConfiguration configuration) {
+        long networkRecoveryInterval = configuration.getNetworkRecoveryInterval();
+        if (networkRecoveryInterval < MIN_NETWORK_RECOVERY_INTERVAL_MS) {
+            throw new IllegalStateException(
+                    "network_recovery_interval must be at least "
+                            + MIN_NETWORK_RECOVERY_INTERVAL_MS
+                            + " milliseconds (5 seconds).");
+        }
     }
 
     private static void validateQueueConfiguration(RabbitConnectionConfiguration configuration) {

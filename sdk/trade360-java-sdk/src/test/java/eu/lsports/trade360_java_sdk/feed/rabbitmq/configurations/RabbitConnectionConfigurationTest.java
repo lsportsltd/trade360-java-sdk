@@ -34,7 +34,7 @@ public class RabbitConnectionConfigurationTest {
         config.setPassword("guest");
         config.setPrefetchCount(10);
         config.setAutoAck(true);
-        config.setNetworkRecoveryInterval(3000);
+        config.setNetworkRecoveryInterval(5000);
         config.setRetryAttempts(3);
         config.setRetryInitialInterval(1000);
         config.setRetryMultiple(2.0);
