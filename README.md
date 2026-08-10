@@ -457,6 +457,8 @@ rabbitmq.inplay.password=YOUR_PASSWORD
 rabbitmq.inplay.prefetch_count=100
 rabbitmq.inplay.auto_ack=true
 rabbitmq.inplay.requested_heartbeat_seconds=30
+# Milliseconds (Spring AMQP). Use 5000 for a 5-second recovery delay — not 5.
+# Unlike the .NET SDK (seconds), Java always configures this property in ms.
 rabbitmq.inplay.network_recovery_interval=5000
 rabbitmq.inplay.retry_attempts=3
 rabbitmq.inplay.retry_initial_interval=1000
@@ -767,7 +769,7 @@ Override `application.properties` with environment variables:
 | `prefetch_count` | Integer | **Required** | Number of messages to prefetch |
 | `auto_ack` | Boolean | `true` | Enable auto-acknowledgment |
 | `requested_heartbeat_seconds` | Integer | `30` | Heartbeat interval (seconds) |
-| `network_recovery_interval` | long | (required, > 0) | Network recovery interval in **milliseconds** (Spring AMQP `setRecoveryInterval`). Sample uses `5000` (5 seconds; was `3000`). `0` and negatives are rejected (`0` would busy-loop recovery). Omitted values fail startup validation. Public getters/setters remain binary-compatible with 2.11.7 (`long`). |
+| `network_recovery_interval` | long | (required, > 0) | Network recovery interval in **milliseconds** (Spring AMQP `setRecoveryInterval`). **Unit is ms, not seconds** (unlike .NET `NetworkRecoveryInterval`). Sample / 5-second delay = `5000` (was `3000`). Do **not** set `5` for “5 seconds” — that is 5 ms and causes near-continuous recovery. `0` and negatives are rejected (`0` would busy-loop recovery). Omitted values fail startup validation. Public getters/setters remain binary-compatible with 2.11.7 (`long`). |
 | `retry_attempts` | Integer | `3` | Number of retry attempts |
 | `retry_initial_interval` | Integer | `1000` | Initial retry interval (ms) |
 | `retry_multiple` | Double | `2.0` | Retry interval multiplier |
