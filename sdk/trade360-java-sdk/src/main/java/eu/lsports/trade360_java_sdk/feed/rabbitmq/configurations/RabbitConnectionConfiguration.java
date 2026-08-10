@@ -3,7 +3,10 @@ package eu.lsports.trade360_java_sdk.feed.rabbitmq.configurations;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -67,9 +70,16 @@ public class RabbitConnectionConfiguration {
     private boolean autoAck = true;
 
     /**
-     * The network recovery interval in milliseconds.
-     * Sample: {@code 5000} (5 seconds). {@code 0} is allowed.
+     * Network recovery interval in milliseconds
+     * (Spring AMQP {@code setRecoveryInterval}).
+     * Sample: {@code 5000} (5 seconds). {@code 0} is allowed; negatives and omitted values are rejected.
+     * <p>
+     * Stored as {@link Long} so omitted config stays {@code null} for validation. Public
+     * {@code getNetworkRecoveryInterval()}/{@code setNetworkRecoveryInterval(long)} keep the
+     * 2.11.7 binary descriptors ({@code ()J} / {@code (J)V}).
      */
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @NotNull
     @Min(0)
     private Long networkRecoveryInterval;
@@ -156,7 +166,27 @@ public class RabbitConnectionConfiguration {
     public int getConcurrentConsumers() { return concurrentConsumers; }
     public int getMaxConcurrentConsumers() { return maxConcurrentConsumers; }
     public int getPrefetchCount() { return prefetchCount; }
-    public Long getNetworkRecoveryInterval() { return networkRecoveryInterval; }
+
+    /**
+     * Binary-compatible with 2.11.7 ({@code ()J}).
+     *
+     * @throws IllegalStateException if {@code network_recovery_interval} was not configured
+     */
+    public long getNetworkRecoveryInterval() {
+        if (networkRecoveryInterval == null) {
+            throw new IllegalStateException(
+                    "network_recovery_interval is required and must be a non-negative value.");
+        }
+        return networkRecoveryInterval;
+    }
+
+    /**
+     * Nullable accessor for binding/validation (omitted property remains {@code null}).
+     */
+    public Long getNetworkRecoveryIntervalOrNull() {
+        return networkRecoveryInterval;
+    }
+
     public boolean isSslEnabled() { return sslEnabled; }
     public String getCustomQueueName() { return customQueueName; }
     public String getRabbitListenerContainerFactoryName() { return rabbitListenerContainerFactoryName; }
@@ -177,7 +207,21 @@ public class RabbitConnectionConfiguration {
     public void setPassword(String password) { this.password = password; }
     public void setPrefetchCount(int prefetchCount) { this.prefetchCount = prefetchCount; }
     public void setAutoAck(boolean autoAck) { this.autoAck = autoAck; }
-    public void setNetworkRecoveryInterval(Long networkRecoveryInterval) { this.networkRecoveryInterval = networkRecoveryInterval; }
+
+    /**
+     * Binary-compatible with 2.11.7 ({@code (J)V}).
+     */
+    public void setNetworkRecoveryInterval(long networkRecoveryInterval) {
+        this.networkRecoveryInterval = networkRecoveryInterval;
+    }
+
+    /**
+     * Nullable setter for Spring binding (allows detecting an omitted property).
+     */
+    public void setNetworkRecoveryInterval(Long networkRecoveryInterval) {
+        this.networkRecoveryInterval = networkRecoveryInterval;
+    }
+
     public void setSslEnabled(boolean sslEnabled) { this.sslEnabled = sslEnabled; }
     public void setCustomQueueName(String customQueueName) { this.customQueueName = customQueueName; }
     public void setRetryAttempts(int retryAttempts) { this.retryAttempts = retryAttempts; }

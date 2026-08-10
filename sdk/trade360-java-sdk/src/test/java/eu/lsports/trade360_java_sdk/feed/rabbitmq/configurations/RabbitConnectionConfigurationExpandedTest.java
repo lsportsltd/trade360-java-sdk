@@ -112,7 +112,7 @@ class RabbitConnectionConfigurationExpandedTest {
         assertEquals("guest", newConfiguration.getUserName());
         assertEquals("guest", newConfiguration.getPassword());
         assertTrue(newConfiguration.isAutoAck());
-        assertNull(newConfiguration.getNetworkRecoveryInterval());
+        assertNull(newConfiguration.getNetworkRecoveryIntervalOrNull());
         assertEquals(3, newConfiguration.getRetryAttempts());
         assertEquals(1000, newConfiguration.getRetryInitialInterval());
         assertEquals(2.0, newConfiguration.getRetryMultiple());

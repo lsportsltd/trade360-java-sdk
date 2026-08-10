@@ -20,7 +20,7 @@ class RabbitConnectionConfigurationComprehensiveTest {
         assertEquals(0, config.getPackageId());
         assertEquals(0, config.getPrefetchCount());
         assertTrue(config.isAutoAck());
-        assertNull(config.getNetworkRecoveryInterval());
+        assertNull(config.getNetworkRecoveryIntervalOrNull());
         assertEquals(3, config.getRetryAttempts());
         assertEquals(1000, config.getRetryInitialInterval());
         assertEquals(2.0, config.getRetryMultiple());

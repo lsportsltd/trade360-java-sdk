@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **`networkRecoveryInterval`**: changed to nullable `Long` (no SDK default). Unit remains **milliseconds** (Spring AMQP). Sample updated from `3000` to `5000` (5 seconds). `0` is allowed; negatives and omitted values are rejected in `RabbitMqConnectionConfigurationValidator` before factory registration (TRGN-4200).
+- **`networkRecoveryInterval`**: no SDK default (omitted stays unset and fails startup validation). Unit remains **milliseconds** (Spring AMQP). Sample updated from `3000` to `5000` (5 seconds). `0` is allowed; negatives are rejected (TRGN-4200).
+- **Binary compatibility**: public `getNetworkRecoveryInterval()` / `setNetworkRecoveryInterval(long)` keep the 2.11.7 descriptors (`()J` / `(J)V`). Nullable binding uses `getNetworkRecoveryIntervalOrNull()` and `setNetworkRecoveryInterval(Long)`.
 - Bumped project/module versions from `2.11.7` to `2.11.8` for a new publishable release.
 
 ## [Release Version 2.11.7] - 2026-08-05

@@ -80,7 +80,7 @@ public class DynamicRabbitMQDefinitionRegistrar implements BeanDefinitionRegistr
             factory.setConcurrentConsumers(rabbitConnectionConfiguration.getConcurrentConsumers());
             factory.setMaxConcurrentConsumers(rabbitConnectionConfiguration.getMaxConcurrentConsumers());
             factory.setPrefetchCount(rabbitConnectionConfiguration.getPrefetchCount());
-            factory.setRecoveryInterval(rabbitConnectionConfiguration.getNetworkRecoveryInterval().longValue());
+            factory.setRecoveryInterval(rabbitConnectionConfiguration.getNetworkRecoveryInterval());
             factory.setMissingQueuesFatal(false);
             return factory;
         });

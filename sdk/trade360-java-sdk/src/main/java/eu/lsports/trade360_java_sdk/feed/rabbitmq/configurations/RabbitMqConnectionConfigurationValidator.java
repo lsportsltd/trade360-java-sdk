@@ -14,7 +14,7 @@ public final class RabbitMqConnectionConfigurationValidator {
     }
 
     private static void validateNetworkRecoveryInterval(RabbitConnectionConfiguration configuration) {
-        Long networkRecoveryInterval = configuration.getNetworkRecoveryInterval();
+        Long networkRecoveryInterval = configuration.getNetworkRecoveryIntervalOrNull();
         if (networkRecoveryInterval == null) {
             throw new IllegalStateException(
                     "network_recovery_interval is required and must be a non-negative value.");
