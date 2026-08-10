@@ -105,7 +105,7 @@ class RabbitMqConnectionConfigurationValidatorTest {
         configuration.setPassword("pass");
         configuration.setPackageId(430);
         configuration.setPrefetchCount(1);
-        configuration.setNetworkRecoveryInterval(500L);
+        configuration.setNetworkRecoveryInterval(5000L);
         configuration.setBaseCustomersApi("https://stm-api.lsports.eu");
         configuration.setRabbitListenerContainerFactoryName("factory");
         return configuration;

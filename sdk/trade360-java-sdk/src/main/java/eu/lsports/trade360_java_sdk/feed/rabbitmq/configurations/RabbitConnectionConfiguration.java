@@ -67,8 +67,10 @@ public class RabbitConnectionConfiguration {
     private boolean autoAck = true;
 
     /**
-     * Network recovery interval in ms. Required via configuration (sample: 500).
+     * Network recovery interval in milliseconds (Spring AMQP {@code setRecoveryInterval}).
+     * Required via configuration (sample: {@code 5000} = 5 seconds).
      * Must be a positive value; omitted config binds to null (not zero).
+     * Unlike the .NET SDK (seconds), Java config values are milliseconds — do not pass bare seconds.
      */
     @NotNull
     @Positive
