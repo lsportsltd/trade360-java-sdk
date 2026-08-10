@@ -67,7 +67,7 @@ public class RabbitConnectionConfiguration {
     private boolean autoAck = true;
 
     /**
-     * Network recovery interval. Required via configuration (sample: 30).
+     * Network recovery interval in ms. Required via configuration (sample: 500).
      * Must be a positive value; omitted config binds to null (not zero).
      */
     @NotNull

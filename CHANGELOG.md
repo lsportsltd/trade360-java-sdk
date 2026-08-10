@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **`networkRecoveryInterval`**: changed to nullable `Long` (no SDK default). Sample config remains `30`; customers may set lower positive values such as `5`. Required/positive checks run in `RabbitMqConnectionConfigurationValidator` before factory registration (TRGN-4200).
+- **`networkRecoveryInterval`**: changed to nullable `Long` (no SDK default). Sample config updated from `3000` to `500` (ms). Required/positive checks run in `RabbitMqConnectionConfigurationValidator` before factory registration (TRGN-4200).
 - Bumped project/module versions from `2.11.7` to `2.11.8` for a new publishable release.
 
 ## [Release Version 2.11.7] - 2026-08-05
