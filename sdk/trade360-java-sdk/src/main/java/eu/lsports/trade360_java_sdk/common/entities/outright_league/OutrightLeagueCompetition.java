@@ -2,6 +2,8 @@ package eu.lsports.trade360_java_sdk.common.entities.outright_league;
 
 import jakarta.annotation.Nullable;
 
+import java.time.Instant;
+
 /**
  * The {@code OutrightLeagueCompetition} class represents a competition in an outright league.
  *
@@ -24,6 +26,12 @@ public class OutrightLeagueCompetition<T> {
      * The type of the competition.
      */
     public int type;
+
+    /**
+     * The start time of the next fixture in UTC.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public Instant nextFixtureStartTime;
 
     /**
      * The competitions associated with the competition wrapper.

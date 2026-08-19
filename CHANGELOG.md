@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.9] - 2026-08-19
+
+### Added
+
+- **`OutrightLeagueCompetition.nextFixtureStartTime`**: optional next fixture start time on the league `Competition` node for snapshot `GetOutrightLeagueEvents` (TRGN-4310). Previously only deserialized on feed type 40 and `GetOutrightLeagueMarkets`.
+
+### Changed
+
+- Bumped project/module versions from `2.11.8` to `2.11.9` for a new publishable release.
+
 ## [Release Version 2.11.8] - 2026-08-10
 
 ### Changed

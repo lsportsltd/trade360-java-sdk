@@ -32,13 +32,11 @@ public class OutrightLeagueMarketUpdate {
     public OutrightLeagueCompetition<OutrightLeagueMarketEvent> competition;
 
     /**
-     * Returns the next fixture start time when {@link #competition} is an {@link OutrightLeagueMarketCompetition}.
+     * Returns the next fixture start time from {@link #competition},
+     * or {@code null} when absent.
      */
     @Nullable
     public Instant getNextFixtureStartTime() {
-        if (competition instanceof OutrightLeagueMarketCompetition marketCompetition) {
-            return marketCompetition.nextFixtureStartTime;
-        }
-        return null;
+        return competition != null ? competition.nextFixtureStartTime : null;
     }
 }
