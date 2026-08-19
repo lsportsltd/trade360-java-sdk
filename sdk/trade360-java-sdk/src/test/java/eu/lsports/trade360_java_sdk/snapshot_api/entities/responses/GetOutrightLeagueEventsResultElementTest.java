@@ -139,4 +139,31 @@ class GetOutrightLeagueEventsResultElementTest {
             (java.util.List<OutrightLeagueCompetition<OutrightLeagueEvent>>) element.competition;
         assertNotNull(competitions.get(0));
     }
+
+    @Test
+    void testDeserializeSnapshotResponseIncludesNextFixtureStartTime() throws Exception {
+        var objectMapper = new com.fasterxml.jackson.databind.ObjectMapper()
+                .setPropertyNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.UPPER_CAMEL_CASE)
+                .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule()
+                        .addSerializer(new eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantSerializer())
+                        .addDeserializer(java.time.Instant.class, new eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantDeserializer()));
+
+        try (java.io.InputStream input = getClass().getResourceAsStream("/get-outright-league-events-snapshot.json")) {
+            assertNotNull(input, "fixture resource missing");
+
+            java.util.List<GetOutrightLeagueEventsResultElement> response = objectMapper.readValue(
+                    input,
+                    new com.fasterxml.jackson.core.type.TypeReference<java.util.List<GetOutrightLeagueEventsResultElement>>() {});
+
+            assertEquals(1, response.size());
+            OutrightLeagueCompetition<OutrightLeagueEvent> league =
+                    ((java.util.List<OutrightLeagueCompetition<OutrightLeagueEvent>>) response.get(0).competition).get(0);
+            assertEquals(67, league.id);
+            assertEquals("League_67", league.name);
+            assertEquals(3, league.type);
+            assertEquals(java.time.Instant.parse("2026-05-29T14:44:55Z"), league.nextFixtureStartTime);
+            assertEquals(26721036, ((java.util.List<OutrightLeagueEvent>) league.competitions.iterator().next().events).get(0).fixtureId);
+        }
+    }
 }

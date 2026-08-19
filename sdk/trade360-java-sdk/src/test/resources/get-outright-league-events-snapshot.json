@@ -1,0 +1,24 @@
+[
+  {
+    "Competition": [
+      {
+        "Id": 67,
+        "Name": "League_67",
+        "Type": 3,
+        "NextFixtureStartTime": "2026-05-29T14:44:55Z",
+        "Competitions": [
+          {
+            "Id": 2029,
+            "Name": "Season_2029",
+            "Type": 4,
+            "Events": [
+              {
+                "FixtureId": 26721036
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
