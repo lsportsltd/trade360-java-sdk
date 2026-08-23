@@ -1,10 +1,13 @@
 package eu.lsports.trade360_java_sdk.customers_api.entities.metadata_api.requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.lsports.trade360_java_sdk.common.entities.enums.MarketType;
 import jakarta.annotation.Nullable;
 
 /**
- * The {@code GetMarketsRequest} record represents a request to retrieve markets based on various criteria.
+ * Request to retrieve markets based on various criteria.
+ * Filter IDs serialize to {@code SportsId}, {@code LocationsId},
+ * {@code LeaguesId}, and {@code MarketsId} for {@code POST /Markets/Get}.
  *
  * @param sportIds the IDs of the sports to filter by
  * @param locationIds the IDs of the locations to filter by
@@ -16,10 +19,10 @@ import jakarta.annotation.Nullable;
  * @see MarketType
  */
 public final record GetMarketsRequest(
-    @Nullable Iterable<Integer> sportIds,
-    @Nullable Iterable<Integer> locationIds,
-    @Nullable Iterable<Integer> leaguesIds,
-    @Nullable Iterable<Integer> marketsIds,
+    @JsonProperty("SportsId") @Nullable Iterable<Integer> sportIds,
+    @JsonProperty("LocationsId") @Nullable Iterable<Integer> locationIds,
+    @JsonProperty("LeaguesId") @Nullable Iterable<Integer> leaguesIds,
+    @JsonProperty("MarketsId") @Nullable Iterable<Integer> marketsIds,
     @Nullable Boolean isSettleable,
     MarketType marketType,
     @Nullable Integer languageId) {
