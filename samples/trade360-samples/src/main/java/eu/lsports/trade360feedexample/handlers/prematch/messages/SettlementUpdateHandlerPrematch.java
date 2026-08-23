@@ -12,21 +12,6 @@ public class SettlementUpdateHandlerPrematch implements EntityHandler<Settlement
     @Override
     public void process(SettlementUpdate entity, Map<String, String> messageHeaders, Map<String, String> transportMessageHeaders) {
         logger.info("Received: " + this.getClass().getSimpleName());
-        if (entity.events != null) {
-            entity.events.forEach(marketEvent -> {
-                if (marketEvent.markets == null) {
-                    return;
-                }
-                marketEvent.markets.forEach(market -> {
-                    if (market.bets == null) {
-                        return;
-                    }
-                    market.bets.forEach(bet ->
-                            logger.info("Bet {} Status={} BetStatusId={} Settlement={}",
-                                    bet.id, bet.status, bet.betStatusId, bet.settlement));
-                });
-            });
-        }
     }
 
     @Override
