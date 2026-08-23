@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.10] - 2026-08-23
+
 ### Fixed
 
 - **`GetMarketsRequest`**: serialize `/Markets/Get` filters as `SportsId`, `LocationsId`, `LeaguesId`, and `MarketsId` so the API applies them (TRGN-4403). Java accessor names are unchanged.
+
+### Changed
+
+- Bumped project/module versions from `2.11.9` to `2.11.10` for a new publishable release.
 
 ## [Release Version 2.11.9] - 2026-08-19
 
