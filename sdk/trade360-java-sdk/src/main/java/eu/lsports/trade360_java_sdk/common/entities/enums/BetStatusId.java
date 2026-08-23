@@ -1,36 +1,44 @@
 package eu.lsports.trade360_java_sdk.common.entities.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Customer bet status including Closed.
- * Distinct from legacy {@link BetStatus} (0–3, no Closed).
+ * The {@code BetStatusId} enum represents the various statuses a bet can have.
  */
 public enum BetStatusId {
+    /**
+     * Status indicating that the bet is open.
+     */
     OPEN(1),
+
+    /**
+     * Status indicating that the bet is suspended.
+     */
     SUSPENDED(2),
+
+    /**
+     * Status indicating that the bet is settled.
+     */
     SETTLED(3),
+
+    /**
+     * Status indicating that the bet is closed.
+     */
     CLOSED(4);
 
-    private final int value;
+    private int value;
 
     BetStatusId(int value) {
         this.value = value;
     }
 
+    /**
+     * Returns the integer value representing the status.
+     *
+     * @return the integer value representing the status
+     */
     @JsonValue
     public int getValue() {
         return this.value;
-    }
-
-    @JsonCreator
-    public static BetStatusId fromValue(int value) {
-        for (BetStatusId status : values()) {
-            if (status.value == value) {
-                return status;
-            }
-        }
-        throw new IllegalArgumentException("Unknown BetStatusId: " + value);
     }
 }

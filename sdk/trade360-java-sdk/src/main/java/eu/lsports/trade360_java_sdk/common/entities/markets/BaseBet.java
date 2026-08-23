@@ -39,8 +39,8 @@ public abstract class BaseBet {
     public BetStatus status;
 
     /**
-     * Customer bet status (1–4). Distinct from legacy {@link #status}.
-     * This can be {@code null} when the feed has not yet emitted the field.
+     * The BetStatusId of the bet.
+     * This can be {@code null} if not set.
      */
     @Nullable public BetStatusId betStatusId;
 
