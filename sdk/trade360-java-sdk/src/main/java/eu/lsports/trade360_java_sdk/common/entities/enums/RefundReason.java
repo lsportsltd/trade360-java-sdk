@@ -1,5 +1,8 @@
 package eu.lsports.trade360_java_sdk.common.entities.enums;
 
+/**
+ * DIN refund reason identifiers emitted on settlement messages when {@code settlement = Refund}.
+ */
 public enum RefundReason {
     NotSet(0),
     MarketSettlementRules(1),
@@ -12,6 +15,12 @@ public enum RefundReason {
     NonessentialMarket(8);
 
     private final int id;
-    RefundReason(int id) { this.id = id; }
-    public int getId() { return id; }
+
+    RefundReason(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 }
