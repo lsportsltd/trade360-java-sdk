@@ -1,6 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.markets;
 
 import eu.lsports.trade360_java_sdk.common.entities.enums.BetStatus;
+import eu.lsports.trade360_java_sdk.common.entities.enums.BetStatusId;
 import eu.lsports.trade360_java_sdk.common.entities.enums.SettlementType;
 import jakarta.annotation.Nullable;
 
@@ -36,6 +37,12 @@ public abstract class BaseBet {
      * The status of the bet.
      */
     public BetStatus status;
+
+    /**
+     * The BetStatusId of the bet.
+     * This can be {@code null} if not set.
+     */
+    @Nullable public BetStatusId betStatusId;
 
     /**
      * The start price of the bet.

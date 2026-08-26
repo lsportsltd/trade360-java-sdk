@@ -1,5 +1,6 @@
 package eu.lsports.trade360_java_sdk.common.entities.markets;
 
+import eu.lsports.trade360_java_sdk.common.entities.enums.BetStatusId;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -90,5 +91,14 @@ class BaseBetTest {
 
         baseBet.SuspensionReason = 999; // unknown future-compatible value
         assertEquals(999, baseBet.SuspensionReason);
+    }
+
+    @Test
+    void testBetStatusIdField() {
+        TestBaseBet baseBet = new TestBaseBet();
+        assertNull(baseBet.betStatusId);
+
+        baseBet.betStatusId = BetStatusId.CLOSED;
+        assertEquals(BetStatusId.CLOSED, baseBet.betStatusId);
     }
 } 
