@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.12] - 2026-09-03
+
+### Fixed
+
+- **`MarketStatus.CLOSED = 4`**: deserialize `Markets[].Status = 4` and `ProviderMarkets[].MarketStatus = 4` instead of failing the entire `MarketUpdate` (TRGN-4561).
+
+### Changed
+
+- Bumped project/module versions from `2.11.11` to `2.11.12` for a new publishable release.
+
 ## [Release Version 2.11.11] - 2026-08-23
 
 ### Added

@@ -166,6 +166,16 @@ class MarketTest {
     }
 
     @Test
+    void testDeserializeClosedStatusFromJson() throws Exception {
+        Market parsed = objectMapper.readValue(
+                "{\"Id\":1,\"Name\":\"1X2\",\"Status\":4,\"Bets\":[]}",
+                Market.class);
+
+        assertEquals(1, parsed.id);
+        assertEquals(MarketStatus.CLOSED, parsed.status);
+    }
+
+    @Test
     void testDeserializePredictionDataFromJson() throws Exception {
         Market parsed = objectMapper.readValue(
                 "{\"Id\":52,\"Name\":\"1X2\",\"Status\":1,\"PredictionData\":{\"Volume\":20370},\"Bets\":[{\"Id\":1,\"Name\":\"Home\",\"PredictionData\":{\"Volume\":2529.72,\"Liquidity\":0}}]}",

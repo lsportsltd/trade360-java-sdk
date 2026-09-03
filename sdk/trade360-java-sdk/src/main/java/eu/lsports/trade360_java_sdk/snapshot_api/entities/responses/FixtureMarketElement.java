@@ -15,7 +15,9 @@ public class FixtureMarketElement {
     /** The name or description of the market. */
     public String name;
 
-    /** Trade360 market status: 1=Open, 2=Suspended, 3=Settled. */
+    /**
+     * Trade360 market status: 1=Open, 2=Suspended, 3=Settled, 4=Closed.
+     */
     @Nullable public MarketStatus status;
 
     /** The collection of bets associated with this market. */
