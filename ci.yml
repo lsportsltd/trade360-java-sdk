@@ -44,7 +44,7 @@ stages:
       environment: prod
       displayName: 'Publish to Maven Central'
       timeoutInMinutes: "120"
-      pool: k8s-agents-ci
+      pool: k8s-agents-gcp-amd
       strategy:
         runOnce:
           deploy:
