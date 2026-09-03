@@ -9,7 +9,8 @@ public enum MarketStatus {
     NOT_SET(0),
     OPEN(1),
     SUSPENDED(2),
-    SETTLED(3);
+    SETTLED(3),
+    CLOSED(4);
 
     private final int value;
 

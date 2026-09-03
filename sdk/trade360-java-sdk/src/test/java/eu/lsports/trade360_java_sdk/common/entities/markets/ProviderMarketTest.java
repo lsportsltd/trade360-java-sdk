@@ -33,4 +33,15 @@ class ProviderMarketTest {
         assertEquals("Bet365", parsed.name);
         assertEquals(MarketStatus.SUSPENDED, parsed.marketStatus);
     }
+
+    @Test
+    void testDeserializeClosedMarketStatusFromJson() throws Exception {
+        ProviderMarket parsed = objectMapper.readValue(
+                "{\"Id\":13,\"Name\":\"BWin\",\"MarketStatus\":4,\"Bets\":[]}",
+                ProviderMarket.class);
+
+        assertEquals(13, parsed.id);
+        assertEquals("BWin", parsed.name);
+        assertEquals(MarketStatus.CLOSED, parsed.marketStatus);
+    }
 }
