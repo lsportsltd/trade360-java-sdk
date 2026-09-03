@@ -30,9 +30,9 @@ class MarketUpdateTest {
     }
 
     @Test
-    void testDeserializeProviderMarketClosedStatus() throws Exception {
+    void testDeserializeClosedMarketStatusOnMarketsAndProviderMarkets() throws Exception {
         MarketUpdate update = objectMapper.readValue(
-                "{\"Events\":[{\"FixtureId\":20009162,\"Markets\":[{\"Id\":1,\"Name\":\"1X2\",\"Status\":1,\"ProviderMarkets\":[{\"Id\":13,\"Name\":\"BWin\",\"MarketStatus\":4}]}]}]}",
+                "{\"Events\":[{\"FixtureId\":20009162,\"Markets\":[{\"Id\":1,\"Name\":\"1X2\",\"Status\":4,\"ProviderMarkets\":[{\"Id\":13,\"Name\":\"BWin\",\"MarketStatus\":4}]}]}]}",
                 MarketUpdate.class);
 
         assertNotNull(update.events);
@@ -40,7 +40,7 @@ class MarketUpdateTest {
         assertEquals(20009162, event.fixtureId);
         assertNotNull(event.markets);
         Market market = event.markets.iterator().next();
-        assertEquals(MarketStatus.OPEN, market.status);
+        assertEquals(MarketStatus.CLOSED, market.status);
         assertNotNull(market.providerMarkets);
         ProviderMarket providerMarket = market.providerMarkets.iterator().next();
         assertEquals(13, providerMarket.id);

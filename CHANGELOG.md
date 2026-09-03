@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **`MarketStatus.CLOSED = 4`**: deserialize ProviderOdds+ Type 3 `ProviderMarkets[].MarketStatus = 4` instead of failing the entire `MarketUpdate` (TRGN-4561).
+- **`MarketStatus.CLOSED = 4`**: deserialize `Markets[].Status = 4` and `ProviderMarkets[].MarketStatus = 4` instead of failing the entire `MarketUpdate` (TRGN-4561).
 
 ### Changed
 
