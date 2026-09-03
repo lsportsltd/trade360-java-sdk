@@ -77,8 +77,8 @@ stages:
                 displayName: 'Set GPG Variables'
 
               - script: |
-                  mavenUsername=$(aws ssm get-parameter --with-decryption --name /devopsr/maven/token/username | jq -r .Parameter.Value)
-                  mavenPassword=$(aws ssm get-parameter --with-decryption --name /devopsr/maven/token/password | jq -r .Parameter.Value)
+                  mavenUsername=$(gcloud secrets versions access latest --project lsports-tooling --secret="_aws_devopsr_maven_token_username")
+                  mavenPassword=$(gcloud secrets versions access latest --project lsports-tooling --secret="_aws_devopsr_maven_token_password")
 
                   echo "##vso[task.setvariable variable=MAVEN_USERNAME]$mavenUsername"
                   echo "##vso[task.setvariable variable=MAVEN_PASSWORD]$mavenPassword"
