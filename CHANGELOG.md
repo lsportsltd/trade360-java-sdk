@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **`RefundReason`**: optional enum on `BaseBet` for settlement refund messages (TR-23341).
+- **`RefundReasonId`**: optional enum on `BaseBet` for settlement refund messages (TR-23341).
 
 ### Changed
 
