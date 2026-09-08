@@ -73,6 +73,11 @@ public abstract class BaseBet {
     @Nullable public int SuspensionReason;
 
     /**
+     * DIN refund reason id when settlement is Refund.
+     */
+    @Nullable public Integer refundReasonId;
+
+    /**
      * The last update time of the bet in UTC.
      */
     public Instant lastUpdate;
