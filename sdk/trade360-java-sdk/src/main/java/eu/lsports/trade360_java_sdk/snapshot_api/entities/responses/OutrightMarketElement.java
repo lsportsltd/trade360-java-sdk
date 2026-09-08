@@ -20,7 +20,9 @@ public final class OutrightMarketElement {
      */
     @Nullable public String name;
 
-    /** Trade360 market status: 1=Open, 2=Suspended, 3=Settled. */
+    /**
+     * Trade360 market status: 1=Open, 2=Suspended, 3=Settled, 4=Closed.
+     */
     @Nullable public MarketStatus status;
 
     /**

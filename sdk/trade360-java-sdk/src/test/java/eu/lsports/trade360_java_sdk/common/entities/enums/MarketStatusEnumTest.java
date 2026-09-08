@@ -12,7 +12,7 @@ class MarketStatusEnumTest {
     void testEnumValues() {
         MarketStatus[] values = MarketStatus.values();
         assertNotNull(values);
-        assertEquals(4, values.length);
+        assertEquals(5, values.length);
     }
 
     @Test
@@ -28,6 +28,7 @@ class MarketStatusEnumTest {
         assertEquals(1, MarketStatus.OPEN.getValue());
         assertEquals(2, MarketStatus.SUSPENDED.getValue());
         assertEquals(3, MarketStatus.SETTLED.getValue());
+        assertEquals(4, MarketStatus.CLOSED.getValue());
     }
 
     @Test

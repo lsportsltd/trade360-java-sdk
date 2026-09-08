@@ -39,7 +39,8 @@ public class Market {
     @Nullable public String mainLine;
 
     /**
-     * Authoritative market status after TRADE calculation: 1=Open, 2=Suspended, 3=Settled.
+     * Authoritative market status after TRADE calculation:
+     * 1=Open, 2=Suspended, 3=Settled, 4=Closed.
      */
     @Nullable @JsonProperty("Status") public MarketStatus status;
 

@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.13] - 2026-09-08
+
+### Added
+
+- **`RefundReason`**: optional enum on `BaseBet` for settlement refund messages (TR-23341).
+
+### Changed
+
+- Bumped project/module versions from `2.11.12` to `2.11.13` for a new publishable release.
+
+## [Release Version 2.11.12] - 2026-09-03
+
+### Fixed
+
+- **`MarketStatus.CLOSED = 4`**: deserialize `Markets[].Status = 4` and `ProviderMarkets[].MarketStatus = 4` instead of failing the entire `MarketUpdate` (TRGN-4561).
+
+### Changed
+
+- Bumped project/module versions from `2.11.11` to `2.11.12` for a new publishable release.
+
+## [Release Version 2.11.11] - 2026-08-23
+
+### Added
+
+- **`BetStatusId`**: new enum `OPEN=1`, `SUSPENDED=2`, `SETTLED=3`, `CLOSED=4` (no 0) and optional `BaseBet.betStatusId` on feed and snapshot bet models (TRGN-4441). Legacy `status` (0–3) is unchanged. Markets may send `CLOSED=4` while `status` stays Suspended; settlement sends `betStatusId=3` beside the existing `settlement` outcome.
+
+### Changed
+
+- Bumped project/module versions from `2.11.10` to `2.11.11` for a new publishable release.
+
 ## [Release Version 2.11.10] - 2026-08-23
 
 ### Fixed
