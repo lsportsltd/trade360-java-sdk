@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.13] - 2026-09-08
+
+### Added
+
+- **`RefundReasonId`**: optional enum on `BaseBet` for settlement refund messages (TR-23341).
+
+### Changed
+
+- Bumped project/module versions from `2.11.12` to `2.11.13` for a new publishable release.
+
 ## [Release Version 2.11.12] - 2026-09-03
 
 ### Fixed
