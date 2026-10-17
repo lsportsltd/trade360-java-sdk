@@ -11,7 +11,6 @@ import eu.lsports.trade360_java_sdk.feed.rabbitmq.interfaces.DistributionHandler
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
@@ -43,23 +42,18 @@ public class PackageDistributionHandler implements DistributionHandler {
     @Override
     public void process() throws Exception {
         var client = this.apiClientFactory.createPackageDistributionHttpClient(baseUri, packageCredentials);
-        Mono<BaseResponse<GetDistributionStatusResponse>> response = client.getDistributionStatus();
-        if(response.block() == null || response.block().body == null) {
+        BaseResponse<GetDistributionStatusResponse> statusResponse = client.getDistributionStatus().block();
+        if (statusResponse == null || statusResponse.body == null) {
             throw new IllegalStateException("Failed to get distribution status");
         }
-        else{
-            if(response.block().body.isDistributionOn)
-            {
-                logger.info("Distribution is already started");
-            }
-            else {
-                Mono<BaseResponse<StartDistributionResponse>> startResponse = client.startDistribution();
-                if (startResponse.block() == null || startResponse.block().body == null) {
-                    throw new IllegalStateException("Failed to start distribution");
-                } else {
-                    logger.info("Distribution started");
-                }
-            }
+        if (statusResponse.body.isDistributionOn) {
+            logger.info("Distribution is already started");
+            return;
         }
+        BaseResponse<StartDistributionResponse> startResponse = client.startDistribution().block();
+        if (startResponse == null || startResponse.body == null) {
+            throw new IllegalStateException("Failed to start distribution");
+        }
+        logger.info("Distribution started");
     }
 }

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -59,6 +60,32 @@ class PackageDistributionHandlerTest {
         when(client.startDistribution()).thenReturn(Mono.just(baseStartResponse));
         assertDoesNotThrow(() -> handler.process());
         verify(client, times(1)).startDistribution();
+    }
+
+    @Test
+    void processSubscribesToEachDistributionCallOnce() {
+        GetDistributionStatusResponse status = new GetDistributionStatusResponse();
+        status.isDistributionOn = false;
+        BaseResponse<GetDistributionStatusResponse> baseResponse = new BaseResponse<>();
+        baseResponse.body = status;
+        StartDistributionResponse startBody = new StartDistributionResponse();
+        BaseResponse<StartDistributionResponse> baseStartResponse = new BaseResponse<>();
+        baseStartResponse.body = startBody;
+
+        AtomicInteger statusSubscriptions = new AtomicInteger();
+        AtomicInteger startSubscriptions = new AtomicInteger();
+        when(client.getDistributionStatus()).thenReturn(Mono.defer(() -> {
+            statusSubscriptions.incrementAndGet();
+            return Mono.just(baseResponse);
+        }));
+        when(client.startDistribution()).thenReturn(Mono.defer(() -> {
+            startSubscriptions.incrementAndGet();
+            return Mono.just(baseStartResponse);
+        }));
+
+        assertDoesNotThrow(() -> handler.process());
+        assertEquals(1, statusSubscriptions.get());
+        assertEquals(1, startSubscriptions.get());
     }
 
     @Test
