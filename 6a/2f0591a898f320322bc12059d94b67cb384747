@@ -1,0 +1,26 @@
+CHANGELOG.md
+  s_b03f6751047d4e::t_5e1b331e7b3edc 10-13
+sdk/trade360-java-sdk/src/main/java/eu/lsports/trade360_java_sdk/feed/rabbitmq/handlers/PackageDistributionHandler.java
+  s_b03f6751047d4e::t_0598a6a184e24f 49
+  s_b03f6751047d4e::t_8c43da9b9dd7c1 45-46,50-51,53-57
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/feed/rabbitmq/handlers/PackageDistributionHandlerTest.java
+  s_b03f6751047d4e::t_b9d9723454a7b1 15
+  s_b03f6751047d4e::t_491033570d6db9 66-90
+  s_b03f6751047d4e::t_f5a4d1d78482a1 65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "6a2f0591a898f320322bc12059d94b67cb384747",
+  "prompts": {},
+  "sessions": {
+    "s_b03f6751047d4e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "da9181a4-51a0-477f-bb1a-eaabd22d9298",
+        "model": "grok-4.7"
+      },
+      "human_author": "shir.b <shir.b@lsports.eu>"
+    }
+  }
+}
