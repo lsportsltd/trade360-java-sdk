@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.14] - 2026-10-18
+
 ### Fixed
 
 - **Package distribution**: `PackageDistributionHandler.process()` now calls `Package/GetDistributionStatus` and `Distribution/Start` once. Repeated `Mono.block()` on the same cold publisher was sending those requests again on every check (TRGN-4979).
+
+### Changed
+
+- Bumped project/module versions from `2.11.13` to `2.11.14` for a new publishable release.
 
 ## [Release Version 2.11.13] - 2026-09-08
 
