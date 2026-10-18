@@ -1,0 +1,26 @@
+CHANGELOG.md
+  s_b03f6751047d4e::t_685732643f1050 10-11,16-18
+  s_b03f6751047d4e::t_264958661c2e95 19
+pom.xml
+  s_b03f6751047d4e::t_7a68ae22d5efd0 8
+samples/trade360-samples/pom.xml
+  s_b03f6751047d4e::t_21f99879a1157a 7,23
+sdk/trade360-java-sdk/pom.xml
+  s_b03f6751047d4e::t_6b2c585acdfa76 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "dfa39bd7ca1263616ea2800e9cd32e29ef69c805",
+  "prompts": {},
+  "sessions": {
+    "s_b03f6751047d4e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "da9181a4-51a0-477f-bb1a-eaabd22d9298",
+        "model": "grok-4.7"
+      },
+      "human_author": "shir.b <shir.b@lsports.eu>"
+    }
+  }
+}
