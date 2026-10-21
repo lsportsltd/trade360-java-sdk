@@ -66,6 +66,18 @@ class RabbitMqConnectionConfigurationValidatorTest {
     }
 
     @Test
+    void validate_whenDistributionPropagationDelayIsNegative_throwsClearMessage() {
+        RabbitConnectionConfiguration configuration = baseConfiguration();
+        configuration.setDistributionPropagationDelayMs(-1L);
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> RabbitMqConnectionConfigurationValidator.validate(configuration));
+
+        assertTrue(exception.getMessage().contains("distribution_propagation_delay_ms cannot be negative"));
+    }
+
+    @Test
     void validate_whenNetworkRecoveryIntervalFiveSeconds_doesNotThrow() {
         RabbitConnectionConfiguration configuration = baseConfiguration();
         configuration.setNetworkRecoveryInterval(5000L);

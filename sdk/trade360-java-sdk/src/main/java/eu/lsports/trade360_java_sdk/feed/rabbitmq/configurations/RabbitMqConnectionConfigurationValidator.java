@@ -13,6 +13,7 @@ public final class RabbitMqConnectionConfigurationValidator {
 
     static void validate(RabbitConnectionConfiguration configuration) {
         validateNetworkRecoveryInterval(configuration);
+        validateDistributionPropagationDelay(configuration);
         validateQueueConfiguration(configuration);
     }
 
@@ -23,6 +24,13 @@ public final class RabbitMqConnectionConfigurationValidator {
                     "network_recovery_interval must be at least "
                             + MIN_NETWORK_RECOVERY_INTERVAL_MS
                             + " milliseconds (5 seconds).");
+        }
+    }
+
+    private static void validateDistributionPropagationDelay(RabbitConnectionConfiguration configuration) {
+        if (configuration.getDistributionPropagationDelayMs() < 0) {
+            throw new IllegalStateException(
+                    "distribution_propagation_delay_ms cannot be negative.");
         }
     }
 

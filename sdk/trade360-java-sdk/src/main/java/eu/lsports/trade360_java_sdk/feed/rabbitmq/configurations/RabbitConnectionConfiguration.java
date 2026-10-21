@@ -80,6 +80,15 @@ public class RabbitConnectionConfiguration {
     private long networkRecoveryInterval = 30000;
 
     /**
+     * Milliseconds to wait after distribution is on before the caller connects to RabbitMQ.
+     * {@code Distribution/Start} can return 200 before the broker accepts a PLAIN login.
+     * Default 2000. Use 0 to connect immediately.
+     */
+    @NotNull
+    @Min(0)
+    private long distributionPropagationDelayMs = 2000L;
+
+    /**
      * The base customer api url
      */
     @NotNull
@@ -162,6 +171,7 @@ public class RabbitConnectionConfiguration {
     public int getMaxConcurrentConsumers() { return maxConcurrentConsumers; }
     public int getPrefetchCount() { return prefetchCount; }
     public long getNetworkRecoveryInterval() { return networkRecoveryInterval; }
+    public long getDistributionPropagationDelayMs() { return distributionPropagationDelayMs; }
     public boolean isSslEnabled() { return sslEnabled; }
     public String getCustomQueueName() { return customQueueName; }
     public String getRabbitListenerContainerFactoryName() { return rabbitListenerContainerFactoryName; }
@@ -183,6 +193,7 @@ public class RabbitConnectionConfiguration {
     public void setPrefetchCount(int prefetchCount) { this.prefetchCount = prefetchCount; }
     public void setAutoAck(boolean autoAck) { this.autoAck = autoAck; }
     public void setNetworkRecoveryInterval(long networkRecoveryInterval) { this.networkRecoveryInterval = networkRecoveryInterval; }
+    public void setDistributionPropagationDelayMs(long distributionPropagationDelayMs) { this.distributionPropagationDelayMs = distributionPropagationDelayMs; }
     public void setSslEnabled(boolean sslEnabled) { this.sslEnabled = sslEnabled; }
     public void setCustomQueueName(String customQueueName) { this.customQueueName = customQueueName; }
     public void setRetryAttempts(int retryAttempts) { this.retryAttempts = retryAttempts; }
