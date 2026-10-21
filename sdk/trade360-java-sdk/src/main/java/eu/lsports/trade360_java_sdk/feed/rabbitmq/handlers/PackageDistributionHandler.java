@@ -25,6 +25,7 @@ public class PackageDistributionHandler implements DistributionHandler {
     private URI baseUri;
     private final CustomersApiClientFactory apiClientFactory;
     private PackageCredentials packageCredentials;
+    private final long distributionPropagationDelayMs;
     /**
      * Constructs a new PackageDistributionHandler.
      *
@@ -35,6 +36,7 @@ public class PackageDistributionHandler implements DistributionHandler {
         this.apiClientFactory = apiClientFactory;
         this.baseUri = URI.create(configuration.getBaseCustomersApi());
         this.packageCredentials = new PackageCredentials(configuration.getPackageId(), configuration.getUserName(), configuration.getPassword());
+        this.distributionPropagationDelayMs = configuration.getDistributionPropagationDelayMs();
     }
     /**
      * {@inheritDoc}
@@ -48,6 +50,7 @@ public class PackageDistributionHandler implements DistributionHandler {
         }
         if (statusResponse.body.isDistributionOn) {
             logger.info("Distribution is already started");
+            waitForBrokerAccess();
             return;
         }
         BaseResponse<StartDistributionResponse> startResponse = client.startDistribution().block();
@@ -55,5 +58,18 @@ public class PackageDistributionHandler implements DistributionHandler {
             throw new IllegalStateException("Failed to start distribution");
         }
         logger.info("Distribution started");
+        waitForBrokerAccess();
+    }
+
+    /**
+     * Distribution/Start can return 200 before RabbitMQ accepts a PLAIN login.
+     * Spring opens its first connection as soon as this method returns.
+     */
+    private void waitForBrokerAccess() throws InterruptedException {
+        if (distributionPropagationDelayMs <= 0) {
+            return;
+        }
+        logger.info("Waiting {} ms for distribution access to propagate before connecting", distributionPropagationDelayMs);
+        Thread.sleep(distributionPropagationDelayMs);
     }
 }

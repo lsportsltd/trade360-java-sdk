@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Package distribution**: `PackageDistributionHandler.process()` waits `distribution_propagation_delay_ms` (default 2000) after distribution is on, including when it was already on, before returning. `Distribution/Start` can return 200 before RabbitMQ accepts a PLAIN login (TRGN-5045).
+
 ## [Release Version 2.11.14] - 2026-10-18
 
 ### Fixed
