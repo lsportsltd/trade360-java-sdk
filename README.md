@@ -768,6 +768,7 @@ Override `application.properties` with environment variables:
 | `auto_ack` | Boolean | `true` | Enable auto-acknowledgment |
 | `requested_heartbeat_seconds` | Integer | `30` | Heartbeat interval (seconds) |
 | `network_recovery_interval` | long | `30000` | Spring AMQP **listener** recovery interval in **milliseconds** (`SimpleRabbitListenerContainerFactory#setRecoveryInterval`). Default `30000` (30s). Minimum `5000` (5s). Sample uses `5000`. Not the RabbitMQ Java client `ConnectionFactory#setNetworkRecoveryInterval` (Spring disables client auto-recovery). |
+| `distribution_propagation_delay_ms` | long | `2000` | Milliseconds `PackageDistributionHandler.process()` waits after distribution is on before returning, so the RabbitMQ listener does not log in while the broker still refuses PLAIN. Applied after `Distribution/Start` and when distribution was already on. `0` connects immediately. |
 | `retry_attempts` | Integer | `3` | Number of retry attempts |
 | `retry_initial_interval` | Integer | `1000` | Initial retry interval (ms) |
 | `retry_multiple` | Double | `2.0` | Retry interval multiplier |

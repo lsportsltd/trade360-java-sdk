@@ -89,6 +89,44 @@ class PackageDistributionHandlerTest {
     }
 
     @Test
+    void processWaitsAfterDistributionIsStarted() throws Exception {
+        when(configuration.getDistributionPropagationDelayMs()).thenReturn(150L);
+        handler = new PackageDistributionHandler(apiClientFactory, configuration);
+        GetDistributionStatusResponse status = new GetDistributionStatusResponse();
+        status.isDistributionOn = false;
+        BaseResponse<GetDistributionStatusResponse> baseResponse = new BaseResponse<>();
+        baseResponse.body = status;
+        BaseResponse<StartDistributionResponse> baseStartResponse = new BaseResponse<>();
+        baseStartResponse.body = new StartDistributionResponse();
+        when(client.getDistributionStatus()).thenReturn(Mono.just(baseResponse));
+        when(client.startDistribution()).thenReturn(Mono.just(baseStartResponse));
+
+        long startedAt = System.nanoTime();
+        handler.process();
+        long elapsedMs = (System.nanoTime() - startedAt) / 1_000_000L;
+
+        assertTrue(elapsedMs >= 150L);
+    }
+
+    @Test
+    void processWaitsWhenDistributionWasAlreadyOn() throws Exception {
+        when(configuration.getDistributionPropagationDelayMs()).thenReturn(150L);
+        handler = new PackageDistributionHandler(apiClientFactory, configuration);
+        GetDistributionStatusResponse status = new GetDistributionStatusResponse();
+        status.isDistributionOn = true;
+        BaseResponse<GetDistributionStatusResponse> baseResponse = new BaseResponse<>();
+        baseResponse.body = status;
+        when(client.getDistributionStatus()).thenReturn(Mono.just(baseResponse));
+
+        long startedAt = System.nanoTime();
+        handler.process();
+        long elapsedMs = (System.nanoTime() - startedAt) / 1_000_000L;
+
+        assertTrue(elapsedMs >= 150L);
+        verify(client, never()).startDistribution();
+    }
+
+    @Test
     void testProcess_CreatesApiClientWithCorrectParameters() {
         handler = new PackageDistributionHandler(apiClientFactory, configuration);
         GetDistributionStatusResponse status = new GetDistributionStatusResponse();
