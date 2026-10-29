@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import eu.lsports.trade360_java_sdk.common.entities.enums.MarketStatus;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueCompetition;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketCompetition;
 import eu.lsports.trade360_java_sdk.common.entities.outright_league.OutrightLeagueMarketEvent;
@@ -71,6 +72,7 @@ class OutrightLeagueMarketUpdateTest {
             var marketClass = market.getClass();
             assertEquals(274, marketClass.getField("id").getInt(market));
             assertEquals("Outright Winner", marketClass.getField("name").get(market));
+            assertEquals(MarketStatus.SUSPENDED, marketClass.getField("status").get(market));
         }
     }
 }

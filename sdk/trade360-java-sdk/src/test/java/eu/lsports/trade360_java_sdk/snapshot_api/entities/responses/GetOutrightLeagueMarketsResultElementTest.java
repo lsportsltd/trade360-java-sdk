@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import eu.lsports.trade360_java_sdk.common.entities.enums.MarketStatus;
 import eu.lsports.trade360_java_sdk.common.entities.markets.Bet;
 import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantDeserializer;
 import eu.lsports.trade360_java_sdk.common.serialization.LSportsInstantSerializer;
@@ -68,6 +69,7 @@ class GetOutrightLeagueMarketsResultElementTest {
             assertInstanceOf(OutrightMarketElement.class, market);
             assertEquals(274, market.id);
             assertEquals("Outright Winner", market.name);
+            assertEquals(MarketStatus.SUSPENDED, market.status);
 
             Bet bet = ((List<Bet>) market.bets).get(0);
             assertInstanceOf(Bet.class, bet);
