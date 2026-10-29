@@ -1,0 +1,41 @@
+pom.xml
+  s_7e1e2f177afea8::t_f7c510c2fb088c 8
+sdk/trade360-java-sdk/src/test/resources/outright-league-market-update-type40.json
+  s_7e1e2f177afea8::t_e8c7e93654cb91 21
+sdk/trade360-java-sdk/src/test/resources/get-outright-league-markets-snapshot.json
+  s_7e1e2f177afea8::t_073a539e77c3ac 21
+sdk/trade360-java-sdk/pom.xml
+  s_7e1e2f177afea8::t_490352a33314a9 7
+samples/trade360-samples/pom.xml
+  s_7e1e2f177afea8::t_cbbde19a097e7c 7,23
+CHANGELOG.md
+  s_7e1e2f177afea8::t_dd8bbd64827337 10-19
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/common/entities/message_types/OutrightLeagueMarketUpdateTest.java
+  s_7e1e2f177afea8::t_394bc14b6b99e6 75
+  s_7e1e2f177afea8::t_95329554b4972c 7
+sdk/trade360-java-sdk/src/main/java/eu/lsports/trade360_java_sdk/common/entities/outright_league/MarketLeague.java
+  s_7e1e2f177afea8::t_e3c07970035ee5 3-4
+  s_7e1e2f177afea8::t_e7ca03366c6241 35-39
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/common/entities/outright_league/MarketLeagueTest.java
+  s_7e1e2f177afea8::t_28eafa976e6e63 3-6
+  s_7e1e2f177afea8::t_cae05b73a76a63 30-61
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/snapshot_api/entities/responses/GetOutrightLeagueMarketsResultElementTest.java
+  s_7e1e2f177afea8::t_fcdbf578a395b4 72
+  s_7e1e2f177afea8::t_2eb7f6c7cf47ea 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "0cc74818cba0a829df7271a4c2692fac4799a615",
+  "prompts": {},
+  "sessions": {
+    "s_7e1e2f177afea8": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "dcf3e531-9f0f-447a-9164-60e7d1a91638",
+        "model": "grok-4.7"
+      },
+      "human_author": "shir.b <shir.b@lsports.eu>"
+    }
+  }
+}
