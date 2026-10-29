@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.16] - 2026-10-29
+
+### Added
+
+- **`MarketLeague.status`**: `GetOutrightLeagueEvents` markets now expose `Markets[].Status` (`MarketStatus`) (TRGN-5114). Feed outright-league market updates and `GetOutrightLeagueMarkets` already map this field through `Market.status` and `OutrightMarketElement.status`.
+
+### Changed
+
+- Bumped project/module versions from `2.11.15` to `2.11.16` for a new publishable release.
+
 ## [Release Version 2.11.15] - 2026-10-21
 
 ### Fixed

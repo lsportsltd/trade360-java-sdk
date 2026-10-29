@@ -1,5 +1,7 @@
 package eu.lsports.trade360_java_sdk.common.entities.outright_league;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.lsports.trade360_java_sdk.common.entities.enums.MarketStatus;
 import eu.lsports.trade360_java_sdk.common.entities.markets.Bet;
 import jakarta.annotation.Nullable;
 
@@ -30,4 +32,9 @@ public class MarketLeague {
      * This can be {@code null} if not set.
      */
     @Nullable public String mainLine;
+
+    /**
+     * Trade360 market status: 1=Open, 2=Suspended, 3=Settled, 4=Closed.
+     */
+    @Nullable @JsonProperty("Status") public MarketStatus status;
 }
