@@ -1,0 +1,30 @@
+CHANGELOG.md
+  s_cf1be3ed3c0684::t_f636e84930edab 10-13
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/snapshot_api/entities/responses/GetOutrightEventsResultElementTest.java
+  s_cf1be3ed3c0684::t_0c1bd52a7c6f44 3-8,10,12-16
+  s_cf1be3ed3c0684::t_92146dba95e01c 31-101
+  s_cf1be3ed3c0684::t_440d74954b165c 102
+sdk/trade360-java-sdk/src/main/java/eu/lsports/trade360_java_sdk/common/entities/fixtures/Participant.java
+  s_cf1be3ed3c0684::t_ef47f536d411f2 3
+  s_cf1be3ed3c0684::t_769d297d1c5b9c 98-106
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/common/entities/fixtures/ParticipantTest.java
+  s_cf1be3ed3c0684::t_9d6839fad78c19 287-313
+  s_cf1be3ed3c0684::t_abdd9b3cde9149 62
+  s_cf1be3ed3c0684::t_693c228b72d56d 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "d29c8f2f71abacdb9e3bb66fc89256e748d9ed2a",
+  "prompts": {},
+  "sessions": {
+    "s_cf1be3ed3c0684": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "23d6d641-f5c1-43e7-9865-b3bdb8791ab5",
+        "model": "grok-4.7"
+      },
+      "human_author": "shir.b <shir.b@lsports.eu>"
+    }
+  }
+}
