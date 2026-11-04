@@ -1,5 +1,6 @@
 package eu.lsports.trade360_java_sdk.common.entities.fixtures;
 
+import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import jakarta.annotation.Nullable;
 
 /**
@@ -94,4 +95,13 @@ public class Participant {
      */
     @Nullable
     public UniformColor goalKeeperShirtColor;
+
+    /**
+     * Additional free-form metadata for the participant
+     * (for example Horse Racing: Form, JockeyWeight, IsRunning, ProgramNumber,
+     * TrainerName, Jockey, Breeder).
+     * This can be {@code null} if not set.
+     */
+    @Nullable
+    public Iterable<NameValuePair> extraData;
 }
