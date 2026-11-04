@@ -1,6 +1,6 @@
 package eu.lsports.trade360_java_sdk.common.entities.fixtures;
 
-import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
+import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -59,6 +59,7 @@ class ParticipantTest {
         assertNull(participant.type);
         assertNull(participant.shirtColor);
         assertNull(participant.goalKeeperShirtColor);
+        assertNull(participant.extraData);
     }
 
     @Test
@@ -282,5 +283,32 @@ class ParticipantTest {
         assertEquals(0, participant.ageCategory);
         assertEquals(1, participant.type);
         assertNotNull(participant.fixturePlayers);
+    }
+
+    @Test
+    void testExtraDataAssignment() {
+        Participant participant = new Participant();
+        assertNull(participant.extraData);
+
+        NameValuePair jockey = new NameValuePair();
+        jockey.name = "Jockey";
+        jockey.value = "R. Smith";
+        NameValuePair programNumber = new NameValuePair();
+        programNumber.name = "ProgramNumber";
+        programNumber.value = "7";
+        participant.extraData = Arrays.asList(jockey, programNumber);
+
+        assertNotNull(participant.extraData);
+        int count = 0;
+        for (NameValuePair pair : participant.extraData) {
+            count++;
+            if ("Jockey".equals(pair.name)) {
+                assertEquals("R. Smith", pair.value);
+            }
+        }
+        assertEquals(2, count);
+
+        participant.extraData = null;
+        assertNull(participant.extraData);
     }
 }

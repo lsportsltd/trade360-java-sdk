@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **`Participant.extraData`**: `GetOutrightEvents` now keeps `Participants[].ExtraData` after deserialization. Horse Racing participant metadata (Form, JockeyWeight, IsRunning, ProgramNumber, TrainerName, Jockey, Breeder) was dropped because the snapshot participant model had no field for it (TRGN-5131).
+
 ## [Release Version 2.11.16] - 2026-10-29
 
 ### Added
