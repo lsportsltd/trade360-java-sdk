@@ -1,0 +1,27 @@
+pom.xml
+  s_73bc53e8d56a73::t_de412f1ea2d0c6 8
+samples/trade360-samples/pom.xml
+  s_73bc53e8d56a73::t_d2cdd2ea61f020 7,23
+sdk/trade360-java-sdk/pom.xml
+  s_73bc53e8d56a73::t_20a0e930c60292 7
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/snapshot_api/entities/responses/GetLivescoreStoppageTimeTest.java
+  s_73bc53e8d56a73::t_d16891bd0c7a83 1-30
+CHANGELOG.md
+  s_73bc53e8d56a73::t_baebcfd9d1bda3 10-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "4ddb248d36a430aad833a500c71b588c4c9a8fbb",
+  "prompts": {},
+  "sessions": {
+    "s_73bc53e8d56a73": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "09eb0df2-0066-45f2-82e1-f14a61fcaf0c",
+        "model": "grok-4.7"
+      },
+      "human_author": "shir.b <shir.b@lsports.eu>"
+    }
+  }
+}
