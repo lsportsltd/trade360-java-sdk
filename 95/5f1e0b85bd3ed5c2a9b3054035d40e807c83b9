@@ -1,0 +1,22 @@
+sdk/trade360-java-sdk/src/main/java/eu/lsports/trade360_java_sdk/common/entities/livescore/Clock.java
+  s_73bc53e8d56a73::t_f354598af24dd9 22-26
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/common/entities/livescore/ClockTest.java
+  s_73bc53e8d56a73::t_0a17b3d74986f0 16
+  s_73bc53e8d56a73::t_d8247cc9028215 49,53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "955f1e0b85bd3ed5c2a9b3054035d40e807c83b9",
+  "prompts": {},
+  "sessions": {
+    "s_73bc53e8d56a73": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "09eb0df2-0066-45f2-82e1-f14a61fcaf0c",
+        "model": "grok-4.7"
+      },
+      "human_author": "shir.b <shir.b@lsports.eu>"
+    }
+  }
+}
