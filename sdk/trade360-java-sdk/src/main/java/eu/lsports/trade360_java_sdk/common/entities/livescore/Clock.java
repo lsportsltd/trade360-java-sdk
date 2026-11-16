@@ -19,4 +19,9 @@ public class Clock {
      * The number of seconds on the clock.
      */
     public int seconds;
+
+    /**
+     * Announced stoppage time in seconds. Omitted when not set.
+     */
+    @Nullable public Integer stoppageTimeSeconds;
 }

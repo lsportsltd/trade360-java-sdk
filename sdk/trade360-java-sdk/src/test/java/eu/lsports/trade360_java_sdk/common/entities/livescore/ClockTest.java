@@ -13,6 +13,7 @@ class ClockTest {
         assertNotNull(clock);
         assertNull(clock.status);
         assertEquals(0, clock.seconds);
+        assertNull(clock.stoppageTimeSeconds);
     }
 
     @Test
@@ -45,9 +46,11 @@ class ClockTest {
 
         clock.status = testStatus;
         clock.seconds = testSeconds;
+        clock.stoppageTimeSeconds = 300;
 
         assertEquals(testStatus, clock.status);
         assertEquals(testSeconds, clock.seconds);
+        assertEquals(300, clock.stoppageTimeSeconds);
     }
 
     @Test
