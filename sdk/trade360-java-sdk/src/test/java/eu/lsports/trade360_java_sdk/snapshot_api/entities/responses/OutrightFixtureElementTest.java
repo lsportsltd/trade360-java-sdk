@@ -1,10 +1,12 @@
 package eu.lsports.trade360_java_sdk.snapshot_api.entities.responses;
 
 import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
+import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.List;
 
 class OutrightFixtureElementTest {
     @Test
@@ -16,6 +18,7 @@ class OutrightFixtureElementTest {
         element.lastUpdate = Instant.now();
         element.status = null;
         element.participants = Collections.emptyList();
+        element.extraData = null;
         element.subscription = null;
         element.venue = null;
         assertNull(element.sport);
@@ -24,8 +27,24 @@ class OutrightFixtureElementTest {
         assertNotNull(element.lastUpdate);
         assertNull(element.status);
         assertNotNull(element.participants);
+        assertNull(element.extraData);
         assertNull(element.subscription);
         assertNull(element.venue);
+    }
+
+    @Test
+    void testExtraDataAssignment() {
+        OutrightFixtureElement element = new OutrightFixtureElement();
+        NameValuePair pair = new NameValuePair();
+        pair.name = "RaceType";
+        pair.value = "Flat";
+        List<NameValuePair> extraData = List.of(pair);
+
+        element.extraData = extraData;
+
+        assertEquals(extraData, element.extraData);
+        assertEquals("RaceType", element.extraData.iterator().next().name);
+        assertEquals("Flat", element.extraData.iterator().next().value);
     }
 
     @Test

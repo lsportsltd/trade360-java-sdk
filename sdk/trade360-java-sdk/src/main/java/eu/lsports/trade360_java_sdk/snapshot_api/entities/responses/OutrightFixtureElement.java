@@ -8,6 +8,7 @@ import eu.lsports.trade360_java_sdk.common.entities.fixtures.Location;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Participant;
 import eu.lsports.trade360_java_sdk.common.entities.fixtures.Sport;
 import eu.lsports.trade360_java_sdk.common.entities.shared.IdNamePair;
+import eu.lsports.trade360_java_sdk.common.entities.shared.NameValuePair;
 import eu.lsports.trade360_java_sdk.common.entities.shared.Subscription;
 
 import jakarta.annotation.Nullable;
@@ -65,6 +66,15 @@ public final class OutrightFixtureElement {
      * @see Participant
      */
     @Nullable public Iterable<Participant> participants;
+
+    /**
+     * Additional free-form metadata for the outright fixture
+     * (for example Horse Racing race-level ExtraData).
+     * Can be {@code null}.
+     *
+     * @see NameValuePair
+     */
+    @Nullable public Iterable<NameValuePair> extraData;
 
     /**
      * The subscription associated with the outright fixture element.

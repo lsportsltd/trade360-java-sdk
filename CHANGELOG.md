@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Release Version 2.11.19] - 2026-11-17
+
+### Fixed
+
+- **`OutrightFixtureElement.extraData`**: `GetOutrightEvents` now keeps fixture-level `OutrightFixture.ExtraData` after deserialization, independently of `Participants[].ExtraData` (TRD-6739).
+
+### Changed
+
+- Bumped project/module versions from `2.11.18` to `2.11.19` for a new publishable release.
+
 ## [Release Version 2.11.18] - 2026-11-16
 
 ### Added

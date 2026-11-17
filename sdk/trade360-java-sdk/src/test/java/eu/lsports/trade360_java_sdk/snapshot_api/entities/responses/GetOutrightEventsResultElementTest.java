@@ -30,7 +30,7 @@ class GetOutrightEventsResultElementTest {
     }
 
     @Test
-    void testDeserializeKeepsParticipantExtraData() throws Exception {
+    void testDeserializeKeepsFixtureAndParticipantExtraData() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper()
                 .setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -46,6 +46,10 @@ class GetOutrightEventsResultElementTest {
                         "FixtureId": 20749385,
                         "OutrightFixture": {
                           "FixtureName": "Dundalk",
+                          "ExtraData": [
+                            { "Name": "RaceType", "Value": "Flat" },
+                            { "Name": "Distance", "Value": "1609" }
+                          ],
                           "Participants": [
                             {
                               "Id": 52071799,
@@ -78,6 +82,13 @@ class GetOutrightEventsResultElementTest {
         assertEquals(1, response.size());
         OutrightEventElement event = response.get(0).events.iterator().next();
         assertEquals(20749385, event.fixtureId);
+
+        Map<String, String> fixtureExtraData = new HashMap<>();
+        for (NameValuePair pair : event.outrightFixture.extraData) {
+            fixtureExtraData.put(pair.name, pair.value);
+        }
+        assertEquals("Flat", fixtureExtraData.get("RaceType"));
+        assertEquals("1609", fixtureExtraData.get("Distance"));
 
         List<Participant> participants = (List<Participant>) event.outrightFixture.participants;
         assertEquals(2, participants.size());
