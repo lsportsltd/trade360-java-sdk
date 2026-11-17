@@ -1,0 +1,38 @@
+sdk/trade360-java-sdk/src/main/java/eu/lsports/trade360_java_sdk/snapshot_api/entities/responses/OutrightFixtureElement.java
+  s_16f09e0731942a::t_91277167316827 71-78
+  s_16f09e0731942a::t_3e1c2ec044bb10 11
+  s_16f09e0731942a::t_8417c4fcabfeb4 70
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/snapshot_api/entities/responses/OutrightFixtureElementTest.java
+  s_16f09e0731942a::t_b54849820eed84 4,9
+  s_16f09e0731942a::t_b0ce50ecf1d35b 21,30,35-47
+  s_16f09e0731942a::t_fc4cf84c830f24 48-49
+pom.xml
+  s_16f09e0731942a::t_31da7565141cfe 8
+sdk/trade360-java-sdk/pom.xml
+  s_16f09e0731942a::t_10ccc6a5b7e5b8 7
+samples/trade360-samples/pom.xml
+  s_16f09e0731942a::t_31e38de3a213f7 7
+  s_16f09e0731942a::t_8094236bf173c3 23
+sdk/trade360-java-sdk/src/test/java/eu/lsports/trade360_java_sdk/snapshot_api/entities/responses/GetOutrightEventsResultElementTest.java
+  s_16f09e0731942a::t_b98f9d94918aca 49-52
+  s_16f09e0731942a::t_e64d9aab532456 33
+  s_16f09e0731942a::t_e77554154425dc 86-92
+CHANGELOG.md
+  s_16f09e0731942a::t_c11b0cf1bfccd1 10-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "20cc231e95f0312de2d393faf5ada95474d57524",
+  "prompts": {},
+  "sessions": {
+    "s_16f09e0731942a": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "d912defc-c49f-42d7-bdfd-94504e6fdcf4",
+        "model": "auto-smart"
+      },
+      "human_author": "shir.b <shir.b@lsports.eu>"
+    }
+  }
+}
